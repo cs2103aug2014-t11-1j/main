@@ -15,6 +15,7 @@ import controller.Task;
 
 public class TaskManager {
 
+	private Scanner scanner = new Scanner (System.in);
     private ArrayList<Task> list;
     private File inputFile;
     private String fileName;
@@ -144,7 +145,7 @@ public class TaskManager {
         }
 
         int lineNum = 1;
-        Scanner scanner = new Scanner(inputFile);
+        scanner = new Scanner(inputFile);
         if (scanner.hasNext()) {
             text = lineNum + ". " + scanner.nextLine() + "\n";
             lineNum++;
@@ -252,14 +253,26 @@ public class TaskManager {
         System.out.print('\n');
     }
 
-    protected boolean edit() {
-        // TODO Auto-generated method stub
-        boolean isEdited = false;
+    protected boolean edit(int num, String newTaskDescription) throws IOException {
+		boolean isEdited = false;
+			
+		if (isValidLineNumber(num)) {
+			String oldTaskDescription = list.get(num).toString().trim();
+			Task modified = new Task(newTaskDescription);
+			list.remove(num); // remove it in list
+			list.add(num, modified);
+			updateUndoAndRedoStacks();
+			save(); // save the updated list to file
 
-        //updateUndoAndRedoStacks();
-        //save();
-        return isEdited;
-    }
+			printMessage(oldTaskDescription + " has been changed to "
+					+ newTaskDescription);
+			isEdited = true;
+		} else {
+			printMessage("Please enter a valid line number. ");
+		}
+		return isEdited;
+	}
+
 
     protected boolean sort() {
         // TODO Auto-generated method stub
