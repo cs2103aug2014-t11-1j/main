@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.junit.After;
 import org.junit.Assert;
@@ -21,6 +22,7 @@ public class TaskManagerTest {
         testAddTrue("adding multiple words", "hello there how are you doing today? the weather is lovely isn't it?");
         testAddFalse("adding null", null);
         testAddFalse("adding empty string", "");
+        testDisplay("1. hello\n2. hello there how are you doing today? the weather is lovely isn't it?\n");
     }
 
     public void testAddTrue(String description, String command) throws IOException {
@@ -29,6 +31,10 @@ public class TaskManagerTest {
 
     public void testAddFalse(String description, String command) throws IOException {
         Assert.assertFalse(description, tm.add(command));
+    }
+
+    public void testDisplay(String expected) throws FileNotFoundException {
+        Assert.assertEquals(expected, tm.display());
     }
 
     @Before
