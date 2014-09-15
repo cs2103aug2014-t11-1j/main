@@ -66,6 +66,9 @@ public class TaskManager {
 
     //add task to to-do list
     protected boolean add(String task) throws IOException {
+        if (task == null || task.equals("")) {
+            return false;
+        }
 
         Task e = new Task(task);
         list.add(e);
