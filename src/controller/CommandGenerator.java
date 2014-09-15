@@ -47,28 +47,37 @@ public class CommandGenerator {
             switch (commandType) {
 
                 case ADD:
-                    String task = input.substring(input.indexOf(' ') + 1);
-                    boolean isAdded = taskManager.add(task);
-                    displayString = taskManager.display();
+                	boolean isAdded = false;
+    				String task = "";
 
-                    if (isAdded) {
-                        tfString = "\"" + task + "\"" + " ADDED TO LIST!";
-                    } else {
-                        tfString = "Error with adding.";
-                    }
-                    break;
+    				if (inputIsValid(input)) {
+    					task = input.substring(input.indexOf(' ') + 1);
+    					isAdded = taskManager.add(task);
+    					displayString = taskManager.display();
+    				}
+
+    				if (isAdded) {
+    					tfString = "\"" + task + "\"" + " ADDED TO LIST!";
+    				} else {
+    					tfString = "Error with adding.";
+    				}
+    				break;
 
                 case DELETE:
-                    int lineNum = Integer.parseInt(input.substring(input.indexOf(' ') + 1));
-                    boolean isDeleted = taskManager.delete(lineNum - 1);
-                    displayString = taskManager.display();
+                	boolean isDeleted = false;
+    				if (inputIsValid(input)) {
+    					int lineNum = Integer.parseInt(input.substring(input
+    							.indexOf(' ') + 1));
+    					isDeleted = taskManager.delete(lineNum - 1);
+    					displayString = taskManager.display();
+    				}
 
-                    if (isDeleted) {
-                        tfString = "DELETE SUCCESSFUL!";
-                    } else {
-                        tfString = "Delete unsuccessful";
-                    }
-                    break;
+    				if (isDeleted) {
+    					tfString = "DELETE SUCCESSFUL!";
+    				} else {
+    					tfString = "Delete unsuccessful";
+    				}
+    				break;
 
                 case CLEAR:
                     boolean isCleared = taskManager.clear();
@@ -109,15 +118,31 @@ public class CommandGenerator {
                     break;
 
                 case EDIT:
-                    boolean isEdited = taskManager.edit();
-                    displayString = taskManager.display();
+                	/*
+                	 * This method takes in command in follwoing format:
+                	 *   edit numToDelete newTaskDescription
+                	 */
+                	boolean isEdited = false;
+    				if (inputIsValid(input)) {
+    					String content = input.trim().substring(
+    							input.indexOf(" ") + 1);
+    					if (inputIsValid(content)) {
+    						int lineIndex = Integer.parseInt(content.trim()
+    								.substring(0, content.indexOf(" ")));
+    						String newDescription = content.trim().substring(
+    								content.indexOf(' ') + 1);
+    						isEdited = taskManager.edit(lineIndex - 1,
+    								newDescription);
+    						displayString = taskManager.display();
+    					}
+    				}
 
-                    if (isEdited) {
-                        tfString = "Task Edited!";
-                    } else {
-                        tfString = "Cannot edit task";
-                    }
-                    break;
+    				if (isEdited) {
+    					tfString = "Task Edited!";
+    				} else {
+    					tfString = "Cannot edit task";
+    				}
+    				break;
 
                 case SORT:
                     boolean isSorted = taskManager.sort();
@@ -197,4 +222,11 @@ public class CommandGenerator {
         String[] tokens = input.split(" ");
         return tokens[0];
     }
+    
+    private boolean inputIsValid(String input) {
+		if (input.trim().contains(" ")) {
+			return true;
+		}
+		return false;
+	}
 }
