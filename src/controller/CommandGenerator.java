@@ -3,223 +3,198 @@ package controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-
 public class CommandGenerator {
 
-	TaskManager taskManager;
+    TaskManager taskManager;
 
-	String tfString;
-	String displayString;
+    String tfString;
+    String displayString;
 
-	enum CommandType {
-		ADD, DELETE, CLEAR, DISPLAY, UNDO, REDO, 
-		EDIT, SORT, SEARCH,
-		HELP, INVALID, EXIT
-	};
+    enum CommandType {
 
-	public CommandGenerator(){
-		try {
-			taskManager = new TaskManager("text.txt");
-			tfString = "";
-			displayString = taskManager.display();
-		} catch (FileNotFoundException e){
-			e.printStackTrace();
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
+        ADD, DELETE, CLEAR, DISPLAY, UNDO, REDO,
+        EDIT, SORT, SEARCH,
+        HELP, INVALID, EXIT
+    };
 
-	}
+    public CommandGenerator() {
+        try {
+            taskManager = new TaskManager("text.txt");
+            tfString = "";
+            displayString = taskManager.display();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-	protected String getTfString(){
-		return tfString;
-	}
+    }
 
-	protected String getDisplayString(){
-		return displayString;
-	}
+    protected String getTfString() {
+        return tfString;
+    }
 
-	protected void excecuteCommand(String input){
+    protected String getDisplayString() {
+        return displayString;
+    }
 
-		String commandTypeString = getFirstWord(input);
-		CommandType commandType = determineCommandType(commandTypeString);
+    protected void excecuteCommand(String input) {
 
-		try{
-			switch (commandType) {
+        String commandTypeString = getFirstWord(input);
+        CommandType commandType = determineCommandType(commandTypeString);
 
-			case ADD:
-				String task = input.substring(input.indexOf(' ') + 1);
-				boolean isAdded = taskManager.add(task);
-				displayString = taskManager.display();
+        try {
+            switch (commandType) {
 
-				if(isAdded){
-					tfString = "\"" + task + "\"" + " ADDED TO LIST!";
-				}
-				else{
-					tfString = "Error with adding.";
-				}
-				break;
+                case ADD:
+                    String task = input.substring(input.indexOf(' ') + 1);
+                    boolean isAdded = taskManager.add(task);
+                    displayString = taskManager.display();
 
-			case DELETE:
-				int lineNum = Integer.parseInt(input.substring(input.indexOf(' ') + 1));
-				boolean isDeleted = taskManager.delete(lineNum-1);
-				displayString = taskManager.display();
-				
-				if(isDeleted){
-					tfString = "DELETE SUCCESSFUL!";
-				}
-				else{
-					tfString = "Delete unsuccessful";
-				}
-				break;
+                    if (isAdded) {
+                        tfString = "\"" + task + "\"" + " ADDED TO LIST!";
+                    } else {
+                        tfString = "Error with adding.";
+                    }
+                    break;
 
-			case CLEAR:
-				boolean isCleared = taskManager.clear();
-				displayString = taskManager.display();
+                case DELETE:
+                    int lineNum = Integer.parseInt(input.substring(input.indexOf(' ') + 1));
+                    boolean isDeleted = taskManager.delete(lineNum - 1);
+                    displayString = taskManager.display();
 
-				if(isCleared){
-					tfString = "LIST CLEARED!";
-				}
-				else{
-					tfString = "Error with clearing";
-				}
-				break;
+                    if (isDeleted) {
+                        tfString = "DELETE SUCCESSFUL!";
+                    } else {
+                        tfString = "Delete unsuccessful";
+                    }
+                    break;
 
-			case DISPLAY:
-				displayString = taskManager.display();
-				tfString = "";
-				break;
+                case CLEAR:
+                    boolean isCleared = taskManager.clear();
+                    displayString = taskManager.display();
 
-			case UNDO:
-				boolean isUndone = taskManager.undo();
-				displayString = taskManager.display();
-				
-				if(isUndone){
-					tfString = "Action Undone!";
-				}
-				else{
-					tfString = "Action cannot be undone";
-				}
-				break;
+                    if (isCleared) {
+                        tfString = "LIST CLEARED!";
+                    } else {
+                        tfString = "Error with clearing";
+                    }
+                    break;
 
-			case REDO:
-				boolean isRedone = taskManager.redo();
-				displayString = taskManager.display();
-				
-				if(isRedone){
-					tfString = "Action Redone!";
-				}
-				else{
-					tfString = "No action to redo";
-				}
-				break;
-			
-			case EDIT:
-				boolean isEdited = taskManager.edit();
-				displayString = taskManager.display();
-				
-				if(isEdited){
-					tfString = "Task Edited!";
-				}
-				else{
-					tfString = "Cannot edit task";
-				}
-				break;
-				
-			case SORT:
-				boolean isSorted = taskManager.sort();
-				displayString = taskManager.display();
-				
-				if(isSorted){
-					tfString = "Sorted!";
-				}
-				else{
-					tfString = "Cannot sort";
-				}
-				break;
-				
-			case SEARCH:
-				
-				/*
-				 * This can be changed as you want the display to be different.
-				 * Search can return a string for displayString.
-				 * If so, it can be more like what display looks like
-				 */
-				boolean isSearched = taskManager.search();
-				displayString = taskManager.display();
-				
-				if(isSearched){
-					tfString = "Task searched!";
-				}
-				else{
-					tfString = "Cannot find task";
-				}
-				break;
-				
-			case HELP:
-				displayString = "add <task>  [DEADLINE]  [START TIME]  [END TIME]" + "\n" + "delete <line number>" + "\n" + "clear" + "\n" + "exit";
-				tfString = "";
-				break;
+                case DISPLAY:
+                    displayString = taskManager.display();
+                    tfString = "";
+                    break;
 
-			case INVALID:
-				tfString = "INVALID COMMAND!";
-				break;
+                case UNDO:
+                    boolean isUndone = taskManager.undo();
+                    displayString = taskManager.display();
 
-			case EXIT:
-				System.exit(0);
+                    if (isUndone) {
+                        tfString = "Action Undone!";
+                    } else {
+                        tfString = "Action cannot be undone";
+                    }
+                    break;
 
-			default:
-				//throw an error if the command is not recognized
-				throw new Error("Unrecognized command type");
-			}
-		}catch(IOException e){
-			e.printStackTrace();
-		}
+                case REDO:
+                    boolean isRedone = taskManager.redo();
+                    displayString = taskManager.display();
 
+                    if (isRedone) {
+                        tfString = "Action Redone!";
+                    } else {
+                        tfString = "No action to redo";
+                    }
+                    break;
 
-	}
-	
-	private CommandType determineCommandType(String commandTypeString) {
+                case EDIT:
+                    boolean isEdited = taskManager.edit();
+                    displayString = taskManager.display();
 
-		if (commandTypeString.equalsIgnoreCase("ADD")) {
-			return CommandType.ADD;
-		} 
-		else if (commandTypeString.equalsIgnoreCase("DELETE")) {
-			return CommandType.DELETE;
-		} 
-		else if (commandTypeString.equalsIgnoreCase("CLEAR")) {
-			return CommandType.CLEAR;
-		}
-		else if (commandTypeString.equalsIgnoreCase("DISPLAY")) {
-			return CommandType.DISPLAY;
-		}
-		else if (commandTypeString.equalsIgnoreCase("UNDO")) {
-			return CommandType.UNDO;
-		}
-		else if (commandTypeString.equalsIgnoreCase("REDO")) {
-			return CommandType.REDO;
-		}
-		else if (commandTypeString.equalsIgnoreCase("EDIT")) {
-			return CommandType.EDIT;
-		}
-		else if (commandTypeString.equalsIgnoreCase("SORT")) {
-			return CommandType.SORT;
-		}
-		else if (commandTypeString.equalsIgnoreCase("SEARCH")) {
-			return CommandType.SEARCH;
-		}
-		else if (commandTypeString.equalsIgnoreCase("HELP")) {
-			return CommandType.HELP;
-		}
-		else if (commandTypeString.equalsIgnoreCase("EXIT")) {
-			return CommandType.EXIT;
-		} 
-		else {
-			return CommandType.INVALID;
-		}
-	}
+                    if (isEdited) {
+                        tfString = "Task Edited!";
+                    } else {
+                        tfString = "Cannot edit task";
+                    }
+                    break;
 
-	private String getFirstWord(String input) {
-		String[] tokens = input.split(" ");
-		return tokens[0];
-	}
+                case SORT:
+                    boolean isSorted = taskManager.sort();
+                    displayString = taskManager.display();
+
+                    if (isSorted) {
+                        tfString = "Sorted!";
+                    } else {
+                        tfString = "Cannot sort";
+                    }
+                    break;
+
+                case SEARCH:
+
+                    /*
+                     * This can be changed as you want the display to be different.
+                     * Search can return a string for displayString.
+                     * If so, it can be more like what display looks like
+                     */
+                    String searchTerm = input.substring(input.indexOf(' ') + 1);
+                    displayString = taskManager.search(searchTerm);
+
+                    break;
+
+                case HELP:
+                    displayString = "add <task>  [DEADLINE]  [START TIME]  [END TIME]" + "\n" + "delete <line number>" + "\n" + "clear" + "\n" + "exit";
+                    tfString = "";
+                    break;
+
+                case INVALID:
+                    tfString = "INVALID COMMAND!";
+                    break;
+
+                case EXIT:
+                    System.exit(0);
+
+                default:
+                    //throw an error if the command is not recognized
+                    throw new Error("Unrecognized command type");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private CommandType determineCommandType(String commandTypeString) {
+
+        if (commandTypeString.equalsIgnoreCase("ADD")) {
+            return CommandType.ADD;
+        } else if (commandTypeString.equalsIgnoreCase("DELETE")) {
+            return CommandType.DELETE;
+        } else if (commandTypeString.equalsIgnoreCase("CLEAR")) {
+            return CommandType.CLEAR;
+        } else if (commandTypeString.equalsIgnoreCase("DISPLAY")) {
+            return CommandType.DISPLAY;
+        } else if (commandTypeString.equalsIgnoreCase("UNDO")) {
+            return CommandType.UNDO;
+        } else if (commandTypeString.equalsIgnoreCase("REDO")) {
+            return CommandType.REDO;
+        } else if (commandTypeString.equalsIgnoreCase("EDIT")) {
+            return CommandType.EDIT;
+        } else if (commandTypeString.equalsIgnoreCase("SORT")) {
+            return CommandType.SORT;
+        } else if (commandTypeString.equalsIgnoreCase("SEARCH")) {
+            return CommandType.SEARCH;
+        } else if (commandTypeString.equalsIgnoreCase("HELP")) {
+            return CommandType.HELP;
+        } else if (commandTypeString.equalsIgnoreCase("EXIT")) {
+            return CommandType.EXIT;
+        } else {
+            return CommandType.INVALID;
+        }
+    }
+
+    private String getFirstWord(String input) {
+        String[] tokens = input.split(" ");
+        return tokens[0];
+    }
 }
