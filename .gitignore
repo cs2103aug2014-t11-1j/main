@@ -2,3 +2,4 @@ bin/
 text.txt
 .classpath
 .project
+bin/application/Main.class
