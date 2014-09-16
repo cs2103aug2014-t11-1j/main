@@ -11,11 +11,9 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Stack;
 
-import controller.Task;
-
 public class TaskManager {
 
-	private Scanner scanner = new Scanner (System.in);
+    private Scanner scanner = new Scanner(System.in);
     private ArrayList<Task> list;
     private File inputFile;
     private String fileName;
@@ -254,25 +252,24 @@ public class TaskManager {
     }
 
     protected boolean edit(int num, String newTaskDescription) throws IOException {
-		boolean isEdited = false;
-			
-		if (isValidLineNumber(num)) {
-			String oldTaskDescription = list.get(num).toString().trim();
-			Task modified = new Task(newTaskDescription);
-			list.remove(num); // remove it in list
-			list.add(num, modified);
-			updateUndoAndRedoStacks();
-			save(); // save the updated list to file
+        boolean isEdited = false;
 
-			printMessage(oldTaskDescription + " has been changed to "
-					+ newTaskDescription);
-			isEdited = true;
-		} else {
-			printMessage("Please enter a valid line number. ");
-		}
-		return isEdited;
-	}
+        if (isValidLineNumber(num)) {
+            String oldTaskDescription = list.get(num).toString().trim();
+            Task modified = new Task(newTaskDescription);
+            list.remove(num); // remove it in list
+            list.add(num, modified);
+            updateUndoAndRedoStacks();
+            save(); // save the updated list to file
 
+            printMessage(oldTaskDescription + " has been changed to "
+                    + newTaskDescription);
+            isEdited = true;
+        } else {
+            printMessage("Please enter a valid line number. ");
+        }
+        return isEdited;
+    }
 
     protected boolean sort() {
         // TODO Auto-generated method stub
