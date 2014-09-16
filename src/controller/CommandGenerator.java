@@ -13,7 +13,7 @@ public class CommandGenerator {
     enum CommandType {
 
         ADD, DELETE, CLEAR, DISPLAY, UNDO, REDO,
-        EDIT, SORT, SEARCH,
+        EDIT, SORT, SEARCH, MARK_DONE,
         HELP, INVALID, EXIT
     };
 
@@ -119,7 +119,7 @@ public class CommandGenerator {
 
                 case EDIT:
                     /*
-                     * This method takes in command in follwoing format:
+                     * This method takes in command in following format:
                      *   edit numToDelete newTaskDescription
                      */
                     boolean isEdited = false;
@@ -166,6 +166,18 @@ public class CommandGenerator {
                     displayString = taskManager.search(searchTerm);
 
                     break;
+                case MARK_DONE:
+    				int lineNum = Integer.parseInt(input.substring(input.indexOf(' ') + 1));
+    				boolean isMarkedDone = taskManager.markDone(lineNum -1);
+    				displayString = taskManager.display();
+    				
+    				if(isMarkedDone){
+    					tfString = "Task done";
+    				}
+    				else{
+    					tfString = "Cannot mark done";
+    				}
+    				break;
 
                 case HELP:
                     displayString = "add <task>  [DEADLINE]  [START TIME]  [END TIME]" + "\n" + "delete <line number>" + "\n" + "clear" + "\n" + "exit";
@@ -208,8 +220,10 @@ public class CommandGenerator {
         } else if (commandTypeString.equalsIgnoreCase("SORT")) {
             return CommandType.SORT;
         } else if (commandTypeString.equalsIgnoreCase("SEARCH")) {
-            return CommandType.SEARCH;
-        } else if (commandTypeString.equalsIgnoreCase("HELP")) {
+            return CommandType.SEARCH;   
+        } else if (commandTypeString.equalsIgnoreCase("DID")) {
+			return CommandType.MARK_DONE;
+		} else if (commandTypeString.equalsIgnoreCase("HELP")) {
             return CommandType.HELP;
         } else if (commandTypeString.equalsIgnoreCase("EXIT")) {
             return CommandType.EXIT;

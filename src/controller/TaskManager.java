@@ -55,13 +55,13 @@ public class TaskManager {
 
     private void copyContentsOfTextFile(Scanner sc) {
 
-        while (sc.hasNext()) {
+		while(sc.hasNext()){
 
-            String str = sc.nextLine();
-            Task e = new Task(str);
-            list.add(e);
-        }
-    }
+			String str = sc.nextLine();
+			Task e = new Task(str, true);
+			list.add(e);
+		}	
+	}
 
     //add task to to-do list
     protected boolean add(String task) throws IOException {
@@ -130,38 +130,37 @@ public class TaskManager {
         fileWriter.close();
     }
 
-    //display contents of To-Do List
-    protected String display() throws FileNotFoundException {
+	//display contents of To-Do List
+	protected String display() throws FileNotFoundException{
 
-        String text = null;
+		String text = "";
 
-        if (list.isEmpty()) {
-            printMessage(fileName + " is empty");
-            text = "List is empty";
-        } else {
-            printContentsOfList(1);
-        }
+		if(list.isEmpty())
+		{
+			printMessage(fileName + " is empty");
+			text = "List is empty";
+		}
+		else{
+			printContentsOfList(1);	
+			
+			int lineNum = 1;
+			for(int i=0;i<list.size();i++){
+				text = text + lineNum + ". " + list.get(i).toString() + "\n";
+				lineNum++;
+			}
+		}
+		return text;
+	}
 
-        int lineNum = 1;
-        scanner = new Scanner(inputFile);
-        if (scanner.hasNext()) {
-            text = lineNum + ". " + scanner.nextLine() + "\n";
-            lineNum++;
-        }
-        while (scanner.hasNext()) {
-            text = text + lineNum + ". " + scanner.nextLine() + "\n";
-            lineNum++;
-        }
-        return text;
-    }
-
-    private void printContentsOfList(int lineNum) {
-
-        for (int i = 0; i < list.size(); i++) {
-            printMessage(lineNum + ". " + list.get(i));
-            lineNum++;
-        }
-    }
+	private void printContentsOfList(int lineNum) {
+		Task temp;
+		for(int i=0;i<list.size();i++)
+		{
+			temp = list.get(i);
+			printMessage(lineNum + ". " + temp.toString() + " " + temp.getIsDone());
+			lineNum++;
+		}
+	}
 
     private void printMessage(String message) {
 
@@ -279,7 +278,27 @@ public class TaskManager {
         //save();
         return isSorted;
     }
+    
+    protected boolean markDone(int num) throws IOException {
+		// TODO Auto-generated method stub
+		boolean isMarkedDone = false;
+		if(isValidLineNumber(num)){
+			Task task = list.get(num);
+			task.setDone(true);
+			updateUndoAndRedoStacks();
+			save();
+			printMessage(num + "marked done");
 
+			isMarkedDone = true;
+		}
+		else {
+			printMessage("Please enter a valid line number.");
+
+		}
+
+		return isMarkedDone;
+	}
+    
     protected String search(String searchTerm) {
 
         Iterator<Task> iterator = list.iterator();
