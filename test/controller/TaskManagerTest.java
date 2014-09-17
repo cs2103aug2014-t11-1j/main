@@ -18,11 +18,32 @@ public class TaskManagerTest {
 
     @Test
     public void test() throws IOException {
+
+        //testing add
         testAddTrue("adding single word", "hello");
         testAddTrue("adding multiple words", "hello there how are you doing today? the weather is lovely isn't it?");
         testAddFalse("adding null", null);
         testAddFalse("adding empty string", "");
         testDisplay("1. hello\n2. hello there how are you doing today? the weather is lovely isn't it?\n");
+
+        //testing clear
+        testClearTrue("clearing all tasks");
+        testDisplay("List is empty");
+
+        //testing delete
+        tm.add("apple");
+        tm.add("orange");
+        tm.add("banana");
+        tm.add("kiwi");
+        tm.add("watermelon");
+        testDeleteTrue("deleting item at index 3", 3);
+        testDisplay("1. apple\n2. orange\n3. kiwi\n4. watermelon\n");
+        testDeleteFalse("deleting from bad index 0", 0);
+        testDeleteFalse("deleting from bad index outside available tasks", 10);
+
+        //testing edit
+        testEditTrue("editing apple to pineapple", 1, "pineapple");
+        testDisplay("1. pineapple\n2. orange\n3. kiwi\n4. watermelon\n");
     }
 
     public void testAddTrue(String description, String command) throws IOException {
@@ -31,6 +52,30 @@ public class TaskManagerTest {
 
     public void testAddFalse(String description, String command) throws IOException {
         Assert.assertFalse(description, tm.add(command));
+    }
+
+    public void testClearTrue(String description) throws IOException {
+        Assert.assertTrue(description, tm.clear());
+    }
+
+    public void testDeleteTrue(String description, int num) throws IOException {
+        Assert.assertTrue(description, tm.delete(num));
+    }
+
+    public void testDeleteFalse(String descripion, int num) throws IOException {
+        Assert.assertFalse(descripion, tm.delete(num));
+    }
+
+    public void testEditTrue(String description, int num, String newTaskDescription) throws IOException {
+        Assert.assertTrue(description, tm.edit(num, newTaskDescription));
+    }
+
+    public void testEditFalse(String description, int num, String newTaskDescription) throws IOException {
+        Assert.assertTrue(description, tm.edit(num, newTaskDescription));
+    }
+
+    public void testMarkDone(String description, int num) throws IOException {
+        Assert.assertTrue(description, tm.markDone(num));
     }
 
     public void testDisplay(String expected) throws FileNotFoundException {
