@@ -68,7 +68,7 @@ public class CommandGenerator {
                     if (inputIsValid(input)) {
                         int lineNum = Integer.parseInt(input.substring(input
                                 .indexOf(' ') + 1));
-                        isDeleted = taskManager.delete(lineNum - 1);
+                        isDeleted = taskManager.delete(lineNum);
                         displayString = taskManager.display();
                     }
 

@@ -81,9 +81,10 @@ public class TaskManager {
     //delete task from to-do list
     protected boolean delete(int num) throws IOException {
         boolean isDeleted = false;
-        if (isValidLineNumber(num)) {
-            String task = list.get(num).getEvent();
-            list.remove(num);
+        int index = num-1;
+        if (isValidLineNumber(index)) {
+            String task = list.get(index).getEvent();
+            list.remove(index);
             save();
             updateUndoAndRedoStacks();
 
