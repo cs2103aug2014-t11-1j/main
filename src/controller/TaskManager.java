@@ -13,7 +13,6 @@ import java.util.Stack;
 
 public class TaskManager {
 
-    private Scanner scanner = new Scanner(System.in);
     private ArrayList<Task> list;
     private File inputFile;
     private String fileName;
