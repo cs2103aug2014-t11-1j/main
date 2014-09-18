@@ -44,6 +44,10 @@ public class TaskManagerTest {
         //testing edit
         testEditTrue("editing apple to pineapple", 1, "pineapple");
         testDisplay("1. pineapple\n2. orange\n3. kiwi\n4. watermelon\n");
+        testEditFalse("editing from bad index", 0, "this is a bad edit");
+        testEditFalse("editing from bad index", 10, "this is a bad edit");
+        
+        //testing mark done
     }
 
     public void testAddTrue(String description, String command) throws IOException {
@@ -71,10 +75,10 @@ public class TaskManagerTest {
     }
 
     public void testEditFalse(String description, int num, String newTaskDescription) throws IOException {
-        Assert.assertTrue(description, tm.edit(num, newTaskDescription));
+        Assert.assertFalse(description, tm.edit(num, newTaskDescription));
     }
 
-    public void testMarkDone(String description, int num) throws IOException {
+    public void testMarkDoneTrue(String description, int num) throws IOException {
         Assert.assertTrue(description, tm.markDone(num));
     }
 
