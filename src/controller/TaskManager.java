@@ -253,12 +253,13 @@ public class TaskManager {
 
     protected boolean edit(int num, String newTaskDescription) throws IOException {
         boolean isEdited = false;
+        int index = num-1;
 
-        if (isValidLineNumber(num)) {
-            String oldTaskDescription = list.get(num).toString().trim();
+        if (isValidLineNumber(index)) {
+            String oldTaskDescription = list.get(index).toString().trim();
             Task modified = new Task(newTaskDescription);
-            list.remove(num); // remove it in list
-            list.add(num, modified);
+            list.remove(index); // remove it in list
+            list.add(index, modified);
             updateUndoAndRedoStacks();
             save(); // save the updated list to file
 

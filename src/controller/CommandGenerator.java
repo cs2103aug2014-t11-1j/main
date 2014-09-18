@@ -127,11 +127,11 @@ public class CommandGenerator {
                         String content = input.trim().substring(
                                 input.indexOf(" ") + 1);
                         if (inputIsValid(content)) {
-                            int lineIndex = Integer.parseInt(content.trim()
+                            int lineNum = Integer.parseInt(content.trim()
                                     .substring(0, content.indexOf(" ")));
                             String newDescription = content.trim().substring(
                                     content.indexOf(' ') + 1);
-                            isEdited = taskManager.edit(lineIndex - 1,
+                            isEdited = taskManager.edit(lineNum,
                                     newDescription);
                             displayString = taskManager.display();
                         }
