@@ -254,7 +254,7 @@ public class TaskManager {
         boolean isEdited = false;
         int index = num-1;
 
-        if (isValidLineNumber(index)) {
+        if (isValidLineNumber(index) && newTaskDescription != null && !newTaskDescription.equals("")) {
             String oldTaskDescription = list.get(index).toString().trim();
             Task modified = new Task(newTaskDescription);
             list.remove(index); // remove it in list

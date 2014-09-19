@@ -2,10 +2,8 @@ package controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,9 +25,7 @@ public class TaskManagerTest {
         testAddFalse("adding null", null);
         testAddFalse("adding empty string", "");
         testDisplay("1. hello\n2. hello there how are you doing today? the weather is lovely isn't it?\n");
-        
-     
-        
+
         //testing clear
         testClearTrue("clearing all tasks");
         testDisplay("List is empty");
@@ -55,39 +51,39 @@ public class TaskManagerTest {
     }
 
     public void testAddTrue(String description, String command) throws IOException {
-        assertTrue(description, tm.add(command));
+        Assert.assertTrue(description, tm.add(command));
     }
 
     public void testAddFalse(String description, String command) throws IOException {
-        assertFalse(description, tm.add(command));
+        Assert.assertFalse(description, tm.add(command));
     }
 
     public void testClearTrue(String description) throws IOException {
-        assertTrue(description, tm.clear());
+        Assert.assertTrue(description, tm.clear());
     }
 
     public void testDeleteTrue(String description, int num) throws IOException {
-        assertTrue(description, tm.delete(num));
+        Assert.assertTrue(description, tm.delete(num));
     }
 
     public void testDeleteFalse(String descripion, int num) throws IOException {
-        assertFalse(descripion, tm.delete(num));
+        Assert.assertFalse(descripion, tm.delete(num));
     }
 
     public void testEditTrue(String description, int num, String newTaskDescription) throws IOException {
-        assertTrue(description, tm.edit(num, newTaskDescription));
+        Assert.assertTrue(description, tm.edit(num, newTaskDescription));
     }
 
     public void testEditFalse(String description, int num, String newTaskDescription) throws IOException {
-        assertFalse(description, tm.edit(num, newTaskDescription));
+        Assert.assertFalse(description, tm.edit(num, newTaskDescription));
     }
 
     public void testMarkDoneTrue(String description, int num) throws IOException {
-        assertTrue(description, tm.markDone(num));
+        Assert.assertTrue(description, tm.markDone(num));
     }
 
     public void testDisplay(String expected) throws FileNotFoundException {
-        assertEquals(expected, tm.display());
+        Assert.assertEquals(expected, tm.display());
     }
 
     @Before
