@@ -122,7 +122,7 @@ public class TaskManager {
         PrintWriter printWriter = new PrintWriter(buffer);
 
         for (int i = 0; i < list.size(); i++) {
-            printWriter.println(list.get(i).toString());
+            printWriter.println(list.get(i).toSave());
         }
 
         printWriter.close();
