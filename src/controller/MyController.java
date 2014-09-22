@@ -4,6 +4,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,9 +50,8 @@ public class MyController implements Initializable{
 		commandGenerator = new CommandGenerator();
 		commandGenerator.excecuteCommand("display");
 		display.setText(commandGenerator.getDisplayString());
+		
 	}
-
-
 
 	public void changeText(ActionEvent e){
 		display.appendText(commandLine.getText());
@@ -67,8 +67,17 @@ public class MyController implements Initializable{
 		 * when press enter, go to commandgenerator, instead of invalid, display every searched item
 		 */
 		
+		/*
+		 * this changeListener is meant for the edit function. When user type edit num, the 
+		 * program will append the task corresponding to the num in the input box.
+		 */
+		EditListener editListener = new EditListener(commandGenerator,commandLine);
+		commandLine.textProperty().addListener(editListener);
+		
+	
+		
 		if(e.getCode() == KeyCode.ENTER){
-			String input = commandLine.getText();
+			String input = commandLine.getText();	
 			commandGenerator.excecuteCommand(input);
 			display.setText(commandGenerator.getDisplayString());
 			tfOutput.setText(commandGenerator.getTfString());
@@ -77,6 +86,7 @@ public class MyController implements Initializable{
 		}
 					
 	}
+	
 	
 	public void labelFade(KeyEvent e){
 		FadeTransition fadeTransition
