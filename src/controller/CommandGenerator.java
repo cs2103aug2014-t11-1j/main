@@ -12,7 +12,7 @@ public class CommandGenerator {
 
 	enum CommandType {
 
-		ADD, DELETE, CLEAR, DISPLAY, UNDO, REDO, EDIT, SORT, SEARCH, MARK_DONE, HELP, INVALID, EXIT
+		ADD, DELETE, CLEAR, DISPLAY, UNDO, REDO, EDIT, SORT,MOVE, SEARCH, MARK_DONE, HELP, INVALID, EXIT
 	};
 
 	public CommandGenerator() {
@@ -138,6 +138,22 @@ public class CommandGenerator {
 					tfString = "Cannot edit task";
 				}
 				break;
+				
+			case MOVE:
+				boolean isMoved = false;
+				String firstNumber = getFirstWord(taskDescription);
+				int num1  = Integer.parseInt(firstNumber);
+				String secondNumber = getActualRequest(firstNumber,taskDescription);
+				int num2 = Integer.parseInt(secondNumber);
+				isMoved = taskManager.move(num1, num2);
+				displayString = taskManager.display();
+				
+				if (isMoved) {
+					tfString = "Task Moved!";
+				} else {
+					tfString = "Cannot move task";
+				}
+				break;
 
 			case SORT:
 				boolean isSorted = false;
@@ -231,7 +247,9 @@ public class CommandGenerator {
 			return CommandType.REDO;
 		} else if (commandTypeString.equalsIgnoreCase("EDIT")) {
 			return CommandType.EDIT;
-		} else if (commandTypeString.equalsIgnoreCase("SORT")) {
+		}else if (commandTypeString.equalsIgnoreCase("MOVE")) {
+			return CommandType.MOVE;		
+		}else if (commandTypeString.equalsIgnoreCase("SORT")) {
 			return CommandType.SORT;
 		} else if (commandTypeString.equalsIgnoreCase("SEARCH")) {
 			return CommandType.SEARCH;

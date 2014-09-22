@@ -250,6 +250,32 @@ public class TaskManager {
         System.out.print('\n');
     }
 
+    
+    protected boolean move(int num1, int num2) throws IOException{
+    	boolean isMoved = false;
+    	int index1 = num1 -1, index2 = num2 - 1;
+    	
+    	
+    	if(isValidLineNumber(index1)&&isValidLineNumber(index2)&&index1!=index2){
+    		Task temp1 = list.get(index1);
+    		Task temp2 = list.get(index2);
+    		list.set(index1, temp2);
+    		list.set(index2, temp1);
+    		  updateUndoAndRedoStacks();
+              save(); // save the updated list to file
+
+              printMessage("Task "+num1+ "has been moved to "+num2);
+              isMoved = true;
+    	}else {
+            printMessage("Please enter 2 valid numbers");
+        }
+        return isMoved;
+   	}
+    	
+    
+    
+    
+    
     protected boolean edit(int num, String newTaskDescription) throws IOException {
         boolean isEdited = false;
         int index = num-1;
