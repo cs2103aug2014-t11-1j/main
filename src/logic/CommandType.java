@@ -6,7 +6,7 @@ package logic;
  * 
  */
 
-enum CommandType {
+public enum CommandType {
 		ADD, DELETE, CLEAR, DISPLAY, UNDO, REDO, EDIT, SORT, MOVE, SEARCH, MARK_DONE, HELP, INVALID, EXIT
 	};
 

@@ -22,7 +22,7 @@ public class Action {
 	}
 	
 	//accessors
-	protected CommandType getCommandType() {
+	public CommandType getCommandType() {
 		return commandType;
 	}
 
