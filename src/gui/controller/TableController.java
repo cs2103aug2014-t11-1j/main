@@ -1,7 +1,5 @@
 package gui.controller;
 
-import java.util.Date;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -28,12 +26,12 @@ public class TableController{
 	
 	
 	public TableController(){
+		System.out.println("table constructor");
 	}
 	
 	@FXML
 	private void initialize() {
-		taskList.add(new ModelTask("Test Task", new Date(), 1));
-		taskTable.setItems(taskList);
+		System.out.println("table initilising");
 		numColumn.setCellValueFactory(cellData -> cellData.getValue().getPositionStringProperty());
 		taskColumn.setCellValueFactory(cellData -> cellData.getValue().getEventProperty());
 		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDateStringProperty());
@@ -43,14 +41,22 @@ public class TableController{
 		taskColumn.setComparator(String.CASE_INSENSITIVE_ORDER);
 	}
 	
+	protected void setAllView(ObservableList<ModelTask> list){
+		taskList = list;
+		taskTable.setItems(taskList);
+	}
 	
-	protected void switchToSearch() {
-		searchedList.add(new ModelTask("Searched Task", new Date(), 1));
+	protected void switchToSearch(ObservableList<ModelTask> list) {
+		searchedList = list;
 		taskTable.setItems(searchedList);
 	}
 
-	protected void switchToNormal() {
+	protected void switchToAll() {
 		taskTable.setItems(taskList);
+	}
+	
+	protected void setVisible(boolean boo){
+		taskTable.setVisible(boo);
 	}
 
 }

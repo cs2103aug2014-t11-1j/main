@@ -1,6 +1,8 @@
 package gui.controller;
 
+import storage.ModelTask;
 import gui.MainApp;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -12,6 +14,8 @@ public class PhantomController{
 	// Reference to the main application.
 	private MainApp mainApp;
 	
+
+	
 	@FXML
 	private Parent tableView;
 	@FXML
@@ -22,11 +26,33 @@ public class PhantomController{
 	@FXML
 	private CommandLineController commandLineViewController;
 	
+	private LogicFacadeDummy logicFacade;
+	
 	public PhantomController() {
+		System.out.println("phantom constructor");
+		//logicFacade = new LogicFacadeDummy();
 	}
 
 	@FXML
 	private void initialize() {
+		System.out.println("phantom initilising");
+		tableViewController.setAllView(logicFacade.getAllList());
+		//commandLineViewController.setLogicFacade(logicFacade);
+	}
+	
+	public void switchToSearch(ObservableList<ModelTask> list){
+		tableViewController.setVisible(true);
+		tableViewController.switchToSearch(list);
+	}
+	
+	public void switchToAll(){
+		tableViewController.setVisible(true);
+		tableViewController.switchToAll();
+	}
+	
+	public void setAllView(ObservableList<ModelTask> list){
+		tableViewController.setVisible(true);
+		tableViewController.setAllView(list);
 	}
 	
 	@FXML
@@ -76,17 +102,12 @@ public class PhantomController{
 	
 	@FXML
 	private void handleEditTask(){
-		String taskString = commandLine.getText();
-		commandLine.clear();
-		taskList.get(0).setEvent(taskString);
+		switchToAll();
 	}
 	
 	@FXML
 	private void handleSearchTask(){
-		String searchTerm = commandLine.getText();
-		commandLine.clear();
-		searchedList.add(new ModelTask(searchTerm, new Date(), 1));
-		taskTable.setItems(searchedList);
+		tableViewController.setVisible(false);
 	}
 	*/
 	
