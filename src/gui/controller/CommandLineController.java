@@ -5,11 +5,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class CommandLineController extends PhantomController{
+public class CommandLineController{
 	@FXML
 	private TextField commandLine;
 	
-	CommandLineController(){
+	public CommandLineController(){
 		
 	}
 	

@@ -1,12 +1,9 @@
 package gui.controller;
 
+import gui.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import gui.MainApp;
 
 public class PhantomController{
 	@FXML
@@ -20,22 +17,16 @@ public class PhantomController{
 	@FXML
 	private TableController tableViewController;
 	
+	@FXML
+	private Parent commandLineView;
+	@FXML
+	private CommandLineController commandLineViewController;
+	
 	public PhantomController() {
 	}
 
 	@FXML
 	private void initialize() {
-	}
-	
-	@FXML
-	private TextField commandLine;
-	
-	@FXML
-	private void handleKeyPressed(KeyEvent e){
-		if(e.getCode() == KeyCode.ENTER){
-			String input = commandLine.getText();
-			commandLine.clear();
-		}
 	}
 	
 	@FXML
