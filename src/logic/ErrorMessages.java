@@ -1,4 +1,9 @@
 package logic;
+/**
+ * @author Zhang Yongkai
+ * this class declares the error messages which can be used by other classes.
+ * 
+ */
 
 class ErrorMessages {
 

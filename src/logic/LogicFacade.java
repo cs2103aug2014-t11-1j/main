@@ -16,9 +16,9 @@ import storage.ModelTask;
 
 public class LogicFacade {
 
-	private static LogicFacade lf = new LogicFacade();
+	private static LogicFacade logicFacade = new LogicFacade();
 	private CommandExecutor executor;
-	private ParserFacade pf = ParserFacade.getInstance();
+	private ParserFacade parserFacade = ParserFacade.getInstance();
 	private ObservableList<ModelTask> taskList;
 	private ObservableList<ModelTask> searchedList;
 	
@@ -30,7 +30,7 @@ public class LogicFacade {
 	
 	//accessor
 	public LogicFacade getInstance (){
-		return lf;
+		return logicFacade;
 	}
 	
 	public String getFeedBack(String InputFromGui) throws Exception{
@@ -40,8 +40,8 @@ public class LogicFacade {
 
 	
 	public String executeCommand(String inputFromGui) throws Exception {
-		String commandWord = pf.getCommandString(inputFromGui);
-		String actualCommandDescription = pf.getStringWithoutCommand(inputFromGui);
+		String commandWord = parserFacade.getCommandString(inputFromGui);
+		String actualCommandDescription = parserFacade.getStringWithoutCommand(inputFromGui);
 		executor = new CommandExecutor(commandWord,actualCommandDescription);
 		String feedBack = executor.getFeedBack();
 		return feedBack;

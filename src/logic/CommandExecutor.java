@@ -55,7 +55,7 @@ public class CommandExecutor {
 		return commandWord;
 	}
 
-	public String getactualCommandDescription() {
+	public String getActualCommandDescription() {
 		return actualCommandDescription;
 	}
 
