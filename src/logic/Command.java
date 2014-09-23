@@ -28,7 +28,11 @@ public class Command {
     private Command() {
     }
 
-    private static Command getInstance() {
+    public ArrayList<Task> getTaskList() {
+        return list.getList();
+    }
+
+    public static Command getInstance() {
         return cmd;
     }
 
@@ -48,7 +52,9 @@ public class Command {
         return true;
     }
 
-    protected boolean edit(int index, String newTaskDetails) {
+    protected boolean edit(String taskDetails) {
+        int index;
+        String newTaskDetails;
         list.remove(index);
         list.add(pf.getTask(newTaskDetails), index);
         return true;
@@ -95,7 +101,8 @@ public class Command {
         }
     }
 
-    protected boolean markDone(int index) {
+    protected boolean markDone(String taskDetails) {
+        int index = Integer.parseInt(taskDetails);
         boolean isMarkedDone = false;
         if (isValidLineNumber(index)) {
             Task task = list.get(index);
@@ -150,8 +157,12 @@ public class Command {
         return isRedone;
     }
 
-    protected boolean move(int num1, int num2) throws IOException {
+    protected boolean move(String taskDetails) throws IOException {
         boolean isMoved = false;
+
+        int num1;
+        int num2;
+
         int index1 = num1 - 1, index2 = num2 - 1;
 
         if (isValidLineNumber(index1) && isValidLineNumber(index2) && index1 != index2) {

@@ -1,5 +1,7 @@
 package logic;
 
+import java.io.IOException;
+
 /**
  * @author zhang 
  * facade class to receive command word from the parser
@@ -11,7 +13,7 @@ public class CommandExecutor {
 	private String actualCommandDescription;
 	private String feedBack;
 	private String displayString;
-	private Command command;
+	private Command cmd;
 	private List<Task> todayList;
 	private List<Task> searchList;
 	private List<Task> allList;
@@ -22,8 +24,7 @@ public class CommandExecutor {
 	public CommandExecutor(String commandWord, String actualCommandDescription) {
 		this.commandWord = commandWord;
 		this.actualCommandDescription = actualCommandDescription;
-		command.getInstance();
-
+		cmd.getInstance();
 	}
 
 	public String getFeedBack() {
@@ -95,8 +96,8 @@ public class CommandExecutor {
 
 			case ADD:
 				boolean isAdded = false;
-				isAdded = command.add(actualCommandDescription);
-				displayString = command.display();
+				isAdded = cmd.add(actualCommandDescription);
+				displayString = cmd.display();
 
 				if (isAdded) {
 					feedBack = "\"" + actualCommandDescription + "\""
@@ -108,8 +109,8 @@ public class CommandExecutor {
 
 			case DELETE:
 				boolean isDeleted = false;
-				isDeleted = command.delete(actualCommandDescription);
-				displayString = command.display();
+				isDeleted = cmd.delete(actualCommandDescription);
+				displayString = cmd.display();
 
 				if (isDeleted) {
 					feedBack = "DELETE SUCCESSFUL!";
@@ -120,8 +121,8 @@ public class CommandExecutor {
 
 			case CLEAR:
 				boolean isCleared = false;
-				isCleared = command.clear();
-				displayString = command.display();
+				isCleared = cmd.clear();
+				displayString = cmd.display();
 
 				if (isCleared) {
 					feedBack = "LIST CLEARED!";
@@ -132,7 +133,7 @@ public class CommandExecutor {
 
 			case DISPLAY:
 
-				displayString = command.display();
+				displayString = cmd.display();
 				feedBack = "";
 
 				break;
@@ -140,8 +141,8 @@ public class CommandExecutor {
 			case UNDO:
 				boolean isUndone = false;
 
-				isUndone = command.undo();
-				displayString = command.display();
+				isUndone = cmd.undo();
+				displayString = cmd.display();
 
 				if (isUndone) {
 					feedBack = "Action Undone!";
@@ -153,8 +154,8 @@ public class CommandExecutor {
 			case REDO:
 				boolean isRedone = false;
 
-				isRedone = command.redo();
-				displayString = command.display();
+				isRedone = cmd.redo();
+				displayString = cmd.display();
 
 				if (isRedone) {
 					feedBack = "Action Redone!";
@@ -169,8 +170,8 @@ public class CommandExecutor {
 				 * numToDelete newTaskDescription
 				 */
 				boolean isEdited = false;
-				isEdited = command.edit(actualCommandDescription);
-				displayString = command.display();
+				isEdited = cmd.edit(actualCommandDescription);
+				displayString = cmd.display();
 
 				if (isEdited) {
 					feedBack = "Task Edited!";
@@ -181,8 +182,8 @@ public class CommandExecutor {
 
 			case MOVE:
 				boolean isMoved = false;
-				isMoved = command.move(actualCommandDescription);
-				displayString = command.display();
+				isMoved = cmd.move(actualCommandDescription);
+				displayString = cmd.display();
 
 				if (isMoved) {
 					feedBack = "Task Moved!";
@@ -194,8 +195,8 @@ public class CommandExecutor {
 			case SORT:
 				boolean isSorted = false;
 
-				isSorted = command.sort();
-				displayString = command.display();
+				isSorted = cmd.sort();
+				displayString = cmd.display();
 
 				if (isSorted) {
 					feedBack = "Sorted!";
@@ -212,16 +213,16 @@ public class CommandExecutor {
 				 * be more like what display looks like
 				 */
 
-				displayString = command.search(actualCommandDescription);
+				displayString = cmd.search(actualCommandDescription);
 				feedBack = "Search result: ";
 
 				break;
 
 			case MARK_DONE:
 
-				boolean isMarkedDone = command
+				boolean isMarkedDone = cmd
 						.markDone(actualCommandDescription);
-				displayString = command.display();
+				displayString = cmd.display();
 
 				if (isMarkedDone) {
 					feedBack = "Task done";
@@ -231,7 +232,6 @@ public class CommandExecutor {
 				break;
 
 			case HELP:
-				if (!containsUnnecessaryWords(taskDescription)) {
 					displayString = "add <task>  [DEADLINE]  [START TIME]  [END TIME]"
 							+ "\n"
 							+ "delete <line number>"
@@ -239,9 +239,7 @@ public class CommandExecutor {
 							+ "clear"
 							+ "\n" + "exit";
 					feedBack = "";
-				} else {
-					feedBack = "Error with displaying Help";
-				}
+				
 				break;
 
 			case INVALID:
@@ -263,9 +261,4 @@ public class CommandExecutor {
 		}
 
 	}
-
-	private boolean containsUnnecessaryWords(String input) {
-		return (!input.isEmpty());
-	}
-
 }
