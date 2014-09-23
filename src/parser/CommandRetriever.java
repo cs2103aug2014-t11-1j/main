@@ -13,7 +13,6 @@ public class CommandRetriever {
 	private CommandRetriever(){
 	}
 
-
 	public static CommandRetriever getInstance() {
 		return cr;
 	}

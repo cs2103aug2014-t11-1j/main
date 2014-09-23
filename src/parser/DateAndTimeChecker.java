@@ -59,7 +59,7 @@ public class DateAndTimeChecker {
 			}
 
 		}catch(Exception e){
-			System.out.println("military time format exception");
+//			System.out.println("military time format exception");
 			return false;
 		}
 		return true;
