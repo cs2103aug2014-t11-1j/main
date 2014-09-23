@@ -33,22 +33,14 @@ public class InputParser {
 	//currently not implemented
 	private String endDate;
 	private String startDate;
-	
-	//making this class a static
-	private static InputParser inputParser = new InputParser();
-	
-	private InputParser(){
+		
+	public InputParser(){
 		taskDescription = null;
 		startDate = null;
 		startTime = null;
 		endDate = null;
 		endTime = null;
 		deadLine = null;
-	}
-	
-	//for other classes to get an inputparser
-	public static InputParser getInstance(){
-		return inputParser;
 	}
 	
 	public String getTaskDescription(){

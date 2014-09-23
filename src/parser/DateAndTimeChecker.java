@@ -149,7 +149,4 @@ public class DateAndTimeChecker {
 
 		return true;
 	}
-
-
-
 }
