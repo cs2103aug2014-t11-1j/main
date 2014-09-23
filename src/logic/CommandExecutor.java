@@ -1,95 +1,79 @@
 package logic;
-
-import java.io.IOException;
-
+import storage.ModelTask;
 /**
- * @author zhang 
- * facade class to receive command word from the parser
+ * @author Zhang Yongkai 
+ * CommandExecutor will pass pass the command action and actual task description to Command class
+ * for actual processing. 
  */
 
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import storage.Task;
+
 public class CommandExecutor {
+
+	private static Command cmd = Command.getInstance();
 
 	private String commandWord;
 	private String actualCommandDescription;
 	private String feedBack;
-	private String displayString;
-	private Command cmd;
-	private List<Task> todayList;
-	private List<Task> searchList;
-	private List<Task> allList;
+	private ObservableList<ModelTask> taskList;
+	private ObservableList<ModelTask> searchedList;
 
+	// constructor
 	public CommandExecutor() {
 	}
 
 	public CommandExecutor(String commandWord, String actualCommandDescription) {
 		this.commandWord = commandWord;
 		this.actualCommandDescription = actualCommandDescription;
-		cmd.getInstance();
+		this.feedBack = null;
+		this.taskList = null;
+		this.searchedList = null;
+	}
+
+	// mutator
+	protected void setFeedBack(String feedBack) {
+		this.feedBack = feedBack;
+	}
+
+	// code to mutate tasklist and searchlist need to modify to change arraylist
+	// to observable list
+	protected void setTaskList(ArrayList<Task> list) {
+		this.taskList = FXCollections.observableArrayList(list);
+	}
+
+	protected void setSearchedList(ArrayList<Task> list) {
+		this.searchedList = FXCollections.observableArrayList(list);
+	}
+
+	// accessors
+	public String getCommandWord() {
+		return commandWord;
+	}
+
+	public String getactualCommandDescription() {
+		return actualCommandDescription;
 	}
 
 	public String getFeedBack() {
 		return feedBack;
 	}
 
-	public String getDisplayString() {
-		return displayString;
+	public ObservableList<ModelTask> getAllList() {
+		return taskList;
 	}
 
-	public ArrayList<Task> getDisplayString() {
-		return displayString;
+	public ObservableList<ModelTask> getSearchedList() {
+		return searchedList;
 	}
 
-	public ArrayList<Task> getTodayList() {
-		return todayList;
-	}
-
-	public ArrayList<Task> getAllList() {
-		return allList;
-	}
-
-	public ArrayList<Task> getSearchList() {
-		return searchList;
-	}
-
-	enum CommandType {
-		ADD, DELETE, CLEAR, DISPLAY, UNDO, REDO, EDIT, SORT, MOVE, SEARCH, MARK_DONE, HELP, INVALID, EXIT
-	};
-
-	private CommandType determineCommandType(String command) {
-		if (commandWord.equalsIgnoreCase("ADD")) {
-			return CommandType.ADD;
-		} else if (commandWord.equalsIgnoreCase("DELETE")) {
-			return CommandType.DELETE;
-		} else if (commandWord.equalsIgnoreCase("CLEAR")) {
-			return CommandType.CLEAR;
-		} else if (commandWord.equalsIgnoreCase("DISPLAY")) {
-			return CommandType.DISPLAY;
-		} else if (commandWord.equalsIgnoreCase("UNDO")) {
-			return CommandType.UNDO;
-		} else if (commandWord.equalsIgnoreCase("REDO")) {
-			return CommandType.REDO;
-		} else if (commandWord.equalsIgnoreCase("EDIT")) {
-			return CommandType.EDIT;
-		} else if (commandWord.equalsIgnoreCase("MOVE")) {
-			return CommandType.MOVE;
-		} else if (commandWord.equalsIgnoreCase("SORT")) {
-			return CommandType.SORT;
-		} else if (commandWord.equalsIgnoreCase("SEARCH")) {
-			return CommandType.SEARCH;
-		} else if (commandWord.equalsIgnoreCase("DID")) {
-			return CommandType.MARK_DONE;
-		} else if (commandWord.equalsIgnoreCase("HELP")) {
-			return CommandType.HELP;
-		} else if (commandWord.equalsIgnoreCase("EXIT")) {
-			return CommandType.EXIT;
-		} else {
-			return CommandType.INVALID;
-		}
-	}
-
-	protected void excecuteCommand(String command) {
-
-		CommandType commandType = determineCommandType(commandWord);
+	protected void excecuteCommand(String commandWord) {
+		Action action = new Action(commandWord);
+		CommandType commandType = action.getCommandType();
 
 		try {
 			switch (commandType) {
@@ -97,44 +81,44 @@ public class CommandExecutor {
 			case ADD:
 				boolean isAdded = false;
 				isAdded = cmd.add(actualCommandDescription);
-				displayString = cmd.display();
+				// setTaskList(cmd.getTaskList());
 
 				if (isAdded) {
-					feedBack = "\"" + actualCommandDescription + "\""
-							+ " ADDED TO LIST!";
+					setFeedBack("\"" + actualCommandDescription + "\""
+							+ " ADDED TO LIST!");
 				} else {
-					feedBack = "Error with adding.";
+					setFeedBack(ErrorMessages.ERROR_ADDING_MESSAGE);
 				}
 				break;
 
 			case DELETE:
 				boolean isDeleted = false;
 				isDeleted = cmd.delete(actualCommandDescription);
-				displayString = cmd.display();
+				// setTaskList(cmd.getTaskList());
 
 				if (isDeleted) {
-					feedBack = "DELETE SUCCESSFUL!";
+					setFeedBack(ErrorMessages.SUCCESS_DELETE_MESSAGE);
 				} else {
-					feedBack = "Delete unsuccessful";
+					setFeedBack(ErrorMessages.ERROR_DELETE_MESSAGE);
 				}
 				break;
 
 			case CLEAR:
 				boolean isCleared = false;
 				isCleared = cmd.clear();
-				displayString = cmd.display();
+				// setTaskList(cmd.getTaskList());
 
 				if (isCleared) {
-					feedBack = "LIST CLEARED!";
+					setFeedBack(ErrorMessages.SUCCESS_CLEAR_MESSAGE);
 				} else {
-					feedBack = "Error with clearing";
+					setFeedBack(ErrorMessages.ERROR_CLEAR_MESSAGE);
 				}
 				break;
 
 			case DISPLAY:
-
-				displayString = cmd.display();
-				feedBack = "";
+				cmd.display();
+				// setTaskList(cmd.getTaskList());
+				setFeedBack("");
 
 				break;
 
@@ -142,12 +126,12 @@ public class CommandExecutor {
 				boolean isUndone = false;
 
 				isUndone = cmd.undo();
-				displayString = cmd.display();
+				// setTaskList(cmd.getTaskList());
 
 				if (isUndone) {
-					feedBack = "Action Undone!";
+					setFeedBack(ErrorMessages.SUCCESS_UNDONE_MESSAGE);
 				} else {
-					feedBack = "Action cannot be undone";
+					setFeedBack(ErrorMessages.ERROR_UNDONE_MESSAGE);
 				}
 				break;
 
@@ -155,12 +139,12 @@ public class CommandExecutor {
 				boolean isRedone = false;
 
 				isRedone = cmd.redo();
-				displayString = cmd.display();
+				// setTaskList(cmd.getTaskList());
 
 				if (isRedone) {
-					feedBack = "Action Redone!";
+					setFeedBack(ErrorMessages.SUCCESS_REDONE_MESSAGE);
 				} else {
-					feedBack = "No action to redo";
+					setFeedBack(ErrorMessages.ERROR_REDONE_MESSAGE);
 				}
 				break;
 
@@ -171,24 +155,24 @@ public class CommandExecutor {
 				 */
 				boolean isEdited = false;
 				isEdited = cmd.edit(actualCommandDescription);
-				displayString = cmd.display();
+				// setTaskList(cmd.getTaskList());
 
 				if (isEdited) {
-					feedBack = "Task Edited!";
+					setFeedBack(ErrorMessages.SUCCESS_EDIT_MESSAGE);
 				} else {
-					feedBack = "Cannot edit task";
+					setFeedBack(ErrorMessages.ERROR_EDIT_MESSAGE);
 				}
 				break;
 
 			case MOVE:
 				boolean isMoved = false;
 				isMoved = cmd.move(actualCommandDescription);
-				displayString = cmd.display();
+				// setTaskList(cmd.getTaskList());
 
 				if (isMoved) {
-					feedBack = "Task Moved!";
+					setFeedBack(ErrorMessages.SUCCESS_MOVE_MESSAGE);
 				} else {
-					feedBack = "Cannot move task";
+					setFeedBack(ErrorMessages.ERROR_MOVE_MESSAGE);
 				}
 				break;
 
@@ -196,54 +180,54 @@ public class CommandExecutor {
 				boolean isSorted = false;
 
 				isSorted = cmd.sort();
-				displayString = cmd.display();
+				// setTaskList(cmd.getTaskList());
 
 				if (isSorted) {
-					feedBack = "Sorted!";
+					setFeedBack(ErrorMessages.SUCCESS_SORTED_MESSAGE);
 				} else {
-					feedBack = "Cannot sort";
+					setFeedBack(ErrorMessages.ERROR_SORTED_MESSAGE);
 				}
 				break;
 
 			case SEARCH:
-
-				/*
+				
+				/**
 				 * This can be changed as you want the display to be different.
 				 * Search can return a string for displayString. If so, it can
 				 * be more like what display looks like
 				 */
-
-				displayString = cmd.search(actualCommandDescription);
-				feedBack = "Search result: ";
+				
+				setFeedBack(cmd.search(actualCommandDescription));
+				// setSearchedList(cmd.getTaskList());
 
 				break;
 
 			case MARK_DONE:
 
-				boolean isMarkedDone = cmd
-						.markDone(actualCommandDescription);
-				displayString = cmd.display();
+				boolean isMarkedDone = cmd.markDone(actualCommandDescription);
+				// setTaskList(cmd.getTaskList());
 
 				if (isMarkedDone) {
-					feedBack = "Task done";
+					setFeedBack(ErrorMessages.SUCCESS_MARKDONE_MESSAGE);
 				} else {
-					feedBack = "Cannot mark done";
+					setFeedBack(ErrorMessages.ERROR_MARKDONE_MESSAGE);
 				}
 				break;
 
 			case HELP:
-					displayString = "add <task>  [DEADLINE]  [START TIME]  [END TIME]"
-							+ "\n"
-							+ "delete <line number>"
-							+ "\n"
-							+ "clear"
-							+ "\n" + "exit";
-					feedBack = "";
-				
+				/*
+				 * this part need to consult Krystal because this cannot be
+				 * passed back as a Tasklist
+				 * 
+				 * displayString =
+				 * "add <task>  [DEADLINE]  [START TIME]  [END TIME]" + "\n" +
+				 * "delete <line number>" + "\n" + "clear" + "\n" + "exit";
+				 * feedBack = "";
+				 */
 				break;
 
 			case INVALID:
-				feedBack = "INVALID COMMAND!";
+				setFeedBack(ErrorMessages.ERROR_INVALID_MESSAGE);
 				break;
 
 			case EXIT:
@@ -251,12 +235,12 @@ public class CommandExecutor {
 
 			default:
 				// throw an error if the command is not recognized
-				throw new Error("Unrecognized command type");
+				throw new Error(ErrorMessages.ERROR_COMMAND_TYPE);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (NumberFormatException e) {
-			feedBack = "invalid argument";
+			setFeedBack(ErrorMessages.ERROR_ARGUMENT_MESSAGE);
 			System.out.println(feedBack);
 		}
 

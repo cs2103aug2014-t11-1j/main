@@ -1,23 +1,34 @@
 package logic;
 
-import java.util.ArrayList;
-
-import parser.ParserFacade;
-import storage.Task;
-
 /**
- * @author: Zhang Yongkai
+ * @author Zhang Yongkai
+ * This logicFacade class will interact with the GUI. It receives raw input from UI and return
+ * feedback to the GUI in the form of:
+ * 1) a string to tell the GUI what action is done or not done; 
+ * 2) a ObservableList<ModelTask> for the GUI to display 
+ * 
  */
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import parser.ParserFacade;
+import storage.ModelTask;
 
 public class LogicFacade {
 
 	private static LogicFacade lf = new LogicFacade();
-	private ParserFacade pf = ParserFacade.getInstance();
 	private CommandExecutor executor;
+	private ParserFacade pf = ParserFacade.getInstance();
+	private ObservableList<ModelTask> taskList;
+	private ObservableList<ModelTask> searchedList;
 	
+	//constructor
 	private LogicFacade(){
+		taskList = FXCollections.observableArrayList();
+		searchedList = FXCollections.observableArrayList();
 	}
 	
+	//accessor
 	public LogicFacade getInstance (){
 		return lf;
 	}
@@ -27,6 +38,7 @@ public class LogicFacade {
 		return feedBack;
 	}
 
+	
 	public String executeCommand(String inputFromGui) throws Exception {
 		String commandWord = pf.getCommandString(inputFromGui);
 		String actualCommandDescription = pf.getStringWithoutCommand(inputFromGui);
@@ -35,16 +47,14 @@ public class LogicFacade {
 		return feedBack;
 	}
 
-	public ArrayList<Task> listToday (){
-		return executor.getTodayList();
+	public ObservableList<ModelTask> getAllList(){
+		taskList = executor.getAllList();
+		return taskList;
 	}
 	
-	public ArrayList<Task> listAll(){
-		return executor.getAllList();
-	}
-	
-	public ArrayList<Task> listSearch(){
-		return executor.getSearchList();
+	public ObservableList<ModelTask> getSearchedList(){
+		searchedList = executor.getSearchedList();
+		return searchedList;
 	}
 
 }
