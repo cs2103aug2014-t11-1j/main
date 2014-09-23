@@ -7,12 +7,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import gui.controller.DateStringComparator;
-import gui.controller.NumStringComparator;
-import gui.controller.PhantomController;
 import storage.ModelTask;
 
-public class TableController extends PhantomController{
+public class TableController{
 	@FXML
 	private TableView<ModelTask> taskTable;
 	@FXML
@@ -54,7 +51,6 @@ public class TableController extends PhantomController{
 
 	protected void switchToNormal() {
 		taskTable.setItems(taskList);
-		
 	}
 
 }
