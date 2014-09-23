@@ -16,10 +16,40 @@ public class TimeParser {
 	private String time = null;
 	
 	private DateAndTimeChecker checker = DateAndTimeChecker.getInstance();
-	
+
 	public TimeParser(){		
 	}
+
+	protected String parseTimeWithoutKeyword(String[] tokens, int i, String input){
+
+		time = null;
+
+		if(isNotOutOfBounds(i, tokens.length)){
+
+			if(dictionaryContains(DICTIONARY_SPECIAL_TIME, tokens[i])){
+				time = tokens[i];
+				input = input.replaceFirst(time, "").trim();
+			}
+
+			if(tokens[i].contains("pm")|| tokens[i].contains("am") || tokens[i].contains("nn") || tokens[i].contains("mn")){
+				if(checker.isValidDefaultTimeFormat(tokens[i])){
+					time = tokens[i];
+					input = input.replaceFirst(time, "").trim();
+				}
+			}
+
+			if(tokens[i].length() == 4){
+				if(checker.isValidMilitaryTimeFormat(tokens[i])){
+					time = tokens[i];
+					input = input.replaceFirst(time, "").trim();
+				}
+			}
+
+		}
+
+		return input;
 	
+	}
 
 	protected String parseTimeWithKeyword(String[] tokens, int i, String input) {
 		
@@ -29,20 +59,20 @@ public class TimeParser {
 
 			if(dictionaryContains(DICTIONARY_SPECIAL_TIME, tokens[i+1])){
 				time = tokens[i+1];
-				input = input.replace(tokens[i] + STRING_SPACE + time, "");
+				input = input.replaceFirst(tokens[i] + STRING_SPACE + time, "").trim();
 			}
 			
 			if(tokens[i+1].contains("pm")|| tokens[i+1].contains("am") || tokens[i+1].contains("nn") || tokens[i+1].contains("mn")){
 				if(checker.isValidDefaultTimeFormat(tokens[i+1])){
 					time = tokens[i+1];
-					input = input.replace(tokens[i] + STRING_SPACE + time, "");
+					input = input.replaceFirst(tokens[i] + STRING_SPACE + time, "").trim();
 				}
 			}
 			
 			if(tokens[i+1].length() == 4){
 				if(checker.isValidMilitaryTimeFormat(tokens[i+1])){
 					time = tokens[i+1];
-					input = input.replace(tokens[i] + STRING_SPACE + time, "");
+					input = input.replaceFirst(tokens[i] + STRING_SPACE + time, "").trim();
 				}
 			}
 

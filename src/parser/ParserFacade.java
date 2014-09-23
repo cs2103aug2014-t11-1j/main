@@ -12,8 +12,7 @@ public class ParserFacade {
 	
 	private static ParserFacade pf = new ParserFacade();
 	
-	private ParserFacade(){
-		
+	private ParserFacade(){		
 	}
 	
 	public static ParserFacade getInstance() {
@@ -23,7 +22,7 @@ public class ParserFacade {
 	public Task getTask(String input){
 		InputParser ip = new InputParser();
 		CommandRetriever cr = CommandRetriever.getInstance();
-		input = input.replace(cr.getCommandString(input),"");
+		input = input.replaceFirst(cr.getCommandString(input),"").trim();
 		ip.parseInput(input);
 		Task task = new Task(ip.getTaskDescription(),ip.getStartDate(),ip.getStartTime(),ip.getEndDate(),ip.getEndTime(),ip.getDeadLine()); 
 		return task;
@@ -36,7 +35,7 @@ public class ParserFacade {
 	
 	public String getStringWithoutCommand(String input){
 		CommandRetriever cr = CommandRetriever.getInstance();
-		return input.replace(cr.getCommandString(input),"");
+		return input.replaceFirst(cr.getCommandString(input),"").trim();
 	}
 	
 }

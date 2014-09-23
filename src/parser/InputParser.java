@@ -54,7 +54,7 @@ public class InputParser {
 	}
 	
 	public String getTaskDescription(){
-		return taskDescription;
+		return taskDescription.replaceAll("\\s+", " ");
 	}
 	public String getStartDate(){
 		return startDate;
@@ -99,6 +99,22 @@ public class InputParser {
 				break;
 			}
 			
+			if(!isDeadLineFound){
+				input = dp.parseDateWithoutKeyword(tokens, i, input);
+				if(dp.getDate() != null){
+					deadLine = dp.getDate();
+					isDeadLineFound = true;
+				}
+			}
+			
+			if(!isEndTimeFound){
+				input = tp.parseTimeWithoutKeyword(tokens, i, input);
+				if(tp.getTime() != null){
+					endTime = tp.getTime();
+					isEndTimeFound = true;
+				}
+			}
+			
 			if(dictionaryContains(DICTIONARY_KEYWORDS_DEADLINE, tokens[i])){
 				if(!isDeadLineFound){
 					input = dp.parseDateWithKeyword(tokens, i, input);
@@ -114,8 +130,7 @@ public class InputParser {
 						endTime = tp.getTime();
 						isEndTimeFound = true;
 					}
-				}
-					
+				}					
 			}
 
 			if(dictionaryContains(DICTIONARY_KEYWORDS_STARTTIME, tokens[i])){
