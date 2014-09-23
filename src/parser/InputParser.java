@@ -25,14 +25,18 @@ public class InputParser {
 	/**
 	 * Required information from input
 	 */
-	//we should store such information in a separate class eg Task
 	private String taskDescription;
 	private String startTime;
 	private String endTime;
 	private String deadLine;
-	//currently not implemented
 	private String endDate;
 	private String startDate;
+	
+	private boolean isDeadLineFound;
+	private boolean isStartTimeFound;
+	private boolean isStartDateFound;
+	private boolean isEndTimeFound;
+	private boolean isEndDateFound;
 		
 	public InputParser(){
 		taskDescription = null;
@@ -41,6 +45,12 @@ public class InputParser {
 		endDate = null;
 		endTime = null;
 		deadLine = null;
+		
+		isDeadLineFound = false;
+		isStartTimeFound = false;
+		isStartDateFound = false;
+		isEndTimeFound = false;
+		isEndDateFound = false;
 	}
 	
 	public String getTaskDescription(){
@@ -90,35 +100,57 @@ public class InputParser {
 			}
 			
 			if(dictionaryContains(DICTIONARY_KEYWORDS_DEADLINE, tokens[i])){
-				
+				if(!isDeadLineFound){
 					input = dp.parseDateWithKeyword(tokens, i, input);
-					deadLine = dp.getDate();
+					if(dp.getDate() != null){
+						deadLine = dp.getDate();
+						isDeadLineFound = true;
+					}
+				}
 
-
+				if(!isEndTimeFound){
 					input = tp.parseTimeWithKeyword(tokens, i, input);
 					if(tp.getTime() != null){
 						endTime = tp.getTime();
+						isEndTimeFound = true;
+					}
 				}
 					
 			}
 
 			if(dictionaryContains(DICTIONARY_KEYWORDS_STARTTIME, tokens[i])){
-				input = dp.parseDateWithKeyword(tokens, i, input);
-				startDate = dp.getDate();
+				if(!isStartDateFound){
+					input = dp.parseDateWithKeyword(tokens, i, input);
+					if(dp.getDate() != null){
+						startDate = dp.getDate();
+						isStartDateFound = true;
+					}
+				}
 				
-				input = tp.parseTimeWithKeyword(tokens, i, input);
-				if(tp.getTime() != null){
-					startTime = tp.getTime();
+				if(!isStartTimeFound){
+					input = tp.parseTimeWithKeyword(tokens, i, input);
+					if(tp.getTime() != null){
+						startTime = tp.getTime();
+						isStartTimeFound = true;
+					}
 				}
 			}
 
 			if(dictionaryContains(DICTIONARY_KEYWORDS_ENDTIME, tokens[i])){
-				input = dp.parseDateWithKeyword(tokens, i, input);
-				endDate = dp.getDate();
+				if(!isEndDateFound){
+					input = dp.parseDateWithKeyword(tokens, i, input);
+					if(dp.getDate() != null){
+						endDate = dp.getDate();
+						isEndDateFound = true;
+					}
+				}
 				
-				input = tp.parseTimeWithKeyword(tokens, i, input);
-				if(tp.getTime() != null){
-					endTime = tp.getTime();
+				if(!isEndTimeFound){
+					input = tp.parseTimeWithKeyword(tokens, i, input);
+					if(tp.getTime() != null){
+						endTime = tp.getTime();
+						isEndTimeFound = true;
+					}
 				}
 			}
 		}

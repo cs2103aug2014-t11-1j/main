@@ -20,7 +20,7 @@ public class ParserFacade {
 		return pf;
 	}
 
-	protected Task getTask(String input){
+	public Task getTask(String input){
 		InputParser ip = new InputParser();
 		CommandRetriever cr = CommandRetriever.getInstance();
 		input = input.replace(cr.getCommandString(input),"");
@@ -29,9 +29,14 @@ public class ParserFacade {
 		return task;
 	}
 	
-	protected String getCommandString(String input){
+	public String getCommandString(String input){
 		CommandRetriever cr = CommandRetriever.getInstance();
 		return cr.getCommandString(input);
+	}
+	
+	public String getStringWithoutCommand(String input){
+		CommandRetriever cr = CommandRetriever.getInstance();
+		return input.replace(cr.getCommandString(input),"");
 	}
 	
 }

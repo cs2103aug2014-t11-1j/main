@@ -29,13 +29,15 @@ public class DateParser {
 	//returns the parsed input without the date
 	protected String parseDateWithKeyword(String[] tokens, int i, String input) {
 		
+		date = null;
+		
 		if(isNotOutOfBounds(i+1, tokens.length)){
-			
+
 			if(dictionaryContains(DICTIONARY_DAYS,tokens[i+1])){
 				date = tokens[i+1];
 				input = input.replace(tokens[i] + STRING_SPACE + date, "");
 			}
-			
+
 			if(tokens[i+1].contains("/")){
 				if(checker.isValidSlashDateFormat(tokens[i+1])){
 					date = tokens[i+1];

@@ -23,6 +23,8 @@ public class TimeParser {
 
 	protected String parseTimeWithKeyword(String[] tokens, int i, String input) {
 		
+		time = null;
+		
 		if(isNotOutOfBounds(i+1, tokens.length)){
 
 			if(dictionaryContains(DICTIONARY_SPECIAL_TIME, tokens[i+1])){
