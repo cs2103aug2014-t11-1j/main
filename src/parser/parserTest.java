@@ -1,5 +1,10 @@
 package parser;
 
+/**
+ * This class is used to test
+ * parsed date and time.
+ */
+
 import java.util.Date;
 import java.util.Scanner;
 
