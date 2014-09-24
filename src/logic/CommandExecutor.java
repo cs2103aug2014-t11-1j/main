@@ -22,6 +22,7 @@ public class CommandExecutor {
 	private String feedBack;
 	private ObservableList<ModelTask> taskList;
 	private ObservableList<ModelTask> searchedList;
+        private CommandFactory cmdf;
 
 	// constructor
 	public CommandExecutor() {
@@ -80,7 +81,7 @@ public class CommandExecutor {
 
 			case ADD:
 				boolean isAdded = false;
-				isAdded = cmd.add(actualCommandDescription);
+                                cmdf = new Add(actualCommandDescription);
 				// setTaskList(cmd.getTaskList());
 
 				if (isAdded) {
