@@ -1,45 +1,45 @@
 package storage;
 
-import java.util.ArrayList;
+import javafx.collections.ObservableList;
 
 public class TaskList {
-	
-	/**
-	 * Class Attributes
-	 */	
-	private ArrayList<Task> list;
-	
-	/**
-	 * Constructor
-	 */	
-	public TaskList() {
-		list = new ArrayList<Task>();
-	}
-	
-	/**
-	 * Accessors
-	 */
-	public ArrayList<Task> getList() {
-		return list;
-	}
-	
-	public int getListSize(){
-		return list.size();
-	}
-	
-	public Task get(int index){
-		return list.get(index);
-	}
-	
-	/**
-	 * Mutators
-	 */
-	public void add(Task task){
-		list.add(task);
-	}
-	
-	public void remove(int index){
-		list.remove(index);
-	}
+
+    /**
+     * Class Attributes
+     */
+    private ObservableList<ModelTask> list;
+
+    /**
+     * Constructor
+     */
+    public TaskList() {
+
+    }
+
+    /**
+     * Accessors
+     */
+    public ObservableList<ModelTask> getList() {
+        return list;
+    }
+
+    public int getListSize() {
+        return list.size();
+    }
+
+    public ModelTask get(int index) {
+        return list.get(index);
+    }
+
+    /**
+     * Mutators
+     */
+    public void add(ModelTask task) {
+        list.add(task);
+    }
+
+    public void remove(int index) {
+        list.remove(index);
+    }
 
 }
