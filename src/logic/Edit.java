@@ -1,5 +1,7 @@
 package logic;
 
+import static logic.CommandFactory.tc;
+import storage.ModelTask;
 import storage.Task;
 
 /**
@@ -22,8 +24,9 @@ public class Edit extends CommandFactory {
         String[] splitStrings = formatString(input);
         int index = getIndex(splitStrings);
         Task newTask = getNewTask(splitStrings);
+        ModelTask temp = tc.convert(pf.getTask(input), list.getListSize() + 1);
         list.remove(index);
-        list.add(newTask, index);
+        list.add(temp, index);
 
         updateUndoAndRedoStacks();
         isDone = true;

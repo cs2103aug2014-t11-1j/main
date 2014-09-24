@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import parser.ParserFacade;
 import storage.ModelTask;
+import storage.TaskConverter;
 import storage.TaskList;
 import storage.UndoRedoStack;
 
@@ -15,6 +16,7 @@ import storage.UndoRedoStack;
 public abstract class CommandFactory {
 
     protected static ParserFacade pf = ParserFacade.getInstance();
+    protected static TaskConverter tc = TaskConverter.getInstance();
     protected static TaskList list = new TaskList();
     protected static UndoRedoStack undoStack = new UndoRedoStack();
     protected static UndoRedoStack redoStack = new UndoRedoStack();
