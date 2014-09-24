@@ -1,6 +1,5 @@
 package gui.controller;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -18,10 +17,10 @@ public class TableController{
 	private TableColumn<ModelTask, String> numColumn;
 	
 	@FXML
-	private ObservableList<ModelTask> taskList = FXCollections.observableArrayList();
+	private ObservableList<ModelTask> taskList;
 	
 	@FXML
-	private ObservableList<ModelTask> searchedList = FXCollections.observableArrayList();
+	private ObservableList<ModelTask> searchedList;
 	
 	
 	
