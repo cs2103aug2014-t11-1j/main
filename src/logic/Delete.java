@@ -20,7 +20,7 @@ public class Delete extends CommandFactory {
     @Override
     protected void execute(String input) {
         try {
-            list.remove(getIndex(formatString(input)));
+            list.remove(getIndex(input));
         } catch (Exception ex) {
             printMessage(ex.getMessage());
             return;
@@ -29,22 +29,18 @@ public class Delete extends CommandFactory {
     }
 
     @Override
-    protected String formatString(String input) {
-        if (input == null || input.isEmpty()) {
-            throw new IllegalArgumentException("Invalid index!");
-        } else {
-            return input.trim().split("\\s+")[0];
-        }
-    }
-
-    @Override
     protected boolean isDone() {
         return isDone;
     }
 
     private static int getIndex(String input) {
-        int index = Integer.parseInt(input) - 1;
-        if (isValidLineNumber(index)) {
+        int index;
+        if (input == null || input.isEmpty()) {
+            throw new IllegalArgumentException("Invalid index!");
+        } else {
+            index = Integer.parseInt(input.trim().split("\\s+")[0]);
+        }
+        if (!isValidLineNumber(index)) {
             throw new IllegalArgumentException("Invalid index!");
         } else {
             return index;

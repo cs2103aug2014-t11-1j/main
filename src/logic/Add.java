@@ -13,6 +13,7 @@ public class Add extends CommandFactory {
      */
     protected Add(String input) {
         execute(input);
+        updateUndoAndRedoStacks();
         isDone = true;
     }
 
@@ -20,11 +21,6 @@ public class Add extends CommandFactory {
     protected void execute(String input) {
         list.add(pf.getTask(input));
         updateUndoAndRedoStacks();
-    }
-
-    @Override
-    protected String formatString(String input) {
-        return null;
     }
 
     @Override

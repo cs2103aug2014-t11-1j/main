@@ -23,8 +23,6 @@ public abstract class CommandFactory {
      */
     protected abstract void execute(String input);
 
-    protected abstract String formatString(String input);
-    
     protected abstract boolean isDone();
 
     /**

@@ -12,17 +12,13 @@ public class Clear extends CommandFactory {
     protected Clear() {
         execute(null);
         updateUndoAndRedoStacks();
+        isDone = true;
     }
 
     @Override
     protected void execute(String input) {
         list.clear();
         isDone = true;
-    }
-
-    @Override
-    protected String formatString(String input) {
-        return null;
     }
 
     @Override

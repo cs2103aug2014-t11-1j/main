@@ -16,13 +16,13 @@ import storage.Task;
 public class CommandExecutor {
 
 	private static Command cmd = Command.getInstance();
+        private static CommandFactory cmdf;
 
 	private String commandWord;
 	private String actualCommandDescription;
 	private String feedBack;
 	private ObservableList<ModelTask> taskList;
 	private ObservableList<ModelTask> searchedList;
-        private CommandFactory cmdf;
 
 	// constructor
 	public CommandExecutor() {
@@ -158,7 +158,8 @@ public class CommandExecutor {
 				 * numToDelete newTaskDescription
 				 */
 				boolean isEdited = false;
-				isEdited = cmd.edit(actualCommandDescription);
+                                cmdf = new Edit(actualCommandDescription);
+				isEdited = cmdf.isDone();
 				// setTaskList(cmd.getTaskList());
 
 				if (isEdited) {
