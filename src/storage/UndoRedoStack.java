@@ -1,7 +1,7 @@
 package storage;
 
-import java.util.ArrayList;
 import java.util.Stack;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -9,35 +9,35 @@ import java.util.Stack;
  */
 public class UndoRedoStack {
 
-    private Stack<ArrayList<Task>> stack;
+    private Stack<ObservableList<ModelTask>> stack;
 
     public UndoRedoStack() {
-        stack = new Stack<ArrayList<Task>>();
+        stack = new Stack<ObservableList<ModelTask>>();
     }
 
     /**
      * Accessors
      */
-    public Stack<ArrayList<Task>> getStack() {
+    public Stack<ObservableList<ModelTask>> getStack() {
         return stack;
     }
 
     /**
      * Mutators
      */
-    public void setStack(Stack<ArrayList<Task>> stack) {
+    public void setStack(Stack<ObservableList<ModelTask>> stack) {
         this.stack = stack;
     }
 
-    public void push(ArrayList<Task> list) {
+    public void push(ObservableList<ModelTask> list) {
         stack.push(list);
     }
 
-    public ArrayList<Task> pop() {
+    public ObservableList<ModelTask> pop() {
         return stack.pop();
     }
-    
-    public ArrayList<Task> peek(){
+
+    public ObservableList<ModelTask> peek() {
         return stack.peek();
     }
 

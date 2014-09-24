@@ -1,9 +1,9 @@
 package logic;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import javafx.collections.ObservableList;
 import parser.ParserFacade;
-import storage.Task;
+import storage.ModelTask;
 import storage.TaskList;
 import storage.UndoRedoStack;
 
@@ -33,7 +33,7 @@ public abstract class CommandFactory {
     }
 
     protected static void printContentsOfList(int lineNum) {
-        Task temp;
+        ModelTask temp;
         for (int i = 0; i < list.getListSize(); i++) {
             temp = list.get(i);
             printMessage(lineNum + ". " + temp.toString() + " " + temp.isDone());
@@ -46,21 +46,25 @@ public abstract class CommandFactory {
     }
 
     protected static void updateUndoAndRedoStacks() {
-        ArrayList<Task> temp = new ArrayList<Task>();
-        copyArrayList(list.getList(), temp);
+        ObservableList<ModelTask> temp = null;
+        copyList(list.getList(), temp);
         undoStack.push(temp);
         redoStack.clear();
     }
 
-    protected static void copyArrayList(ArrayList<Task> oldArrayList, ArrayList<Task> newArrayList) {
+    protected static void copyList(ObservableList<ModelTask> oldList, ObservableList<ModelTask> newList) {
 
-        if (!newArrayList.isEmpty()) {
-            newArrayList.clear();
+        if (!newList.isEmpty()) {
+            newList.clear();
         }
-        Iterator<Task> itr = oldArrayList.iterator();
+        Iterator<ModelTask> itr = oldList.iterator();
 
         while (itr.hasNext()) {
-            newArrayList.add(itr.next());
+            newList.add(itr.next());
         }
+    }
+
+    public ObservableList<ModelTask> getTaskList() {
+        return list.getList();
     }
 }

@@ -24,9 +24,14 @@ public class Edit extends CommandFactory {
         Task newTask = getNewTask(splitStrings);
         list.remove(index);
         list.add(newTask, index);
-        
+
         updateUndoAndRedoStacks();
         isDone = true;
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone;
     }
 
     private static String[] formatString(String input) {
@@ -49,11 +54,6 @@ public class Edit extends CommandFactory {
 
     private static Task getNewTask(String[] splitStrings) {
         return pf.getTask(splitStrings[1]);
-    }
-
-    @Override
-    protected boolean isDone() {
-        return isDone;
     }
 
 }
