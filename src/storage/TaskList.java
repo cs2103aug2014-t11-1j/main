@@ -1,5 +1,6 @@
 package storage;
 
+import java.util.Iterator;
 import javafx.collections.ObservableList;
 
 public class TaskList {
@@ -30,6 +31,10 @@ public class TaskList {
     public ModelTask get(int index) {
         return list.get(index);
     }
+    
+    public Iterator<ModelTask> getIterator(){
+        return list.iterator();
+    }
 
     /**
      * Mutators
@@ -44,5 +49,9 @@ public class TaskList {
 
     public void setList(ObservableList<ModelTask> list) {
         this.list = list;
+    }
+
+    public void clear() {
+        list.clear();
     }
 }
