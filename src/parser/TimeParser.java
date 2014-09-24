@@ -18,6 +18,11 @@ public class TimeParser {
 	 * String constants
 	 */
 	private final String STRING_SPACE = " ";
+	
+	private static final String FORMAT_SPECIAL = "ST ";
+	private static final String FORMAT_DEFAULT = "DT ";
+	private static final String FORMAT_MILITARY = "MT ";
+	
 	/**
 	 * String Dictionaries
 	 */
@@ -33,18 +38,21 @@ public class TimeParser {
 	protected String parseTimeWithoutKeyword(String[] tokens, int i, String input){
 
 		time = null;
+		TimeStandardizer ts = new TimeStandardizer();
 
 		if(isNotOutOfBounds(i, tokens.length)){
 
 			if(dictionaryContains(DICTIONARY_SPECIAL_TIME, tokens[i])){
 				time = tokens[i];
 				input = input.replaceFirst(time, "").trim();
+				time = ts.formatTime(FORMAT_SPECIAL + time);
 			}
 
 			if(tokens[i].contains("pm")|| tokens[i].contains("am") || tokens[i].contains("nn") || tokens[i].contains("mn")){
 				if(checker.isValidDefaultTimeFormat(tokens[i])){
 					time = tokens[i];
 					input = input.replaceFirst(time, "").trim();
+					time = ts.formatTime(FORMAT_DEFAULT + time);
 				}
 			}
 
@@ -52,6 +60,7 @@ public class TimeParser {
 				if(checker.isValidMilitaryTimeFormat(tokens[i])){
 					time = tokens[i];
 					input = input.replaceFirst(time, "").trim();
+					time = ts.formatTime(FORMAT_MILITARY + time);
 				}
 			}
 
@@ -64,18 +73,21 @@ public class TimeParser {
 	protected String parseTimeWithKeyword(String[] tokens, int i, String input) {
 		
 		time = null;
+		TimeStandardizer ts = new TimeStandardizer();
 		
 		if(isNotOutOfBounds(i+1, tokens.length)){
 
 			if(dictionaryContains(DICTIONARY_SPECIAL_TIME, tokens[i+1])){
 				time = tokens[i+1];
 				input = input.replaceFirst(tokens[i] + STRING_SPACE + time, "").trim();
+				time = ts.formatTime(FORMAT_SPECIAL + time);
 			}
 			
 			if(tokens[i+1].contains("pm")|| tokens[i+1].contains("am") || tokens[i+1].contains("nn") || tokens[i+1].contains("mn")){
 				if(checker.isValidDefaultTimeFormat(tokens[i+1])){
 					time = tokens[i+1];
 					input = input.replaceFirst(tokens[i] + STRING_SPACE + time, "").trim();
+					time = ts.formatTime(FORMAT_DEFAULT + time);
 				}
 			}
 			
@@ -83,6 +95,7 @@ public class TimeParser {
 				if(checker.isValidMilitaryTimeFormat(tokens[i+1])){
 					time = tokens[i+1];
 					input = input.replaceFirst(tokens[i] + STRING_SPACE + time, "").trim();
+					time = ts.formatTime(FORMAT_MILITARY + time);
 				}
 			}
 
@@ -110,7 +123,4 @@ public class TimeParser {
 		}
 		return isFound;
 	}
-
-		
-
 }

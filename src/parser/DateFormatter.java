@@ -15,19 +15,12 @@ import java.util.Locale;
 
 public class DateFormatter {
 	
-	private String day;
-	private String month;
-	private String year;
-	
 	private static final String[] DICTIONARY_TOMORROW = { "TOMORROW", "TMR" };
 	
 	private static final int NUM_SINGLE_DAY_OFFSET = 1;
 
 
-	public DateFormatter(){
-		day = null;
-		month = null;
-		year = null;					
+	public DateFormatter(){			
 	}
 
 	public String convertDDformat(String date) {
