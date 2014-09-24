@@ -7,68 +7,133 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class ModelTask {
-	private final StringProperty event;
-	private final StringProperty dateStringProperty;
-	private final StringProperty positionStringProperty;
-
+	private StringProperty event;
+	private StringProperty dateStringProperty;
+	private StringProperty timeStringProperty;
+	private StringProperty positionStringProperty;
+	private SimpleDateFormat dateFormatter, startDateFormatter,
+			endDateFormatter, timeFormatter;
+	private Date startDate, endDate, startTime, endTime;
 	private int position;
+	private boolean isDone;
 
-	private final SimpleDateFormat dateFormatter;
-	private Date date;
-
-	public ModelTask(String event, Date date, int position){
-		this.event = new SimpleStringProperty(event);
-
+	// constructor
+	public ModelTask(String event, Date startDate, Date endDate,
+			Date startTime, Date endTime, int position) {
 		dateFormatter = new SimpleDateFormat("EEE, MMM d");
-		this.date = date;
+		startDateFormatter = new SimpleDateFormat("d");
+		endDateFormatter = new SimpleDateFormat("- d MMM");
+		timeFormatter = new SimpleDateFormat("HHmm");
 
-		if(date != null){
-			String dateString = dateFormatter.format(date);
-			this.dateStringProperty =  new SimpleStringProperty(dateString);
-		}
-		else{
-			this.dateStringProperty =  new SimpleStringProperty("");
-		}
-		this.position = position;
-		String positionString = String.valueOf(position);
-		this.positionStringProperty = new SimpleStringProperty(positionString);
+		this.event = new SimpleStringProperty(event);
+		setDate(startDate, endDate);
+		setTime(startTime, endTime);
+		setPosition(position);
+		this.isDone = false;
 	}
 
-	public String getEvent(){
-		return event.get();
-	}
-
-	public void setEvent(String event){
+	// mutators
+	public void setEvent(String event) {
 		this.event.set(event);
 	}
 
-	public StringProperty getEventProperty(){
-		return event;
-	}
-
-	public Date getDate(){
-		return date;
-	}
-
-	public void setDate(Date date){
-		this.date = date;
-		dateStringProperty.set(dateFormatter.format(date));
-	}
-
-	public StringProperty getDateStringProperty(){
-		return dateStringProperty;
-	}
-
-	public int getPosition(){
-		return position;
-	}
-
-	public void setPosition(int position){
+	public void setPosition(int position) {
 		this.position = position;
 		positionStringProperty.set(String.valueOf(position));
 	}
+	
+	public void setIsDone(boolean isDone){
+		this.isDone = isDone;
+	}
 
-	public StringProperty getPositionStringProperty(){
+	public void setDate(Date startDate, Date endDate) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+
+		if (startDate != null && endDate != null) {
+			String startDateString = startDateFormatter.format(startDate);
+			String endDateString = endDateFormatter.format(endDate);
+			this.dateStringProperty = new SimpleStringProperty(startDateString
+					+ endDateString);
+		} else if (startDate == null && endDate == null) {
+			this.dateStringProperty = new SimpleStringProperty("");
+		} else if (startDate != null) {
+			String dateString = dateFormatter.format(startDate);
+			this.dateStringProperty = new SimpleStringProperty(dateString);
+		} else if (endDate != null) {
+			String dateString = dateFormatter.format(endDate);
+			this.dateStringProperty = new SimpleStringProperty(dateString);
+		} else {
+			this.dateStringProperty = new SimpleStringProperty("");
+		}
+
+	}
+
+	public void setTime(Date startTime, Date endTime) {
+		this.startTime = startTime;
+		this.endTime = endTime;
+
+		if (startTime != null && endTime != null) {
+			String startTimeString = timeFormatter.format(startTime);
+			String endTimeString = timeFormatter.format(endTime);
+			this.timeStringProperty = new SimpleStringProperty(startTimeString
+					+ " - " + endTimeString);
+		} else if (startTime == null && endTime == null) {
+			this.timeStringProperty = new SimpleStringProperty("");
+		} else if (startTime != null) {
+			String timeString = timeFormatter.format(startTime);
+			this.timeStringProperty = new SimpleStringProperty(timeString);
+		} else if (endTime != null) {
+			String timeString = timeFormatter.format(endTime);
+			this.timeStringProperty = new SimpleStringProperty(timeString);
+		} else {
+			this.timeStringProperty = new SimpleStringProperty("");
+		}
+
+	}
+
+	// accessors
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public String getEvent() {
+		return event.get();
+	}
+
+	public int getPosition() {
+		return position;
+	}
+	
+	public boolean isDone(){
+		return this.isDone;
+	}
+
+	public StringProperty getDateStringProperty() {
+		return dateStringProperty;
+	}
+
+	public StringProperty getTimeStringProperty() {
+		return timeStringProperty;
+	}
+
+	public StringProperty getEventProperty() {
+		return event;
+	}
+
+	public StringProperty getPositionStringProperty() {
 		return positionStringProperty;
 	}
 }
