@@ -25,7 +25,7 @@ public class CommandLineController{
 		if(e.getCode() == KeyCode.ENTER){
 			String input = commandLine.getText();
 			commandLine.clear();
-			//logicFacade.getFeedback(input);
+			logicFacade.getFeedback(input);
 		}
 	}
 	

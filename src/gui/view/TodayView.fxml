@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="272.0" prefWidth="513.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.TodayViewController">
+   <children>
+      <Label layoutX="4.0" styleClass="label-heading" text="Today" AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="0.0" />
+      <TableView id="table-today" fx:id="todayTable" layoutX="212.0" layoutY="42.0" mouseTransparent="true" prefHeight="230.0" prefWidth="513.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="42.0">
+        <columns>
+          <TableColumn fx:id="taskColumn" editable="false" prefWidth="408.0" sortable="false" text="Task" />
+          <TableColumn fx:id="timeColumn" editable="false" prefWidth="100.0" sortable="false" text="Time" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

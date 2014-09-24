@@ -27,6 +27,11 @@
             <Label layoutX="597.0" layoutY="33.0" styleClass="label-bright" text="Time" />
          </children>
       </HBox>
+      <AnchorPane layoutX="105.0" layoutY="72.0" prefHeight="272.0" prefWidth="513.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="72.0">
+	      <children>
+	      	<fx:include fx:id="todayView" source="TodayView.fxml"/>
+	      </children>
+      </AnchorPane>
       <AnchorPane layoutX="105.0" layoutY="87.0" prefHeight="226.0" prefWidth="513.0" AnchorPane.bottomAnchor="87.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="87.0">
          <children>
          	<fx:include fx:id="tableView" source="TableView.fxml" />
