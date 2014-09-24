@@ -1,5 +1,13 @@
 package parser;
 
+/**
+ * This class is parse a Day 
+ * String into its respective
+ * numerical representation
+ * 
+ * * Author: smallson
+ */
+
 public class DayParser {
 	
 	private static final String[] DICTIONARY_DAYS = { "monday", "tuesday", "wednesday", "thursday", "friday","saturday", "sunday",

@@ -1,5 +1,15 @@
 package parser;
 
+
+/**
+ * This class is parse a Month 
+ * String into its respective
+ * numerical representation
+ * 
+ * * Author: smallson
+ */
+
+
 public class MonthParser {
 	
 	private static final String[] DICTIONARY_MONTHS = {"janurary","feburary","march","april","may","june","july","august","september","october","november","december",

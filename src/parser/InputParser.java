@@ -1,6 +1,7 @@
 package parser;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -172,6 +173,26 @@ public class InputParser {
 			}
 		}
 		
+		if(!isDeadLineFound && !isStartDateFound && !isEndDateFound){
+			
+			String temp = null;
+			if(isStartTimeFound){
+				temp = startTime;
+			}
+			if(isEndTimeFound){
+				temp = endTime;
+			}
+			
+			if(temp != null){
+				if(Integer.parseInt(getCurrentTime()) > Integer.parseInt(temp)){
+					deadLine = getModifiedDate(1);
+				}
+				else{
+					deadLine = getModifiedDate(0);
+				}
+			}
+		}
+		
 		taskDescription = input;						
 	}
 	
@@ -190,4 +211,21 @@ public class InputParser {
 		return isFound;
 	}
 	
+	private String getCurrentTime(){
+		SimpleDateFormat currTime = new SimpleDateFormat("HHmm");//dd/MM/yyyy
+	    Date now = new Date();
+	    String strTime = currTime.format(now);
+	    return strTime;
+	}
+	
+	private static String getModifiedDate(int offset){
+		String currDate;
+		SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/YYYY");
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_MONTH, offset);
+		currDate = dayFormat.format(calendar.getTime());
+		
+		return currDate;
+	}	
 }

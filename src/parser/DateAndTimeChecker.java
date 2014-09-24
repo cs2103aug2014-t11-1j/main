@@ -27,13 +27,13 @@ public class DateAndTimeChecker {
 		try{
 			Scanner sc = new Scanner(string).useDelimiter("[^0-9]+");		
 			int integer = sc.nextInt();
-			if(integer == 12){
-				if(!string.replace("12", "").equalsIgnoreCase("NN") && !string.replace("12", "").equalsIgnoreCase("MN")){
-					System.out.println("invalid time");
-					return false;
-				}
-			}
-			else if(integer>12 || integer <= 0){
+//			if(integer == 12){
+//				if(!string.replace("12", "").equalsIgnoreCase("NN") && !string.replace("12", "").equalsIgnoreCase("MN")){
+//					System.out.println("invalid time");
+//					return false;
+//				}
+//			}
+			if(integer>12 || integer <= 0){
 				System.out.println("invalid time");
 				return false;
 			}
@@ -47,7 +47,7 @@ public class DateAndTimeChecker {
 			System.out.println("exception");
 			return false;
 		}
-		System.out.println(string);
+	//	System.out.println(string);
 
 		return true;
 	}
