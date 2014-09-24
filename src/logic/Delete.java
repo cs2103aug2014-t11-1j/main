@@ -38,7 +38,7 @@ public class Delete extends CommandFactory {
         if (input == null || input.isEmpty()) {
             throw new IllegalArgumentException("Invalid index!");
         } else {
-            index = Integer.parseInt(input.trim().split("\\s+")[0]);
+            index = Integer.parseInt(input.trim().split("\\s+")[0]) - 1;
         }
         if (!isValidLineNumber(index)) {
             throw new IllegalArgumentException("Invalid index!");
