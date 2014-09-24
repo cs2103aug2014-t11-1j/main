@@ -141,8 +141,9 @@ public class CommandExecutor {
 
 			case REDO:
 				boolean isRedone = false;
-
-				isRedone = cmd.redo();
+                                
+                                cmdf = new Redo();
+				isRedone = cmdf.isDone();
 				// setTaskList(cmd.getTaskList());
 
 				if (isRedone) {
