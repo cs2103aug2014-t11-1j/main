@@ -43,7 +43,7 @@ public class Edit extends CommandFactory {
     }
 
     private static int getIndex(String[] splitStrings) {
-        int index = Integer.parseInt(splitStrings[0]);
+        int index = Integer.parseInt(splitStrings[0]) - 1;
 
         if (!isValidLineNumber(index)) {
             throw new IllegalArgumentException("Invalid index!");
