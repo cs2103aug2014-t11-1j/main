@@ -37,6 +37,11 @@ public class DateAndTimeChecker {
 				System.out.println("invalid time");
 				return false;
 			}
+			if(sc.hasNextInt()){
+				if(sc.nextInt() > 59){
+					return false;
+				}
+			}
 			
 		} catch(Exception e){
 			System.out.println("exception");
