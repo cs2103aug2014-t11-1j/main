@@ -50,12 +50,14 @@ public class Storage {
     }
 
     private void copyContentsOfTextFile(Scanner sc) {
-
+    	TaskConverter taskConverter = new TaskConverter();
+    	
 		while(sc.hasNext()){
+			int index = 1;
 			String str = sc.nextLine();
 			Task newTask = new Task(str,true);
-			ModelTask e ;  //need to convert ot modeltask
-			list.add(e);
+			list.add (ModelTask taskConverter.convert(newTask,index));  //need to convert ot modeltask
+			index++;
 		}	
 	}
     
