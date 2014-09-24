@@ -13,7 +13,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
 import java.util.Scanner;
 
 
@@ -24,8 +23,6 @@ public class Storage {
 
     private ObservableList <ModelTask> list;
     private File inputFile;
-    private UndoRedoStack undoStack;
-    private UndoRedoStack redoStack;
 
         
     //constructor
@@ -40,13 +37,7 @@ public class Storage {
         inputFile.createNewFile();
         
         initializeObservableList();
-
-        undoStack = new UndoRedoStack();
-        redoStack = new UndoRedoStack();
-
-        ObservableList <ModelTask> originalList = FXCollections.observableArrayList();
-        copyObservableList(list, originalList);
-        undoStack.push(originalList);
+ 
     }
 
     //writes existing contents of file to observableList if any
@@ -68,30 +59,8 @@ public class Storage {
 		}	
 	}
     
-    /**
-     * This method updates Undo and Redo Stacks from class variable list
-     * for undo and redo to work.
-     */
-    private void updateUndoAndRedoStacks() {
-    	ObservableList <ModelTask> temp = FXCollections.observableArrayList();
-        copyObservableList(list, temp);
-        undoStack.push(temp);
-        redoStack.clear();
-    }
-    
-    
-    private void copyObservableList(ObservableList<ModelTask> oldList, ObservableList<ModelTask> newList) {
-
-        if (!newList.isEmpty()) {
-            newList.clear();
-        }
-        Iterator<ModelTask> itr = oldList.iterator();
-
-        while (itr.hasNext()) {
-            newList.add(itr.next());
-        }
-    }
-    
+     
+  
     //writes contents of observableList to text file
     private void save() throws IOException {
 
