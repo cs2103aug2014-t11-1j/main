@@ -108,7 +108,8 @@ public class CommandExecutor {
 
 			case CLEAR:
 				boolean isCleared = false;
-				isCleared = cmd.clear();
+                                cmdf = new Clear();
+				isCleared = cmdf.isDone();
 				// setTaskList(cmd.getTaskList());
 
 				if (isCleared) {
