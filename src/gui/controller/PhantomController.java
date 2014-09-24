@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import logic.LogicFacade;
 import storage.ModelTask;
 
 public class PhantomController{
@@ -29,20 +30,22 @@ public class PhantomController{
 	@FXML
 	private TodayViewController todayViewController;
 	
-	private LogicFacadeDummy logicFacade;
+	private LogicFacade logicFacade;
 	
 	public PhantomController() {
 		System.out.println("phantom constructor");
-		logicFacade = new LogicFacadeDummy();
+		logicFacade = LogicFacade.getInstance();
 	}
 
 	@FXML
 	private void initialize() {
 		System.out.println("phantom initilising");
+		commandLineViewController.setController(this);
 		tableViewController.setAllView(logicFacade.getAllList());
 		commandLineViewController.setLogicFacade(logicFacade);
 		todayViewController.setTodayView(logicFacade.getAllList());
-		tableView.setVisible(false);
+		tableView.setVisible(true);
+		todayView.setVisible(false);
 	}
 	
 	public void switchToSearch(ObservableList<ModelTask> list){
