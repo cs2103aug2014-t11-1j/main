@@ -6,7 +6,6 @@ import storage.ModelTask;
  * for actual processing. 
  */
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
@@ -245,8 +244,6 @@ public class CommandExecutor {
 				// throw an error if the command is not recognized
 				throw new Error(ErrorMessages.ERROR_COMMAND_TYPE);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (NumberFormatException e) {
 			setFeedBack(ErrorMessages.ERROR_ARGUMENT_MESSAGE);
 			System.out.println(feedBack);
