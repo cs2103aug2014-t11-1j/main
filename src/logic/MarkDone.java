@@ -18,11 +18,13 @@ public class MarkDone extends CommandFactory {
 
     @Override
     protected void execute(String input) {
-        int index = Integer.parseInt(input);
+        int index = Integer.parseInt(input) - 1;
 
         if (isValidLineNumber(index)) {
             ModelTask task = list.get(index);
             task.setIsDone(true);
+        } else {
+            throw new IllegalArgumentException("Invalid index!");
         }
     }
 
