@@ -26,6 +26,10 @@ public class ModelTask {
 		timeFormatter = new SimpleDateFormat("HHmm");
 
 		this.event = new SimpleStringProperty(event);
+		this.dateStringProperty = new SimpleStringProperty();
+		this.timeStringProperty = new SimpleStringProperty();
+		this.positionStringProperty = new SimpleStringProperty();
+		
 		setDate(startDate, endDate);
 		setTime(startTime, endTime);
 		setPosition(position);
@@ -53,18 +57,18 @@ public class ModelTask {
 		if (startDate != null && endDate != null) {
 			String startDateString = startDateFormatter.format(startDate);
 			String endDateString = endDateFormatter.format(endDate);
-			this.dateStringProperty = new SimpleStringProperty(startDateString
+			this.dateStringProperty.set(startDateString
 					+ endDateString);
 		} else if (startDate == null && endDate == null) {
-			this.dateStringProperty = new SimpleStringProperty("");
+			this.dateStringProperty.set("");
 		} else if (startDate != null) {
 			String dateString = dateFormatter.format(startDate);
-			this.dateStringProperty = new SimpleStringProperty(dateString);
+			this.dateStringProperty.set(dateString);
 		} else if (endDate != null) {
 			String dateString = dateFormatter.format(endDate);
-			this.dateStringProperty = new SimpleStringProperty(dateString);
+			this.dateStringProperty.set(dateString);
 		} else {
-			this.dateStringProperty = new SimpleStringProperty("");
+			this.dateStringProperty.set("");
 		}
 
 	}
@@ -76,18 +80,18 @@ public class ModelTask {
 		if (startTime != null && endTime != null) {
 			String startTimeString = timeFormatter.format(startTime);
 			String endTimeString = timeFormatter.format(endTime);
-			this.timeStringProperty = new SimpleStringProperty(startTimeString
+			this.timeStringProperty.set(startTimeString
 					+ " - " + endTimeString);
 		} else if (startTime == null && endTime == null) {
-			this.timeStringProperty = new SimpleStringProperty("");
+			this.timeStringProperty.set("");
 		} else if (startTime != null) {
 			String timeString = timeFormatter.format(startTime);
-			this.timeStringProperty = new SimpleStringProperty(timeString);
+			this.timeStringProperty.set(timeString);
 		} else if (endTime != null) {
 			String timeString = timeFormatter.format(endTime);
-			this.timeStringProperty = new SimpleStringProperty(timeString);
+			this.timeStringProperty.set(timeString);
 		} else {
-			this.timeStringProperty = new SimpleStringProperty("");
+			this.timeStringProperty.set("");
 		}
 
 	}
