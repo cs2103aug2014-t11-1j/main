@@ -17,6 +17,7 @@ public abstract class CommandFactory {
     protected static TaskList list = new TaskList();
     protected static UndoRedoStack undoStack = new UndoRedoStack();
     protected static UndoRedoStack redoStack = new UndoRedoStack();
+    protected ObservableList<ModelTask> searchList;
 
     /**
      * Abstract methods
@@ -66,5 +67,9 @@ public abstract class CommandFactory {
 
     public ObservableList<ModelTask> getTaskList() {
         return list.getList();
+    }
+    
+   public ObservableList<ModelTask> getSearchList() {
+        return searchList;
     }
 }

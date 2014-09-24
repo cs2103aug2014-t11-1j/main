@@ -201,7 +201,8 @@ public class CommandExecutor {
 				 * Search can return a string for displayString. If so, it can
 				 * be more like what display looks like
 				 */
-				
+				cmdf = new Search(actualCommandDescription);
+                                searchedList = cmdf.getSearchList();
 				setFeedBack(cmd.search(actualCommandDescription));
 				// setSearchedList(cmd.getTaskList());
 
