@@ -128,8 +128,8 @@ public class CommandExecutor {
 
 			case UNDO:
 				boolean isUndone = false;
-
-				isUndone = cmd.undo();
+                                cmdf = new Undo();
+				isUndone = cmdf.isDone();
 				// setTaskList(cmd.getTaskList());
 
 				if (isUndone) {

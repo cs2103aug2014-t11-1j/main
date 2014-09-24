@@ -42,4 +42,7 @@ public class TaskList {
         list.remove(index);
     }
 
+    public void setList(ObservableList<ModelTask> list) {
+        this.list = list;
+    }
 }
