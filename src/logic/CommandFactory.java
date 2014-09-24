@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.Iterator;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import parser.ParserFacade;
 import storage.ModelTask;
@@ -33,12 +34,11 @@ public abstract class CommandFactory {
         return num < list.getListSize() && num >= 0;
     }
 
-    protected static void printContentsOfList(int lineNum) {
+    protected static void printContentsOfList(ObservableList<ModelTask> list) {
         ModelTask temp;
-        for (int i = 0; i < list.getListSize(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             temp = list.get(i);
-            printMessage(lineNum + ". " + temp.toString() + " " + temp.isDone());
-            lineNum++;
+            printMessage(temp.getEvent());
         }
     }
 
@@ -47,7 +47,7 @@ public abstract class CommandFactory {
     }
 
     protected static void updateUndoAndRedoStacks() {
-        ObservableList<ModelTask> temp = null;
+        ObservableList<ModelTask> temp = FXCollections.observableArrayList();
         copyList(list.getList(), temp);
         undoStack.push(temp);
         redoStack.clear();

@@ -17,7 +17,9 @@ public class Move extends CommandFactory {
     private boolean isDone;
 
     protected Move(String input) {
-
+        execute(input);
+        updateUndoAndRedoStacks();
+        isDone = true;
     }
 
     @Override
