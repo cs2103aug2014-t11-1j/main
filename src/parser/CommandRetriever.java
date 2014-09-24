@@ -1,5 +1,14 @@
 package parser;
 
+/**
+ * This class is used to extract
+ * the command word in the user's
+ * input.
+ * 
+ * * Author: smallson
+ */
+
+
 public class CommandRetriever {
 	
 	/**

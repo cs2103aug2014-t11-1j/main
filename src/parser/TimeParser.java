@@ -2,6 +2,16 @@ package parser;
 
 import java.util.Scanner;
 
+
+/**
+ * This class is used to parse the relevant tokens
+ * and retrieve the time string if it fits
+ * certain requirements and returns null
+ * if not found.
+ * 
+ * *Author: smallson
+ */
+
 public class TimeParser {
 	
 	/**

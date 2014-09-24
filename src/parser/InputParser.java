@@ -6,6 +6,8 @@ import java.util.Date;
 /**
  * This class is used to extract required
  * information from the user's input.
+ * 
+ * * Author: smallson
  */
 
 public class InputParser {
@@ -187,7 +189,5 @@ public class InputParser {
 		}
 		return isFound;
 	}
-	
-
 	
 }
