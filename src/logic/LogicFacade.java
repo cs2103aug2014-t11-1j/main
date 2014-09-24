@@ -11,7 +11,6 @@ package logic;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import parser.ParserFacade;
 import storage.ModelTask;
 import storage.Storage;
 
@@ -19,7 +18,6 @@ public class LogicFacade {
 
 	private static LogicFacade logicFacade = new LogicFacade();
 	private CommandExecutor executor;
-	private ParserFacade parserFacade = ParserFacade.getInstance();
 	private ObservableList<ModelTask> taskList;
 	private ObservableList<ModelTask> searchedList;
 	private Storage storage;
@@ -28,7 +26,8 @@ public class LogicFacade {
 	private LogicFacade() {
 		try {
 			storage = new Storage("text.txt");
-			taskList = FXCollections.observableArrayList();
+			taskList = getOriginalListFromFile();
+			executor = new CommandExecutor(taskList);
 			searchedList = FXCollections.observableArrayList();
 		} catch (Exception e) {
 			System.out.println("cannot initialize logicFacade class");
@@ -50,10 +49,7 @@ public class LogicFacade {
 	}
 
 	public String executeCommand(String inputFromGui) throws Exception {
-		String commandWord = parserFacade.getCommandString(inputFromGui);
-		String actualCommandDescription = parserFacade
-				.getStringWithoutCommand(inputFromGui);
-		executor = new CommandExecutor(commandWord, actualCommandDescription);
+		executor.excecuteCommand(inputFromGui);
 		String feedBack = executor.getFeedBack();
 		return feedBack;
 	}
