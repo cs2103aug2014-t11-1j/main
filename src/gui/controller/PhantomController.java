@@ -14,8 +14,6 @@ public class PhantomController{
 	// Reference to the main application.
 	private MainApp mainApp;
 	
-
-	
 	@FXML
 	private Parent tableView;
 	@FXML
@@ -30,14 +28,14 @@ public class PhantomController{
 	
 	public PhantomController() {
 		System.out.println("phantom constructor");
-		//logicFacade = new LogicFacadeDummy();
+		logicFacade = new LogicFacadeDummy();
 	}
 
 	@FXML
 	private void initialize() {
 		System.out.println("phantom initilising");
 		tableViewController.setAllView(logicFacade.getAllList());
-		//commandLineViewController.setLogicFacade(logicFacade);
+		commandLineViewController.setLogicFacade(logicFacade);
 	}
 	
 	public void switchToSearch(ObservableList<ModelTask> list){
