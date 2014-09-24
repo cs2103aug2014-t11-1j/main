@@ -53,9 +53,5 @@ public class TableController{
 	protected void switchToAll() {
 		taskTable.setItems(taskList);
 	}
-	
-	protected void setVisible(boolean boo){
-		taskTable.setVisible(boo);
-	}
 
 }

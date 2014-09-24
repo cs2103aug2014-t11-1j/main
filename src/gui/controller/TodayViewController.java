@@ -13,15 +13,16 @@ public class TodayViewController {
 	private TableColumn<ModelTask, String> taskColumn;
 	@FXML
 	private TableColumn<ModelTask, String> timeColumn;
-	
+	@FXML
 	private ObservableList<ModelTask> todayList;
 	
 	public TodayViewController(){
-		
+		System.out.println("today view constructor");
 	}
 	
 	@FXML
-	private void initilize(){
+	private void initialize(){
+		System.out.println("today view initilising");
 		taskColumn.setCellValueFactory(cellData -> cellData.getValue().getEventProperty());
 		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getDateStringProperty());
 	}

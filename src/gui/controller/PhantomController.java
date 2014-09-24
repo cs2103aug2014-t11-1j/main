@@ -1,11 +1,11 @@
 package gui.controller;
 
-import storage.ModelTask;
 import gui.MainApp;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import storage.ModelTask;
 
 public class PhantomController{
 	@FXML
@@ -39,24 +39,28 @@ public class PhantomController{
 	@FXML
 	private void initialize() {
 		System.out.println("phantom initilising");
-		tableViewController.setVisible(false);
 		tableViewController.setAllView(logicFacade.getAllList());
 		commandLineViewController.setLogicFacade(logicFacade);
+		todayViewController.setTodayView(logicFacade.getAllList());
+		tableView.setVisible(false);
 	}
 	
 	public void switchToSearch(ObservableList<ModelTask> list){
-		tableViewController.setVisible(true);
 		tableViewController.switchToSearch(list);
+		tableView.setVisible(true);
+		todayView.setVisible(false);
 	}
 	
 	public void switchToAll(){
-		tableViewController.setVisible(true);
 		tableViewController.switchToAll();
+		tableView.setVisible(true);
+		todayView.setVisible(false);
 	}
 	
 	public void setAllView(ObservableList<ModelTask> list){
-		tableViewController.setVisible(true);
 		tableViewController.setAllView(list);
+		tableView.setVisible(true);
+		todayView.setVisible(false);
 	}
 	
 	@FXML
