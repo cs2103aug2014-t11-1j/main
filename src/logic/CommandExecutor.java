@@ -82,6 +82,7 @@ public class CommandExecutor {
 			case ADD:
 				boolean isAdded = false;
                                 cmdf = new Add(actualCommandDescription);
+                                isAdded = cmdf.isDone();
 				// setTaskList(cmd.getTaskList());
 
 				if (isAdded) {
