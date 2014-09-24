@@ -4,7 +4,6 @@ import java.util.Iterator;
 import javafx.collections.ObservableList;
 import parser.ParserFacade;
 import storage.ModelTask;
-import storage.TaskList;
 import storage.UndoRedoStack;
 
 /**
@@ -14,7 +13,7 @@ import storage.UndoRedoStack;
 public abstract class CommandFactory {
 
     protected static ParserFacade pf = ParserFacade.getInstance();
-    protected static TaskList list = new TaskList();
+    protected static ObservableList<ModelTask> list;
     protected static UndoRedoStack undoStack = new UndoRedoStack();
     protected static UndoRedoStack redoStack = new UndoRedoStack();
     protected ObservableList<ModelTask> searchList;
@@ -30,12 +29,12 @@ public abstract class CommandFactory {
      * Methods
      */
     protected static boolean isValidLineNumber(int num) {
-        return num < list.getListSize() && num >= 0;
+        return num < list.size() && num >= 0;
     }
 
     protected static void printContentsOfList(int lineNum) {
         ModelTask temp;
-        for (int i = 0; i < list.getListSize(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             temp = list.get(i);
             printMessage(lineNum + ". " + temp.toString() + " " + temp.isDone());
             lineNum++;
@@ -48,7 +47,7 @@ public abstract class CommandFactory {
 
     protected static void updateUndoAndRedoStacks() {
         ObservableList<ModelTask> temp = null;
-        copyList(list.getList(), temp);
+        copyList(list, temp);
         undoStack.push(temp);
         redoStack.clear();
     }
@@ -66,10 +65,10 @@ public abstract class CommandFactory {
     }
 
     public static ObservableList<ModelTask> getTaskList() {
-        return list.getList();
+        return list;
     }
-    
-   public ObservableList<ModelTask> getSearchList() {
+
+    public ObservableList<ModelTask> getSearchList() {
         return searchList;
     }
 }
