@@ -209,8 +209,8 @@ public class CommandExecutor {
 				break;
 
 			case MARK_DONE:
-
-				boolean isMarkedDone = cmd.markDone(actualCommandDescription);
+                                cmdf = new MarkDone(actualCommandDescription);
+				boolean isMarkedDone = cmdf.isDone();
 				// setTaskList(cmd.getTaskList());
 
 				if (isMarkedDone) {

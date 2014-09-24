@@ -65,7 +65,7 @@ public abstract class CommandFactory {
         }
     }
 
-    public ObservableList<ModelTask> getTaskList() {
+    public static ObservableList<ModelTask> getTaskList() {
         return list.getList();
     }
     
