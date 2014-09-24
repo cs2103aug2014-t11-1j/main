@@ -11,6 +11,10 @@ public class Undo extends CommandFactory {
 
     private boolean isDone;
 
+    protected Undo() {
+        execute(null);
+    }
+
     @Override
     protected void execute(String input) {
         if (!undoStack.getStack().isEmpty()) {
