@@ -12,8 +12,9 @@ import javafx.collections.ObservableList;
 
 public class CommandExecutor {
 
-    private static Command cmd = Command.getInstance();
+    //private static Command cmd = Command.getInstance();
     private static CommandFactory cmdf;
+    private static LogicFacade lf;
 
     private String commandWord;
     private String actualCommandDescription;
@@ -23,6 +24,8 @@ public class CommandExecutor {
 
     // constructor
     public CommandExecutor() {
+        lf = LogicFacade.getInstance();
+        CommandFactory.list.setList(lf.getOriginalListFromFile());
     }
 
     public CommandExecutor(String commandWord, String actualCommandDescription) {
@@ -107,7 +110,7 @@ public class CommandExecutor {
                     break;
 
                 case DISPLAY:
-                    cmd.display();
+                    //cmd.display();
                     // setTaskList(cmd.getTaskList());
                     setFeedBack("");
 
@@ -173,7 +176,7 @@ public class CommandExecutor {
                 case SORT:
                     boolean isSorted = false;
 
-                    isSorted = cmd.sort();
+                    //isSorted = cmd.sort();
                     // setTaskList(cmd.getTaskList());
 
                     if (isSorted) {
@@ -192,7 +195,7 @@ public class CommandExecutor {
                      */
                     cmdf = new Search(actualCommandDescription);
                     searchedList = cmdf.getSearchList();
-                    setFeedBack(cmd.search(actualCommandDescription));
+                    //setFeedBack(cmd.search(actualCommandDescription));
                     // setSearchedList(cmd.getTaskList());
 
                     break;

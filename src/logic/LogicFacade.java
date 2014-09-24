@@ -36,7 +36,7 @@ public class LogicFacade {
 	}
 
 	// accessor
-	public LogicFacade getInstance() {
+	public static LogicFacade getInstance() {
 		return logicFacade;
 	}
 
