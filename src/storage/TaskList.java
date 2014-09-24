@@ -31,8 +31,8 @@ public class TaskList {
     public ModelTask get(int index) {
         return list.get(index);
     }
-    
-    public Iterator<ModelTask> getIterator(){
+
+    public Iterator<ModelTask> getIterator() {
         return list.iterator();
     }
 
@@ -41,6 +41,10 @@ public class TaskList {
      */
     public void add(ModelTask task) {
         list.add(task);
+    }
+
+    public void add(ModelTask task, int index){
+        list.add(index, task);
     }
 
     public void remove(int index) {
