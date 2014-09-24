@@ -62,9 +62,12 @@ public class Storage {
 	}
     
      
-  
+  public ObservableList<ModelTask> getListFromFile(){
+	  return list;
+  }
+    
     //writes contents of observableList to text file
-    private void save() throws IOException {
+    private void save(ObservableList<ModelTask> list) throws IOException {
 
         FileWriter fileWriter = new FileWriter(inputFile, false);
         BufferedWriter buffer = new BufferedWriter(fileWriter);
