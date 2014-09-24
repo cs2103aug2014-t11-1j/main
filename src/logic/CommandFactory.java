@@ -30,11 +30,11 @@ public abstract class CommandFactory {
     /**
      * Methods
      */
-    private boolean isValidLineNumber(int num) {
+    protected static boolean isValidLineNumber(int num) {
         return num < list.getListSize() && num >= 0;
     }
 
-    private void printContentsOfList(int lineNum) {
+    protected static void printContentsOfList(int lineNum) {
         Task temp;
         for (int i = 0; i < list.getListSize(); i++) {
             temp = list.get(i);
@@ -43,18 +43,18 @@ public abstract class CommandFactory {
         }
     }
 
-    private void printMessage(String message) {
+    protected static void printMessage(String message) {
         System.out.println(message);
     }
 
-    protected void updateUndoAndRedoStacks() {
+    protected static void updateUndoAndRedoStacks() {
         ArrayList<Task> temp = new ArrayList<Task>();
         copyArrayList(list.getList(), temp);
         undoStack.push(temp);
         redoStack.clear();
     }
 
-    protected void copyArrayList(ArrayList<Task> oldArrayList, ArrayList<Task> newArrayList) {
+    protected static void copyArrayList(ArrayList<Task> oldArrayList, ArrayList<Task> newArrayList) {
 
         if (!newArrayList.isEmpty()) {
             newArrayList.clear();

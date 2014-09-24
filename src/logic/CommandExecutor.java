@@ -95,7 +95,8 @@ public class CommandExecutor {
 
 			case DELETE:
 				boolean isDeleted = false;
-				isDeleted = cmd.delete(actualCommandDescription);
+                                cmdf = new Delete(actualCommandDescription);
+				isDeleted = cmdf.isDone();
 				// setTaskList(cmd.getTaskList());
 
 				if (isDeleted) {
