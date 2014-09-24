@@ -24,6 +24,11 @@ public class PhantomController{
 	@FXML
 	private CommandLineController commandLineViewController;
 	
+	@FXML
+	private Parent todayView;
+	@FXML
+	private TodayViewController todayViewController;
+	
 	private LogicFacadeDummy logicFacade;
 	
 	public PhantomController() {
@@ -34,6 +39,7 @@ public class PhantomController{
 	@FXML
 	private void initialize() {
 		System.out.println("phantom initilising");
+		tableViewController.setVisible(false);
 		tableViewController.setAllView(logicFacade.getAllList());
 		commandLineViewController.setLogicFacade(logicFacade);
 	}
