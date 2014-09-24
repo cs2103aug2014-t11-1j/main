@@ -172,7 +172,8 @@ public class CommandExecutor {
 
 			case MOVE:
 				boolean isMoved = false;
-				isMoved = cmd.move(actualCommandDescription);
+                                cmdf = new Move(actualCommandDescription);
+				isMoved = cmdf.isDone();
 				// setTaskList(cmd.getTaskList());
 
 				if (isMoved) {
