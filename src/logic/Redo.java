@@ -20,7 +20,6 @@ public class Redo extends CommandFactory {
     protected Redo() {
         execute(null);
         updateTaskList();
-        isDone = true;
     }
 
     @Override
@@ -33,6 +32,7 @@ public class Redo extends CommandFactory {
             ObservableList<ModelTask> temp = FXCollections.observableArrayList();
             copyList(list.getList(), temp);
             undoStack.push(temp);
+            isDone = true;
         }
     }
 

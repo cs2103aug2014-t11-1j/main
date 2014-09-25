@@ -22,7 +22,7 @@ public class Add extends CommandFactory {
 
     @Override
     protected void execute(String input) {
-        ModelTask temp = tc.convert(pf.getTask(input), list.getListSize() + 1);
+        ModelTask temp = tc.convert(pf.getTask("add " + input), list.getListSize() + 1);
         list.add(temp);
     }
 
