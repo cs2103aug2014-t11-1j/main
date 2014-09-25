@@ -15,7 +15,6 @@ public class Delete extends CommandFactory {
         execute(input);
         updateUndoAndRedoStacks();
         updateTaskList();
-        isDone = true;
     }
 
     @Override

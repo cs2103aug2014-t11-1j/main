@@ -20,7 +20,6 @@ public class Move extends CommandFactory {
         execute(input);
         updateUndoAndRedoStacks();
         updateTaskList();
-        isDone = true;
     }
 
     @Override
@@ -34,6 +33,7 @@ public class Move extends CommandFactory {
 
             list.remove(index);
             list.add(temp, position);
+            isDone = true;
 
             //printMessage(String.format("Task %d has been moved to %d.", index + 1, position + 1));
             CommandExecutor.setFeedBack(String.format("Task %d has been moved to %d.", index + 1, position + 1));

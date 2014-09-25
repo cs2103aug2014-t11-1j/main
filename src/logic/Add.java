@@ -17,13 +17,13 @@ public class Add extends CommandFactory {
         execute(input);
         updateUndoAndRedoStacks();
         updateTaskList();
-        isDone = true;
     }
 
     @Override
     protected void execute(String input) {
         ModelTask temp = tc.convert(pf.getTask("add " + input), list.getListSize() + 1);
         list.add(temp);
+        isDone = true;
     }
 
     @Override
