@@ -14,6 +14,7 @@ public class Delete extends CommandFactory {
     protected Delete(String input) {
         execute(input);
         updateUndoAndRedoStacks();
+        updateTaskList();
         isDone = true;
     }
 
@@ -36,11 +37,13 @@ public class Delete extends CommandFactory {
     private static int getIndex(String input) {
         int index;
         if (input == null || input.isEmpty()) {
+            CommandExecutor.setFeedBack("Invalid index!");
             throw new IllegalArgumentException("Invalid index!");
         } else {
             index = Integer.parseInt(input.trim().split("\\s+")[0]) - 1;
         }
         if (!isValidLineNumber(index)) {
+            CommandExecutor.setFeedBack("Invalid index!");
             throw new IllegalArgumentException("Invalid index!");
         } else {
             return index;

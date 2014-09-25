@@ -37,6 +37,10 @@ public class TaskList {
         return list.iterator();
     }
 
+    public boolean isEmpty() {
+        return list.isEmpty();
+    }
+
     /**
      * Mutators
      */

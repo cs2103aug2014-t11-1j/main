@@ -17,7 +17,7 @@ public class CommandExecutor {
 	private static ParserFacade pf;
 	private String commandWord;
 	private String actualCommandDescription;
-	private String feedBack;
+	private static String feedBack;
 	private static ObservableList<ModelTask> taskList;
 	private static ObservableList<ModelTask> searchedList;
 
@@ -30,8 +30,8 @@ public class CommandExecutor {
 	}
 
 	// mutator
-	protected void setFeedBack(String feedBack) {
-		this.feedBack = feedBack;
+	protected static void setFeedBack(String feedBack) {
+		CommandExecutor.feedBack = feedBack;
 	}
         
         protected static void setTaskList(ObservableList<ModelTask> taskList){

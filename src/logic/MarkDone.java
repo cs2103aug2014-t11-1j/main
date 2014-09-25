@@ -13,6 +13,7 @@ public class MarkDone extends CommandFactory {
     protected MarkDone(String input) {
         execute(input);
         updateUndoAndRedoStacks();
+        updateTaskList();
         isDone = true;
     }
 
@@ -24,6 +25,7 @@ public class MarkDone extends CommandFactory {
             ModelTask task = list.get(index);
             task.setIsDone(true);
         } else {
+            CommandExecutor.setFeedBack("Invalid index!");
             throw new IllegalArgumentException("Invalid index!");
         }
     }
