@@ -29,7 +29,9 @@ public class Search extends CommandFactory {
             }
         }
         if (searchList.isEmpty()) {
-            CommandExecutor.setFeedBack("Not found.");
+            CommandExecutor.setFeedBack("Search term not found.");
+        } else {
+            CommandExecutor.setFeedBack("Search term found.");
         }
     }
 
