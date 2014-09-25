@@ -13,6 +13,8 @@ import storage.ModelTask;
 import logic.ErrorMessages;
 
 public class PhantomController{
+	protected static boolean hasOccured = false;
+	
 	@FXML
 	private Label tfOutput;
 	@FXML
@@ -49,11 +51,12 @@ public class PhantomController{
 	
 	@FXML
 	private void handleKeyPressed(KeyEvent e){
-		
+	
 		EditListener editListener = new EditListener(logicFacade.getAllList(),commandLine);
 		commandLine.textProperty().addListener(editListener);
 		
 		if(e.getCode() == KeyCode.ENTER){
+			hasOccured = false;
 			String input = commandLine.getText();
 			commandLine.clear();
 			String feedback = "";
@@ -69,6 +72,7 @@ public class PhantomController{
 			
 			tfOutput.setText(feedback);
 		}
+		
 		
 	}
 	

@@ -37,19 +37,35 @@ public class EditListener implements ChangeListener<String> {
 	@Override
 	public void changed(ObservableValue<? extends String> observable,
 			String oldValue, String newValue) {
+
+		if (newValue.trim().equalsIgnoreCase("add?")) {
+			commandLine.setText("add taskdecription");
+		}
+
+		if (newValue.trim().equalsIgnoreCase("edit?")) {
+			commandLine.setText("edit tasknumber");
+		}
+
 		String[] subStrings = newValue.trim().split(" ");
+
 		if (subStrings.length == 2) {
 			if (subStrings[0].equalsIgnoreCase("edit")
-					&& isInteger(subStrings[1])) {
-				if (!getTaskDescription(Integer.parseInt(subStrings[1]))
+					&& isInteger(subStrings[1])
+					&& !PhantomController.hasOccured) {
+
+				if (!getTaskDescription(Integer.parseInt(subStrings[1])).trim()
 						.equals("")) {
 					commandLine.setText(newValue
 							+ " "
 							+ getTaskDescription(Integer
 									.parseInt(subStrings[1])));
 				}
+
+				PhantomController.hasOccured = true;
 			}
+
 		}
+
 	}
 
 	private boolean isInteger(String s) {
@@ -72,9 +88,9 @@ public class EditListener implements ChangeListener<String> {
 
 	private String getTaskDescription(int position) {
 		ModelTask currTask = list.get(position - 1);
-		return currTask.getEvent() + " " + currTask.getStartDate()
-				+ " " + currTask.getEndDate() + " " + currTask.getStartTime()
-				+ " " + currTask.getEndTime();
+		return currTask.getEvent() + " " + currTask.getStartDate() + " "
+				+ currTask.getEndDate() + " " + currTask.getStartTime() + " "
+				+ currTask.getEndTime();
 	}
 
 }
