@@ -26,6 +26,7 @@ public class CommandExecutor {
 		taskList = list;
 		CommandFactory.list.setList(taskList);
                 CommandFactory.searchList.setList(searchedList);
+                CommandFactory.updateUndoAndRedoStacks();
 		pf = ParserFacade.getInstance();
 	}
 
