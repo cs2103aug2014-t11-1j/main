@@ -65,6 +65,7 @@ public class PhantomController{
 			
 			tfOutput.setText(feedback);
 		}
+		
 	}
 	
 	public void switchToSearch(ObservableList<ModelTask> list){
