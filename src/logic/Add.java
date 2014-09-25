@@ -16,6 +16,7 @@ public class Add extends CommandFactory {
     protected Add(String input) {
         execute(input);
         updateUndoAndRedoStacks();
+        updateTaskList();
         isDone = true;
     }
 

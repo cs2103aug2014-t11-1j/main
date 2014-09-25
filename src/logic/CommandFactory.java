@@ -18,9 +18,9 @@ public abstract class CommandFactory {
     protected static ParserFacade pf = ParserFacade.getInstance();
     protected static TaskConverter tc = TaskConverter.getInstance();
     protected static TaskList list = new TaskList();
+    protected static TaskList searchList = new TaskList();
     protected static UndoRedoStack undoStack = new UndoRedoStack();
     protected static UndoRedoStack redoStack = new UndoRedoStack();
-    protected static TaskList searchList = new TaskList();
 
     /**
      * Abstract methods
@@ -67,11 +67,11 @@ public abstract class CommandFactory {
         }
     }
 
-    public ObservableList<ModelTask> getTaskList() {
-        return list.getList();
+    protected static void updateTaskList() {
+        CommandExecutor.setTaskList(list.getList());
     }
 
-    public ObservableList<ModelTask> getSearchList() {
-        return searchList.getList();
+    protected static void updateSearchList() {
+        CommandExecutor.setSearchList(searchList.getList());
     }
 }

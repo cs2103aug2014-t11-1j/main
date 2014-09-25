@@ -14,17 +14,18 @@ import parser.ParserFacade;
 public class CommandExecutor {
 
 	private static CommandFactory cmdf;
-	private ParserFacade pf;
+	private static ParserFacade pf;
 	private String commandWord;
 	private String actualCommandDescription;
 	private String feedBack;
-	private ObservableList<ModelTask> taskList;
-	private ObservableList<ModelTask> searchedList;
+	private static ObservableList<ModelTask> taskList;
+	private static ObservableList<ModelTask> searchedList;
 
 	// constructor
 	public CommandExecutor(ObservableList<ModelTask> list) {
 		taskList = list;
 		CommandFactory.list.setList(taskList);
+                CommandFactory.searchList.setList(searchedList);
 		pf = ParserFacade.getInstance();
 	}
 
@@ -32,6 +33,14 @@ public class CommandExecutor {
 	protected void setFeedBack(String feedBack) {
 		this.feedBack = feedBack;
 	}
+        
+        protected static void setTaskList(ObservableList<ModelTask> taskList){
+            CommandExecutor.taskList = taskList;
+        }
+        
+        protected static void setSearchList(ObservableList<ModelTask> searchList){
+            CommandExecutor.searchedList = searchList;
+        } 
 
 	// accessors
 	public String getCommandWord() {
@@ -188,7 +197,7 @@ public class CommandExecutor {
 				 * be more like what display looks like
 				 */
 				cmdf = new Search(actualCommandDescription);
-				searchedList = cmdf.getSearchList();
+				
 				// setFeedBack(cmd.search(actualCommandDescription));
 				// setSearchedList(cmd.getTaskList());
 
