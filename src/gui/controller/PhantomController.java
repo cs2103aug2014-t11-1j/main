@@ -5,12 +5,18 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import logic.LogicFacade;
 import storage.ModelTask;
+import logic.ErrorMessages;
 
 public class PhantomController{
 	@FXML
 	private Label tfOutput;
+	@FXML
+	private TextField commandLine;
 	
 	// Reference to the main application.
 	private MainApp mainApp;
@@ -19,11 +25,6 @@ public class PhantomController{
 	private Parent tableView;
 	@FXML
 	private TableController tableViewController;
-	
-	@FXML
-	private Parent commandLineView;
-	@FXML
-	private CommandLineController commandLineViewController;
 	
 	@FXML
 	private Parent todayView;
@@ -40,12 +41,30 @@ public class PhantomController{
 	@FXML
 	private void initialize() {
 		System.out.println("phantom initilising");
-		commandLineViewController.setController(this);
 		tableViewController.setAllView(logicFacade.getAllList());
-		commandLineViewController.setLogicFacade(logicFacade);
 		todayViewController.setTodayView(logicFacade.getAllList());
 		tableView.setVisible(true);
 		todayView.setVisible(false);
+	}
+	
+	@FXML
+	private void handleKeyPressed(KeyEvent e){
+		if(e.getCode() == KeyCode.ENTER){
+			String input = commandLine.getText();
+			commandLine.clear();
+			String feedback = "";
+			try {
+				feedback = logicFacade.getFeedBack(input);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			
+			if(feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE){
+				tableViewController.setAllView(logicFacade.getAllList());
+			}
+			
+			tfOutput.setText(feedback);
+		}
 	}
 	
 	public void switchToSearch(ObservableList<ModelTask> list){
