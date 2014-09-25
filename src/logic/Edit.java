@@ -17,7 +17,6 @@ public class Edit extends CommandFactory {
         execute(input);
         updateUndoAndRedoStacks();
         updateTaskList();
-        isDone = true;
     }
 
     @Override

@@ -15,7 +15,6 @@ public class Undo extends CommandFactory {
     protected Undo() {
         execute(null);
         updateTaskList();
-        isDone = true;
     }
 
     @Override
@@ -30,6 +29,7 @@ public class Undo extends CommandFactory {
                 ObservableList<ModelTask> temp = FXCollections.observableArrayList();
                 copyList(popped, temp);
                 list.setList(temp);
+                isDone = true;
 
                 //System.out.println("Action undone");
                 CommandExecutor.setFeedBack("Action undone");

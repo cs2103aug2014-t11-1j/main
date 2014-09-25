@@ -14,7 +14,6 @@ public class MarkDone extends CommandFactory {
         execute(input);
         updateUndoAndRedoStacks();
         updateTaskList();
-        isDone = true;
     }
 
     @Override
@@ -24,6 +23,7 @@ public class MarkDone extends CommandFactory {
         if (isValidLineNumber(index)) {
             ModelTask task = list.get(index);
             task.setIsDone(true);
+            isDone = true;
         } else {
             CommandExecutor.setFeedBack("Invalid index!");
             throw new IllegalArgumentException("Invalid index!");
