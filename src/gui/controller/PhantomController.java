@@ -1,6 +1,10 @@
 package gui.controller;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import gui.MainApp;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -33,6 +37,9 @@ public class PhantomController{
 	
 	private LogicFacade logicFacade;
 	
+	private ObservableList<ModelTask> allList;
+	private ObservableList<ModelTask> todayList;
+	
 	public PhantomController() {
 		System.out.println("phantom constructor");
 		logicFacade = LogicFacade.getInstance();
@@ -41,12 +48,44 @@ public class PhantomController{
 	@FXML
 	private void initialize() {
 		System.out.println("phantom initilising");
-		tableViewController.setAllView(logicFacade.getAllList());
-		todayViewController.setTodayView(logicFacade.getAllList());
+		allList = logicFacade.getAllList();
+		tableViewController.setAllView(allList);
+		//getTodayList(allList);
+		todayViewController.setTodayView(allList);
 		tableView.setVisible(true);
 		todayView.setVisible(false);
 	}
 	
+	
+	//TODO: should be under initilise todayView
+	private void getTodayList(ObservableList<ModelTask> list) {
+		todayList = FXCollections.observableArrayList();
+		
+		Calendar yesterdayCal = Calendar.getInstance();
+		yesterdayCal.set(Calendar.DAY_OF_YEAR, yesterdayCal.get(Calendar.DAY_OF_YEAR) - 1);
+		yesterdayCal.set(Calendar.HOUR_OF_DAY, 23);
+		yesterdayCal.set(Calendar.MINUTE, 0);
+		
+		Calendar tomorrowCal = Calendar.getInstance();
+		tomorrowCal.set(Calendar.DAY_OF_YEAR, tomorrowCal.get(Calendar.DAY_OF_YEAR) + 1);
+		tomorrowCal.set(Calendar.HOUR_OF_DAY, 0);
+		tomorrowCal.set(Calendar.MINUTE, 1);
+		
+		Date yesterday = yesterdayCal.getTime();
+		Date tomorrow = tomorrowCal.getTime();
+		
+		for(ModelTask task : list){
+			if(task.getStartDate().compareTo(yesterday) > 1 && task.getStartDate().compareTo(tomorrow) < 1){
+				todayList.add(task);
+			}
+		}
+		
+		todayList.sort(new ModelTaskStartDateComparator());
+		if(todayList.size() > 5){
+			//remove rest of the items
+		}
+	}
+
 	@FXML
 	private void handleKeyPressed(KeyEvent e){
 		if(e.getCode() == KeyCode.ENTER){

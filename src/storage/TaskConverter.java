@@ -49,6 +49,12 @@ public class TaskConverter {
 		Date startTime = null;
 		Date endTime = null;
 		
+		System.out.println("deadline: " + task.getDeadLine());
+		System.out.println("startdate: " + task.getStartDate());
+		System.out.println("endDate: " + task.getEndDate());
+		System.out.println("startTime: " + task.getStartTime());
+		System.out.println("endTime: " + task.getEndTime());
+		
 		int numOfNullDateInputs = numOfDateNull(task);
 		
 		if(numOfNullDateInputs == NO_NULL_DATE_INPUTS || numOfNullDateInputs == END_DATE_INPUT_NULL){
