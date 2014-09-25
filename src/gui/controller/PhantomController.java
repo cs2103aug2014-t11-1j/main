@@ -59,8 +59,8 @@ public class PhantomController{
 				e1.printStackTrace();
 			}
 			
-			if(feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE || feedback == ErrorMessages.ERROR_UNDONE_MESSAGE){
-				tableViewController.setAllView(logicFacade.getAllList());
+			if(feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE || feedback == ErrorMessages.ERROR_UNDONE_MESSAGE || feedback == ErrorMessages.SUCCESS_REDONE_MESSAGE){
+				setAllView(logicFacade.getAllList());
 			}
 			
 			tfOutput.setText(feedback);
