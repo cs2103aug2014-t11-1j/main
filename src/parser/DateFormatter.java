@@ -3,6 +3,7 @@ package parser;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Scanner;
 
 /**
  * This class is used to convert
@@ -145,5 +146,43 @@ public class DateFormatter {
 			}
 		}
 		return isFound;
+	}
+
+	public String convertDDFformat(String date) {
+		
+		MonthParser mp = new MonthParser();
+		Scanner sc = new Scanner(date).useDelimiter("[^0-9]+");		
+		Integer firstInteger = sc.nextInt();
+		Integer secondInteger = sc.nextInt();
+		String month = date.replace(firstInteger.toString(), "");
+		month = month.replace(secondInteger.toString(), "");
+		month = month.replace("-", "");
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
+		Calendar calendar = Calendar.getInstance();
+		
+		calendar.set(Calendar.DAY_OF_MONTH, firstInteger);
+		calendar.set(Calendar.MONTH, mp.getMonthIndex(month));
+		
+		return dateFormat.format(calendar.getTime());
+	}
+
+	public String convertDDNformat(String date) {
+		
+		MonthParser mp = new MonthParser();
+		Scanner sc = new Scanner(date).useDelimiter("[^0-9]+");		
+		Integer firstInteger = sc.nextInt();
+		Integer secondInteger = sc.nextInt();
+		String month = date.replace(firstInteger.toString(), "");
+		month = month.replace(secondInteger.toString(), "");
+		month = month.replace("-", "");
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
+		Calendar calendar = Calendar.getInstance();
+		
+		calendar.set(Calendar.DAY_OF_MONTH, secondInteger);
+		calendar.set(Calendar.MONTH, mp.getMonthIndex(month));
+		
+		return dateFormat.format(calendar.getTime());
 	}
 }

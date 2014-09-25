@@ -16,7 +16,7 @@ public class DateStandardizer {
 	
 
 	private static enum FormatType {
-		DD, SD, DFS, MFS, NDD, INVALID
+		DD, SD, DFS, MFS, NDD, DDF, DDN, INVALID
 		};
 	
 	private static final String FORMAT_DICTIONARY_DAY = "DD";
@@ -24,6 +24,8 @@ public class DateStandardizer {
 	private static final String FORMAT_DAY_FIRST_STRING = "DFS";
 	private static final String FORMAT_MONTH_FIRST_STRING = "MFS";
 	private static final String FORMAT_NEXT_DICTIONARY_DAY = "NDD";	
+	private static final String FORMAT_DASH_DATE_FIRST = "DDF";	
+	private static final String FORMAT_DASH_DATE_NEXT = "DDN";	
 	
 	public DateStandardizer(){
 	}
@@ -37,24 +39,32 @@ public class DateStandardizer {
 		
 		switch (formatType) {
 		case DD :
-			System.out.println("Date Format: DD");
+	//		System.out.println("Date Format: DD");
 			date = df.convertDDformat(date);
 			break;
 		case SD :
-			System.out.println("Date Format: SD");
+	//		System.out.println("Date Format: SD");
 			date = df.convertSDformat(date);
 			break;
 		case DFS :
-			System.out.println("Date Format: DFS");
+	//		System.out.println("Date Format: DFS");
 			date = df.convertDFSformat(date);
 			break;
 		case MFS :
-			System.out.println("Date Format: MFS");
+	//		System.out.println("Date Format: MFS");
 			date = df.convertMFSformat(date);
 			break;
 		case NDD:
-			System.out.println("Date Format: NDD");
+	//		System.out.println("Date Format: NDD");
 			date = df.convertNDDformat(date);
+			break;
+		case DDF:
+	//		System.out.println("Date Format: DDF");
+			date = df.convertDDFformat(date);
+			break;
+		case DDN:
+	//		System.out.println("Date Format: DDN");
+			date = df.convertDDNformat(date);
 			break;
 		case INVALID :
 			System.out.print("Error");
@@ -79,6 +89,10 @@ public class DateStandardizer {
 			return FormatType.MFS;
 		} else if (format.equalsIgnoreCase(FORMAT_NEXT_DICTIONARY_DAY)) {
 			return FormatType.NDD;
+		}else if (format.equalsIgnoreCase(FORMAT_DASH_DATE_FIRST)) {
+			return FormatType.DDF;
+		}else if (format.equalsIgnoreCase(FORMAT_DASH_DATE_NEXT)) {
+			return FormatType.DDN;
 		}else {
 			return FormatType.INVALID;
 		}

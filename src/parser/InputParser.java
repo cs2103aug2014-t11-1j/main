@@ -17,13 +17,17 @@ public class InputParser {
 	 * String constants
 	 */
 	private final String STRING_SPACE = " ";
+	private final String STRING_DASH = "-";
+	private final String STRING_WAVE_DASH = "~";
+	private final String STRING_TO = "TO";
 	
 	/**
 	 * String Dictionaries
 	 */
-	private final String[] DICTIONARY_KEYWORDS_DEADLINE = { "BY", "BEFORE" };
-	private final String[] DICTIONARY_KEYWORDS_STARTTIME = { "AT", "AFTER", "ON", "FROM"};
-	private final String[] DICTIONARY_KEYWORDS_ENDTIME = { "TO", "-"};
+	private final String[] DICTIONARY_KEYWORDS_DEADLINE = { "BY", "BEFORE", "ON" };
+	private final String[] DICTIONARY_KEYWORDS_STARTTIME = { "AT", "AFTER", "FROM"};
+	private final String[] DICTIONARY_KEYWORDS_ENDTIME = { "TO" };
+//	private final String[] DICTIONARY_KEYWORDS_DASH = { "-", "~" };
 	
 	/**
 	 * Required information from input
@@ -102,7 +106,7 @@ public class InputParser {
 				break;
 			}
 			
-			if(!isDeadLineFound){
+			if(!isDeadLineFound && !isEndDateFound){
 				input = dp.parseDateWithoutKeyword(tokens, i, input);
 				if(dp.getDate() != null){
 					deadLine = dp.getDate();
@@ -110,11 +114,23 @@ public class InputParser {
 				}
 			}
 			
-			if(!isEndTimeFound){
+			if(!isEndTimeFound && !isStartTimeFound){
 				input = tp.parseTimeWithoutKeyword(tokens, i, input);
 				if(tp.getTime() != null){
 					endTime = tp.getTime();
 					isEndTimeFound = true;
+				}
+			}
+			
+			if(!isStartDateFound && !isEndDateFound){
+				if(tokens[i].contains(STRING_DASH) || (tokens[i].contains(STRING_WAVE_DASH)) || (tokens[i].contains(STRING_TO))){
+					input = dp.parseDashDateWithoutKeyword(tokens, i, input);
+					if(dp.getDateStart() != null && dp.getDateEnd() != null){
+						startDate = dp.getDateStart();
+						endDate = dp.getDateEnd();
+						isStartDateFound = true;
+						isEndDateFound = true;
+					}
 				}
 			}
 			
@@ -152,6 +168,7 @@ public class InputParser {
 						isStartTimeFound = true;
 					}
 				}
+
 			}
 
 			if(dictionaryContains(DICTIONARY_KEYWORDS_ENDTIME, tokens[i])){
