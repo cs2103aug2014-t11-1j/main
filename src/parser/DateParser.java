@@ -23,8 +23,9 @@ public class DateParser {
 	private static final String FORMAT_SLASH_DATE = "SD ";
 	private static final String FORMAT_DAY_FIRST_STRING = "DFS ";
 	private static final String FORMAT_MONTH_FIRST_STRING = "MFS ";
-	private static final String FORMAT_NEXT_DICTIONARY_DAY = "NDD ";	
-	
+	private static final String FORMAT_NEXT_DICTIONARY_DAY = "NDD ";
+	private static final String FORMAT_DASH_DATE_FIRST = "DDF ";
+	private static final String FORMAT_DASH_DATE_NEXT = "DDN ";
 	/**
 	 * String Dictionaries
 	 */
@@ -34,8 +35,12 @@ public class DateParser {
 	private static final String[] DICTIONARY_MONTHS = {"janurary","feburary","march","april","may","june","july","august","september","october","november","december",
 		"jan","feb","mar","apr","jun","jul","aug","sept","sep","oct","nov","dec"};
 	
+	//private static final String[] DICTIONARY_KEY_WORDS = {};
+	
 
 	private String date = null;
+	private String dateStart = null;
+	private String dateEnd = null;
 
 	private DateAndTimeChecker checker = DateAndTimeChecker.getInstance();
 
@@ -137,6 +142,32 @@ public class DateParser {
 		
 	}
 	
+	protected String parseDashDateWithoutKeyword(String[] tokens, int i, String input) {
+		
+		DateStandardizer ds = new DateStandardizer();
+		dateStart = null;
+		dateEnd = null;
+		String toParse = null;
+		if(isNotOutOfBounds(i-1,tokens.length) && isNotOutOfBounds(i+2,tokens.length)){
+			toParse = tokens[i-1] + tokens[i] + tokens[i+1] + tokens[i+2];
+		}
+		else if (isNotOutOfBounds(i-1,tokens.length) && isNotOutOfBounds(i+1,tokens.length)){
+			toParse = tokens[i-1] + tokens[i] + tokens[i+1];
+		} else {
+			toParse = tokens[i];
+		}
+
+		if(checker.isValidDashDateFormat(toParse.trim())){
+			input = input.replaceFirst(toParse, "");
+			System.out.println(input);
+			dateStart = ds.formatDate(FORMAT_DASH_DATE_FIRST + toParse.trim());
+			dateEnd = ds.formatDate(FORMAT_DASH_DATE_NEXT + toParse.trim());
+		}
+		
+		return input;
+	}
+	
+	
 	protected String parseDateWithKeyword(String[] tokens, int i, String input) {
 		
 		date = null;
@@ -234,6 +265,14 @@ public class DateParser {
 	protected String getDate() {
 		return date;
 	}
+	
+	protected String getDateStart() {
+		return dateStart;
+	}
+	
+	protected String getDateEnd() {
+		return dateEnd;
+	}
 
 	private boolean isNotOutOfBounds(int index, int length) {
 		return index < length && index > 0;
@@ -252,6 +291,11 @@ public class DateParser {
 	
 	private String getCurrentDate(){
 		return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+	}
+
+	public String parseDashDateWithKeyword(String[] tokens, int i, String input) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
