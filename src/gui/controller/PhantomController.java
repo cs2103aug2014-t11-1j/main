@@ -49,6 +49,10 @@ public class PhantomController{
 	
 	@FXML
 	private void handleKeyPressed(KeyEvent e){
+		
+		EditListener editListener = new EditListener(logicFacade.getAllList(),commandLine);
+		commandLine.textProperty().addListener(editListener);
+		
 		if(e.getCode() == KeyCode.ENTER){
 			String input = commandLine.getText();
 			commandLine.clear();
