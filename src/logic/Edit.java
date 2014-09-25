@@ -21,8 +21,14 @@ public class Edit extends CommandFactory {
 
     @Override
     protected void execute(String input) {
-        String[] splitStrings = formatString(input);
-        int index = getIndex(splitStrings);
+        String[] splitStrings;
+        int index;
+        try {
+            splitStrings = formatString(input);
+            index = getIndex(splitStrings);
+        } catch (Exception ex) {
+            return;
+        }
         Task newTask = getNewTask(splitStrings);
         ModelTask temp = tc.convert(pf.getTask(input), index + 1);
         list.remove(index);
