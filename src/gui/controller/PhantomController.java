@@ -59,7 +59,7 @@ public class PhantomController{
 				e1.printStackTrace();
 			}
 			
-			if(feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE){
+			if(feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE || feedback == ErrorMessages.ERROR_UNDONE_MESSAGE){
 				tableViewController.setAllView(logicFacade.getAllList());
 			}
 			
