@@ -9,6 +9,9 @@ import java.util.Scanner;
 
 public class DateAndTimeChecker {
 	
+	private static final String[] DICTIONARY_MONTHS = {"janurary","feburary","march","april","may","june","july","august","september","october","november","december",
+		"jan","feb","mar","apr","jun","jul","aug","sept","sep","oct","nov","dec"};
+	
 	private static DateAndTimeChecker checker = new DateAndTimeChecker();
 	
 	private DateAndTimeChecker(){
@@ -153,5 +156,41 @@ public class DateAndTimeChecker {
 		}
 
 		return true;
+	}
+
+	public boolean isValidDashDateFormat(String toParse) {
+		
+		try{
+			Scanner sc = new Scanner(toParse).useDelimiter("[^0-9]+");		
+			Integer firstInteger = sc.nextInt();
+			Integer secondInteger = sc.nextInt();
+			if(firstInteger >= secondInteger){
+				return false;
+			}
+			if(firstInteger > 31 || secondInteger > 31){
+				return false;
+			}
+			String month = toParse.replace(firstInteger.toString(), "");
+			month = month.replace(secondInteger.toString(), "");
+			month = month.replace("-", "");
+			if(!dictionaryContains(DICTIONARY_MONTHS,month)){
+				return false;
+			}
+		} catch(Exception e){
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private boolean dictionaryContains(String[] dictionary, String keyword) {
+		boolean isFound = false;
+		for (int i = 0; i < dictionary.length; i++) {
+			if (dictionary[i].equalsIgnoreCase(keyword)) {
+				isFound = true;
+				break;
+			}
+		}
+		return isFound;
 	}
 }

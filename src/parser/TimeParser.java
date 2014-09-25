@@ -65,9 +65,7 @@ public class TimeParser {
 			}
 
 		}
-
 		return input;
-	
 	}
 
 	protected String parseTimeWithKeyword(String[] tokens, int i, String input) {
@@ -98,7 +96,6 @@ public class TimeParser {
 					time = ts.formatTime(FORMAT_MILITARY + time);
 				}
 			}
-
 		}
 		
 		return input;
