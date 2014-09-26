@@ -6,6 +6,7 @@ import gui.MainApp;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -46,6 +47,8 @@ public class PhantomController{
 	
 	private LogicFacade logicFacade;
 	
+	private AnimationHandler ah;
+	
 	public PhantomController() {
 		System.out.println("phantom constructor");
 		logicFacade = LogicFacade.getInstance();
@@ -57,10 +60,13 @@ public class PhantomController{
 		tableViewController.setAllView(logicFacade.getAllList());
 		todayViewController.setTodayView(logicFacade.getAllList());
 		tableView.setVisible(true);
-		todayView.setVisible(false);
+		todayView.setVisible(true);		
 		
 		PhantomClock pc = PhantomClock.getInstance();
 		pc.setClock(timeLabel);
+		
+		ah = AnimationHandler.getInstance();
+		ah.initialize(tableView, todayView);		
 	}
 	
 	@FXML
@@ -72,6 +78,13 @@ public class PhantomController{
 		if(e.getCode() == KeyCode.ENTER){
 			hasOccured = false;
 			String input = commandLine.getText();
+			
+			if(input.equalsIgnoreCase("showall")){
+				ah.animateLeft();
+			}
+			if(input.equalsIgnoreCase("showtoday")){
+				ah.animateRight();
+			}
 			commandLine.clear();
 			String feedback = "";
 			try {
