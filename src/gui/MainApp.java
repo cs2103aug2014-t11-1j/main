@@ -18,19 +18,16 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private AnchorPane overallView;
-    private TrayApplication ta;
     
     private double xOffset = 0;
     private double yOffset = 0;
     
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Phantom");
         this.primaryStage.centerOnScreen();
         this.primaryStage.initStyle(StageStyle.TRANSPARENT);
-        ta = TrayApplication.getInstance();
-        ta.createTrayIcon(primaryStage);
 
         initRootLayout();
 

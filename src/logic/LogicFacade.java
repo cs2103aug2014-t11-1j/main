@@ -11,48 +11,55 @@ package logic;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import parser.ParserFacade;
 import storage.ModelTask;
+import storage.Storage;
 
 public class LogicFacade {
 
 	private static LogicFacade logicFacade = new LogicFacade();
 	private CommandExecutor executor;
-	private ParserFacade parserFacade = ParserFacade.getInstance();
 	private ObservableList<ModelTask> taskList;
 	private ObservableList<ModelTask> searchedList;
-	
-	//constructor
-	private LogicFacade(){
-		taskList = FXCollections.observableArrayList();
-		searchedList = FXCollections.observableArrayList();
+	private Storage storage;
+
+	// constructor
+	private LogicFacade() {
+		try {
+			storage = new Storage("text.txt");
+			taskList = getOriginalListFromFile();
+			executor = new CommandExecutor(taskList);
+			searchedList = FXCollections.observableArrayList();
+		} catch (Exception e) {
+			System.out.println("cannot initialize logicFacade class");
+		}
 	}
-	
-	//accessor
-	public LogicFacade getInstance (){
+
+	// accessor
+	public static LogicFacade getInstance() {
 		return logicFacade;
 	}
+
+	public ObservableList<ModelTask> getOriginalListFromFile(){
+		return storage.getListFromFile();
+	}
 	
-	public String getFeedBack(String InputFromGui) throws Exception{
+	public String getFeedBack(String InputFromGui) throws Exception {
 		String feedBack = executeCommand(InputFromGui);
 		return feedBack;
 	}
 
-	
 	public String executeCommand(String inputFromGui) throws Exception {
-		String commandWord = parserFacade.getCommandString(inputFromGui);
-		String actualCommandDescription = parserFacade.getStringWithoutCommand(inputFromGui);
-		executor = new CommandExecutor(commandWord,actualCommandDescription);
+		executor.excecuteCommand(inputFromGui);
 		String feedBack = executor.getFeedBack();
 		return feedBack;
 	}
 
-	public ObservableList<ModelTask> getAllList(){
+	public ObservableList<ModelTask> getAllList() {
 		taskList = executor.getAllList();
 		return taskList;
 	}
-	
-	public ObservableList<ModelTask> getSearchedList(){
+
+	public ObservableList<ModelTask> getSearchedList() {
 		searchedList = executor.getSearchedList();
 		return searchedList;
 	}

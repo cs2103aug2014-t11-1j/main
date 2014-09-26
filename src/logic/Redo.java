@@ -5,6 +5,7 @@
  */
 package logic;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import storage.ModelTask;
 
@@ -18,17 +19,20 @@ public class Redo extends CommandFactory {
 
     protected Redo() {
         execute(null);
+        updateTaskList();
     }
 
     @Override
     protected void execute(String input) {
         if (redoStack.getStack().isEmpty()) {
-            System.out.println("No action to redo");
+            //System.out.println("No action to redo");
+            CommandExecutor.setFeedBack("No action to redo");
         } else {
             list.setList(redoStack.pop());
-            ObservableList<ModelTask> temp = null;
+            ObservableList<ModelTask> temp = FXCollections.observableArrayList();
             copyList(list.getList(), temp);
             undoStack.push(temp);
+            isDone = true;
         }
     }
 

@@ -1,5 +1,7 @@
 package logic;
 
+import static logic.CommandFactory.tc;
+import storage.ModelTask;
 import storage.Task;
 
 /**
@@ -14,7 +16,7 @@ public class Edit extends CommandFactory {
     protected Edit(String input) {
         execute(input);
         updateUndoAndRedoStacks();
-        isDone = true;
+        updateTaskList();
     }
 
     @Override
@@ -22,8 +24,9 @@ public class Edit extends CommandFactory {
         String[] splitStrings = formatString(input);
         int index = getIndex(splitStrings);
         Task newTask = getNewTask(splitStrings);
+        ModelTask temp = tc.convert(pf.getTask(input), index + 1);
         list.remove(index);
-        list.add(newTask, index);
+        list.add(temp, index);
 
         updateUndoAndRedoStacks();
         isDone = true;
@@ -36,6 +39,7 @@ public class Edit extends CommandFactory {
 
     private static String[] formatString(String input) {
         if (input == null || input.isEmpty()) {
+            CommandExecutor.setFeedBack("Invalid index!");
             throw new IllegalArgumentException("Invalid index!");
         } else {
             return input.trim().split("\\s+", 2);
@@ -46,6 +50,7 @@ public class Edit extends CommandFactory {
         int index = Integer.parseInt(splitStrings[0]) - 1;
 
         if (!isValidLineNumber(index)) {
+            CommandExecutor.setFeedBack("Invalid index!");
             throw new IllegalArgumentException("Invalid index!");
         } else {
             return index;

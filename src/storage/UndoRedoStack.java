@@ -21,6 +21,10 @@ public class UndoRedoStack {
     public Stack<ObservableList<ModelTask>> getStack() {
         return stack;
     }
+    
+    public int getSize(){
+        return stack.size();
+    }
 
     /**
      * Mutators

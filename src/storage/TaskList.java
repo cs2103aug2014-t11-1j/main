@@ -1,6 +1,7 @@
 package storage;
 
 import java.util.Iterator;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class TaskList {
@@ -14,7 +15,7 @@ public class TaskList {
      * Constructor
      */
     public TaskList() {
-
+        list = FXCollections.observableArrayList();
     }
 
     /**
@@ -36,6 +37,10 @@ public class TaskList {
         return list.iterator();
     }
 
+    public boolean isEmpty() {
+        return list.isEmpty();
+    }
+
     /**
      * Mutators
      */
@@ -43,7 +48,7 @@ public class TaskList {
         list.add(task);
     }
 
-    public void add(ModelTask task, int index){
+    public void add(ModelTask task, int index) {
         list.add(index, task);
     }
 

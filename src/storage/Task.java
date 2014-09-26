@@ -12,6 +12,16 @@ public class Task {
 	/**
 	 * Class Attributes
 	 */	
+	
+
+	private final int INDEX_OF_EVENT = 0;
+	private final int INDEX_OF_STARTDATE = 1;
+	private final int INDEX_OF_ENDDATE = 2;
+	private final int INDEX_OF_STARTTIME = 3;
+	private final int INDEX_OF_ENDTIME = 4;
+	private final int INDEX_OF_ISDONE = 5;
+	
+	
 	private String taskDescription;
 	private String startDate;
 	private String startTime;
@@ -33,6 +43,51 @@ public class Task {
 		this.deadLine = deadLine;
 		this.isDone = false;
 	}
+	
+	
+	//this constructor is meant for copying files to observablelist
+	public Task(String str,boolean fromFile){
+String[] array = str.split(";");
+		
+		String input;
+		this.taskDescription = array[INDEX_OF_EVENT];
+		
+		input = array[INDEX_OF_STARTDATE];
+		if(input.equals("null")){
+			this.startDate = null;
+		}else{
+			this.startDate = input;
+		}
+		
+		input = array[INDEX_OF_ENDDATE];
+		if(input.equals("null")){
+			this.endDate = null;
+		}else{
+			this.endDate = input;
+		}
+		
+		input = array[INDEX_OF_STARTTIME];
+		if(input.equals("null")){
+			this.startTime = null;
+		}else{
+			this.startTime = input;
+		}
+		
+		input = array[INDEX_OF_ENDTIME];
+		if(input.equals("null")){
+			this.endTime = null;
+		}else{
+			this.endTime = input;
+		}
+		
+		input = array[INDEX_OF_ISDONE];
+		if(input.equalsIgnoreCase("true")){
+			this.isDone = true;
+		}else{
+			this.isDone = false;
+		}
+	}
+	
 	
 	/**
 	 * Accessors

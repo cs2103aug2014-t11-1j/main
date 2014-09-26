@@ -1,5 +1,6 @@
 package logic;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import storage.ModelTask;
 
@@ -13,6 +14,7 @@ public class Undo extends CommandFactory {
 
     protected Undo() {
         execute(null);
+        updateTaskList();
     }
 
     @Override
@@ -24,20 +26,24 @@ public class Undo extends CommandFactory {
                 redoStack.push(popped);
 
                 popped = undoStack.peek();
-                ObservableList<ModelTask> temp = null;
+                ObservableList<ModelTask> temp = FXCollections.observableArrayList();
                 copyList(popped, temp);
                 list.setList(temp);
+                isDone = true;
 
-                System.out.println("Action undone");
+                //System.out.println("Action undone");
+                CommandExecutor.setFeedBack("Action undone");
             } else {
-                ObservableList<ModelTask> temp = null;
+                ObservableList<ModelTask> temp = FXCollections.observableArrayList();
                 copyList(popped, temp);
                 undoStack.push(temp);
 
-                System.out.println("Action cannot be undone; original state");
+                //System.out.println("Action cannot be undone; original state");
+                CommandExecutor.setFeedBack("Action cannot be undone; original state");
             }
         } else {
-            System.out.println("Error, empty stack");
+            //System.out.println("Error, empty stack");
+            CommandExecutor.setFeedBack("Error, empty stack");
         }
     }
 

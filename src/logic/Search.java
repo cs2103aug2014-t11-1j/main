@@ -14,7 +14,7 @@ public class Search extends CommandFactory {
 
     protected Search(String input) {
         execute(input);
-        isDone = true;
+        updateSearchList();
     }
 
     @Override
@@ -26,6 +26,12 @@ public class Search extends CommandFactory {
             if (currentTask.getEvent().contains(input)) {
                 searchList.add(currentTask);
             }
+        }
+        if (searchList.isEmpty()) {
+            CommandExecutor.setFeedBack("Search term not found.");
+        } else {
+            CommandExecutor.setFeedBack("Search term found.");
+            isDone = true;
         }
     }
 

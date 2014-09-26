@@ -1,5 +1,7 @@
 package logic;
 
+import storage.ModelTask;
+
 /**
  *
  * @author Jireh
@@ -14,13 +16,14 @@ public class Add extends CommandFactory {
     protected Add(String input) {
         execute(input);
         updateUndoAndRedoStacks();
-        isDone = true;
+        updateTaskList();
     }
 
     @Override
     protected void execute(String input) {
-        list.add(pf.getTask(input));
-        updateUndoAndRedoStacks();
+        ModelTask temp = tc.convert(pf.getTask("add " + input), list.getListSize() + 1);
+        list.add(temp);
+        isDone = true;
     }
 
     @Override

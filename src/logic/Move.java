@@ -17,7 +17,9 @@ public class Move extends CommandFactory {
     private boolean isDone;
 
     protected Move(String input) {
-
+        execute(input);
+        updateUndoAndRedoStacks();
+        updateTaskList();
     }
 
     @Override
@@ -31,10 +33,13 @@ public class Move extends CommandFactory {
 
             list.remove(index);
             list.add(temp, position);
+            isDone = true;
 
-            printMessage(String.format("Task %d has been moved to %d.", index + 1, position + 1));
+            //printMessage(String.format("Task %d has been moved to %d.", index + 1, position + 1));
+            CommandExecutor.setFeedBack(String.format("Task %d has been moved to %d.", index + 1, position + 1));
         } else {
-            printMessage("Please enter 2 valid numbers.");
+            //printMessage("Please enter 2 valid numbers.");
+            CommandExecutor.setFeedBack("Please enter 2 valid numbers.");
         }
     }
 

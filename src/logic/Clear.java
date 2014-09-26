@@ -12,7 +12,7 @@ public class Clear extends CommandFactory {
     protected Clear() {
         execute(null);
         updateUndoAndRedoStacks();
-        isDone = true;
+        updateTaskList();
     }
 
     @Override
