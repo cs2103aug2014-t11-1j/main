@@ -1,34 +1,21 @@
 package gui.controller;
 
-import java.util.Calendar;
+import gui.MainApp;
 
+import java.util.Calendar;
 import java.util.Date;
 
-import gui.MainApp;
 import javafx.collections.FXCollections;
-
-
-
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
-
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
-import javafx.util.Duration;
-
+import logic.ErrorMessages;
 import logic.LogicFacade;
 import storage.ModelTask;
-import logic.ErrorMessages;
 
 public class PhantomController{
 	protected static boolean hasOccured = false;
@@ -142,9 +129,11 @@ public class PhantomController{
 			
 			if(input.equalsIgnoreCase("showall")){
 				ah.animateLeft();
+				switchToAll();
 			}
 			if(input.equalsIgnoreCase("showtoday")){
 				ah.animateRight();
+				switchToToday();
 			}
 			commandLine.clear();
 			String feedback = "";
