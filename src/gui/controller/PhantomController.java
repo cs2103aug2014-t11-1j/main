@@ -18,30 +18,30 @@ import logic.ErrorMessages;
 
 public class PhantomController{
 	protected static boolean hasOccured = false;
-	
+
 	@FXML
 	private Label tfOutput;
 	@FXML
 	private TextField commandLine;
-	
+
 	// Reference to the main application.
 	private MainApp mainApp;
-	
+
 	@FXML
 	private Parent tableView;
 	@FXML
 	private TableController tableViewController;
-	
+
 	@FXML
 	private Parent todayView;
 	@FXML
 	private TodayViewController todayViewController;
-	
+
 	private LogicFacade logicFacade;
-	
+
 	private ObservableList<ModelTask> allList;
 	private ObservableList<ModelTask> todayList;
-	
+
 	public PhantomController() {
 		System.out.println("phantom constructor");
 		logicFacade = LogicFacade.getInstance();
@@ -52,101 +52,122 @@ public class PhantomController{
 		System.out.println("phantom initilising");
 		allList = logicFacade.getAllList();
 		tableViewController.setAllView(allList);
-		//getTodayList(allList);
-		todayViewController.setTodayView(allList);
-		tableView.setVisible(true);
-		todayView.setVisible(false);
+		getTodayList(allList);
+		todayViewController.setTodayView(todayList);
+		tableView.setVisible(false);
+		todayView.setVisible(true);
 	}
-	
-	
+
+
 	//TODO: should be under initilise todayView
 	private void getTodayList(ObservableList<ModelTask> list) {
 		todayList = FXCollections.observableArrayList();
-		
+
 		Calendar yesterdayCal = Calendar.getInstance();
 		yesterdayCal.set(Calendar.DAY_OF_YEAR, yesterdayCal.get(Calendar.DAY_OF_YEAR) - 1);
 		yesterdayCal.set(Calendar.HOUR_OF_DAY, 23);
-		yesterdayCal.set(Calendar.MINUTE, 0);
-		
+		yesterdayCal.set(Calendar.MINUTE, 59);
+		yesterdayCal.set(Calendar.SECOND, 59);
+
 		Calendar tomorrowCal = Calendar.getInstance();
-		tomorrowCal.set(Calendar.DAY_OF_YEAR, tomorrowCal.get(Calendar.DAY_OF_YEAR) + 1);
-		tomorrowCal.set(Calendar.HOUR_OF_DAY, 0);
-		tomorrowCal.set(Calendar.MINUTE, 1);
-		
+		tomorrowCal.set(Calendar.HOUR_OF_DAY, 23);
+		tomorrowCal.set(Calendar.MINUTE, 59);
+		tomorrowCal.set(Calendar.SECOND, 59);
+
 		Date yesterday = yesterdayCal.getTime();
 		Date tomorrow = tomorrowCal.getTime();
 		
+		System.out.println(tomorrow.toString());
 		for(ModelTask task : list){
-			if(task.getStartDate().compareTo(yesterday) > 1 && task.getStartDate().compareTo(tomorrow) < 1){
-				todayList.add(task);
+			if(task.getStartDate() != null){
+				System.out.println(task.getStartDate().toString());
+				System.out.println(task.getStartDate().compareTo(tomorrow));
+				if(task.getStartDate().compareTo(yesterday) > 0 && task.getStartDate().compareTo(tomorrow) < 0){
+					todayList.add(task);
+				}
 			}
 		}
-		
+
 		todayList.sort(new ModelTaskStartDateComparator());
 		if(todayList.size() > 5){
-			//remove rest of the items
+			for(int i = 5; i < todayList.size(); i++){
+				todayList.remove(5);
+			}
 		}
 	}
 
 	@FXML
 	private void handleKeyPressed(KeyEvent e){
-	
+
 		EditListener editListener = new EditListener(logicFacade.getAllList(),commandLine);
 		commandLine.textProperty().addListener(editListener);
-		
+
 		if(e.getCode() == KeyCode.ENTER){
 			hasOccured = false;
 			String input = commandLine.getText();
 			commandLine.clear();
 			String feedback = "";
-			try {
-				feedback = logicFacade.getFeedBack(input);
-			} catch (Exception e1) {
-				e1.printStackTrace();
+			if(input.equalsIgnoreCase("show all")){
+				switchToAll();
 			}
-			
+			else if(input.equalsIgnoreCase("show today")){
+				switchToToday();
+			}
+			else{
+				try {
+					feedback = logicFacade.getFeedBack(input);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+
 			if(feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE || feedback == ErrorMessages.ERROR_UNDONE_MESSAGE || feedback == ErrorMessages.SUCCESS_REDONE_MESSAGE){
 				setAllView(logicFacade.getAllList());
 			}
-			
+
 			tfOutput.setText(feedback);
+			getTodayList(allList);
+			todayViewController.setTodayView(todayList);
 		}
-		
-		
 	}
-	
+
 	public void switchToSearch(ObservableList<ModelTask> list){
 		tableViewController.switchToSearch(list);
 		tableView.setVisible(true);
 		todayView.setVisible(false);
 	}
-	
+
 	public void switchToAll(){
 		tableViewController.switchToAll();
 		tableView.setVisible(true);
 		todayView.setVisible(false);
 	}
-	
+
 	public void setAllView(ObservableList<ModelTask> list){
 		tableViewController.setAllView(list);
 		tableView.setVisible(true);
 		todayView.setVisible(false);
 	}
-	
+
+	public void switchToToday(){
+		todayView.setVisible(true);
+		tableView.setVisible(false);
+	}
+
 	@FXML
 	private void handleExit(){
 		System.exit(0);
 	}
-	
+
 	@FXML
 	private void handleMinimise(){
 		mainApp.getPrimaryStage().setIconified(true);
 	}
-	
+
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
-	
+
 	/*
 	@FXML
 	private void handleDeleteTask() {
@@ -177,17 +198,17 @@ public class PhantomController{
 	private void handleClear(){
 		taskList.clear();
 	}
-	
+
 	@FXML
 	private void handleEditTask(){
 		switchToAll();
 	}
-	
+
 	@FXML
 	private void handleSearchTask(){
 		tableViewController.setVisible(false);
 	}
-	*/
-	
+	 */
+
 
 }
