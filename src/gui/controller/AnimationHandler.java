@@ -19,6 +19,9 @@ public class AnimationHandler {
 	@FXML
 	private Parent todayView;
 	
+	private boolean isFocusTable;
+	private boolean isFocusToday;
+	
 	TranslateTransition slideInTable;
 	TranslateTransition slideOutTable;
 	
@@ -42,6 +45,9 @@ public class AnimationHandler {
 		slideOutInit.setByX(700);
 		slideOutInit.play();
 		
+		isFocusTable = false;
+		isFocusToday = true;
+		
 		slideInTable = new TranslateTransition(Duration.seconds(0.5), tableView);
 		slideInTable.setByX(-700);
 		slideOutTable = new TranslateTransition(Duration.seconds(0.5), tableView);
@@ -52,15 +58,24 @@ public class AnimationHandler {
 		slideOutToday = new TranslateTransition(Duration.seconds(0.5), todayView);
 		slideOutToday.setByX(700);
 	}
-	
+
 	public void animateLeft(){
-		slideInTable.play();
-		slideOutToday.play();
-	}
-	
-	public void animateRight(){
-		slideOutTable.play();
-		slideInToday.play();
+		if(isFocusToday){
+			slideInTable.play();
+			slideOutToday.play();
+
+			isFocusToday = false;
+			isFocusTable = true;
+		}
 	}
 
+	public void animateRight(){
+		if(isFocusTable){
+			slideOutTable.play();
+			slideInToday.play();
+
+			isFocusTable = false;
+			isFocusToday = true;
+		}
+	}
 }
