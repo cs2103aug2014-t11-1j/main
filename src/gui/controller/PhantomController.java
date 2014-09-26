@@ -1,15 +1,32 @@
 package gui.controller;
 
+import java.util.Calendar;
+
 import gui.MainApp;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.util.Duration;
+import logic.LogicFacade;
 import storage.ModelTask;
+import logic.ErrorMessages;
 
 public class PhantomController{
+	protected static boolean hasOccured = false;
+	
 	@FXML
 	private Label tfOutput;
+	@FXML
+	private TextField commandLine;
 	
 	// Reference to the main application.
 	private MainApp mainApp;
@@ -20,29 +37,57 @@ public class PhantomController{
 	private TableController tableViewController;
 	
 	@FXML
-	private Parent commandLineView;
-	@FXML
-	private CommandLineController commandLineViewController;
-	
-	@FXML
 	private Parent todayView;
 	@FXML
 	private TodayViewController todayViewController;
 	
-	private LogicFacadeDummy logicFacade;
+	@FXML
+	private Label timeLabel;
+	
+	private LogicFacade logicFacade;
 	
 	public PhantomController() {
 		System.out.println("phantom constructor");
-		logicFacade = new LogicFacadeDummy();
+		logicFacade = LogicFacade.getInstance();
 	}
 
 	@FXML
 	private void initialize() {
 		System.out.println("phantom initilising");
 		tableViewController.setAllView(logicFacade.getAllList());
-		commandLineViewController.setLogicFacade(logicFacade);
 		todayViewController.setTodayView(logicFacade.getAllList());
-		tableView.setVisible(false);
+		tableView.setVisible(true);
+		todayView.setVisible(false);
+		
+		PhantomClock pc = PhantomClock.getInstance();
+		pc.setClock(timeLabel);
+	}
+	
+	@FXML
+	private void handleKeyPressed(KeyEvent e){
+	
+		EditListener editListener = new EditListener(logicFacade.getAllList(),commandLine);
+		commandLine.textProperty().addListener(editListener);
+		
+		if(e.getCode() == KeyCode.ENTER){
+			hasOccured = false;
+			String input = commandLine.getText();
+			commandLine.clear();
+			String feedback = "";
+			try {
+				feedback = logicFacade.getFeedBack(input);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			
+			if(feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE || feedback == ErrorMessages.ERROR_UNDONE_MESSAGE || feedback == ErrorMessages.SUCCESS_REDONE_MESSAGE){
+				setAllView(logicFacade.getAllList());
+			}
+			
+			tfOutput.setText(feedback);
+		}
+		
+		
 	}
 	
 	public void switchToSearch(ObservableList<ModelTask> list){
@@ -76,6 +121,7 @@ public class PhantomController{
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
+	
 	
 	/*
 	@FXML

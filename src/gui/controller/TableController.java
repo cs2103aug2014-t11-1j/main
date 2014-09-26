@@ -15,6 +15,8 @@ public class TableController{
 	private TableColumn<ModelTask, String> dateColumn;
 	@FXML
 	private TableColumn<ModelTask, String> numColumn;
+	@FXML
+	private TableColumn<ModelTask, String> timeColumn;
 	
 	@FXML
 	private ObservableList<ModelTask> taskList;
@@ -34,6 +36,7 @@ public class TableController{
 		numColumn.setCellValueFactory(cellData -> cellData.getValue().getPositionStringProperty());
 		taskColumn.setCellValueFactory(cellData -> cellData.getValue().getEventProperty());
 		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDateStringProperty());
+		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTimeStringProperty());
 		
 		numColumn.setComparator(new NumStringComparator());
 		dateColumn.setComparator(new DateStringComparator());

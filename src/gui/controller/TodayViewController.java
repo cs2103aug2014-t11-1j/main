@@ -24,7 +24,7 @@ public class TodayViewController {
 	private void initialize(){
 		System.out.println("today view initilising");
 		taskColumn.setCellValueFactory(cellData -> cellData.getValue().getEventProperty());
-		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getDateStringProperty());
+		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTimeStringProperty());
 	}
 	
 	protected void setTodayView(ObservableList<ModelTask> list){
