@@ -41,6 +41,8 @@ public class TableController{
 		numColumn.setComparator(new NumStringComparator());
 		dateColumn.setComparator(new DateStringComparator());
 		taskColumn.setComparator(String.CASE_INSENSITIVE_ORDER);
+		
+		taskTable.getSelectionModel().setSelectionMode(null);
 	}
 	
 	protected void setAllView(ObservableList<ModelTask> list){

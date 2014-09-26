@@ -23,8 +23,8 @@
                   <Font size="38.0" />
                </font>
             </Label>
-            <Label id="tfOutput" fx:id="tfOutput" layoutX="209.0" layoutY="33.0" prefHeight="21.0" prefWidth="362.0" text=" " />
-            <Label layoutX="597.0" layoutY="33.0" styleClass="label-bright" text="Time" />
+            <Label id="tfOutput" fx:id="tfOutput" layoutX="209.0" layoutY="33.0" prefHeight="21.0" prefWidth="299.0" text=" " />
+            <Label fx:id="timeLabel" prefHeight="20.0" prefWidth="89.0" styleClass="label-bright" text="Time" />
          </children>
       </HBox>
       <AnchorPane layoutX="105.0" layoutY="72.0" prefHeight="272.0" prefWidth="520.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="72.0">

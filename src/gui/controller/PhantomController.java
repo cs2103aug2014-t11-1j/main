@@ -1,17 +1,31 @@
 package gui.controller;
 
 import java.util.Calendar;
+
 import java.util.Date;
 
 import gui.MainApp;
 import javafx.collections.FXCollections;
+
+
+
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
+
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
+import javafx.util.Duration;
+
 import logic.LogicFacade;
 import storage.ModelTask;
 import logic.ErrorMessages;
@@ -37,10 +51,20 @@ public class PhantomController{
 	@FXML
 	private TodayViewController todayViewController;
 
+
 	private LogicFacade logicFacade;
 
 	private ObservableList<ModelTask> allList;
 	private ObservableList<ModelTask> todayList;
+
+
+	
+	@FXML
+	private Label timeLabel;
+
+	
+	private AnimationHandler ah;
+	
 
 	public PhantomController() {
 		System.out.println("phantom constructor");
@@ -94,42 +118,52 @@ public class PhantomController{
 				todayList.remove(5);
 			}
 		}
+		tableViewController.setAllView(logicFacade.getAllList());
+		todayViewController.setTodayView(logicFacade.getAllList());
+		tableView.setVisible(true);
+		todayView.setVisible(true);		
+		
+		PhantomClock pc = PhantomClock.getInstance();
+		pc.setClock(timeLabel);
+		
+		ah = AnimationHandler.getInstance();
+		ah.initialize(tableView, todayView);		
 	}
-
+	
 	@FXML
 	private void handleKeyPressed(KeyEvent e){
-
+	
 		EditListener editListener = new EditListener(logicFacade.getAllList(),commandLine);
 		commandLine.textProperty().addListener(editListener);
-
+		
 		if(e.getCode() == KeyCode.ENTER){
 			hasOccured = false;
 			String input = commandLine.getText();
+			
+			if(input.equalsIgnoreCase("showall")){
+				ah.animateLeft();
+			}
+			if(input.equalsIgnoreCase("showtoday")){
+				ah.animateRight();
+			}
 			commandLine.clear();
 			String feedback = "";
-			if(input.equalsIgnoreCase("show all")){
-				switchToAll();
+			try {
+				feedback = logicFacade.getFeedBack(input);
+			} catch (Exception e1) {
+				e1.printStackTrace();
 			}
-			else if(input.equalsIgnoreCase("show today")){
-				switchToToday();
-			}
-			else{
-				try {
-					feedback = logicFacade.getFeedBack(input);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-
+			
 			if(feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE || feedback == ErrorMessages.ERROR_UNDONE_MESSAGE || feedback == ErrorMessages.SUCCESS_REDONE_MESSAGE){
 				setAllView(logicFacade.getAllList());
 			}
-
+			
 			tfOutput.setText(feedback);
-			getTodayList(allList);
-			todayViewController.setTodayView(todayList);
 		}
+		
 	}
+
+	
 
 	public void switchToSearch(ObservableList<ModelTask> list){
 		tableViewController.switchToSearch(list);
@@ -168,6 +202,7 @@ public class PhantomController{
 		this.mainApp = mainApp;
 	}
 
+	
 	/*
 	@FXML
 	private void handleDeleteTask() {
