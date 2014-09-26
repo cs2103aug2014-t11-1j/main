@@ -66,6 +66,15 @@ public class PhantomController{
 		tableViewController.setAllView(allList);
 		getTodayList(allList);
 		todayViewController.setTodayView(todayList);
+		
+		PhantomClock pc = PhantomClock.getInstance();
+		pc.setClock(timeLabel);
+		
+		ah = AnimationHandler.getInstance();
+		ah.initialize(tableView, todayView);
+		
+		clu = CommandLineUtility.getInstance();
+		clu.initialize(commandLine);
 		tableView.setVisible(false);
 		todayView.setVisible(true);
 	}
@@ -88,7 +97,7 @@ public class PhantomController{
 
 		Date yesterday = yesterdayCal.getTime();
 		Date tomorrow = tomorrowCal.getTime();
-		
+		System.out.println(yesterday.toString());
 		System.out.println(tomorrow.toString());
 		for(ModelTask task : list){
 			if(task.getStartDate() != null){
@@ -106,19 +115,6 @@ public class PhantomController{
 				todayList.remove(5);
 			}
 		}
-		tableViewController.setAllView(logicFacade.getAllList());
-		todayViewController.setTodayView(logicFacade.getAllList());
-		tableView.setVisible(true);
-		todayView.setVisible(true);		
-		
-		PhantomClock pc = PhantomClock.getInstance();
-		pc.setClock(timeLabel);
-		
-		ah = AnimationHandler.getInstance();
-		ah.initialize(tableView, todayView);
-		
-		clu = CommandLineUtility.getInstance();
-		clu.initialize(commandLine);
 	}
 	
 	@FXML
@@ -152,6 +148,9 @@ public class PhantomController{
 			}
 			
 			tfOutput.setText(feedback);
+			
+			getTodayList(allList);
+			todayViewController.setTodayView(todayList);
 			
 			clu.forwardToPrevious();
 			clu.pushInput(input);
