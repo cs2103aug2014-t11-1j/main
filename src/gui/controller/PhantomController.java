@@ -51,6 +51,7 @@ public class PhantomController{
 
 	
 	private AnimationHandler ah;
+	private CommandLineUtility clu;
 	
 
 	public PhantomController() {
@@ -114,7 +115,10 @@ public class PhantomController{
 		pc.setClock(timeLabel);
 		
 		ah = AnimationHandler.getInstance();
-		ah.initialize(tableView, todayView);		
+		ah.initialize(tableView, todayView);
+		
+		clu = CommandLineUtility.getInstance();
+		clu.initialize(commandLine);
 	}
 	
 	@FXML
@@ -148,6 +152,17 @@ public class PhantomController{
 			}
 			
 			tfOutput.setText(feedback);
+			
+			clu.forwardToPrevious();
+			clu.pushInput(input);
+		}
+		
+		if(e.getCode() == KeyCode.UP){
+			clu.displayPreviousInput();			
+		}
+		
+		if(e.getCode() == KeyCode.DOWN){
+			clu.displayForwardInput();
 		}
 		
 	}
