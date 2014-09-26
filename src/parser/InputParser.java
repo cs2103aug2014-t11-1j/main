@@ -20,15 +20,15 @@ public class InputParser {
 	private final String STRING_DASH = "-";
 	private final String STRING_WAVE_DASH = "~";
 	private final String STRING_TO = "TO";
-	
+
 	/**
 	 * String Dictionaries
 	 */
 	private final String[] DICTIONARY_KEYWORDS_DEADLINE = { "BY", "BEFORE", "ON" };
 	private final String[] DICTIONARY_KEYWORDS_STARTTIME = { "AT", "AFTER", "FROM"};
 	private final String[] DICTIONARY_KEYWORDS_ENDTIME = { "TO" };
-//	private final String[] DICTIONARY_KEYWORDS_DASH = { "-", "~" };
-	
+	//	private final String[] DICTIONARY_KEYWORDS_DASH = { "-", "~" };
+
 	/**
 	 * Required information from input
 	 */
@@ -38,13 +38,13 @@ public class InputParser {
 	private String deadLine;
 	private String endDate;
 	private String startDate;
-	
+
 	private boolean isDeadLineFound;
 	private boolean isStartTimeFound;
 	private boolean isStartDateFound;
 	private boolean isEndTimeFound;
 	private boolean isEndDateFound;
-		
+
 	public InputParser(){
 		taskDescription = null;
 		startDate = null;
@@ -52,14 +52,14 @@ public class InputParser {
 		endDate = null;
 		endTime = null;
 		deadLine = null;
-		
+
 		isDeadLineFound = false;
 		isStartTimeFound = false;
 		isStartDateFound = false;
 		isEndTimeFound = false;
 		isEndDateFound = false;
 	}
-	
+
 	public String getTaskDescription(){
 		return taskDescription.replaceAll("\\s+", " ");
 	}
@@ -78,14 +78,14 @@ public class InputParser {
 	public String getDeadLine(){
 		return deadLine;
 	}
-	
+
 	public void parseInput(String input){
-		
+
 		DateParser dp = new DateParser();
 		TimeParser tp = new TimeParser();
-		
+
 		String[] tokens = input.split(STRING_SPACE);
-		
+
 		for (int i = 0; i < tokens.length; i++) {
 
 			if(tokens[i].contains("\"")){				
@@ -100,12 +100,12 @@ public class InputParser {
 					}
 				}
 			}
-			
+
 			if(i >= tokens.length){
 				taskDescription = input;
 				break;
 			}
-			
+
 			if(!isDeadLineFound && !isEndDateFound){
 				input = dp.parseDateWithoutKeyword(tokens, i, input);
 				if(dp.getDate() != null){
@@ -113,7 +113,7 @@ public class InputParser {
 					isDeadLineFound = true;
 				}
 			}
-			
+
 			if(!isEndTimeFound && !isStartTimeFound){
 				input = tp.parseTimeWithoutKeyword(tokens, i, input);
 				if(tp.getTime() != null){
@@ -121,7 +121,7 @@ public class InputParser {
 					isEndTimeFound = true;
 				}
 			}
-			
+
 			if(!isStartDateFound && !isEndDateFound){
 				if(tokens[i].contains(STRING_DASH) || (tokens[i].contains(STRING_WAVE_DASH)) || (tokens[i].contains(STRING_TO))){
 					input = dp.parseDashDateWithoutKeyword(tokens, i, input);
@@ -133,7 +133,7 @@ public class InputParser {
 					}
 				}
 			}
-			
+
 			if(dictionaryContains(DICTIONARY_KEYWORDS_DEADLINE, tokens[i])){
 				if(!isDeadLineFound){
 					input = dp.parseDateWithKeyword(tokens, i, input);
@@ -160,7 +160,7 @@ public class InputParser {
 						isStartDateFound = true;
 					}
 				}
-				
+
 				if(!isStartTimeFound){
 					input = tp.parseTimeWithKeyword(tokens, i, input);
 					if(tp.getTime() != null){
@@ -179,7 +179,7 @@ public class InputParser {
 						isEndDateFound = true;
 					}
 				}
-				
+
 				if(!isEndTimeFound){
 					input = tp.parseTimeWithKeyword(tokens, i, input);
 					if(tp.getTime() != null){
@@ -189,9 +189,9 @@ public class InputParser {
 				}
 			}
 		}
-		
+
 		if(!isDeadLineFound && !isStartDateFound && !isEndDateFound){
-			
+
 			String temp = null;
 			if(isStartTimeFound){
 				temp = startTime;
@@ -199,20 +199,24 @@ public class InputParser {
 			if(isEndTimeFound){
 				temp = endTime;
 			}
-			
+
 			if(temp != null){
-				if(Integer.parseInt(getCurrentTime()) > Integer.parseInt(temp)){
-					deadLine = getModifiedDate(1);
-				}
-				else{
-					deadLine = getModifiedDate(0);
+				try{
+					if(Integer.parseInt(getCurrentTime()) > Integer.parseInt(temp)){
+						deadLine = getModifiedDate(1);
+					}
+					else{
+						deadLine = getModifiedDate(0);
+					}
+				}catch(Exception e){
+					System.out.println("error");
 				}
 			}
 		}
-		
+
 		taskDescription = input;						
 	}
-	
+
 	private boolean isNotOutOfBounds(int index, int length) {
 		return index < length && index > 0;
 	}
@@ -227,14 +231,14 @@ public class InputParser {
 		}
 		return isFound;
 	}
-	
+
 	private String getCurrentTime(){
 		SimpleDateFormat currTime = new SimpleDateFormat("HHmm");//dd/MM/yyyy
-	    Date now = new Date();
-	    String strTime = currTime.format(now);
-	    return strTime;
+		Date now = new Date();
+		String strTime = currTime.format(now);
+		return strTime;
 	}
-	
+
 	private static String getModifiedDate(int offset){
 		String currDate;
 		SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/YYYY");
@@ -242,7 +246,7 @@ public class InputParser {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DAY_OF_MONTH, offset);
 		currDate = dayFormat.format(calendar.getTime());
-		
+
 		return currDate;
 	}	
 }

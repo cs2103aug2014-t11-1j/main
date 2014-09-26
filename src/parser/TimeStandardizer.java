@@ -24,6 +24,7 @@ public class TimeStandardizer {
 			String timeFormat = time.split(STRING_SPACE).clone()[0];
 			time = time.replaceFirst(timeFormat, "").trim();
 			FormatType formatType = getFormatType(timeFormat);
+			System.out.println(timeFormat);
 			TimeFormatter tf = new TimeFormatter();
 			
 			switch (formatType) {
