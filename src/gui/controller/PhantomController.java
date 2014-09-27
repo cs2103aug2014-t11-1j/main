@@ -85,28 +85,6 @@ public class PhantomController{
 
 		String input;
 
-		try{
-			if(e.getCode() == KeyCode.BACK_SPACE){
-				input = commandLine.getText().substring(0, commandLine.getText().length()-1);
-			}else{
-				input = commandLine.getText() + e.getText();
-			}
-			
-		//	System.out.println(input);
-			
-			if(input.split(" ")[0].equalsIgnoreCase("add")){
-				ah.displayHelper();
-			}else if(input.length() < 2){
-				ah.revertView();
-			}
-			
-			helperViewController.setHelperView(input);
-
-		}catch(Exception exc){
-			System.out.println("mother father gentlemen");
-		}
-
-
 		if(e.getCode() == KeyCode.ENTER){
 			hasOccured = false;
 			input = commandLine.getText();
@@ -134,15 +112,36 @@ public class PhantomController{
 			clu.forwardToPrevious();
 			clu.pushInput(input);
 			ah.removeHelper();
-		}
-
-		if(e.getCode() == KeyCode.UP){
+			
+		}else if(e.getCode() == KeyCode.UP){
 			clu.displayPreviousInput();			
+		}else if(e.getCode() == KeyCode.DOWN){
+			clu.displayForwardInput();
+		}else {
+
+			try{
+				if(e.getCode() == KeyCode.BACK_SPACE){
+					input = commandLine.getText().substring(0, commandLine.getText().length()-1);
+				}else{
+					input = commandLine.getText() + e.getText();
+				}
+
+				System.out.println(input);
+
+				if(input.split(" ")[0].equalsIgnoreCase("add")){
+					ah.displayHelper();
+				}else if(input.length() < 2){
+					ah.revertView();
+				}
+
+				helperViewController.setHelperView(input);
+
+			}catch(Exception exc){
+				System.out.println("mother father gentlemen");
+			}
 		}
 
-		if(e.getCode() == KeyCode.DOWN){
-			clu.displayForwardInput();
-		}
+		
 
 
 	}
