@@ -106,7 +106,7 @@ public class InputParser {
 				break;
 			}
 
-			if(!isDeadLineFound && !isEndDateFound){
+			if(!isDeadLineFound && !isEndDateFound && !isStartDateFound){
 				input = dp.parseDateWithoutKeyword(tokens, i, input);
 				if(dp.getDate() != null){
 					deadLine = dp.getDate();
