@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import application.ResourceLoader;
+import gui.ResourceLoader;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
