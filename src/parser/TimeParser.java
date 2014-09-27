@@ -19,7 +19,7 @@ public class TimeParser {
 	 */
 	private final String STRING_SPACE = " ";
 	
-	private static final String FORMAT_SPECIAL = "ST ";
+	private static final String FORMAT_SPECIAL = "SPT ";
 	private static final String FORMAT_DEFAULT = "DT ";
 	private static final String FORMAT_MILITARY = "MT ";
 	

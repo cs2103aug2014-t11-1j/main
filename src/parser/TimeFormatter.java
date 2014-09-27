@@ -28,7 +28,8 @@ public class TimeFormatter {
 			return STRING_NOON;
 		}else if(dictionaryContains(DICTIONARY_MIDNIGHT,time)){
 			return STRING_MIDNIGHT;
-		}		
+		}
+		System.out.println("fail");
 		return time;
 	}
 

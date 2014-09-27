@@ -48,14 +48,14 @@ public class AnimationHandler {
 		isFocusTable = false;
 		isFocusToday = true;
 		
-		slideInTable = new TranslateTransition(Duration.seconds(0.5), tableView);
+		slideInTable = new TranslateTransition(Duration.seconds(0.35), tableView);
 		slideInTable.setByX(-700);
-		slideOutTable = new TranslateTransition(Duration.seconds(0.5), tableView);
+		slideOutTable = new TranslateTransition(Duration.seconds(0.35), tableView);
 		slideOutTable.setByX(700);
 		
-		slideInToday = new TranslateTransition(Duration.seconds(0.5), todayView);
+		slideInToday = new TranslateTransition(Duration.seconds(0.35), todayView);
 		slideInToday.setByX(-700);
-		slideOutToday = new TranslateTransition(Duration.seconds(0.5), todayView);
+		slideOutToday = new TranslateTransition(Duration.seconds(0.35), todayView);
 		slideOutToday.setByX(700);
 	}
 
