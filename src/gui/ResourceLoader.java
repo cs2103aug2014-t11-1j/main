@@ -1,6 +1,14 @@
-package application;
+package gui;
 
 import java.io.InputStream;
+
+/**
+ * This class is used to load
+ * external resources for use
+ * in the GUI.
+ * 
+ * * Author: smallson
+ */
 
 final public class ResourceLoader {
 	
@@ -11,6 +19,4 @@ final public class ResourceLoader {
 		}
 		return input;
 	}
-	
-
 }

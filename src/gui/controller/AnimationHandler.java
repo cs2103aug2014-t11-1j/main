@@ -1,5 +1,7 @@
 package gui.controller;
 
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -57,6 +59,7 @@ public class AnimationHandler {
 		slideInToday.setByX(-700);
 		slideOutToday = new TranslateTransition(Duration.seconds(0.35), todayView);
 		slideOutToday.setByX(700);
+		
 	}
 
 	public void animateLeft(){

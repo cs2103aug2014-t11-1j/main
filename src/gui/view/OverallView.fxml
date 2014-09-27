@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
@@ -18,11 +19,11 @@
       </HBox>
       <HBox alignment="CENTER" layoutX="20.0" layoutY="16.0" prefHeight="55.0" prefWidth="662.0" spacing="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="16.0">
          <children>
-            <Label layoutX="20.0" layoutY="16.0" styleClass="label-header" stylesheets="@DarkTheme.css" text="Phantom" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="16.0">
-               <font>
-                  <Font size="38.0" />
-               </font>
-            </Label>
+            <ImageView fitHeight="68.0" fitWidth="159.0">
+               <image>
+                  <Image url="@../../../Resources/images/phantom.png" />
+               </image>
+            </ImageView>
             <Label id="tfOutput" fx:id="tfOutput" layoutX="209.0" layoutY="33.0" prefHeight="21.0" prefWidth="299.0" text=" " />
             <Label fx:id="timeLabel" prefHeight="20.0" prefWidth="89.0" styleClass="label-bright" text="Time" />
          </children>
