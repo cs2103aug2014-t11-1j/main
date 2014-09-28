@@ -20,7 +20,12 @@ public class Delete extends CommandFactory {
     @Override
     protected void execute(String input) {
         try {
-            list.remove(getIndex(input));
+        	int index = getIndex(input);
+            list.remove(index);
+
+            for(int i = index; i < list.getListSize(); i++){
+            	list.get(i).setPosition(i + 1);
+            }
         } catch (Exception ex) {
             printMessage(ex.getMessage());
             return;

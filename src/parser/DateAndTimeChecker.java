@@ -60,6 +60,11 @@ public class DateAndTimeChecker {
 		try{
 			String firstTwoDigits = string.substring(0,2);
 			String lastTwoDigits = string.substring(2);
+			
+			if(Integer.parseInt(firstTwoDigits) < 0 || Integer.parseInt(lastTwoDigits) < 0){
+				System.out.println("invalid military time format");
+				return false;
+			}
 
 			if(Integer.parseInt(firstTwoDigits) > 23 || Integer.parseInt(lastTwoDigits) > 59){
 				System.out.println("invalid military time format");

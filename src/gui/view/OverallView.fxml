@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
@@ -18,13 +19,13 @@
       </HBox>
       <HBox alignment="CENTER" layoutX="20.0" layoutY="16.0" prefHeight="55.0" prefWidth="662.0" spacing="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="16.0">
          <children>
-            <Label layoutX="20.0" layoutY="16.0" styleClass="label-header" stylesheets="@DarkTheme.css" text="Phantom" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="16.0">
-               <font>
-                  <Font size="38.0" />
-               </font>
-            </Label>
-            <Label id="tfOutput" fx:id="tfOutput" layoutX="209.0" layoutY="33.0" prefHeight="21.0" prefWidth="362.0" text=" " />
-            <Label layoutX="597.0" layoutY="33.0" styleClass="label-bright" text="Time" />
+            <ImageView fitHeight="68.0" fitWidth="159.0">
+               <image>
+                  <Image url="@../../../Resources/images/phantom.png" />
+               </image>
+            </ImageView>
+            <Label id="tfOutput" fx:id="tfOutput" layoutX="209.0" layoutY="33.0" prefHeight="21.0" prefWidth="299.0" text=" " />
+            <Label fx:id="timeLabel" prefHeight="20.0" prefWidth="89.0" styleClass="label-bright" text="Time" />
          </children>
       </HBox>
       <AnchorPane layoutX="105.0" layoutY="72.0" prefHeight="272.0" prefWidth="520.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="72.0">
@@ -36,6 +37,11 @@
          <children>
          	<fx:include fx:id="tableView" source="TableView.fxml" />
          </children>
+      </AnchorPane>
+            <AnchorPane layoutX="105.0" layoutY="72.0" prefHeight="272.0" prefWidth="520.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="72.0">
+	      <children>
+	      	<fx:include fx:id="helperView" source="HelperView.fxml" />
+	      </children>
       </AnchorPane>
       <Button id="minimiseButton" layoutX="588.0" mnemonicParsing="false" onAction="#handleMinimise" text="_" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="0.0" />
       <Button id="exitButton" layoutX="615.0" mnemonicParsing="false" onAction="#handleExit" prefHeight="29.0" prefWidth="30.0" text="X" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0" />
