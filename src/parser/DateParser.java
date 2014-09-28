@@ -148,17 +148,21 @@ public class DateParser {
 		dateStart = null;
 		dateEnd = null;
 		String toParse = null;
+		String toReplace = null;
 		if(isNotOutOfBounds(i-1,tokens.length) && isNotOutOfBounds(i+2,tokens.length)){
 			toParse = tokens[i-1] + tokens[i] + tokens[i+1] + tokens[i+2];
+			toReplace = tokens[i-1] + STRING_SPACE + tokens[i] + STRING_SPACE + tokens[i+1] + STRING_SPACE + tokens[i+2];
 		}
 		else if (isNotOutOfBounds(i-1,tokens.length) && isNotOutOfBounds(i+1,tokens.length)){
 			toParse = tokens[i-1] + tokens[i] + tokens[i+1];
+			toReplace = tokens[i-1] + STRING_SPACE + tokens[i] + STRING_SPACE + tokens[i+1];
 		} else {
 			toParse = tokens[i];
+			toReplace = tokens[i];
 		}
 
 		if(checker.isValidDashDateFormat(toParse.trim())){
-			input = input.replaceFirst(toParse, "");
+			input = input.replaceFirst(toReplace, "");
 			System.out.println(input);
 			dateStart = ds.formatDate(FORMAT_DASH_DATE_FIRST + toParse.trim());
 			dateEnd = ds.formatDate(FORMAT_DASH_DATE_NEXT + toParse.trim());
