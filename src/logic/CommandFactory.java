@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.Iterator;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import parser.ParserFacade;
@@ -21,7 +22,7 @@ public abstract class CommandFactory {
     protected static TaskList searchList = new TaskList();
     protected static UndoRedoStack undoStack = new UndoRedoStack();
     protected static UndoRedoStack redoStack = new UndoRedoStack();
-
+    
     /**
      * Abstract methods
      */

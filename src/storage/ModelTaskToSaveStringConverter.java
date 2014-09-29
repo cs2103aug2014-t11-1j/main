@@ -1,34 +1,33 @@
 package storage;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+//import java.text.SimpleDateFormat;
+//import java.util.Date;
 
 public class ModelTaskToSaveStringConverter {
 
-    SimpleDateFormat dateFormatter,timeFormatter;
-	
-	
-	ModelTask task;
+//    SimpleDateFormat dateFormatter,timeFormatter;
+
 	String saveString;
 
-	public ModelTaskToSaveStringConverter(ModelTask newTask) {
-		task = newTask;
+	public ModelTaskToSaveStringConverter() {
+		
 	}
-
-	public String toSave() {
-		dateFormatter = new SimpleDateFormat("dd/MM/yy");
-		timeFormatter = new SimpleDateFormat("HHmm");
-			
 	
-		Date startDate = task.getStartDate();
-		Date endDate = task.getEndDate();
-		Date startTime = task.getStartTime();
-		Date endTime = task.getEndTime();
+	public String toSave(ModelTask task) {
+//		dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+//		timeFormatter = new SimpleDateFormat("HHmm");
+//			
 		String event = task.getEvent();
+		String startDate = task.getStartDateString();
+		String endDate = task.getEndDateString();
+		String startTime = task.getStartTimeString();
+		String endTime = task.getEndTimeString();
+		String deadLine = null;
 		boolean isDone = task.isDone();
 		
-		String saveString =event + ";" + startDate + ";" + endDate + ";" + startTime + ";" + endTime + ";"
-				+ isDone;
+		
+		String saveString =event + ";" + startDate + ";" + endDate + ";" 
+		+ startTime + ";" +endTime + ";" + deadLine +";" + isDone;
 		return saveString;
 	}
 

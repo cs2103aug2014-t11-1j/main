@@ -27,7 +27,7 @@ public class LogicFacade {
 		try {
 			storage = new Storage("text.txt");
 			taskList = getOriginalListFromFile();
-			executor = new CommandExecutor(taskList);
+			executor = new CommandExecutor(taskList,storage);
 			searchedList = FXCollections.observableArrayList();
 		} catch (Exception e) {
 			System.out.println("cannot initialize logicFacade class");
@@ -49,7 +49,7 @@ public class LogicFacade {
 	}
 
 	public String executeCommand(String inputFromGui) throws Exception {
-		executor.excecuteCommand(inputFromGui);
+		executor.executeCommand(inputFromGui);
 		String feedBack = executor.getFeedBack();
 		return feedBack;
 	}
@@ -62,6 +62,10 @@ public class LogicFacade {
 	public ObservableList<ModelTask> getSearchedList() {
 		searchedList = executor.getSearchedList();
 		return searchedList;
+	}
+	
+	public Storage getStorage(){
+		return storage;
 	}
 
 }
