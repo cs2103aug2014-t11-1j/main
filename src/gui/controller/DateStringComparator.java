@@ -14,6 +14,19 @@ public class DateStringComparator implements Comparator<String>{
 	public int compare(String str1, String str2) {
 		Date date1; 
 		Date date2;
+		
+		//if one or more of the inputs are null
+		if(str1.equals("") && !str2.equals("")){
+			return -1;
+		}
+		else if(!str1.equals("") && str2.equals("")){
+			return 1;
+		}
+		else if(str1.equals("") && !str2.equals("")){
+			return 0;
+		}
+		
+		
 		if(str1.contains("-")){
 			str1 = cutOutDate(str1);
 			date1 = twoDateGetter.parse(str1, new ParsePosition(0));
