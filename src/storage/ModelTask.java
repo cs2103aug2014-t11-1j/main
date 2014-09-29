@@ -1,6 +1,7 @@
 package storage;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -21,7 +22,7 @@ public class ModelTask {
 	public ModelTask(String event, Date startDate, Date endDate,
 			Date startTime, Date endTime, int position) {
 		dateFormatter = new SimpleDateFormat("EEE, MMM d");
-		startDateFormatter = new SimpleDateFormat("d");
+		startDateFormatter = new SimpleDateFormat("d ");
 		endDateFormatter = new SimpleDateFormat("- d MMM");
 		timeFormatter = new SimpleDateFormat("HHmm");
 
@@ -53,8 +54,11 @@ public class ModelTask {
 	public void setDate(Date startDate, Date endDate) {
 		this.startDate = startDate;
 		this.endDate = endDate;
-
+		
 		if (startDate != null && endDate != null) {
+			if(!isSameMonth(startDate, endDate)){
+				startDateFormatter = new SimpleDateFormat("d MMM ");
+			}
 			String startDateString = startDateFormatter.format(startDate);
 			String endDateString = endDateFormatter.format(endDate);
 			this.dateStringProperty.set(startDateString
@@ -71,6 +75,19 @@ public class ModelTask {
 			this.dateStringProperty.set("");
 		}
 
+	}
+
+	private boolean isSameMonth(Date startDate, Date endDate) {
+		Calendar cal = Calendar.getInstance();
+		int month1;
+		int month2;
+		
+		cal.setTime(startDate);
+		month1 = cal.get(Calendar.MONTH);
+		cal.setTime(endDate);
+		month2 = cal.get(Calendar.MONTH);
+		
+		return month1 == month2;
 	}
 
 	public void setTime(Date startTime, Date endTime) {
