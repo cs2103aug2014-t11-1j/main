@@ -1,34 +1,38 @@
 package gui.controller;
 
-import gui.MainApp;
-
 import java.util.Calendar;
-import java.util.Date;
 
-import javafx.collections.FXCollections;
+import gui.MainApp;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import logic.ErrorMessages;
+import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 import logic.LogicFacade;
 import storage.ModelTask;
+import logic.ErrorMessages;
 
 public class PhantomController{
-
 	protected static boolean hasOccured = false;
 
-	@FXML
-	private Label timeLabel;
 	@FXML
 	private Label tfOutput;
 	@FXML
 	private TextField commandLine;
 
-	//other views and controllers
+	// Reference to the main application.
+	private MainApp mainApp;
+
 	@FXML
 	private Parent tableView;
 	@FXML
@@ -39,101 +43,38 @@ public class PhantomController{
 	@FXML
 	private TodayViewController todayViewController;
 
+	@FXML
+	private Parent helperView;
+	@FXML
+	private HelperViewController helperViewController;
+
+	@FXML
+	private Label timeLabel;
+
 	private LogicFacade logicFacade;
-	private MainApp mainApp;
 
 	private AnimationHandler ah;
 	private CommandLineUtility clu;
-
-	private ObservableList<ModelTask> allList;
-	private ObservableList<ModelTask> todayList;
 
 	public PhantomController() {
 		System.out.println("phantom constructor");
 		logicFacade = LogicFacade.getInstance();
 	}
-	
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
-	}
-	
+
 	@FXML
 	private void initialize() {
 		System.out.println("phantom initilising");
-		init();
+		tableViewController.setAllView(logicFacade.getAllList());
+		todayViewController.setTodayView(logicFacade.getAllList());
 
-	}
-
-	private void init() {
-		initTableView();
-		initTodayView();
-		initClock();
-		initAnimation();
-		initCommandLineUtility();
-	}
-
-	private void initTableView() {
-		allList = logicFacade.getAllList();
-		tableViewController.setAllView(allList);
-		tableView.setVisible(false);
-	}
-
-	private void initTodayView() {
-		getTodayList(allList);
-		todayViewController.setTodayView(todayList);
-		todayView.setVisible(true);
-	}
-
-	private void initClock() {
 		PhantomClock pc = PhantomClock.getInstance();
 		pc.setClock(timeLabel);
-	}
 
-	private void initAnimation() {
 		ah = AnimationHandler.getInstance();
-		ah.initialize(tableView, todayView);
-	}
+		ah.initialize(tableView, todayView, helperView);
 
-	private void initCommandLineUtility() {
 		clu = CommandLineUtility.getInstance();
 		clu.initialize(commandLine);
-	}
-
-	//TODO: should be under initilise todayView
-	private void getTodayList(ObservableList<ModelTask> list) {
-		todayList = FXCollections.observableArrayList();
-
-		Calendar yesterdayCal = Calendar.getInstance();
-		yesterdayCal.set(Calendar.DAY_OF_YEAR, yesterdayCal.get(Calendar.DAY_OF_YEAR) - 1);
-		yesterdayCal.set(Calendar.HOUR_OF_DAY, 23);
-		yesterdayCal.set(Calendar.MINUTE, 59);
-		yesterdayCal.set(Calendar.SECOND, 59);
-
-		Calendar tomorrowCal = Calendar.getInstance();
-		tomorrowCal.set(Calendar.HOUR_OF_DAY, 23);
-		tomorrowCal.set(Calendar.MINUTE, 59);
-		tomorrowCal.set(Calendar.SECOND, 59);
-
-		Date yesterday = yesterdayCal.getTime();
-		Date tomorrow = tomorrowCal.getTime();
-		System.out.println(yesterday.toString());
-		System.out.println(tomorrow.toString());
-		for(ModelTask task : list){
-			if(task.getStartDate() != null){
-				System.out.println(task.getStartDate().toString());
-				System.out.println(task.getStartDate().compareTo(tomorrow));
-				if(task.getStartDate().compareTo(yesterday) > 0 && task.getStartDate().compareTo(tomorrow) < 0){
-					todayList.add(task);
-				}
-			}
-		}
-
-		todayList.sort(new ModelTaskStartDateComparator());
-		if(todayList.size() > 5){
-			for(int i = 5; i < todayList.size(); i++){
-				todayList.remove(5);
-			}
-		}
 	}
 
 	@FXML
@@ -142,71 +83,85 @@ public class PhantomController{
 		EditListener editListener = new EditListener(logicFacade.getAllList(),commandLine);
 		commandLine.textProperty().addListener(editListener);
 
+		String input;
+
 		if(e.getCode() == KeyCode.ENTER){
 			hasOccured = false;
-			String input = commandLine.getText();
-			commandLine.clear();
-			String feedback = "";
+			input = commandLine.getText();
 
 			if(input.equalsIgnoreCase("showall")){
 				ah.animateLeft();
-				switchToAll();
 			}
-			else if(input.equalsIgnoreCase("showtoday")){
+			if(input.equalsIgnoreCase("showtoday")){
 				ah.animateRight();
-				switchToToday();
 			}
-			else{
-				try {
-					feedback = logicFacade.getFeedBack(input);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-
-				if(feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE || feedback == ErrorMessages.SUCCESS_REDONE_MESSAGE){
-					setAllView(logicFacade.getAllList());
-				}
-				
-				tfOutput.setText(feedback);
-
-				getTodayList(allList);
-				todayViewController.setTodayView(todayList);
-
-				clu.forwardToPrevious();
-				clu.pushInput(input);
+			commandLine.clear();
+			String feedback = "";
+			try {
+				feedback = logicFacade.getFeedBack(input);
+			} catch (Exception e1) {
+				e1.printStackTrace();
 			}
-		}
 
-		if(e.getCode() == KeyCode.UP){
+			if(feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE || feedback == ErrorMessages.ERROR_UNDONE_MESSAGE || feedback == ErrorMessages.SUCCESS_REDONE_MESSAGE){
+				setAllView(logicFacade.getAllList());
+			}
+
+			tfOutput.setText(feedback);
+
+			clu.forwardToPrevious();
+			clu.pushInput(input);
+			ah.removeHelper();
+			
+		}else if(e.getCode() == KeyCode.UP){
 			clu.displayPreviousInput();			
+		}else if(e.getCode() == KeyCode.DOWN){
+			clu.displayForwardInput();
+		}else {
+
+			try{
+				if(e.getCode() == KeyCode.BACK_SPACE){
+					input = commandLine.getText().substring(0, commandLine.getText().length()-1);
+				}else{
+					input = commandLine.getText() + e.getText();
+				}
+
+				System.out.println(input);
+
+				if(input.split(" ")[0].equalsIgnoreCase("add")){
+					ah.displayHelper();
+				}else if(input.length() < 2){
+					ah.revertView();
+				}
+
+				helperViewController.setHelperView(input);
+
+			}catch(Exception exc){
+				System.out.println("mother father gentlemen");
+			}
 		}
 
-		if(e.getCode() == KeyCode.DOWN){
-			clu.displayForwardInput();
-		}
+		
+
+
 	}
 
-	private void switchToSearch(ObservableList<ModelTask> list){
+	public void switchToSearch(ObservableList<ModelTask> list){
 		tableViewController.switchToSearch(list);
 		tableView.setVisible(true);
 		todayView.setVisible(false);
 	}
 
-	private void switchToAll(){
+	public void switchToAll(){
 		tableViewController.switchToAll();
 		tableView.setVisible(true);
 		todayView.setVisible(false);
 	}
 
-	private void setAllView(ObservableList<ModelTask> list){
+	public void setAllView(ObservableList<ModelTask> list){
 		tableViewController.setAllView(list);
 		tableView.setVisible(true);
 		todayView.setVisible(false);
-	}
-
-	private void switchToToday(){
-		todayView.setVisible(true);
-		tableView.setVisible(false);
 	}
 
 	@FXML
@@ -219,7 +174,9 @@ public class PhantomController{
 		mainApp.getPrimaryStage().setIconified(true);
 	}
 
-
+	public void setMainApp(MainApp mainApp) {
+		this.mainApp = mainApp;
+	}
 
 
 	/*
@@ -263,4 +220,6 @@ public class PhantomController{
 		tableViewController.setVisible(false);
 	}
 	 */
+
+
 }

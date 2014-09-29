@@ -21,13 +21,11 @@ public class Add extends CommandFactory {
 
     @Override
     protected void execute(String input) {
-
         try {
             input = formatString(input);
         } catch (IllegalArgumentException ex) {
             return;
         }
-
         ModelTask temp = tc.convert(pf.getTask("add " + input), list.getListSize() + 1);
         list.add(temp);
         isDone = true;

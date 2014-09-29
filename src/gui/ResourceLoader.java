@@ -2,6 +2,14 @@ package gui;
 
 import java.io.InputStream;
 
+/**
+ * This class is used to load
+ * external resources for use
+ * in the GUI.
+ * 
+ * * Author: smallson
+ */
+
 final public class ResourceLoader {
 	
 	public static InputStream load(String path){
@@ -11,6 +19,4 @@ final public class ResourceLoader {
 		}
 		return input;
 	}
-	
-
 }
