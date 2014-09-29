@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import logic.LogicFacade;
 import storage.ModelTask;
@@ -32,6 +33,7 @@ public class PhantomController{
 
 	// Reference to the main application.
 	private MainApp mainApp;
+	private Stage primaryStage;
 
 	@FXML
 	private Parent tableView;
@@ -171,11 +173,11 @@ public class PhantomController{
 
 	@FXML
 	private void handleMinimise(){
-		mainApp.getPrimaryStage().setIconified(true);
+		primaryStage.setIconified(true);
 	}
 
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
+	public void setPrimaryStage(Stage stage) {
+		this.primaryStage = stage;
 	}
 
 

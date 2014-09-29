@@ -87,19 +87,11 @@ public class MainApp extends Application {
             
             // Give the controller access to the main app.
             PhantomController controller = loader.getController();
-            controller.setMainApp(this);
+            controller.setPrimaryStage(primaryStage);
             
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    
-    /**
-     * Returns the main stage.
-     * @return
-     */
-    public Stage getPrimaryStage() {
-        return primaryStage;
     }
 
     public static void main(String[] args) {
