@@ -31,8 +31,6 @@ public class PhantomController{
 	@FXML
 	private TextField commandLine;
 
-	// Reference to the main application.
-	private MainApp mainApp;
 	private Stage primaryStage;
 
 	@FXML
