@@ -193,20 +193,14 @@ public class PhantomController{
 
 	private void switchToSearch(ObservableList<ModelTask> list){
 		tableViewController.switchToSearch(list);
-		tableView.setVisible(true);
-		todayView.setVisible(false);
 	}
 
 	private void switchToAll(){
 		tableViewController.switchToAll();
-		tableView.setVisible(true);
-		todayView.setVisible(false);
 	}
 
 	private void setAllView(ObservableList<ModelTask> list){
 		tableViewController.setAllView(list);
-		tableView.setVisible(true);
-		todayView.setVisible(false);
 	}
 
 	private void changeCss(String cssFileName){
