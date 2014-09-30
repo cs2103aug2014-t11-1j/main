@@ -16,7 +16,6 @@ import javafx.stage.StageStyle;
 public class MainApp extends Application {
 
     private Stage primaryStage;
-    private BorderPane rootLayout;
     private AnchorPane overallView;
     
     private double xOffset = 0;
@@ -29,51 +28,9 @@ public class MainApp extends Application {
         this.primaryStage.centerOnScreen();
         this.primaryStage.initStyle(StageStyle.TRANSPARENT);
 
-        initRootLayout();
-
         showPhantomOverallView();
     }
 
-    
-
-	/**
-     * Initializes the root layout.
-     */
-    public void initRootLayout() {
-        try {
-            // Load root layout from fxml file.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("/gui/view/RootLayout.fxml"));
-            rootLayout = (BorderPane) loader.load();
-            
-            //makes application draggable
-            rootLayout.setOnMousePressed(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    xOffset = event.getSceneX();
-                    yOffset = event.getSceneY();
-                }
-            });
-            rootLayout.setOnMouseDragged(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    primaryStage.setX(event.getScreenX() - xOffset);
-                    primaryStage.setY(event.getScreenY() - yOffset);
-                }
-            });
-            
-            // Show the scene containing the root layout.
-            Scene scene = new Scene(rootLayout);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Shows the person overview inside the root layout.
-     */
     public void showPhantomOverallView() {
         try {  	
             // Load person overview.
@@ -82,12 +39,28 @@ public class MainApp extends Application {
             overallView = (AnchorPane) loader.load();
             System.out.println("overall view loaded");
 
-            // Set person overview into the center of root layout.
-            rootLayout.setCenter(overallView);
+            Scene scene = new Scene(overallView);
+            primaryStage.setScene(scene);
+            primaryStage.show();
             
-            // Give the controller access to the main app.
+            overallView.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    xOffset = event.getSceneX();
+                    yOffset = event.getSceneY();
+                }
+            });
+            overallView.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    primaryStage.setX(event.getScreenX() - xOffset);
+                    primaryStage.setY(event.getScreenY() - yOffset);
+                }
+            });
+            
             PhantomController controller = loader.getController();
             controller.setPrimaryStage(primaryStage);
+            controller.setOverallView(overallView);
             
         } catch (IOException e) {
             e.printStackTrace();

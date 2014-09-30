@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logic.ErrorMessages;
 import logic.LogicFacade;
@@ -16,7 +17,8 @@ public class PhantomController{
 	protected static boolean hasOccured = false;
 
 	private Stage primaryStage;
-
+	private AnchorPane overallView;
+	
 	@FXML
 	private Label tfOutput;
 	@FXML
@@ -46,6 +48,7 @@ public class PhantomController{
 	private CommandLineUtility clu;
 	private TodayListManager tlm;
 
+
 	public PhantomController() {
 		System.out.println("phantom constructor");
 		logicFacade = LogicFacade.getInstance();
@@ -54,7 +57,11 @@ public class PhantomController{
 	public void setPrimaryStage(Stage stage) {
 		this.primaryStage = stage;
 	}
-	
+
+	public void setOverallView(AnchorPane overallView) {
+		this.overallView = overallView;
+	}
+
 	@FXML
 	private void initialize() {
 		System.out.println("phantom initilising");
@@ -94,7 +101,7 @@ public class PhantomController{
 		clu = CommandLineUtility.getInstance();
 		clu.initialize(commandLine);
 	}
-	
+
 	@FXML
 	private void handleExit(){
 		System.exit(0);
@@ -115,7 +122,7 @@ public class PhantomController{
 
 		if(e.getCode() == KeyCode.ENTER){
 			hasOccured = false;
-			
+
 			input = commandLine.getText();
 			commandLine.clear();
 			String feedback = "";
@@ -125,6 +132,12 @@ public class PhantomController{
 			}
 			if(input.equalsIgnoreCase("showtoday")){
 				ah.animateRight();
+			}
+			if(input.equalsIgnoreCase("blue theme")){
+				changeCss("BlueTheme");
+			}
+			if(input.equalsIgnoreCase("dark theme")){
+				changeCss("DarkTheme");
 			}
 
 			try {
@@ -173,9 +186,9 @@ public class PhantomController{
 		}
 	}
 
-	
+
 	private boolean shouldUpdateAllView(String feedback) {
-		return feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE || feedback == ErrorMessages.ERROR_UNDONE_MESSAGE || feedback == ErrorMessages.SUCCESS_REDONE_MESSAGE;
+		return feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE || feedback == ErrorMessages.SUCCESS_REDONE_MESSAGE;
 	}
 
 	private void switchToSearch(ObservableList<ModelTask> list){
@@ -195,6 +208,24 @@ public class PhantomController{
 		tableView.setVisible(true);
 		todayView.setVisible(false);
 	}
+
+	private void changeCss(String cssFileName){
+		String themeUrl = getClass().getResource("../view/" + cssFileName +".css").toExternalForm();
+		
+		overallView.getStylesheets().clear();
+		overallView.getStylesheets().add(themeUrl);
+		
+		tableView.getStylesheets().clear();
+		tableView.getStylesheets().add(themeUrl);
+		
+		todayView.getStylesheets().clear();
+		todayView.getStylesheets().add(themeUrl);
+		
+		helperView.getStylesheets().clear();
+		helperView.getStylesheets().add(themeUrl);
+	}
+
+
 
 	/*
 	 * unused classes for initial testing with command buttons in gui
