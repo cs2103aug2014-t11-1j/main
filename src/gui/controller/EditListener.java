@@ -26,6 +26,7 @@ import javafx.scene.control.TextField;
 
 public class EditListener implements ChangeListener<String> {
 
+	//private static final String STRING_FORMAT = "[%1$s] [%2$s] [%3$s] [%4$s] [%5$s]";
 	private TextField commandLine;
 	private ObservableList<ModelTask> list;
 
@@ -88,9 +89,12 @@ public class EditListener implements ChangeListener<String> {
 
 	private String getTaskDescription(int position) {
 		ModelTask currTask = list.get(position - 1);
-		return currTask.getEvent() + " " + currTask.getStartDate() + " "
-				+ currTask.getEndDate() + " " + currTask.getStartTime() + " "
-				+ currTask.getEndTime();
+		
+//		return (String.format(STRING_FORMAT,currTask.getEvent(), currTask.getStartDateString(),
+//				currTask.getEndDateString(), currTask.getStartTimeString(),currTask.getEndTimeString()));
+		return currTask.getEvent() + " " + currTask.getStartDateString() + " "
+				+ currTask.getEndDateString() + " " + currTask.getStartTimeString() + " "
+				+ currTask.getEndTimeString();
 	}
 
 }

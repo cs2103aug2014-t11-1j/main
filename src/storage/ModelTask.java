@@ -12,15 +12,22 @@ public class ModelTask {
 	private StringProperty dateStringProperty;
 	private StringProperty timeStringProperty;
 	private StringProperty positionStringProperty;
-	private SimpleDateFormat dateFormatter, startDateFormatter,
-			endDateFormatter, timeFormatter;
+
+	private SimpleDateFormat standardFormatter, dateFormatter,
+			startDateFormatter, endDateFormatter, timeFormatter;
 	private Date startDate, endDate, startTime, endTime;
+	private String startDateString, endDateString, startTimeString,
+			endTimeString;
 	private int position;
 	private boolean isDone;
 
 	// constructor
+	public ModelTask() {
+	}
+
 	public ModelTask(String event, Date startDate, Date endDate,
 			Date startTime, Date endTime, int position) {
+		standardFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		dateFormatter = new SimpleDateFormat("EEE, MMM d");
 		startDateFormatter = new SimpleDateFormat("d ");
 		endDateFormatter = new SimpleDateFormat("- d MMM");
@@ -30,9 +37,13 @@ public class ModelTask {
 		this.dateStringProperty = new SimpleStringProperty();
 		this.timeStringProperty = new SimpleStringProperty();
 		this.positionStringProperty = new SimpleStringProperty();
-		
+
 		setDate(startDate, endDate);
 		setTime(startTime, endTime);
+		setStartDateString(startDate);
+		setEndDateString(endDate);
+		setStartTimeString(startTime);
+		setEndTimeString(startTime);
 		setPosition(position);
 		this.isDone = false;
 	}
@@ -46,9 +57,41 @@ public class ModelTask {
 		this.position = position;
 		positionStringProperty.set(String.valueOf(position));
 	}
-	
-	public void setIsDone(boolean isDone){
+
+	public void setIsDone(boolean isDone) {
 		this.isDone = isDone;
+	}
+
+	public void setStartDateString(Date startDate) {
+		if (startDate != null) {
+			startDateString = standardFormatter.format(startDate);
+		} else {
+			startDateString = null;
+		}
+	}
+
+	public void setEndDateString(Date endDate) {
+		if (endDate != null) {
+			endDateString = standardFormatter.format(endDate);
+		} else {
+			endDateString = null;
+		}
+	}
+
+	public void setStartTimeString(Date startTime) {
+		if (startTime != null) {
+			startTimeString = timeFormatter.format(startTime);
+		} else {
+			startTimeString = null;
+		}
+	}
+
+	public void setEndTimeString(Date endTime) {
+		if (endTime != null) {
+			endTimeString = timeFormatter.format(endTime);
+		} else {
+			endTimeString = null;
+		}
 	}
 
 	public void setDate(Date startDate, Date endDate) {
@@ -61,8 +104,7 @@ public class ModelTask {
 			}
 			String startDateString = startDateFormatter.format(startDate);
 			String endDateString = endDateFormatter.format(endDate);
-			this.dateStringProperty.set(startDateString
-					+ endDateString);
+			this.dateStringProperty.set(startDateString + endDateString);
 		} else if (startDate == null && endDate == null) {
 			this.dateStringProperty.set("");
 		} else if (startDate != null) {
@@ -97,8 +139,8 @@ public class ModelTask {
 		if (startTime != null && endTime != null) {
 			String startTimeString = timeFormatter.format(startTime);
 			String endTimeString = timeFormatter.format(endTime);
-			this.timeStringProperty.set(startTimeString
-					+ " - " + endTimeString);
+			this.timeStringProperty
+					.set(startTimeString + " - " + endTimeString);
 		} else if (startTime == null && endTime == null) {
 			this.timeStringProperty.set("");
 		} else if (startTime != null) {
@@ -114,6 +156,22 @@ public class ModelTask {
 	}
 
 	// accessors
+	public String getStartDateString() {
+		return startDateString;
+	}
+
+	public String getEndDateString() {
+		return endDateString;
+	}
+
+	public String getStartTimeString() {
+		return startTimeString;
+	}
+
+	public String getEndTimeString() {
+		return endTimeString;
+	}
+
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -137,8 +195,8 @@ public class ModelTask {
 	public int getPosition() {
 		return position;
 	}
-	
-	public boolean isDone(){
+
+	public boolean isDone() {
 		return this.isDone;
 	}
 

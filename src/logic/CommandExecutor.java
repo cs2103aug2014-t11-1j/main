@@ -1,5 +1,7 @@
 package logic;
 
+import java.io.IOException;
+
 import storage.ModelTask;
 /**
  * @author Zhang Yongkai
@@ -8,6 +10,7 @@ import storage.ModelTask;
  * to Command class for actual processing.
  */
 
+import storage.Storage;
 import javafx.collections.ObservableList;
 import parser.ParserFacade;
 
@@ -20,28 +23,42 @@ public class CommandExecutor {
 	private static String feedBack;
 	private static ObservableList<ModelTask> taskList;
 	private static ObservableList<ModelTask> searchedList;
+	private static Storage storage;
 
 	// constructor
-	public CommandExecutor(ObservableList<ModelTask> list) {
+	public CommandExecutor(ObservableList<ModelTask> list, Storage storage) {
 		taskList = list;
 		CommandFactory.list.setList(taskList);
-                CommandFactory.searchList.setList(searchedList);
-                CommandFactory.updateUndoAndRedoStacks();
+		CommandFactory.searchList.setList(searchedList);
+		CommandFactory.updateUndoAndRedoStacks();
 		pf = ParserFacade.getInstance();
+		CommandExecutor.storage = storage;
 	}
 
 	// mutator
 	protected static void setFeedBack(String feedBack) {
 		CommandExecutor.feedBack = feedBack;
 	}
-        
-        protected static void setTaskList(ObservableList<ModelTask> taskList){
-            CommandExecutor.taskList = taskList;
-        }
-        
-        protected static void setSearchList(ObservableList<ModelTask> searchList){
-            CommandExecutor.searchedList = searchList;
-        } 
+
+	protected static void setTaskList(ObservableList<ModelTask> taskList) {
+		CommandExecutor.taskList = taskList;
+		try {
+			storage.save(taskList);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	protected static void setSearchList(ObservableList<ModelTask> searchList) {
+		CommandExecutor.searchedList = searchList;
+		try {
+			storage.save(taskList);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	// accessors
 	public String getCommandWord() {
@@ -64,7 +81,7 @@ public class CommandExecutor {
 		return searchedList;
 	}
 
-	protected void excecuteCommand(String rawInput) {
+	public void executeCommand(String rawInput) {
 		String commandWord = pf.getCommandString(rawInput);
 		String actualCommandDescription = pf.getStringWithoutCommand(rawInput);
 		Action action = new Action(commandWord);
@@ -198,7 +215,7 @@ public class CommandExecutor {
 				 * be more like what display looks like
 				 */
 				cmdf = new Search(actualCommandDescription);
-				
+
 				// setFeedBack(cmd.search(actualCommandDescription));
 				// setSearchedList(cmd.getTaskList());
 
