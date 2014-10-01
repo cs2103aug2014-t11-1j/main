@@ -168,6 +168,11 @@ public class PhantomController{
 
 			try{
 				if(e.getCode() == KeyCode.BACK_SPACE){
+					
+					if(ah.getIsFocusTable() && commandLine.getText().equals("")){
+						tableViewController.scrollToBack();
+					}
+					
 					input = commandLine.getText().substring(0, commandLine.getText().length()-1);
 				}else{
 					input = commandLine.getText() + e.getText();
