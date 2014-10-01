@@ -76,6 +76,14 @@ public class AnimationHandler {
 		slideOutHelper.setByX(700);
 		
 	}
+	
+	public boolean getIsFocusTable(){
+		return isFocusTable;
+	}
+	
+	public boolean getIsFocusToday(){
+		return isFocusToday;
+	}
 
 	public void animateLeft(){
 		if(isFocusToday){

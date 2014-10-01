@@ -25,7 +25,6 @@ public class TableController{
 	private ObservableList<ModelTask> searchedList;
 	
 	
-	
 	public TableController(){
 		System.out.println("table constructor");
 	}
@@ -56,6 +55,11 @@ public class TableController{
 
 	protected void switchToAll() {
 		taskTable.setItems(taskList);
+	}
+
+	protected void scrollToNext() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
