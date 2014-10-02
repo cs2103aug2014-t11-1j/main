@@ -18,7 +18,7 @@ public class PhantomController{
 
 	private Stage primaryStage;
 	private AnchorPane overallView;
-	
+
 	@FXML
 	private Label tfOutput;
 	@FXML
@@ -126,36 +126,39 @@ public class PhantomController{
 			input = commandLine.getText();
 			commandLine.clear();
 			String feedback = "";
-
-			if(input.equalsIgnoreCase("showall")){
+			if(ah.getIsFocusTable() && input.equals("")){
+				tableViewController.scrollToNext();
+			}
+			else if(input.equalsIgnoreCase("showall")){
 				ah.animateLeft();
 			}
-			if(input.equalsIgnoreCase("showtoday")){
+			else if(input.equalsIgnoreCase("showtoday")){
 				ah.animateRight();
 			}
-			if(input.equalsIgnoreCase("blue theme")){
+			else if(input.equalsIgnoreCase("blue theme")){
 				changeCss("BlueTheme");
 			}
-			if(input.equalsIgnoreCase("dark theme")){
+			else if(input.equalsIgnoreCase("dark theme")){
 				changeCss("DarkTheme");
 			}
+			else{
+				try {
+					feedback = logicFacade.getFeedBack(input);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 
-			try {
-				feedback = logicFacade.getFeedBack(input);
-			} catch (Exception e1) {
-				e1.printStackTrace();
+				if(shouldUpdateAllView(feedback)){
+					setAllView(logicFacade.getAllList());
+				}
+
+				tfOutput.setText(feedback);
+
+				updateTodayView();
+				clu.forwardToPrevious();
+				clu.pushInput(input);
+				ah.removeHelper();
 			}
-
-			if(shouldUpdateAllView(feedback)){
-				setAllView(logicFacade.getAllList());
-			}
-
-			tfOutput.setText(feedback);
-
-			updateTodayView();
-			clu.forwardToPrevious();
-			clu.pushInput(input);
-			ah.removeHelper();
 
 		}else if(e.getCode() == KeyCode.UP){
 			clu.displayPreviousInput();			
@@ -165,6 +168,11 @@ public class PhantomController{
 
 			try{
 				if(e.getCode() == KeyCode.BACK_SPACE){
+					
+					if(ah.getIsFocusTable() && commandLine.getText().equals("")){
+						tableViewController.scrollToBack();
+					}
+					
 					input = commandLine.getText().substring(0, commandLine.getText().length()-1);
 				}else{
 					input = commandLine.getText() + e.getText();
@@ -205,16 +213,16 @@ public class PhantomController{
 
 	private void changeCss(String cssFileName){
 		String themeUrl = getClass().getResource("../view/" + cssFileName +".css").toExternalForm();
-		
+
 		overallView.getStylesheets().clear();
 		overallView.getStylesheets().add(themeUrl);
-		
+
 		tableView.getStylesheets().clear();
 		tableView.getStylesheets().add(themeUrl);
-		
+
 		todayView.getStylesheets().clear();
 		todayView.getStylesheets().add(themeUrl);
-		
+
 		helperView.getStylesheets().clear();
 		helperView.getStylesheets().add(themeUrl);
 	}
