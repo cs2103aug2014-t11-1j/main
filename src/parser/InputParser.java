@@ -83,28 +83,12 @@ public class InputParser {
 
 		DateParser dp = new DateParser();
 		TimeParser tp = new TimeParser();
+		ParseFreeManager pfm = ParseFreeManager.getInstance();
 
+		input = pfm.getParseFreeInput(input);
 		String[] tokens = input.split(STRING_SPACE);
 
 		for (int i = 0; i < tokens.length; i++) {
-
-			if(tokens[i].contains("\"")){				
-				System.out.println(tokens[i].split("\"").length);
-				System.out.println(i);
-				if(tokens[i].split("\"").length % 2 == 0){
-					i++;
-				}
-				else{
-					while(!tokens[i].contains("\"")){
-						i++;
-					}
-				}
-			}
-
-			if(i >= tokens.length){
-				taskDescription = input;
-				break;
-			}
 
 			if(!isDeadLineFound && !isEndDateFound && !isStartDateFound){
 				input = dp.parseDateWithoutKeyword(tokens, i, input);
@@ -214,6 +198,7 @@ public class InputParser {
 			}
 		}
 
+		input = pfm.replaceParseFree(input);
 		taskDescription = input;						
 	}
 
