@@ -76,6 +76,25 @@
     -fx-background-color: derive(#483d8b, 50%);
 }
 
+.menu-bar {
+    -fx-background-color: derive(#483d8b,20%);
+}
+
+.context-menu {
+    -fx-background-color: derive(#483d8b,50%);
+}
+
+.menu-bar .label {
+    -fx-font-size: 14pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-opacity: 0.9;
+}
+
+.menu .left-container {
+    -fx-background-color: #483d8b;
+}
+
 /* 
  * Metro style Push Button
  * Author: Pedro Duque Vieira
