@@ -10,8 +10,8 @@ public class ErrorMessages {
 	public static final String ERROR_ADDING_MESSAGE = "Error with adding";
 	public static final String ERROR_DELETE_MESSAGE = "Delete unsuccessful";
 	public static final String SUCCESS_DELETE_MESSAGE = "Delete successful!";
-	public static final String ERROR_CLEAR_MESSAGE = "List cleared";
-	public static final String SUCCESS_CLEAR_MESSAGE = "Error with clearing";
+	public static final String SUCCESS_CLEAR_MESSAGE = "List cleared";
+	public static final String ERROR_CLEAR_MESSAGE = "Error with clearing";
 	public static final String ERROR_UNDONE_MESSAGE = "Action cannot be undone";
 	public static final String SUCCESS_UNDONE_MESSAGE = "Action Undone!";
 	public static final String ERROR_REDONE_MESSAGE = "No action to redo";

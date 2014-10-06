@@ -6,7 +6,7 @@ package logic;
  */
 public class Clear extends CommandFactory {
 
-    boolean isDone;
+    private boolean isDone;
 
     //Constructor
     protected Clear() {
