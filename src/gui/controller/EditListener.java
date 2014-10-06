@@ -3,18 +3,16 @@ package gui.controller;
 /**
  *
  * @author: Zhang Yongkai
- * this listener will listen to change in the input textfield and display the
+ * this is the editlistener for a text field in javafx
+ * listener will listen to change in the input textfield and display the
  * the corresponding description of the task when the task number is entered
  * for example:
  * if you type "edit 2", it will display the 2nd task.
- * to use it, create a CommandLine object, eg: comandLine, then:
+ * if you type "edit?" it will display what to input
+ * if you type "add?" it will display what to input
+ * 
  *
- *		EditListener editListener = new EditListener(logicFacade.getAllList(),commandLine);
- *		commandLine.textProperty().addListener(editListener);
- *
- * note: currently, it only listen to "edit num"
- * and it will not work if the task is not retrieved from a text box. see
- * method getTaskDescription.
+ * note: currently, it only listen to "edit num" and "add"
  *
  */
 
@@ -23,21 +21,31 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextField;
+//import javafx.scene.input.KeyCode;
+//import javafx.scene.input.KeyEvent;
+import logic.LogicFacade;
 
 public class EditListener implements ChangeListener<String> {
 
-	//private static final String STRING_FORMAT = "[%1$s] [%2$s] [%3$s] [%4$s] [%5$s]";
+	// private static final String STRING_FORMAT =
+	// "[%1$s] [%2$s] [%3$s] [%4$s] [%5$s]";
 	private TextField commandLine;
+	private LogicFacade logicFacade;
 	private ObservableList<ModelTask> list;
 
-	public EditListener(ObservableList<ModelTask> list, TextField commandLine) {
-		this.list = list;
+	// private KeyEvent keyPress;
+
+	public EditListener(TextField commandLine) {
+		this.logicFacade = LogicFacade.getInstance();
+		this.list = logicFacade.getAllList();
 		this.commandLine = commandLine;
 	}
 
 	@Override
 	public void changed(ObservableValue<? extends String> observable,
 			String oldValue, String newValue) {
+
+	
 
 		if (newValue.trim().equalsIgnoreCase("add?")) {
 			commandLine.setText("add taskdecription");
@@ -66,6 +74,17 @@ public class EditListener implements ChangeListener<String> {
 			}
 
 		}
+		
+		// for getting search list view
+		 //if(keyPress.getCode()==KeyCode.ENTER){
+		// if(getFirstWord(newValue).equalsIgnoreCase("search")){
+		// list=logicFacade.getSearchedList();
+		// }else{
+		list= logicFacade.getAllList();
+		// }
+		// }
+		//
+		// }
 
 	}
 
@@ -80,21 +99,43 @@ public class EditListener implements ChangeListener<String> {
 	}
 
 	/**
-	 * the task description for now is retrieved from a
-	 * commandGenerator.getDisplayString. in the future, if ObservableList is
-	 * implemented, this method must be modified to get task from the
-	 * observablelist instead.
+	 * the task for now is retrieved from the allList in logic facade
 	 *
 	 */
 
 	private String getTaskDescription(int position) {
-		ModelTask currTask = list.get(position - 1);
+
+		ModelTask currTask = new ModelTask();
+		Boolean positionIsFound = false;
+
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getPosition() == position) {
+				currTask = list.get(i);
+				positionIsFound = true;
+			}
+		}
+
+		// return (String.format(STRING_FORMAT,currTask.getEvent(),
+		// currTask.getStartDateString(),
+		// currTask.getEndDateString(),
+		// currTask.getStartTimeString(),currTask.getEndTimeString()));
+		if (positionIsFound) {
+			return currTask.getEvent() + " " + currTask.getStartDateString()
+					+ " " + currTask.getEndDateString() + " "
+					+ currTask.getStartTimeString() + " "
+					+ currTask.getEndTimeString();
+		}
 		
-//		return (String.format(STRING_FORMAT,currTask.getEvent(), currTask.getStartDateString(),
-//				currTask.getEndDateString(), currTask.getStartTimeString(),currTask.getEndTimeString()));
-		return currTask.getEvent() + " " + currTask.getStartDateString() + " "
-				+ currTask.getEndDateString() + " " + currTask.getStartTimeString() + " "
-				+ currTask.getEndTimeString();
+		return "";
 	}
+
+	// private String getFirstWord(String input) {
+	// String firstWord = "";
+	// if (input != null) {
+	// String[] token = input.trim().split(" ");
+	// firstWord = token[0];
+	// }
+	// return firstWord;
+	// }
 
 }
