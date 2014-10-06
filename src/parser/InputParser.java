@@ -243,17 +243,14 @@ public class InputParser {
 
 		String[] endArray = endDate.split(STRING_SLASH);
 		String[] startArray = startDate.split(STRING_SLASH);
-		System.out.println("hello");
-
+		
 		if(Integer.parseInt(endArray[2]) < Integer.parseInt(startArray[2])){
 			return false;
 		} if (Integer.parseInt(endArray[2]) == Integer.parseInt(startArray[2])){
-			System.out.println("hello1");
 			if (Integer.parseInt(endArray[1]) < Integer.parseInt(startArray[1])){
 				return false;
 			}
 		} if (Integer.parseInt(endArray[1]) == Integer.parseInt(startArray[1])){
-			System.out.println("hello2");
 			if (Integer.parseInt(endArray[0]) < Integer.parseInt(startArray[0])){
 				return false;
 			}
