@@ -44,7 +44,7 @@ public class Sort extends CommandFactory {
             return SortCommands.ALPHA;
         } else if (input.equalsIgnoreCase("date")) {
             return SortCommands.DATE;
-        } else if (input.equalsIgnoreCase("num")) {
+        } else if (input.equalsIgnoreCase("num") || input.equals("")) {
             return SortCommands.NUM;
         } else {
             throw new IllegalArgumentException("Invalid sort command!");
@@ -58,9 +58,10 @@ public class Sort extends CommandFactory {
                 break;
             case DATE:
                 //implement date sort
+                //there is no deadline in ModelTask
                 break;
             case NUM:
-                //implement num sort
+                Collections.sort(CommandFactory.list.getList(), new ModelTaskNumComparator());
                 break;
             default:
                 throw new IllegalArgumentException("Invalid");
