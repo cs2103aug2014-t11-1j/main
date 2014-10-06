@@ -18,6 +18,8 @@ public class TableController{
 	@FXML
 	private TableColumn<ModelTask, String> timeColumn;
 	
+	private boolean isSearched;
+	
 	@FXML
 	private ObservableList<ModelTask> taskList;
 	
@@ -28,7 +30,6 @@ public class TableController{
 	
 	private static int INITIAL_VIEW_INDEX = 0;
 	private static int NEXT_NUMBER_OF_ROWS = 8;
-	private static int MAX_NUMBER_OF_ROWS_INDEX = 7;
 	
 	public TableController(){
 		System.out.println("table constructor");
@@ -46,24 +47,33 @@ public class TableController{
 		dateColumn.setComparator(new DateStringComparator());
 		taskColumn.setComparator(String.CASE_INSENSITIVE_ORDER);
 		
+		isSearched = false;
+		
 		viewIndex = INITIAL_VIEW_INDEX;
+	}
+	
+	protected boolean isSearched(){
+		return isSearched;
 	}
 	
 	protected void setAllView(ObservableList<ModelTask> list){
 		taskList = list;
 		taskTable.setItems(taskList);
 		viewIndex = INITIAL_VIEW_INDEX;
+		isSearched = false;
 	}
 	
 	protected void switchToSearch(ObservableList<ModelTask> list) {
 		searchedList = list;
 		taskTable.setItems(searchedList);
 		viewIndex = INITIAL_VIEW_INDEX;
+		isSearched = true;
 	}
 
 	protected void switchToAll() {
 		taskTable.setItems(taskList);
 		viewIndex = INITIAL_VIEW_INDEX;
+		isSearched = false;
 	}
 
 	protected void scrollToNext() {

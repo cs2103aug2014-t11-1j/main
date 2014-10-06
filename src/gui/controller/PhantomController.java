@@ -171,6 +171,9 @@ public class PhantomController{
 			input = commandLine.getText();
 			commandLine.clear();
 			String feedback = "";
+			if(tableViewController.isSearched()){
+				switchToAll();
+			}
 			if(ah.getIsFocusTable() && input.equals("")){
 				tableViewController.scrollToNext();
 			}
@@ -204,6 +207,9 @@ public class PhantomController{
 
 				if(shouldUpdateAllView(feedback)){
 					setAllView(logicFacade.getAllList());
+				}
+				if(shouldSwitchToSearch(feedback)){
+					switchToSearch(logicFacade.getSearchedList());
 				}
 
 				tfOutput.setText(feedback);
@@ -246,6 +252,10 @@ public class PhantomController{
 				System.out.println("mother father gentlemen");
 			}
 		}
+	}
+
+	private boolean shouldSwitchToSearch(String feedback) {
+		return feedback.contains("found");
 	}
 
 	private boolean shouldUpdateAllView(String feedback) {
