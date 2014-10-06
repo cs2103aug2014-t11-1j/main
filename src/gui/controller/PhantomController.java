@@ -1,14 +1,22 @@
 package gui.controller;
 
+import gui.MainApp;
+
+import java.io.IOException;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import logic.ErrorMessages;
 import logic.LogicFacade;
 import storage.ModelTask;
@@ -48,6 +56,8 @@ public class PhantomController{
 	private CommandLineUtility clu;
 	private TodayListManager tlm;
 
+	private String themeUrl;
+
 
 	public PhantomController() {
 		System.out.println("phantom constructor");
@@ -70,6 +80,7 @@ public class PhantomController{
 
 	private void initAll() {
 		tableViewController.setAllView(logicFacade.getAllList());
+		themeUrl = getClass().getResource("../view/DarkTheme.css").toExternalForm();
 		initTodayList();
 		initClock();
 		initAnimation();
@@ -147,6 +158,9 @@ public class PhantomController{
 			else if(input.equalsIgnoreCase("green theme")){
 				changeCss("GreenTheme");
 			}
+			else if(input.equalsIgnoreCase("popup")){
+				showPopup();
+			}
 			else{
 				try {
 					feedback = logicFacade.getFeedBack(input);
@@ -174,11 +188,11 @@ public class PhantomController{
 
 			try{
 				if(e.getCode() == KeyCode.BACK_SPACE){
-					
+
 					if(ah.getIsFocusTable() && commandLine.getText().equals("")){
 						tableViewController.scrollToBack();
 					}
-					
+
 					input = commandLine.getText().substring(0, commandLine.getText().length()-1);
 				}else{
 					input = commandLine.getText() + e.getText();
@@ -200,7 +214,6 @@ public class PhantomController{
 		}
 	}
 
-
 	private boolean shouldUpdateAllView(String feedback) {
 		return feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE || feedback == ErrorMessages.SUCCESS_REDONE_MESSAGE;
 	}
@@ -218,7 +231,7 @@ public class PhantomController{
 	}
 
 	private void changeCss(String cssFileName){
-		String themeUrl = getClass().getResource("../view/" + cssFileName +".css").toExternalForm();
+		themeUrl = getClass().getResource("../view/" + cssFileName +".css").toExternalForm();
 
 		overallView.getStylesheets().clear();
 		overallView.getStylesheets().add(themeUrl);
@@ -232,8 +245,35 @@ public class PhantomController{
 		helperView.getStylesheets().clear();
 		helperView.getStylesheets().add(themeUrl);
 	}
+	
+	private void showPopup() {
+		
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/PopupView.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+			page.getStylesheets().clear();
+			page.getStylesheets().add(themeUrl);
+			
+			
+			Stage popupStage = new Stage();
+			popupStage.setTitle("Popup");
+			popupStage.initModality(Modality.WINDOW_MODAL);
+			popupStage.initStyle(StageStyle.TRANSPARENT);
+			popupStage.initOwner(primaryStage);
+			
+			Scene scene = new Scene(page);
+			popupStage.setScene(scene);
+	
+			PopupController controller = loader.getController();
+			controller.setPopupStage(popupStage);
+			
+			popupStage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-
+	}
 
 	/*
 	 * unused classes for initial testing with command buttons in gui

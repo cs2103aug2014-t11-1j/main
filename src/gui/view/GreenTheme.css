@@ -3,6 +3,10 @@
 	-fx-background-color: -fx-base;
 }
 
+.backgroundPopup{
+	-fx-background-color: derive(#005502, 15%);
+}
+
 .label {
     -fx-font-size: 10pt;
     -fx-font-family: "Segoe UI Semibold";
@@ -142,16 +146,32 @@
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
 }
 
-.button:hover, #exitButton:hover, #minimiseButton:hover {
+#exitButtonPopup{
+	-fx-padding: 5 10 5 10;   
+    -fx-border-color: #e2e2e2;
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-background-color: derive(#005502, 15%);
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 9pt;
+    -fx-text-fill: #d8d8d8;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+}
+
+#exitButtonPopup:hover {
+	-fx-background-color:#005502;
+}
+
+.button:hover, #exitButton:hover, #minimiseButton:hover{
     -fx-background-color: #3A5F0B; /*some green*/
 }
 
-.button:pressed, .button:default:hover:pressed, #exitButton:pressed, #minimiseButton:pressed {
+.button:pressed, .button:default:hover:pressed, #exitButton:pressed, #minimiseButton:pressed, #exitButtonPopup:pressed {
   -fx-background-color: white;
   -fx-text-fill: -fx-base;
 }
 
-.button:focused, #exitButton:focused, #minimiseButton:focused {
+.button:focused, #exitButton:focused, #minimiseButton:focused, #exitButtonPopup:focused {
     -fx-border-color: white, white;
     -fx-border-width: 1, 1;
     -fx-border-style: solid, segments(1, 1);
