@@ -9,7 +9,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -49,12 +51,16 @@ public class PhantomController{
 
 	@FXML
 	private Label timeLabel;
+	
+	@FXML
+	private Menu themeMenu;
 
 	private LogicFacade logicFacade;
 
 	private AnimationHandler ah;
 	private CommandLineUtility clu;
 	private TodayListManager tlm;
+	private ThemeMenuHandler tmh;
 
 	private String themeUrl;
 
@@ -78,13 +84,19 @@ public class PhantomController{
 		initAll();
 	}
 
-	private void initAll() {
+	private void initAll() {  
 		tableViewController.setAllView(logicFacade.getAllList());
-		themeUrl = getClass().getResource("../view/DarkTheme.css").toExternalForm();
+		initMenuBar();
 		initTodayList();
 		initClock();
 		initAnimation();
 		initCommandLineUtility();
+	}
+
+	private void initMenuBar() {
+		themeUrl = getClass().getResource("../view/DarkTheme.css").toExternalForm();
+		tmh = new ThemeMenuHandler(themeMenu);
+		tmh.setDarkTheme();
 	}
 
 	private void initTodayList() {
@@ -121,6 +133,28 @@ public class PhantomController{
 	@FXML
 	private void handleMinimise(){
 		primaryStage.setIconified(true);
+	}
+	
+	@FXML
+	private void handleDarkTheme(){
+		changeCss("DarkTheme");	
+		tmh.setDarkTheme();
+	}
+
+	@FXML
+	private void handleBlueTheme(){
+		changeCss("BlueTheme");
+		tmh.setBlueTheme();
+	}
+	@FXML
+	private void handleRedTheme(){
+		changeCss("RedTheme");
+		tmh.setRedTheme();
+	}
+	@FXML
+	private void handleGreenTheme(){
+		changeCss("GreenTheme");
+		tmh.setGreenTheme();
 	}
 
 	@FXML
