@@ -85,10 +85,21 @@
 }
 
 .menu-bar .label {
-    -fx-font-size: 12pt;
+    -fx-font-size: 9pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
-    -fx-opacity: 0.9;
+    -fx-text-fill: black;
+}
+
+.menu:hover .label, .menu-item:hover .label, .menu:showing .label, .menu-item:focused .label{
+	-fx-text-fill: white;
+}
+
+.menu:hover, .menu:showing{
+	-fx-background-color: derive(#1d1d1d,50%);
+}
+
+.menu-item:hover, .menu-item:focused{
+	-fx-background-color: derive(#1d1d1d,80%);
 }
 
 /* 
