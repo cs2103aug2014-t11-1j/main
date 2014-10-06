@@ -18,6 +18,7 @@ public class InputParser {
 	 */
 	private final String STRING_SPACE = " ";
 	private final String STRING_DASH = "-";
+	private final String STRING_SLASH = "/";
 	private final String STRING_WAVE_DASH = "~";
 	private final String STRING_TO = "TO";
 
@@ -81,30 +82,19 @@ public class InputParser {
 
 	public void parseInput(String input){
 
+		input = replaceCommandWord(input);
+
 		DateParser dp = new DateParser();
 		TimeParser tp = new TimeParser();
+		ParseFreeManager pfm = ParseFreeManager.getInstance();
 
+		input = pfm.getParseFreeInput(input);
 		String[] tokens = input.split(STRING_SPACE);
+		String tempInput;
 
 		for (int i = 0; i < tokens.length; i++) {
 
-			if(tokens[i].contains("\"")){				
-				System.out.println(tokens[i].split("\"").length);
-				System.out.println(i);
-				if(tokens[i].split("\"").length % 2 == 0){
-					i++;
-				}
-				else{
-					while(!tokens[i].contains("\"")){
-						i++;
-					}
-				}
-			}
-
-			if(i >= tokens.length){
-				taskDescription = input;
-				break;
-			}
+			tempInput = input;
 
 			if(!isDeadLineFound && !isEndDateFound && !isStartDateFound){
 				input = dp.parseDateWithoutKeyword(tokens, i, input);
@@ -188,6 +178,15 @@ public class InputParser {
 					}
 				}
 			}
+
+			if(isEndDateFound && isStartDateFound){
+				if(!validEndDate(endDate , startDate)){
+					endDate = null;
+					isEndDateFound = false;
+					input = tempInput;
+				}
+			}
+
 		}
 
 		if(!isDeadLineFound && !isStartDateFound && !isEndDateFound){
@@ -200,7 +199,12 @@ public class InputParser {
 				temp = endTime;
 			}
 
-			if(temp != null){
+			if(isStartTimeFound && isEndTimeFound){
+				if(Integer.parseInt(endTime) < Integer.parseInt(startTime)){
+					startDate = getModifiedDate(0);
+					endDate = getModifiedDate(1);
+				}
+			} else if (temp != null){
 				try{
 					if(Integer.parseInt(getCurrentTime()) > Integer.parseInt(temp)){
 						deadLine = getModifiedDate(1);
@@ -212,13 +216,33 @@ public class InputParser {
 					System.out.println("error");
 				}
 			}
+
+
+
 		}
 
+		input = pfm.replaceParseFree(input);
 		taskDescription = input;						
 	}
 
-	private boolean isNotOutOfBounds(int index, int length) {
-		return index < length && index > 0;
+	private boolean validEndDate(String endDate, String startDate) {
+
+		String[] endArray = endDate.split(STRING_SLASH);
+		String[] startArray = startDate.split(STRING_SLASH);
+
+		if(Integer.parseInt(endArray[2]) < Integer.parseInt(startArray[2])){
+			return false;
+		} else if (Integer.parseInt(endArray[1]) < Integer.parseInt(startArray[1])){
+			return false;
+		} else if (Integer.parseInt(endArray[0]) < Integer.parseInt(startArray[0])){
+			return false;
+		}	
+
+		return true;
+	}
+
+	private String replaceCommandWord(String input) {
+		return input.replaceFirst(input.split(STRING_SPACE)[0], "").trim();
 	}
 
 	private boolean dictionaryContains(String[] dictionary, String keyword) {

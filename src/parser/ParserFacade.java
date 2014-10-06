@@ -23,11 +23,8 @@ public class ParserFacade {
 
 	public Task getTask(String input){
 		InputParser ip = new InputParser();
-		CommandRetriever cr = CommandRetriever.getInstance();
-		input = input.replaceFirst(cr.getCommandString(input),"").trim();
-		ip.parseInput(input);
-		Task task = new Task(ip.getTaskDescription(),ip.getStartDate(),ip.getStartTime(),ip.getEndDate(),ip.getEndTime(),ip.getDeadLine()); 
-		return task;
+		ip.parseInput(input); 
+		return new Task(ip.getTaskDescription(),ip.getStartDate(),ip.getStartTime(),ip.getEndDate(),ip.getEndTime(),ip.getDeadLine());
 	}
 	
 	public String getCommandString(String input){
