@@ -22,6 +22,7 @@ public class HelperViewController {
 	private static final String STRING_DEADLINE = "Deadline: ";
 	private static final String STRING_START = "Start: ";
 	private static final String STRING_END = "End: ";
+	private static final String STRING_SPACE = " ";
 	
 	@FXML
 	Label taskDescription;
@@ -57,7 +58,7 @@ public class HelperViewController {
 		}
 		
 		if(task.getStartDate() != null && task.getStartTime() != null){
-			start.setText(STRING_START + task.getStartDate() + task.getStartTime());
+			start.setText(STRING_START + task.getStartDate() + STRING_SPACE + task.getStartTime());
 		}else if(task.getStartDate() == null && task.getStartTime() != null){
 			start.setText(STRING_START + task.getStartTime());
 		}else if(task.getStartTime() == null && task.getStartDate() != null){
@@ -67,7 +68,7 @@ public class HelperViewController {
 		}
 		
 		if(task.getEndDate() != null && task.getEndTime() != null){
-			end.setText(STRING_END + task.getEndDate() + task.getEndTime());
+			end.setText(STRING_END + task.getEndDate() + STRING_SPACE + task.getEndTime());
 		}else if(task.getEndDate() == null && task.getEndTime() != null) {
 			end.setText(STRING_END + task.getEndTime());
 		}else if(task.getEndTime() == null && task.getEndDate() != null){
