@@ -213,6 +213,8 @@ public class InputParser {
 				if(Integer.parseInt(endTime) < Integer.parseInt(startTime)){
 					startDate = getModifiedDate(0);
 					endDate = getModifiedDate(1);
+				} else {
+					deadLine = getModifiedDate(0);
 				}
 			} else if (temp != null){
 				try{
