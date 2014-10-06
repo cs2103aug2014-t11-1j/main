@@ -22,7 +22,7 @@ public class ModelTaskToSaveStringConverter {
 		String endDate = task.getEndDateString();
 		String startTime = task.getStartTimeString();
 		String endTime = task.getEndTimeString();
-		String deadLine = null;
+		String deadLine = task.getDeadLineString();
 		boolean isDone = task.isDone();
 		
 		
