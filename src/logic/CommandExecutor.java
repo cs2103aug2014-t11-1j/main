@@ -197,7 +197,8 @@ public class CommandExecutor {
 			case SORT:
 				boolean isSorted = false;
 
-				// isSorted = cmd.sort();
+                                cmdf = new Sort(actualCommandDescription);
+				isSorted = cmdf.isDone();
 				// setTaskList(cmd.getTaskList());
 
 				if (isSorted) {
