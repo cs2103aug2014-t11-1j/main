@@ -15,9 +15,9 @@ public class ModelTask {
 
 	private SimpleDateFormat standardFormatter, dateFormatter,
 			startDateFormatter, endDateFormatter, timeFormatter;
-	private Date startDate, endDate, startTime, endTime;
+	private Date startDate, endDate, startTime, endTime, deadLine;
 	private String startDateString, endDateString, startTimeString,
-			endTimeString;
+			endTimeString, deadLineString;
 	private int position;
 	private boolean isDone;
 
@@ -45,6 +45,7 @@ public class ModelTask {
 		setStartTimeString(startTime);
 		setEndTimeString(startTime);
 		setPosition(position);
+		setDeadLineString(deadLine);
 		this.isDone = false;
 	}
 
@@ -67,6 +68,14 @@ public class ModelTask {
 			startDateString = standardFormatter.format(startDate);
 		} else {
 			startDateString = null;
+		}
+	}
+
+	private void setDeadLineString(Date deadLine) {
+		if (deadLine != null) {
+			deadLineString = standardFormatter.format(deadLine);
+		} else {
+			deadLineString = null;
 		}
 	}
 
@@ -97,14 +106,24 @@ public class ModelTask {
 	public void setDate(Date startDate, Date endDate) {
 		this.startDate = startDate;
 		this.endDate = endDate;
-		
+
+		// setting deadline
+		if (endDate != null) {
+			this.deadLine = endDate;
+		} else if (startDate != null) {
+			this.deadLine = startDate;
+		} else {
+			this.deadLine = null;
+		}
+
 		if (startDate != null && endDate != null) {
-			if(!isSameMonth(startDate, endDate)){
+			if (!isSameMonth(startDate, endDate)) {
 				startDateFormatter = new SimpleDateFormat("d MMM ");
 			}
 			String startDateString = startDateFormatter.format(startDate);
 			String endDateString = endDateFormatter.format(endDate);
 			this.dateStringProperty.set(startDateString + endDateString);
+
 		} else if (startDate == null && endDate == null) {
 			this.dateStringProperty.set("");
 		} else if (startDate != null) {
@@ -123,12 +142,12 @@ public class ModelTask {
 		Calendar cal = Calendar.getInstance();
 		int month1;
 		int month2;
-		
+
 		cal.setTime(startDate);
 		month1 = cal.get(Calendar.MONTH);
 		cal.setTime(endDate);
 		month2 = cal.get(Calendar.MONTH);
-		
+
 		return month1 == month2;
 	}
 
@@ -172,6 +191,10 @@ public class ModelTask {
 		return endTimeString;
 	}
 
+	public String getDeadLineString() {
+		return deadLineString;
+	}
+
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -186,6 +209,10 @@ public class ModelTask {
 
 	public Date getEndTime() {
 		return endTime;
+	}
+
+	public Date getDeadLine() {
+		return deadLine;
 	}
 
 	public String getEvent() {

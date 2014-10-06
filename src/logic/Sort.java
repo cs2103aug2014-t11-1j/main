@@ -59,6 +59,7 @@ public class Sort extends CommandFactory {
             case DATE:
                 //implement date sort
                 //there is no deadline in ModelTask
+            	Collections.sort(CommandFactory.list.getList(), new ModelTaskDateComparator());
                 break;
             case NUM:
                 Collections.sort(CommandFactory.list.getList(), new ModelTaskNumComparator());
