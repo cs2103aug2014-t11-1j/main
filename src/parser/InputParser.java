@@ -94,8 +94,11 @@ public class InputParser {
 
 		for (int i = 0; i < tokens.length; i++) {
 
+<<<<<<< HEAD
 			tempInput = input;
 
+=======
+>>>>>>> origin/jiashun
 			if(!isDeadLineFound && !isEndDateFound && !isStartDateFound){
 				input = dp.parseDateWithoutKeyword(tokens, i, input);
 				if(dp.getDate() != null){
