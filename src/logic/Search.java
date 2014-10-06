@@ -13,6 +13,7 @@ public class Search extends CommandFactory {
     private boolean isDone;
 
     protected Search(String input) {
+        searchList.clear();
         execute(input);
         updateSearchList();
     }
