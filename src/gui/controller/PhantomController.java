@@ -160,7 +160,7 @@ public class PhantomController{
 	@FXML
 	private void handleKeyPressed(KeyEvent e){
 
-		EditListener editListener = new EditListener(logicFacade.getAllList(),commandLine);
+		EditListener editListener = new EditListener(commandLine);
 		commandLine.textProperty().addListener(editListener);
 
 		String input;
