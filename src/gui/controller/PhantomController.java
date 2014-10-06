@@ -141,6 +141,12 @@ public class PhantomController{
 			else if(input.equalsIgnoreCase("dark theme")){
 				changeCss("DarkTheme");
 			}
+			else if(input.equalsIgnoreCase("red theme")){
+				changeCss("RedTheme");
+			}
+			else if(input.equalsIgnoreCase("green theme")){
+				changeCss("GreenTheme");
+			}
 			else{
 				try {
 					feedback = logicFacade.getFeedBack(input);
