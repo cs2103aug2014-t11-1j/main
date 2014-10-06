@@ -1,7 +1,7 @@
 .background {
 	-fx-base: #005502; /*dark green*/
 	-fx-background-color: -fx-base;
-	-fx-background-image: url("green.jpg");
+	-fx-background-image: url("christmas.jpg");
     -fx-background-repeat: stretch;   
     -fx-background-size: 650 450;
     -fx-background-position: center;

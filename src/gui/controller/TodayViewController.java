@@ -3,6 +3,7 @@ package gui.controller;
 import storage.ModelTask;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -25,6 +26,8 @@ public class TodayViewController {
 		System.out.println("today view initilising");
 		taskColumn.setCellValueFactory(cellData -> cellData.getValue().getEventProperty());
 		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTimeStringProperty());
+		
+		todayTable.setPlaceholder(new Label(""));
 	}
 	
 	protected void setTodayView(ObservableList<ModelTask> list){

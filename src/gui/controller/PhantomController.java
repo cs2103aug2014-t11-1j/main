@@ -3,6 +3,7 @@ package gui.controller;
 import gui.MainApp;
 
 import java.io.IOException;
+import java.net.URL;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,6 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -183,6 +186,9 @@ public class PhantomController{
 			else if(input.equalsIgnoreCase("showtoday")){
 				ah.animateRight();
 			}
+			else if(input.equalsIgnoreCase("i love big butts")){
+				play();
+			}
 			else if(input.equalsIgnoreCase("blue theme")){
 				changeCss("BlueTheme");
 			}
@@ -194,6 +200,40 @@ public class PhantomController{
 			}
 			else if(input.equalsIgnoreCase("green theme")){
 				changeCss("GreenTheme");
+			}
+			else if(input.equalsIgnoreCase("royal theme")){
+				changeCss("RoyalTheme");
+				tmh.removeSelected();
+			}
+			else if(input.equalsIgnoreCase("cog theme")){
+				changeCss("CogTheme");
+			}
+			else if(input.equalsIgnoreCase("christmas theme")){
+				changeCss("ChristmasTheme");
+			}
+			else if(input.equalsIgnoreCase("wolf theme")){
+				changeCss("WolfTheme");
+			}
+			else if(input.equalsIgnoreCase("dragon theme")){
+				changeCss("DragonTheme");
+			}
+			else if(input.equalsIgnoreCase("halloween theme")){
+				changeCss("HalloweenTheme");
+			}
+			else if(input.equalsIgnoreCase("ghost theme")){
+				changeCss("GhostTheme");
+			}
+			else if(input.equalsIgnoreCase("chinese theme")){
+				changeCss("ChineseTheme");
+			}
+			else if(input.equalsIgnoreCase("singapore theme")){
+				changeCss("SingaporeTheme");
+			}
+			else if(input.equalsIgnoreCase("snake theme")){
+				changeCss("SnakeTheme");
+			}
+			else if(input.equalsIgnoreCase("ghosts theme")){
+				changeCss("GhostsTheme");
 			}
 			else if(input.equalsIgnoreCase("popup")){
 				showPopup();
@@ -252,6 +292,13 @@ public class PhantomController{
 				System.out.println("mother father gentlemen");
 			}
 		}
+	}
+
+	private void play() {
+	    final URL resource = getClass().getResource("a.mp3");
+	    final Media media = new Media(resource.toString());
+	    final MediaPlayer mediaPlayer = new MediaPlayer(media);
+	    mediaPlayer.play();
 	}
 
 	private boolean shouldSwitchToSearch(String feedback) {

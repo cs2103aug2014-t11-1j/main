@@ -1,20 +1,20 @@
 .background {
-	-fx-base: #005502; /*dark green*/
+	-fx-base: #800000; /*maroon*/
 	-fx-background-color: -fx-base;
-	-fx-background-image: url("green.jpg");
+	-fx-background-image: url("singapore.jpg");
     -fx-background-repeat: stretch;   
     -fx-background-size: 650 450;
     -fx-background-position: center;
 }
 
-.backgroundClear{
-	-fx-background-color: transparent;
-}
-
 .backgroundPopup{
-	-fx-background-color: derive(#005502, 15%);
+	-fx-background-color: derive(#800000, 15%);
 	-fx-border-color: black;
 	-fx-border-width: 2;
+}
+
+.backgroundClear{
+	-fx-background-color: transparent;
 }
 
 .label {
@@ -55,7 +55,7 @@
 .table-view{
     -fx-control-inner-background: -fx-base;
     -fx-background-color: -fx-base;
-    -fx-opacity:0.9;
+    -fx-opacity: 0.9;
     -fx-table-cell-border-color: transparent;
     -fx-table-header-border-color: derive(-fx-base, 80%);
     -fx-padding: 5;
@@ -162,19 +162,19 @@
     -fx-border-color: #e2e2e2;
     -fx-border-width: 2;
     -fx-background-radius: 0;
-    -fx-background-color: derive(#005502, 15%);
+    -fx-background-color: derive(#800000, 15%);
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 9pt;
     -fx-text-fill: #d8d8d8;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
 }
 
-#exitButtonPopup:hover {
-	-fx-background-color:#005502;
+#exitButtonPopup:hover{
+	-fx-background-color: #800000;
 }
 
-.button:hover, #exitButton:hover, #minimiseButton:hover{
-    -fx-background-color: #3A5F0B; /*some green*/
+.button:hover, #exitButton:hover, #minimiseButton:hover {
+    -fx-background-color: #CD5555; /*indian-red -3*/
 }
 
 .button:pressed, .button:default:hover:pressed, #exitButton:pressed, #minimiseButton:pressed, #exitButtonPopup:pressed {

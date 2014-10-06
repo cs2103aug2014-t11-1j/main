@@ -2,6 +2,7 @@ package gui.controller;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import storage.ModelTask;
@@ -46,6 +47,8 @@ public class TableController{
 		numColumn.setComparator(new NumStringComparator());
 		dateColumn.setComparator(new DateStringComparator());
 		taskColumn.setComparator(String.CASE_INSENSITIVE_ORDER);
+		
+		taskTable.setPlaceholder(new Label(""));
 		
 		isSearched = false;
 		

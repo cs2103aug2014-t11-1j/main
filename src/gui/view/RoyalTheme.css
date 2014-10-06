@@ -1,63 +1,54 @@
 .background {
-	-fx-base: #005502; /*dark green*/
+	-fx-base: #522B83; /*royal-purple*/
 	-fx-background-color: -fx-base;
-	-fx-background-image: url("green.jpg");
-    -fx-background-repeat: stretch;   
-    -fx-background-size: 650 450;
-    -fx-background-position: center;
-}
-
-.backgroundClear{
-	-fx-background-color: transparent;
 }
 
 .backgroundPopup{
-	-fx-background-color: derive(#005502, 15%);
-	-fx-border-color: black;
+	-fx-background-color: derive(#522B83, 15%);
+	-fx-border-color: #DAA520; /*golden-rod */
 	-fx-border-width: 2;
 }
 
 .label {
     -fx-font-size: 10pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: white;
+    -fx-text-fill: #CFB53B;
     -fx-opacity: 0.6;
 }
 
 .label-heading {
     -fx-font-size: 20pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
+    -fx-text-fill: #FFD700;
     -fx-opacity: 1;
 }
 
 .label-brightLarge {
 	-fx-font-size: 12pt;
 	-fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: white;
+    -fx-text-fill: #FFD700;
     -fx-opacity: 1;
 }
 
 .label-bright {
     -fx-font-size: 10pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: white;
+    -fx-text-fill: #FFD700;
     -fx-opacity: 1;
 }
 
 .label-header {
     -fx-font-size: 32pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
+    -fx-text-fill: #FFD700;
     -fx-opacity: 1;
 }
 
 .table-view{
-    -fx-control-inner-background: -fx-base;
-    -fx-background-color: -fx-base;
-    -fx-opacity:0.9;
+    -fx-control-inner-background: transparent;
+    -fx-background-color: transparent;
     -fx-table-cell-border-color: transparent;
-    -fx-table-header-border-color: derive(-fx-base, 80%);
+    -fx-table-header-border-color: #FFD700;
     -fx-padding: 5;
 }
 
@@ -71,15 +62,17 @@
     -fx-border-color: 
         transparent
         transparent
-        derive(-fx-base, 80%) 
+        #FFD700 
         transparent;
     -fx-border-insets: 0 10 1 0;
 }
-
+.table-view .table-cell .label{
+	 -fx-text-fill: #FFD700;
+}
 .table-view .column-header .label{
     -fx-font-size: 14pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
+    -fx-text-fill: #FFD700;
     -fx-alignment: center-left;
     -fx-opacity: 1;
 }
@@ -87,8 +80,8 @@
 .text-field {
     -fx-font-size: 10pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: white;
-    -fx-background-color: derive(-fx-base, 50%);
+    -fx-text-fill: #522B83;
+    -fx-background-color: #CFB53B;
 }
 
 .menu-bar {
@@ -96,7 +89,7 @@
 }
 
 .context-menu {
-    -fx-background-color: derive(-fx-base,50%);
+    -fx-background-color: #CFB53B;
 }
 
 .menu-bar .label {
@@ -105,16 +98,25 @@
     -fx-text-fill: transparent;
 }
 
-.menu:hover .label, .menu-item:hover .label, .menu:showing .label, .menu-item:focused .label{
-	-fx-text-fill: white;
+.menu:hover .label{
+	-fx-text-fill: #FFD700;
+}
+ .menu:showing .label {
+ 	-fx-text-fill: #522B83;
+ }
+.menu-item:hover .label,.menu-item:focused .label{
+	-fx-text-fill: #522B83;
 }
 
-.menu:hover, .menu:showing{
+.menu:hover {
 	-fx-background-color: derive(-fx-base,50%);
+}
+.menu:showing{
+	-fx-background-color: #DAA520;
 }
 
 .menu-item:hover, .menu-item:focused{
-	-fx-background-color: derive(-fx-base,80%);
+	-fx-background-color: derive(#CFB53B,80%);
 }
 /* 
  * Metro style Push Button
@@ -123,58 +125,58 @@
  */
 .button {
     -fx-padding: 5 22 5 22;   
-    -fx-border-color: #e2e2e2;
+    -fx-border-color: #FFD700;
     -fx-border-width: 2;
     -fx-background-radius: 0;
     -fx-background-color: -fx-base;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 9pt;
-    -fx-text-fill: #d8d8d8;
+    -fx-text-fill: #FFD700;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
 }
 
 #exitButton{
 	-fx-padding: 5 5 5 5;   
-    -fx-border-color: #e2e2e2;
+    -fx-border-color: #FFD700;
     -fx-border-width: 2;
     -fx-background-radius: 0;
     -fx-background-color: -fx-base;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 9pt;
-    -fx-text-fill: #d8d8d8;
+    -fx-text-fill: #FFD700;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
 }
 
 #minimiseButton{
 	-fx-padding: 5 10 5 10;   
-    -fx-border-color: #e2e2e2;
+    -fx-border-color: #FFD700;
     -fx-border-width: 2;
     -fx-background-radius: 0;
     -fx-background-color: -fx-base;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 9pt;
-    -fx-text-fill: #d8d8d8;
+    -fx-text-fill: #FFD700;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
 }
 
 #exitButtonPopup{
 	-fx-padding: 5 10 5 10;   
-    -fx-border-color: #e2e2e2;
+    -fx-border-color: #FFD700;
     -fx-border-width: 2;
     -fx-background-radius: 0;
-    -fx-background-color: derive(#005502, 15%);
+    -fx-background-color: derive(#7851A9, 15%);
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 9pt;
-    -fx-text-fill: #d8d8d8;
+    -fx-text-fill: #FFD700;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
 }
 
-#exitButtonPopup:hover {
-	-fx-background-color:#005502;
+#exitButtonPopup:hover{
+	-fx-background-color: #EEE8AA;
 }
 
-.button:hover, #exitButton:hover, #minimiseButton:hover{
-    -fx-background-color: #3A5F0B; /*some green*/
+.button:hover, #exitButton:hover, #minimiseButton:hover {
+    -fx-background-color: #EEE8AA; /*gold*/
 }
 
 .button:pressed, .button:default:hover:pressed, #exitButton:pressed, #minimiseButton:pressed, #exitButtonPopup:pressed {
