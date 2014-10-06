@@ -29,7 +29,6 @@ public class CommandExecutor {
 	public CommandExecutor(ObservableList<ModelTask> list, Storage storage) {
 		taskList = list;
 		CommandFactory.list.setList(taskList);
-		CommandFactory.searchList.setList(searchedList);
 		CommandFactory.updateUndoAndRedoStacks();
 		pf = ParserFacade.getInstance();
 		CommandExecutor.storage = storage;
@@ -217,8 +216,10 @@ public class CommandExecutor {
 				 */
 				cmdf = new Search(actualCommandDescription);
 
-				// setFeedBack(cmd.search(actualCommandDescription));
-				// setSearchedList(cmd.getTaskList());
+				if(cmdf.isDone()){
+                                setFeedBack(actualCommandDescription + " found.");
+				//setSearchedList(searchedList);
+                                }
 
 				break;
 
