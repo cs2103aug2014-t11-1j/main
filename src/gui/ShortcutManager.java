@@ -37,7 +37,6 @@ public class ShortcutManager {
 		{
 			@Override
 			public void onHotKey(int key) {
-
 				if(key == 1){
 					Platform.runLater(new Runnable(){
 						public void run(){

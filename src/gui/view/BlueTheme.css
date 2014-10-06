@@ -1,6 +1,14 @@
 .background {
 	-fx-base: #27408B; /*royal-blue 4*/
 	-fx-background-color: -fx-base;
+	 -fx-background-image: url("blue.jpg");
+    -fx-background-repeat: stretch;   
+    -fx-background-size: 650 450;
+    -fx-background-position: center;
+}
+
+.backgroundClear{
+	-fx-background-color: transparent;
 }
 
 .backgroundPopup{
@@ -47,6 +55,7 @@
 .table-view{
     -fx-control-inner-background: -fx-base;
     -fx-background-color: -fx-base;
+    -fx-opacity:0.9;
     -fx-table-cell-border-color: transparent;
     -fx-table-header-border-color: derive(-fx-base, 80%);
     -fx-padding: 5;

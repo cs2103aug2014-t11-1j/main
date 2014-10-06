@@ -35,6 +35,10 @@ public class ThemeMenuHandler {
 		((CheckMenuItem) themeMenu.getItems().get(GREEN_THEME)).setSelected(true);
 	}
 	
+	public void removeSelected(){
+		setAllThemeSelectedFalse();
+	}
+	
 	private void setAllThemeSelectedFalse() {
 		for(int i = 0; i < themeMenu.getItems().size(); i++){
 			((CheckMenuItem) themeMenu.getItems().get(i)).setSelected(false);

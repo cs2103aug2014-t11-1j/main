@@ -1,12 +1,23 @@
 .background {
 	-fx-base: #1d1d1d;
     -fx-background-color: -fx-base;
+    -fx-background-image: url("dark.jpg");
+    -fx-background-repeat: stretch;   
+    -fx-background-size: 650 450;
+    -fx-background-position: center;
 }
 
 .backgroundPopup{
 	-fx-background-color: derive(#1d1d1d, 15%);
+	-fx-background-image: url("dark.jpg");
+	-fx-background-repeat: stretch;
+	-fx-background-position: center;
 	-fx-border-color: black;
 	-fx-border-width: 2;
+}
+
+.backgroundClear{
+	-fx-background-color: transparent;
 }
 
 .label {
@@ -47,6 +58,7 @@
 .table-view{
     -fx-control-inner-background: -fx-base;
     -fx-background-color: -fx-base;
+    -fx-opacity:0.9;
     -fx-table-cell-border-color: transparent;
     -fx-table-header-border-color: derive(-fx-base, 80%);
     -fx-padding: 5;
@@ -62,7 +74,7 @@
     -fx-border-color: 
         transparent
         transparent
-        derive(-fx-base, 80%) 
+        derive(#005502, 80%) 
         transparent;
     -fx-border-insets: 0 10 1 0;
 }
@@ -79,7 +91,7 @@
     -fx-font-size: 10pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: white;
-    -fx-background-color: derive(-fx-base, 50%);
+    -fx-background-color: derive(#005502, 20%);
 }
 
 .menu-bar {
@@ -93,7 +105,7 @@
 .menu-bar .label {
     -fx-font-size: 9pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: black;
+    -fx-text-fill: transparent;
 }
 
 .menu:hover .label, .menu-item:hover .label, .menu:showing .label, .menu-item:focused .label{

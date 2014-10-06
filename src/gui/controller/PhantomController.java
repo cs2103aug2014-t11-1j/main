@@ -195,6 +195,40 @@ public class PhantomController{
 			else if(input.equalsIgnoreCase("green theme")){
 				changeCss("GreenTheme");
 			}
+			else if(input.equalsIgnoreCase("royal theme")){
+				changeCss("RoyalTheme");
+				tmh.removeSelected();
+			}
+			else if(input.equalsIgnoreCase("cog theme")){
+				changeCss("CogTheme");
+			}
+			else if(input.equalsIgnoreCase("christmas theme")){
+				changeCss("ChristmasTheme");
+			}
+			else if(input.equalsIgnoreCase("wolf theme")){
+				changeCss("WolfTheme");
+			}
+			else if(input.equalsIgnoreCase("dragon theme")){
+				changeCss("DragonTheme");
+			}
+			else if(input.equalsIgnoreCase("halloween theme")){
+				changeCss("HalloweenTheme");
+			}
+			else if(input.equalsIgnoreCase("ghost theme")){
+				changeCss("GhostTheme");
+			}
+			else if(input.equalsIgnoreCase("chinese theme")){
+				changeCss("ChineseTheme");
+			}
+			else if(input.equalsIgnoreCase("singapore theme")){
+				changeCss("SingaporeTheme");
+			}
+			else if(input.equalsIgnoreCase("snake theme")){
+				changeCss("SnakeTheme");
+			}
+			else if(input.equalsIgnoreCase("ghosts theme")){
+				changeCss("GhostsTheme");
+			}
 			else if(input.equalsIgnoreCase("popup")){
 				showPopup();
 			}
