@@ -4,10 +4,13 @@ import java.io.IOException;
 
 import gui.controller.PhantomController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -18,6 +21,8 @@ public class MainApp extends Application {
 
 	private Stage primaryStage;
 	private AnchorPane overallView;
+	private TrayApplication ta;
+	private ShortcutManager sm;
 	//private BorderPane rootLayout;
 
 	private double xOffset = 0;
@@ -29,6 +34,16 @@ public class MainApp extends Application {
 		this.primaryStage.setTitle("Phantom");
 		this.primaryStage.centerOnScreen();
 		this.primaryStage.initStyle(StageStyle.TRANSPARENT);
+		
+		ta = TrayApplication.getInstance();
+		try {
+			ta.createTrayIcon(primaryStage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		sm = ShortcutManager.getInstance();
+	    Platform.setImplicitExit(false);
+	    sm.setHotKeys(primaryStage);
 
 		//        initRootLayout();
 		showPhantomOverallView();
@@ -98,6 +113,19 @@ public class MainApp extends Application {
 					primaryStage.setY(event.getScreenY() - yOffset);
 				}
 			});
+			
+			overallView.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>
+			() {
+
+				@Override
+				public void handle(KeyEvent t) {
+					if(t.getCode()==KeyCode.ESCAPE)
+					{
+						primaryStage.close();
+					}
+				}
+			});
+			
 
 		} catch (IOException e) {
 			e.printStackTrace();
