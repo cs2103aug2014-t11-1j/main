@@ -16,6 +16,12 @@ import java.util.Scanner;
 
 public class DateFormatter {
 	
+	/**
+	 * String constants
+	 */
+	private static final String STRING_SPACE = " ";
+	private static final String STRING_SLASH = "/";
+	
 	private static final String[] DICTIONARY_TOMORROW = { "TOMORROW", "TMR" };
 	
 	private static final int NUM_SINGLE_DAY_OFFSET = 1;
@@ -54,12 +60,15 @@ public class DateFormatter {
 	}
 
 	public String convertSDformat(String date) {
-		String[] dateArray = date.split("/");
+		String[] dateArray = date.split(STRING_SLASH);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
 		Calendar calendar = Calendar.getInstance();
 		
 		calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArray[0]));
 		calendar.set(Calendar.MONTH, Integer.parseInt(dateArray[1])- 1);
+		if(yearExists(dateArray)){
+			calendar.set(Calendar.YEAR, Integer.parseInt(dateArray[2]));
+		}
 		
 		return dateFormat.format(calendar.getTime());
 	}
@@ -67,25 +76,51 @@ public class DateFormatter {
 	public String convertDFSformat(String date) {
 		
 		MonthParser mp = new MonthParser();
-		String[] dateArray = date.split(" ");
+		String[] dateArray = date.split(STRING_SPACE);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
 		Calendar calendar = Calendar.getInstance();
 		
 		calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArray[0]));
 		calendar.set(Calendar.MONTH, mp.getMonthIndex(dateArray[1]));
+		if(yearExists(dateArray)){
+			calendar.set(Calendar.YEAR, Integer.parseInt(dateArray[2]));
+		}
 		
 		return dateFormat.format(calendar.getTime());
+	}
+
+	private boolean yearExists(String[] dateArray) {
+		if (dateArray.length != 3){
+			return false;
+		}else if (!isValidYear(dateArray[2])){
+			return false;
+		}	
+		return true;
+	}
+
+	private boolean isValidYear(String string) {
+		Calendar now = Calendar.getInstance();
+		Integer year = now.get(Calendar.YEAR);
+		if(year > Integer.parseInt(string)){
+			return false;
+		} else if (string.length() > 4){
+			return false;
+		}
+		return true;
 	}
 
 	public String convertMFSformat(String date) {
 		
 		MonthParser mp = new MonthParser();
-		String[] dateArray = date.split(" ");
+		String[] dateArray = date.split(STRING_SPACE);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
 		Calendar calendar = Calendar.getInstance();
 		
 		calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArray[1]));
 		calendar.set(Calendar.MONTH, mp.getMonthIndex(dateArray[0]));
+		if(yearExists(dateArray)){
+			calendar.set(Calendar.YEAR, Integer.parseInt(dateArray[2]));
+		}
 		
 		return dateFormat.format(calendar.getTime());
 	}
@@ -95,7 +130,7 @@ public class DateFormatter {
 		int offset = 0;
 		
 		DayParser dp = new DayParser();
-		offset = dp.getDayIndex(date.split(" ")[1]) - dp.getDayIndex(getCurrentDay());
+		offset = dp.getDayIndex(date.split(STRING_SPACE)[1]) - dp.getDayIndex(getCurrentDay());
 		if(offset < 0){
 			int temp = offset;
 			if(temp == -6){
