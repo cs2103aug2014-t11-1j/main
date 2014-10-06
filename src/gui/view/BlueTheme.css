@@ -5,6 +5,8 @@
 
 .backgroundPopup{
 	-fx-background-color: derive(#27408B, 15%);
+	-fx-border-color: black;
+	-fx-border-width: 2;
 }
 
 .label {

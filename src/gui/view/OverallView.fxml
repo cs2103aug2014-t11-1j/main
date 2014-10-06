@@ -33,7 +33,7 @@
 	      	<fx:include fx:id="todayView" source="TodayView.fxml" />
 	      </children>
       </AnchorPane>
-            <AnchorPane layoutX="105.0" layoutY="72.0" prefHeight="272.0" prefWidth="520.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="72.0">
+      <AnchorPane layoutX="105.0" layoutY="72.0" prefHeight="272.0" prefWidth="520.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="72.0">
 	      <children>
 	      	<fx:include fx:id="helperView" source="HelperView.fxml" />
 	      </children>
