@@ -1,10 +1,10 @@
 .background {
-	-fx-base: #1d1d1d;
-    -fx-background-color: -fx-base;
+	-fx-base: #800000; /*maroon*/
+	-fx-background-color: -fx-base;
 }
 
 .backgroundPopup{
-	-fx-background-color: derive(#1d1d1d, 15%);
+	-fx-background-color: derive(#800000, 15%);
 }
 
 .label {
@@ -91,7 +91,7 @@
 .menu-bar .label {
     -fx-font-size: 9pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: black;
+    -fx-text-fill: transparent;
 }
 
 .menu:hover .label, .menu-item:hover .label, .menu:showing .label, .menu-item:focused .label{
@@ -105,7 +105,6 @@
 .menu-item:hover, .menu-item:focused{
 	-fx-background-color: derive(-fx-base,80%);
 }
-
 /* 
  * Metro style Push Button
  * Author: Pedro Duque Vieira
@@ -128,19 +127,7 @@
     -fx-border-color: #e2e2e2;
     -fx-border-width: 2;
     -fx-background-radius: 0;
-    -fx-background-color:  -fx-base;
-    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    -fx-font-size: 9pt;
-    -fx-text-fill: #d8d8d8;
-    -fx-background-insets: 0 0 0 0, 0, 1, 2;
-}
-
-#exitButtonPopup{
-	-fx-padding: 5 10 5 10;   
-    -fx-border-color: #e2e2e2;
-    -fx-border-width: 2;
-    -fx-background-radius: 0;
-    -fx-background-color: derive(#1d1d1d, 15%);
+    -fx-background-color: -fx-base;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 9pt;
     -fx-text-fill: #d8d8d8;
@@ -159,12 +146,24 @@
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
 }
 
+#exitButtonPopup{
+	-fx-padding: 5 10 5 10;   
+    -fx-border-color: #e2e2e2;
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-background-color: derive(#800000, 15%);
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 9pt;
+    -fx-text-fill: #d8d8d8;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+}
+
 #exitButtonPopup:hover{
-	-fx-background-color: #1d1d1d;
+	-fx-background-color: #800000;
 }
 
 .button:hover, #exitButton:hover, #minimiseButton:hover {
-    -fx-background-color: #3a3a3a;
+    -fx-background-color: #CD5555; /*indian-red -3*/
 }
 
 .button:pressed, .button:default:hover:pressed, #exitButton:pressed, #minimiseButton:pressed, #exitButtonPopup:pressed {
@@ -172,7 +171,7 @@
   -fx-text-fill: -fx-base;
 }
 
-.button:focused, #exitButton:focused, #minimiseButton:focused, #exitButtonPopup:hover:focused {
+.button:focused, #exitButton:focused, #minimiseButton:focused, #exitButtonPopup:focused {
     -fx-border-color: white, white;
     -fx-border-width: 1, 1;
     -fx-border-style: solid, segments(1, 1);
