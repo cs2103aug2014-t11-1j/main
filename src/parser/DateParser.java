@@ -76,23 +76,23 @@ public class DateParser {
 					if(i+2 < tokens.length){
 						try{
 							if(Integer.parseInt(tokens[i+2]) > 0){
-								date = tokens[i] + " " + tokens[i+1] + " " + tokens[i+2];
+								date = tokens[i] + STRING_SPACE + tokens[i+1] + STRING_SPACE + tokens[i+2];
 								input = input.replaceFirst(date, "").trim();
 								date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 							}
 							else{
-								date = tokens[i] + " " + tokens[i+1];
+								date = tokens[i] + STRING_SPACE + tokens[i+1];
 								input = input.replaceFirst(date, "").trim();
 								date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 							}
 						} catch(Exception e){
-							date = tokens[i] + " " + tokens[i+1];
+							date = tokens[i] + STRING_SPACE + tokens[i+1];
 							input = input.replaceFirst(date, "").trim();
 							date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 						}
 					}
 					else{
-						date = tokens[i] + " " + tokens[i+1];
+						date = tokens[i] + STRING_SPACE + tokens[i+1];
 						input = input.replaceFirst(date, "").trim();
 						date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 					}
@@ -104,23 +104,23 @@ public class DateParser {
 					if(i+2 < tokens.length){
 						try{
 							if(Integer.parseInt(tokens[i+2]) > 0){
-								date = tokens[i] + " " + tokens[i+1] + " " + tokens[i+2];
+								date = tokens[i] + STRING_SPACE + tokens[i+1] + STRING_SPACE + tokens[i+2];
 								input = input.replaceFirst(date, "").trim();
 								date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
 							}
 							else{
-								date = tokens[i] + " " + tokens[i+1];
+								date = tokens[i] + STRING_SPACE + tokens[i+1];
 								input = input.replaceFirst(date, "").trim();
 								date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
 							}
 						} catch(Exception e){
-							date = tokens[i] + " " + tokens[i+1];
+							date = tokens[i] + STRING_SPACE + tokens[i+1];
 							input = input.replaceFirst(date, "").trim();
 							date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
 						}
 					}
 					else{
-						date = tokens[i] + " " + tokens[i+1];
+						date = tokens[i] + STRING_SPACE + tokens[i+1];
 						input = input.replaceFirst(date, "").trim();
 						date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
 					}
@@ -200,23 +200,23 @@ public class DateParser {
 					if(i+3 < tokens.length){
 						try{
 							if(Integer.parseInt(tokens[i+3]) > 0){
-								date = tokens[i+1] + " " + tokens[i+2] + " " + tokens[i+3];
+								date = tokens[i+1] + STRING_SPACE + tokens[i+2] + STRING_SPACE + tokens[i+3];
 								input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 								date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 							}
 							else{
-								date = tokens[i+1] + " " + tokens[i+2];
+								date = tokens[i+1] + STRING_SPACE + tokens[i+2];
 								input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 								date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 							}
 						} catch(Exception e){
-							date = tokens[i+1] + " " + tokens[i+2];
+							date = tokens[i+1] + STRING_SPACE + tokens[i+2];
 							input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 							date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 						}
 					}
 					else{
-						date = tokens[i+1] + " " + tokens[i+2];
+						date = tokens[i+1] + STRING_SPACE + tokens[i+2];
 						input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 						date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 					}
@@ -228,23 +228,23 @@ public class DateParser {
 					if(i+3 < tokens.length){
 						try{
 							if(Integer.parseInt(tokens[i+3]) > 0){
-								date = tokens[i+1] + " " + tokens[i+2] + " " + tokens[i+3];
+								date = tokens[i+1] + STRING_SPACE + tokens[i+2] + STRING_SPACE + tokens[i+3];
 								input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 								date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
 							}
 							else{
-								date = tokens[i+1] + " " + tokens[i+2];
+								date = tokens[i+1] + STRING_SPACE + tokens[i+2];
 								input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 								date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
 							}
 						} catch(Exception e){
-							date = tokens[i+1] + " " + tokens[i+2];
+							date = tokens[i+1] + STRING_SPACE + tokens[i+2];
 							input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 							date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
 						}
 					}
 					else{
-						date = tokens[i+1] + " " + tokens[i+2];
+						date = tokens[i+1] + STRING_SPACE + tokens[i+2];
 						input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 						date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
 					}
