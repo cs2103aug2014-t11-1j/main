@@ -48,6 +48,30 @@ public class ModelTask {
 		setDeadLineString(deadLine);
 		this.isDone = false;
 	}
+        
+        public ModelTask(ModelTask mt){
+            standardFormatter = new SimpleDateFormat("dd/MM/yyyy");
+            dateFormatter = new SimpleDateFormat("EEE, MMM d");
+            startDateFormatter = new SimpleDateFormat("d ");
+            endDateFormatter = new SimpleDateFormat("- d MMM");
+            timeFormatter = new SimpleDateFormat("HHmm");
+            
+            this.event = new SimpleStringProperty();
+            this.dateStringProperty = new SimpleStringProperty();
+            this.timeStringProperty = new SimpleStringProperty();
+            this.positionStringProperty = new SimpleStringProperty();
+            
+            event = mt.event;            
+            setDate(mt.startDate, mt.endDate);
+            setTime(mt.startTime, mt.endTime);
+            setStartDateString(mt.startDate);
+            setEndDateString(mt.endDate);
+            setStartTimeString(mt.startTime);
+            setEndTimeString(mt.endTime);
+            setPosition(mt.position);
+            setDeadLineString(mt.deadLine);
+            this.isDone = false;
+        }
 
 	// mutators
 	public void setEvent(String event) {

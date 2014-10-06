@@ -22,7 +22,7 @@ public abstract class CommandFactory {
     protected static TaskList searchList = new TaskList();
     protected static UndoRedoStack undoStack = new UndoRedoStack();
     protected static UndoRedoStack redoStack = new UndoRedoStack();
-    
+
     /**
      * Abstract methods
      */
@@ -64,7 +64,8 @@ public abstract class CommandFactory {
         Iterator<ModelTask> itr = oldList.iterator();
 
         while (itr.hasNext()) {
-            newList.add(itr.next());
+            ModelTask temp = new ModelTask(itr.next());
+            newList.add(temp);
         }
     }
 
