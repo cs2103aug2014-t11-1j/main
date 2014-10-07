@@ -1,7 +1,6 @@
 .background {
 	-fx-base: #1d1d1d;
     -fx-background-color: -fx-base;
-    -fx-background-image: url("dark.jpg");
     -fx-background-repeat: stretch;   
     -fx-background-size: 650 450;
     -fx-background-position: center;
@@ -9,7 +8,6 @@
 
 .backgroundPopup{
 	-fx-background-color: derive(#1d1d1d, 15%);
-	-fx-background-image: url("dark.jpg");
 	-fx-background-repeat: stretch;
 	-fx-background-position: center;
 	-fx-border-color: black;
