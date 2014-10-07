@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -12,6 +14,7 @@ public class ModelTask {
 	private StringProperty dateStringProperty;
 	private StringProperty timeStringProperty;
 	private StringProperty positionStringProperty;
+	private BooleanProperty isDoneBooleanProperty;
 
 	private SimpleDateFormat standardFormatter, dateFormatter,
 			startDateFormatter, endDateFormatter, timeFormatter;
@@ -26,7 +29,7 @@ public class ModelTask {
 	}
 
 	public ModelTask(String event, Date startDate, Date endDate,
-			Date startTime, Date endTime, int position) {
+			Date startTime, Date endTime, int position, boolean isDone) {
 		standardFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		dateFormatter = new SimpleDateFormat("EEE, MMM d");
 		startDateFormatter = new SimpleDateFormat("d ");
@@ -37,6 +40,7 @@ public class ModelTask {
 		this.dateStringProperty = new SimpleStringProperty();
 		this.timeStringProperty = new SimpleStringProperty();
 		this.positionStringProperty = new SimpleStringProperty();
+		this.isDoneBooleanProperty = new SimpleBooleanProperty();
 
 		setDate(startDate, endDate);
 		setTime(startTime, endTime);
@@ -46,7 +50,7 @@ public class ModelTask {
 		setEndTimeString(startTime);
 		setPosition(position);
 		setDeadLineString(deadLine);
-		this.isDone = false;
+		setIsDone(isDone);
 	}
         
         public ModelTask(ModelTask mt){
@@ -60,6 +64,7 @@ public class ModelTask {
             this.dateStringProperty = new SimpleStringProperty();
             this.timeStringProperty = new SimpleStringProperty();
             this.positionStringProperty = new SimpleStringProperty();
+            this.isDoneBooleanProperty = new SimpleBooleanProperty();
             
             event = mt.event;            
             setDate(mt.startDate, mt.endDate);
@@ -85,6 +90,7 @@ public class ModelTask {
 
 	public void setIsDone(boolean isDone) {
 		this.isDone = isDone;
+		isDoneBooleanProperty.set(isDone);
 	}
 
 	public void setStartDateString(Date startDate) {
@@ -265,5 +271,9 @@ public class ModelTask {
 
 	public StringProperty getPositionStringProperty() {
 		return positionStringProperty;
+	}
+	
+	public BooleanProperty getisDoneBooleanProperty(){
+		return isDoneBooleanProperty;
 	}
 }

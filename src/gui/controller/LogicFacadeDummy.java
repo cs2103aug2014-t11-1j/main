@@ -17,11 +17,21 @@ public class LogicFacadeDummy {
 	}
 	
 	public ObservableList<ModelTask> getAllList(){
-		taskList.add(new ModelTask("task", new Date(), null, new Date(), null, 1));
+		taskList.add(new ModelTask("task", new Date(), null, new Date(), null, 1, true));
 		return taskList;
 	}
 	
 	public void getFeedback(String input){
 		System.out.println("logic received input: " + input);
+	}
+
+	public String getFeedBack(String input) {
+		// TODO Auto-generated method stub
+		return "facade lol";
+	}
+
+	public ObservableList<ModelTask> getSearchedList() {
+		searchedList.add(new ModelTask("task", new Date(), null, new Date(), null, 1, true));
+		return searchedList;
 	}
 }

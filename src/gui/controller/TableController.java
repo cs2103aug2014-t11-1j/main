@@ -1,10 +1,20 @@
 package gui.controller;
 
+import javax.imageio.ImageIO;
+
+import gui.MainApp;
+import gui.ResourceLoader;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Callback;
 import storage.ModelTask;
 
 public class TableController{
@@ -18,6 +28,8 @@ public class TableController{
 	private TableColumn<ModelTask, String> numColumn;
 	@FXML
 	private TableColumn<ModelTask, String> timeColumn;
+	@FXML
+	private TableColumn<ModelTask, Boolean> doneColumn;
 	
 	private boolean isSearched;
 	
@@ -43,6 +55,38 @@ public class TableController{
 		taskColumn.setCellValueFactory(cellData -> cellData.getValue().getEventProperty());
 		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDateStringProperty());
 		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTimeStringProperty());
+		doneColumn.setCellValueFactory(cellData -> cellData.getValue().getisDoneBooleanProperty());
+		
+		doneColumn.setCellFactory(new Callback<TableColumn<ModelTask, Boolean>, TableCell<ModelTask, Boolean>>(){
+			  @Override
+              public TableCell<ModelTask, Boolean> call(TableColumn<ModelTask, Boolean> param){
+				  return new TableCell<ModelTask, Boolean>(){
+					  ImageView imageview;
+                      {
+                          imageview = new ImageView(); 
+                          imageview.setFitHeight(15);
+                          imageview.setFitWidth(15);
+                          Image image = new Image(ResourceLoader.load("tick.png"));
+                          
+                          imageview.setImage(image);
+                          setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                          setGraphic(imageview);
+                      }
+                      
+                      @Override
+                      public void updateItem(Boolean isDone, boolean empty) {
+                          super.updateItem(isDone, empty);
+                          if (!empty && isDone!=null && isDone.booleanValue()) {
+                        	  Image image = new Image(ResourceLoader.load("tick.png"));
+                              imageview.setImage(image);
+                          }
+                          else {
+                              imageview.setImage(null);
+                          }
+                      }
+				  };
+			  }
+		});
 		
 		numColumn.setComparator(new NumStringComparator());
 		dateColumn.setComparator(new DateStringComparator());
