@@ -13,42 +13,42 @@
 
 .backgroundPopup{
 	-fx-background-color: derive(#27408B, 15%);
-	-fx-border-color: black;
+	-fx-border-color: lawngreen;
 	-fx-border-width: 2;
 }
 
 .label {
     -fx-font-size: 10pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: white;
-    -fx-opacity: 0.6;
+    -fx-text-fill: lawngreen;
+    -fx-opacity: 1;
 }
 
 .label-heading {
     -fx-font-size: 20pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
+    -fx-text-fill: lawngreen;
     -fx-opacity: 1;
 }
 
 .label-brightLarge {
 	-fx-font-size: 12pt;
 	-fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: white;
+    -fx-text-fill: lawngreen;
     -fx-opacity: 1;
 }
 
 .label-bright {
     -fx-font-size: 10pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: white;
+    -fx-text-fill: lawngreen;
     -fx-opacity: 1;
 }
 
 .label-header {
     -fx-font-size: 32pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
+    -fx-text-fill: lawngreen;
     -fx-opacity: 1;
 }
 
@@ -79,7 +79,7 @@
 .table-view .column-header .label{
     -fx-font-size: 14pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
+    -fx-text-fill: lawngreen;
     -fx-alignment: center-left;
     -fx-opacity: 1;
 }
@@ -87,7 +87,7 @@
 .text-field {
     -fx-font-size: 10pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: white;
+    -fx-text-fill: lawngreen;
     -fx-background-color: derive(-fx-base, 50%);
 }
 
@@ -106,7 +106,7 @@
 }
 
 .menu:hover .label, .menu-item:hover .label, .menu:showing .label, .menu-item:focused .label{
-	-fx-text-fill: white;
+	-fx-text-fill: lawngreen;
 }
 
 .menu:hover, .menu:showing{
@@ -178,12 +178,12 @@
 }
 
 .button:pressed, .button:default:hover:pressed, #exitButton:pressed, #minimiseButton:pressed, #exitButtonPopup:pressed {
-  -fx-background-color: white;
+  -fx-background-color: lawngreen;
   -fx-text-fill: -fx-base;
 }
 
 .button:focused, #exitButton:focused, #minimiseButton:focused, #exitButtonPopup:focused {
-    -fx-border-color: white, white;
+    -fx-border-color: lawngreen, lawngreen;
     -fx-border-width: 1, 1;
     -fx-border-style: solid, segments(1, 1);
     -fx-border-radius: 0, 0;
@@ -193,7 +193,7 @@
 .button:disabled, .button:default:disabled {
     -fx-opacity: 0.4;
     -fx-background-color: -fx-base;
-    -fx-text-fill: white;
+    -fx-text-fill: lawngreen;
 }
 
 .button:default {
