@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.TextField;
@@ -57,8 +56,10 @@ public class PhantomController{
 	
 	@FXML
 	private Menu themeMenu;
-
+	
 	private LogicFacade logicFacade;
+	//for testing purposes
+	//private LogicFacadeDummy logicFacade;
 
 	private AnimationHandler ah;
 	private CommandLineUtility clu;
@@ -71,6 +72,9 @@ public class PhantomController{
 	public PhantomController() {
 		System.out.println("phantom constructor");
 		logicFacade = LogicFacade.getInstance();
+		
+		//for testing purposes
+		//logicFacade = new LogicFacadeDummy();
 	}
 
 	public void setPrimaryStage(Stage stage) {

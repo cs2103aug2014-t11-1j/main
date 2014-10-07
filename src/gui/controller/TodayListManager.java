@@ -25,7 +25,7 @@ public class TodayListManager {
 
 		for(ModelTask task : allList){
 			if(task.getStartDate() != null){
-				if(task.getStartDate().compareTo(yesterday) > 0 && task.getStartDate().compareTo(tomorrow) < 0){
+				if(task.getStartDate().compareTo(yesterday) > 0 && task.getStartDate().compareTo(tomorrow) < 0 && !task.isDone()){
 					todayList.add(task);
 				}
 			}
