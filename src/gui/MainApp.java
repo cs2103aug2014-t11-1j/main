@@ -119,8 +119,7 @@ public class MainApp extends Application {
 
 				@Override
 				public void handle(KeyEvent t) {
-					if(t.getCode()==KeyCode.ESCAPE)
-					{
+					if(t.getCode()==KeyCode.ESCAPE){
 						primaryStage.close();
 					}
 				}
