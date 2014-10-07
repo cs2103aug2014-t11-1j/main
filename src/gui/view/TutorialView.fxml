@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="419.0" prefWidth="650.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.TutorialViewController">
+   <children>
+      <Label layoutX="285.0" layoutY="56.0" styleClass="label-heading" text="Tutorial" />
+      <HBox alignment="CENTER" layoutX="12.0" layoutY="342.0" prefHeight="31.0" prefWidth="650.0" spacing="10.0" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="-2.0">
+         <children>
+            <Label layoutX="57.0" layoutY="337.0" styleClass="label-bright" text="Command:" />
+            <TextField fx:id="commandLine" layoutX="2.0" layoutY="332.0" onKeyPressed="#handleKeyPressed" prefHeight="31.0" prefWidth="495.0" />
+         </children>
+      </HBox>
+      <Label fx:id="label1" layoutX="68.0" layoutY="95.0" text="Label1" />
+      <Label fx:id="label2" layoutX="68.0" layoutY="143.0" text="Label2" />
+      <Label fx:id="label3" layoutX="69.0" layoutY="190.0" text="Label3" />
+      <Label fx:id="label4" layoutX="69.0" layoutY="242.0" styleClass="label-bright" text="Label4" />
+   </children>
+</AnchorPane>

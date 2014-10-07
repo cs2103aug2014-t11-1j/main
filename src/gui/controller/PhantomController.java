@@ -242,6 +242,9 @@ public class PhantomController{
 			else if(input.equalsIgnoreCase("popup")){
 				showPopup();
 			}
+			else if(input.equalsIgnoreCase("tutorial")){
+				createTutorial();
+			}
 			else{
 				try {
 					feedback = logicFacade.getFeedBack(input);
@@ -296,6 +299,10 @@ public class PhantomController{
 				System.out.println("mother father gentlemen");
 			}
 		}
+	}
+
+	private void createTutorial() {
+		TutorialLoader tutorialLoader = new TutorialLoader(overallView, themeUrl);
 	}
 
 	private void play() {
