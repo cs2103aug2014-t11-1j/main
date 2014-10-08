@@ -4,9 +4,13 @@ import gui.MainApp;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 import org.controlsfx.control.Notifications;
+
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -101,6 +105,7 @@ public class PhantomController {
 		initClock();
 		initAnimation();
 		initCommandLineUtility();
+
 	}
 
 	public void initPrefManager() {
@@ -178,9 +183,75 @@ public class PhantomController {
 	@FXML
 	private void handleKeyPressed(KeyEvent e) {
 
-		// testing popup functionality using controlsfx
-		Notifications.create().title("Reminder")
-				.text("Hey, this is notification pop up Yay!").showWarning();
+		//testing if reminder pop up for a specific date
+		
+		ObservableList<ModelTask> list1 = logicFacade.getAllList();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+		Date eventDay = null;
+		for (int i = 0; i < list1.size(); i++) {
+			if(list1.get(i).getStartDate()!=null){
+				eventDay = list1.get(i).getStartDate();
+				}	
+			
+			try {
+				Date date2 = formatter.parse("09/10/2014");
+				if (eventDay.equals(date2)) {
+					Notifications.create().title("Reminder")
+							.text("Hey, this is notification pop up Yay!")
+							.showWarning();
+
+				}
+
+			} catch (ParseException ex) {
+
+				ex.printStackTrace();
+			}
+
+		}
+	
+
+		// testing popup functionality using controlsfx with timer
+		// Platform.runLater(new Runnable(){
+		// @Override
+		// public void run(){
+		//
+		// Timer timer = new Timer();
+		// timer.schedule(new TimerTask() {
+		// public void run() {
+		// Notifications.create().title("Reminder")
+		// .text("Hey, this is notification pop up Yay!").showWarning();
+		//
+		// }
+		// },100,100);
+		// }
+		//
+		// });
+		
+		
+		
+		// ObservableList<ModelTask> allList= logicFacade.getAllList();
+
+		// Calendar c = Calendar.getInstance();
+		// Date todate = c.getTime();
+
+		// Platform.runLater(new Runnable(){
+		// @Override
+		// public void run(){
+		//
+		// Timer timer = new Timer();
+		//
+		// timer.schedule(new TimerTask() {
+		// public void run() {
+		// Notifications.create().title("Reminder")
+		// .text("Hey, this is notification pop up Yay!").showWarning();
+		//
+		// }
+		// },100,100);
+		// }
+		//
+		// });
+	
 
 		EditListener editListener = new EditListener(commandLine);
 		commandLine.textProperty().addListener(editListener);
