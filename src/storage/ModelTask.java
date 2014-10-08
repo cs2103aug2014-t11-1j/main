@@ -75,7 +75,7 @@ public class ModelTask {
             setEndTimeString(mt.endTime);
             setPosition(mt.position);
             setDeadLineString(mt.deadLine);
-            this.isDone = false;
+            this.isDone = mt.isDone;
         }
 
 	// mutators
