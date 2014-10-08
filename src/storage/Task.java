@@ -19,7 +19,7 @@ public class Task {
 	private final int INDEX_OF_ENDDATE = 2;
 	private final int INDEX_OF_STARTTIME = 3;
 	private final int INDEX_OF_ENDTIME = 4;
-	private final int INDEX_OF_ISDONE = 5;
+	private final int INDEX_OF_ISDONE = 6;
 	
 	
 	private String taskDescription;
@@ -47,12 +47,13 @@ public class Task {
 	
 	//this constructor is meant for copying files to observablelist
 	public Task(String str,boolean fromFile){
-String[] array = str.split(";");
+		String[] array = str.split(";");
 		
 		String input;
 		this.taskDescription = array[INDEX_OF_EVENT];
 		
 		input = array[INDEX_OF_STARTDATE];
+		
 		if(input.equals("null")){
 			this.startDate = null;
 		}else{
@@ -81,6 +82,7 @@ String[] array = str.split(";");
 		}
 		
 		input = array[INDEX_OF_ISDONE];
+		
 		if(input.equalsIgnoreCase("true")){
 			this.isDone = true;
 		}else{
