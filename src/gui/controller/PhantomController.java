@@ -57,7 +57,7 @@ public class PhantomController{
 
 	@FXML
 	private Menu themeMenu;
-
+	
 	private LogicFacade logicFacade;
 	//for testing purposes
 	//private LogicFacadeDummy logicFacade;
@@ -74,7 +74,7 @@ public class PhantomController{
 	public PhantomController() {
 		System.out.println("phantom constructor");
 		logicFacade = LogicFacade.getInstance();
-
+		
 		//for testing purposes
 		//logicFacade = new LogicFacadeDummy();
 	}
