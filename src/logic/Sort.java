@@ -1,5 +1,6 @@
 package logic;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 /**
@@ -40,11 +41,16 @@ public class Sort extends CommandFactory {
     }
 
     private static SortCommands getSortCommands(String input) {
-        if (input.equalsIgnoreCase("alpha")) {
+        ArrayList<String> tempStrings = new ArrayList<String>();
+        for(String tempString : input.split(" ")){
+            tempStrings.add(tempString.toLowerCase());
+        }
+        
+        if (tempStrings.contains("alpha")) {
             return SortCommands.ALPHA;
-        } else if (input.equalsIgnoreCase("date")) {
+        } else if (tempStrings.contains("date")) {
             return SortCommands.DATE;
-        } else if (input.equalsIgnoreCase("num") || input.equals("")) {
+        } else if (tempStrings.contains("num") || input.equals("")) {
             return SortCommands.NUM;
         } else {
             throw new IllegalArgumentException("Invalid sort command!");
