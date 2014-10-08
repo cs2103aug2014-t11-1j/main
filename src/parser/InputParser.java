@@ -228,9 +228,10 @@ public class InputParser {
 					System.out.println("error");
 				}
 			}
-
-
-
+		}
+		
+		if(isDeadLineFound && !isEndTimeFound){
+			endTime = STRING_BEFORE_MIDNIGHT;
 		}
 
 		input = pfm.replaceParseFree(input);

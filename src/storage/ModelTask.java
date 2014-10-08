@@ -29,7 +29,7 @@ public class ModelTask {
 	}
 
 	public ModelTask(String event, Date startDate, Date endDate,
-			Date startTime, Date endTime, int position, boolean isDone) {
+		Date startTime, Date endTime, int position, boolean isDone) {
 		standardFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		dateFormatter = new SimpleDateFormat("EEE, MMM d");
 		startDateFormatter = new SimpleDateFormat("d ");
@@ -47,7 +47,7 @@ public class ModelTask {
 		setStartDateString(startDate);
 		setEndDateString(endDate);
 		setStartTimeString(startTime);
-		setEndTimeString(startTime);
+		setEndTimeString(endTime);
 		setPosition(position);
 		setDeadLineString(deadLine);
 		setIsDone(isDone);

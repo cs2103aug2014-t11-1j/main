@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 
 import gui.controller.PhantomController;
+import gui.controller.PreferenceManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -98,6 +99,7 @@ public class MainApp extends Application {
 			PhantomController controller = loader.getController();
 			controller.setPrimaryStage(primaryStage);
 			controller.setOverallView(overallView);
+			controller.initPrefManager();
 
 			overallView.setOnMousePressed(new EventHandler<MouseEvent>() {
 				@Override

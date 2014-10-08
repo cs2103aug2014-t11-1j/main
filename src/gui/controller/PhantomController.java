@@ -4,6 +4,7 @@ import gui.MainApp;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Scanner;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -53,7 +54,7 @@ public class PhantomController{
 
 	@FXML
 	private Label timeLabel;
-	
+
 	@FXML
 	private Menu themeMenu;
 	
@@ -65,6 +66,7 @@ public class PhantomController{
 	private CommandLineUtility clu;
 	private TodayListManager tlm;
 	private ThemeMenuHandler tmh;
+	private PreferenceManager pm;
 
 	private String themeUrl;
 
@@ -98,6 +100,11 @@ public class PhantomController{
 		initClock();
 		initAnimation();
 		initCommandLineUtility();
+	}
+
+	public void initPrefManager() {
+		pm = PreferenceManager.getInstance();	
+		pm.initViews(tableView, todayView, helperView, overallView);
 	}
 
 	private void initMenuBar() {
@@ -141,7 +148,7 @@ public class PhantomController{
 	private void handleMinimise(){
 		primaryStage.setIconified(true);
 	}
-	
+
 	@FXML
 	private void handleDarkTheme(){
 		changeCss("DarkTheme");	
@@ -306,10 +313,10 @@ public class PhantomController{
 	}
 
 	private void play() {
-	    final URL resource = getClass().getResource("a.mp3");
-	    final Media media = new Media(resource.toString());
-	    final MediaPlayer mediaPlayer = new MediaPlayer(media);
-	    mediaPlayer.play();
+		final URL resource = getClass().getResource("a.mp3");
+		final Media media = new Media(resource.toString());
+		final MediaPlayer mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.play();
 	}
 
 	private boolean shouldSwitchToSearch(String feedback) {
@@ -346,30 +353,36 @@ public class PhantomController{
 
 		helperView.getStylesheets().clear();
 		helperView.getStylesheets().add(themeUrl);
+
+		try {
+			pm.saveCSSPref(cssFileName);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	private void showPopup() {
-		
+
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/PopupView.fxml"));
 			AnchorPane page = (AnchorPane) loader.load();
 			page.getStylesheets().clear();
 			page.getStylesheets().add(themeUrl);
-			
-			
+
+
 			Stage popupStage = new Stage();
 			popupStage.setTitle("Popup");
 			popupStage.initModality(Modality.WINDOW_MODAL);
 			popupStage.initStyle(StageStyle.TRANSPARENT);
 			popupStage.initOwner(primaryStage);
-			
+
 			Scene scene = new Scene(page);
 			popupStage.setScene(scene);
-	
+
 			PopupController controller = loader.getController();
 			controller.setPopupStage(popupStage);
-			
+
 			popupStage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
