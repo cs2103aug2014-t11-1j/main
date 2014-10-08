@@ -217,8 +217,10 @@ public class CommandExecutor {
 				cmdf = new Search(actualCommandDescription);
 
 				if(cmdf.isDone()){
-                                setFeedBack(actualCommandDescription + " found.");
+                                setFeedBack(ErrorMessages.SUCCESS_SEARCH_MESSAGE);
 				//setSearchedList(searchedList);
+                                }else{
+                                    setFeedBack(ErrorMessages.ERROR_SEARCH_MESSAGE);
                                 }
 
 				break;

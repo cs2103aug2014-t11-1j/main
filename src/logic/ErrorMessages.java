@@ -27,4 +27,6 @@ public class ErrorMessages {
 	public static final String ERROR_INVALID_MESSAGE = "INVALID COMMAND!";
 	public static final String ERROR_ARGUMENT_MESSAGE = "INVALID ARGUMENT!";
 	public static final String ERROR_COMMAND_TYPE = "Unrecognized command type";
+        public static final String SUCCESS_SEARCH_MESSAGE = "Search successful.";
+        public static final String ERROR_SEARCH_MESSAGE = "Search unsuccessful.";
 }
