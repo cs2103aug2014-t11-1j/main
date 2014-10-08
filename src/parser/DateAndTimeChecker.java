@@ -27,19 +27,23 @@ public class DateAndTimeChecker {
 	 */
 	public boolean isValidDefaultTimeFormat(String string) {
 		
+		if(string.length() > 4){
+			return false;
+		}
+		
 		try{
 			Scanner sc = new Scanner(string).useDelimiter("[^0-9]+");		
 			int integer = sc.nextInt();
-//			if(integer == 12){
-//				if(!string.replace("12", "").equalsIgnoreCase("NN") && !string.replace("12", "").equalsIgnoreCase("MN")){
-//					System.out.println("invalid time");
-//					return false;
-//				}
-//			}
-			if(integer>12 || integer <= 0){
+
+			if(integer > 12 || integer <= 0){
 				System.out.println("invalid time");
 				return false;
 			}
+			
+			if(integer < 10 && string.length() > 3){
+				return false;
+			}
+			
 			if(sc.hasNextInt()){
 				if(sc.nextInt() > 59){
 					return false;
@@ -126,6 +130,10 @@ public class DateAndTimeChecker {
 	}
 
 	public boolean isValidMonthFirstStringDateFormat(String[] words, int index) {
+		
+		if(validSingleStringDate(words,index,1)){
+			return true;
+		}
 
 		try{
 			words[index + 1] = words[index + 1].replaceAll("st","");
@@ -140,11 +148,28 @@ public class DateAndTimeChecker {
 			System.out.println("month first string day exception");
 			return false;
 		}
+		return true;
+	}
 
+	private boolean validSingleStringDate(String[] words, int index, int type) {
+		
+		String date = words[index].replaceAll("([^\\d-]?)(-?[\\d\\.]+)([^\\d]?)", "$1 $2 $3").replaceAll(" +", " ");
+		String[] dateArray = date.split(" ");
+		
+		if(dateArray.length > 3 || dateArray.length < 2){
+			System.out.println("valid");
+			return false;
+		}else if(Integer.parseInt(dateArray[type]) > 31 || Integer.parseInt(dateArray[type]) <= 0){
+			return false;
+		}
 		return true;
 	}
 
 	public boolean isValidDayFirstStringDateFormat(String[] words, int index) {
+		
+		if(validSingleStringDate(words,index,0)){
+			return true;
+		}
 
 		try{
 			words[index - 1] = words[index - 1].replaceAll("st","");
