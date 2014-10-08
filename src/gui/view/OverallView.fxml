@@ -28,6 +28,11 @@
             <Label fx:id="timeLabel" prefHeight="20.0" prefWidth="89.0" styleClass="label-bright" text="Time" />
          </children>
       </HBox>
+      <AnchorPane layoutX="32.0" layoutY="53.0" prefHeight="284.0" prefWidth="610.0">
+			<children>
+				<fx:include fx:id="tentativeView" source="TentativeView.fxml" />
+			</children>      
+      </AnchorPane>
       <AnchorPane layoutX="105.0" layoutY="72.0" prefHeight="272.0" prefWidth="520.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="72.0">
 	      <children>
 	      	<fx:include fx:id="todayView" source="TodayView.fxml" />

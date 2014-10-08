@@ -51,7 +51,12 @@ public class PhantomController{
 	private Parent helperView;
 	@FXML
 	private HelperViewController helperViewController;
-
+	
+	@FXML
+	private Parent tentativeView;
+	@FXML
+	private TentativeViewController tentativeViewController;
+	
 	@FXML
 	private Label timeLabel;
 
@@ -67,9 +72,9 @@ public class PhantomController{
 	private TodayListManager tlm;
 	private ThemeMenuHandler tmh;
 	private PreferenceManager pm;
-
+	private TentativeViewManager tvm;
+	
 	private String themeUrl;
-
 
 	public PhantomController() {
 		System.out.println("phantom constructor");
@@ -100,6 +105,7 @@ public class PhantomController{
 		initClock();
 		initAnimation();
 		initCommandLineUtility();
+		initTentative();
 	}
 
 	public void initPrefManager() {
@@ -137,6 +143,12 @@ public class PhantomController{
 	private void initCommandLineUtility() {
 		clu = CommandLineUtility.getInstance();
 		clu.initialize(commandLine);
+	}
+
+	private void initTentative() {
+		tvm = new TentativeViewManager();
+		tvm.setTentativeViewController(tentativeViewController);
+		//tvm.setAllList(logicFacade.getAllList());
 	}
 
 	@FXML
@@ -252,6 +264,10 @@ public class PhantomController{
 			else if(input.equalsIgnoreCase("tutorial")){
 				createTutorial();
 			}
+			else if(input.equalsIgnoreCase("tentative")){
+				ah.showTentative();
+				tvm.setAllList(logicFacade.getAllList());
+			}
 			else{
 				try {
 					feedback = logicFacade.getFeedBack(input);
@@ -309,7 +325,7 @@ public class PhantomController{
 	}
 
 	private void createTutorial() {
-		TutorialLoader tutorialLoader = new TutorialLoader(overallView, themeUrl);
+		new TutorialLoader(overallView, themeUrl);
 	}
 
 	private void play() {
