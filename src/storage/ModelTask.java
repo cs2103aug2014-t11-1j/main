@@ -47,7 +47,7 @@ public class ModelTask {
 		setStartDateString(startDate);
 		setEndDateString(endDate);
 		setStartTimeString(startTime);
-		setEndTimeString(startTime);
+		setEndTimeString(endTime);
 		setPosition(position);
 		setDeadLineString(deadLine);
 		setIsDone(isDone);
