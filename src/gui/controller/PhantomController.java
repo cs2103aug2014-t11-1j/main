@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
 
+import org.controlsfx.control.Notifications;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +28,7 @@ import logic.ErrorMessages;
 import logic.LogicFacade;
 import storage.ModelTask;
 
-public class PhantomController{
+public class PhantomController {
 	protected static boolean hasOccured = false;
 
 	private Stage primaryStage;
@@ -57,10 +59,10 @@ public class PhantomController{
 
 	@FXML
 	private Menu themeMenu;
-	
+
 	private LogicFacade logicFacade;
-	//for testing purposes
-	//private LogicFacadeDummy logicFacade;
+	// for testing purposes
+	// private LogicFacadeDummy logicFacade;
 
 	private AnimationHandler ah;
 	private CommandLineUtility clu;
@@ -70,13 +72,12 @@ public class PhantomController{
 
 	private String themeUrl;
 
-
 	public PhantomController() {
 		System.out.println("phantom constructor");
 		logicFacade = LogicFacade.getInstance();
-		
-		//for testing purposes
-		//logicFacade = new LogicFacadeDummy();
+
+		// for testing purposes
+		// logicFacade = new LogicFacadeDummy();
 	}
 
 	public void setPrimaryStage(Stage stage) {
@@ -93,7 +94,7 @@ public class PhantomController{
 		initAll();
 	}
 
-	private void initAll() {  
+	private void initAll() {
 		tableViewController.setAllView(logicFacade.getAllList());
 		initMenuBar();
 		initTodayList();
@@ -103,12 +104,13 @@ public class PhantomController{
 	}
 
 	public void initPrefManager() {
-		pm = PreferenceManager.getInstance();	
+		pm = PreferenceManager.getInstance();
 		pm.initViews(tableView, todayView, helperView, overallView);
 	}
 
 	private void initMenuBar() {
-		themeUrl = getClass().getResource("../view/DarkTheme.css").toExternalForm();
+		themeUrl = getClass().getResource("../view/DarkTheme.css")
+				.toExternalForm();
 		tmh = new ThemeMenuHandler(themeMenu);
 		tmh.setDarkTheme();
 	}
@@ -140,126 +142,112 @@ public class PhantomController{
 	}
 
 	@FXML
-	private void handleExit(){
+	private void handleExit() {
 		System.exit(0);
 	}
 
 	@FXML
-	private void handleMinimise(){
+	private void handleMinimise() {
 		primaryStage.setIconified(true);
 	}
 
 	@FXML
-	private void handleDarkTheme(){
-		changeCss("DarkTheme");	
+	private void handleDarkTheme() {
+		changeCss("DarkTheme");
 		tmh.setDarkTheme();
 	}
 
 	@FXML
-	private void handleBlueTheme(){
+	private void handleBlueTheme() {
 		changeCss("BlueTheme");
 		tmh.setBlueTheme();
 	}
+
 	@FXML
-	private void handleRedTheme(){
+	private void handleRedTheme() {
 		changeCss("RedTheme");
 		tmh.setRedTheme();
 	}
+
 	@FXML
-	private void handleGreenTheme(){
+	private void handleGreenTheme() {
 		changeCss("GreenTheme");
 		tmh.setGreenTheme();
 	}
 
 	@FXML
-	private void handleKeyPressed(KeyEvent e){
+	private void handleKeyPressed(KeyEvent e) {
+
+		// testing popup functionality using controlsfx
+		Notifications.create().title("Reminder")
+				.text("Hey, this is notification pop up Yay!").showWarning();
 
 		EditListener editListener = new EditListener(commandLine);
 		commandLine.textProperty().addListener(editListener);
 
 		String input;
 
-		if(e.getCode() == KeyCode.ENTER){
+		if (e.getCode() == KeyCode.ENTER) {
 			hasOccured = false;
 
 			input = commandLine.getText();
 			commandLine.clear();
 			String feedback = "";
-			if(tableViewController.isSearched()){
+			if (tableViewController.isSearched()) {
 				switchToAll();
 			}
-			if(ah.getIsFocusTable() && input.equals("")){
+			if (ah.getIsFocusTable() && input.equals("")) {
 				tableViewController.scrollToNext();
-			}
-			else if(input.equalsIgnoreCase("showall")){
+			} else if (input.equalsIgnoreCase("showall")) {
 				ah.animateLeft();
-			}
-			else if(input.equalsIgnoreCase("showtoday")){
+			} else if (input.equalsIgnoreCase("showtoday")) {
 				ah.animateRight();
-			}
-			else if(input.equalsIgnoreCase("i love big butts")){
+			} else if (input.equalsIgnoreCase("i love big butts")) {
 				play();
-			}
-			else if(input.equalsIgnoreCase("blue theme")){
+			} else if (input.equalsIgnoreCase("blue theme")) {
 				changeCss("BlueTheme");
-			}
-			else if(input.equalsIgnoreCase("dark theme")){
+			} else if (input.equalsIgnoreCase("dark theme")) {
 				changeCss("DarkTheme");
-			}
-			else if(input.equalsIgnoreCase("red theme")){
+			} else if (input.equalsIgnoreCase("red theme")) {
 				changeCss("RedTheme");
-			}
-			else if(input.equalsIgnoreCase("green theme")){
+			} else if (input.equalsIgnoreCase("green theme")) {
 				changeCss("GreenTheme");
-			}
-			else if(input.equalsIgnoreCase("royal theme")){
+			} else if (input.equalsIgnoreCase("royal theme")) {
 				changeCss("RoyalTheme");
 				tmh.removeSelected();
-			}
-			else if(input.equalsIgnoreCase("cog theme")){
+			} else if (input.equalsIgnoreCase("cog theme")) {
 				changeCss("CogTheme");
-			}
-			else if(input.equalsIgnoreCase("christmas theme")){
+			} else if (input.equalsIgnoreCase("christmas theme")) {
 				changeCss("ChristmasTheme");
-			}
-			else if(input.equalsIgnoreCase("wolf theme")){
+			} else if (input.equalsIgnoreCase("wolf theme")) {
 				changeCss("WolfTheme");
-			}
-			else if(input.equalsIgnoreCase("dragon theme")){
+			} else if (input.equalsIgnoreCase("dragon theme")) {
 				changeCss("DragonTheme");
-			}
-			else if(input.equalsIgnoreCase("halloween theme")){
+			} else if (input.equalsIgnoreCase("halloween theme")) {
 				changeCss("HalloweenTheme");
-			}
-			else if(input.equalsIgnoreCase("ghost theme")){
+			} else if (input.equalsIgnoreCase("ghost theme")) {
 				changeCss("GhostTheme");
-			}
-			else if(input.equalsIgnoreCase("chinese theme")){
+			} else if (input.equalsIgnoreCase("chinese theme")) {
 				changeCss("ChineseTheme");
-			}
-			else if(input.equalsIgnoreCase("singapore theme")){
+			} else if (input.equalsIgnoreCase("singapore theme")) {
 				changeCss("SingaporeTheme");
-			}
-			else if(input.equalsIgnoreCase("snake theme")){
+			} else if (input.equalsIgnoreCase("snake theme")) {
 				changeCss("SnakeTheme");
-			}
-			else if(input.equalsIgnoreCase("ghosts theme")){
+			} else if (input.equalsIgnoreCase("ghosts theme")) {
 				changeCss("GhostsTheme");
-			}
-			else if(input.equalsIgnoreCase("popup")){
+			} else if (input.equalsIgnoreCase("popup")) {
 				showPopup();
-			}
-			else{
+			} else {
 				try {
 					feedback = logicFacade.getFeedBack(input);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 
-				if(shouldUpdateAllView(feedback)){
+				if (shouldUpdateAllView(feedback)) {
 					setAllView(logicFacade.getAllList());
 				}
-				if(shouldSwitchToSearch(feedback)){
+				if (shouldSwitchToSearch(feedback)) {
 					switchToSearch(logicFacade.getSearchedList());
 				}
 
@@ -271,35 +259,37 @@ public class PhantomController{
 				ah.removeHelper();
 			}
 
-		}else if(e.getCode() == KeyCode.UP){
-			clu.displayPreviousInput();			
-		}else if(e.getCode() == KeyCode.DOWN){
+		} else if (e.getCode() == KeyCode.UP) {
+			clu.displayPreviousInput();
+		} else if (e.getCode() == KeyCode.DOWN) {
 			clu.displayForwardInput();
-		}else {
+		} else {
 
-			try{
-				if(e.getCode() == KeyCode.BACK_SPACE){
+			try {
+				if (e.getCode() == KeyCode.BACK_SPACE) {
 
-					if(ah.getIsFocusTable() && commandLine.getText().equals("")){
+					if (ah.getIsFocusTable()
+							&& commandLine.getText().equals("")) {
 						tableViewController.scrollToBack();
 					}
 
-					input = commandLine.getText().substring(0, commandLine.getText().length()-1);
-				}else{
+					input = commandLine.getText().substring(0,
+							commandLine.getText().length() - 1);
+				} else {
 					input = commandLine.getText() + e.getText();
 				}
 
 				System.out.println(input);
 
-				if(input.split(" ")[0].equalsIgnoreCase("add")){
+				if (input.split(" ")[0].equalsIgnoreCase("add")) {
 					ah.displayHelper();
-				}else if(input.length() < 2){
+				} else if (input.length() < 2) {
 					ah.revertView();
 				}
 
 				helperViewController.setHelperView(input);
 
-			}catch(Exception exc){
+			} catch (Exception exc) {
 				System.out.println("mother father gentlemen");
 			}
 		}
@@ -317,23 +307,25 @@ public class PhantomController{
 	}
 
 	private boolean shouldUpdateAllView(String feedback) {
-		return feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE || feedback == ErrorMessages.SUCCESS_REDONE_MESSAGE;
+		return feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE
+				|| feedback == ErrorMessages.SUCCESS_REDONE_MESSAGE;
 	}
 
-	private void switchToSearch(ObservableList<ModelTask> list){
+	private void switchToSearch(ObservableList<ModelTask> list) {
 		tableViewController.switchToSearch(list);
 	}
 
-	private void switchToAll(){
+	private void switchToAll() {
 		tableViewController.switchToAll();
 	}
 
-	private void setAllView(ObservableList<ModelTask> list){
+	private void setAllView(ObservableList<ModelTask> list) {
 		tableViewController.setAllView(list);
 	}
 
-	private void changeCss(String cssFileName){
-		themeUrl = getClass().getResource("../view/" + cssFileName +".css").toExternalForm();
+	private void changeCss(String cssFileName) {
+		themeUrl = getClass().getResource("../view/" + cssFileName + ".css")
+				.toExternalForm();
 
 		overallView.getStylesheets().clear();
 		overallView.getStylesheets().add(themeUrl);
@@ -363,7 +355,6 @@ public class PhantomController{
 			page.getStylesheets().clear();
 			page.getStylesheets().add(themeUrl);
 
-
 			Stage popupStage = new Stage();
 			popupStage.setTitle("Popup");
 			popupStage.initModality(Modality.WINDOW_MODAL);
@@ -385,44 +376,26 @@ public class PhantomController{
 
 	/*
 	 * unused classes for initial testing with command buttons in gui
-	@FXML
-	private void handleDeleteTask() {
-		String numString = commandLine.getText();
-		commandLine.clear();
-
-		if(numString == null || numString.length() == 0){
-			tfOutput.setText("Invalid deletion");
-		}
-		else{
-			int lineNum = Integer.parseInt(numString);
-			taskList.remove(lineNum - 1);
-			for(int i = lineNum-1; i<taskList.size(); i++){
-				taskList.get(i).setPosition(i+1);
-			}
-		}
-	}
-
-	@FXML
-	private void handleAddTask() {
-		String taskString = commandLine.getText();
-		commandLine.clear();
-		ModelTask task = new ModelTask(taskString, new Date(), taskList.size() + 1);
-		taskList.add(task);
-	}
-
-	@FXML
-	private void handleClear(){
-		taskList.clear();
-	}
-
-	@FXML
-	private void handleEditTask(){
-		switchToAll();
-	}
-
-	@FXML
-	private void handleSearchTask(){
-		tableViewController.setVisible(false);
-	}
+	 * 
+	 * @FXML private void handleDeleteTask() { String numString =
+	 * commandLine.getText(); commandLine.clear();
+	 * 
+	 * if(numString == null || numString.length() == 0){
+	 * tfOutput.setText("Invalid deletion"); } else{ int lineNum =
+	 * Integer.parseInt(numString); taskList.remove(lineNum - 1); for(int i =
+	 * lineNum-1; i<taskList.size(); i++){ taskList.get(i).setPosition(i+1); } }
+	 * }
+	 * 
+	 * @FXML private void handleAddTask() { String taskString =
+	 * commandLine.getText(); commandLine.clear(); ModelTask task = new
+	 * ModelTask(taskString, new Date(), taskList.size() + 1);
+	 * taskList.add(task); }
+	 * 
+	 * @FXML private void handleClear(){ taskList.clear(); }
+	 * 
+	 * @FXML private void handleEditTask(){ switchToAll(); }
+	 * 
+	 * @FXML private void handleSearchTask(){
+	 * tableViewController.setVisible(false); }
 	 */
 }
