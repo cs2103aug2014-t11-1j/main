@@ -53,19 +53,19 @@ public class AnimationHandler {
 		slideOutTableInit.setToX(700);
 		slideOutTableInit.play();
 		TranslateTransition slideOutHelperInit = new TranslateTransition(Duration.millis(100), helperView);
-		slideOutHelperInit.setToX(700);
+		slideOutHelperInit.setToX(-700);
 		slideOutHelperInit.play();
 		
 		isFocusTable = false;
 		isFocusHelper = false;
 		isFocusToday = true;
 		
-		slideInTable = new TranslateTransition(Duration.seconds(0.35), tableView);
+		slideInTable = new TranslateTransition(Duration.seconds(0.25), tableView);
 		slideInTable.setToX(0);
 		slideOutTable = new TranslateTransition(Duration.seconds(0.2), tableView);
 		slideOutTable.setToX(700);
 		
-		slideInToday = new TranslateTransition(Duration.seconds(0.35), todayView);
+		slideInToday = new TranslateTransition(Duration.seconds(0.25), todayView);
 		slideInToday.setToX(0);
 		slideOutToday = new TranslateTransition(Duration.seconds(0.2), todayView);
 		slideOutToday.setToX(700);
@@ -73,7 +73,7 @@ public class AnimationHandler {
 		slideInHelper = new TranslateTransition(Duration.seconds(0.25), helperView);
 		slideInHelper.setToX(0);
 		slideOutHelper = new TranslateTransition(Duration.seconds(0.2), helperView);
-		slideOutHelper.setToX(700);
+		slideOutHelper.setToX(-700);
 		
 	}
 	
