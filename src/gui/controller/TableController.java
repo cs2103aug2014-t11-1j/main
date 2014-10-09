@@ -76,6 +76,7 @@ public class TableController{
                       @Override
                       public void updateItem(Boolean isDone, boolean empty) {
                           super.updateItem(isDone, empty);
+
                           if (!empty && isDone!=null && isDone.booleanValue()) {
                         	  Image image = new Image(ResourceLoader.load("tick.png"));
                               imageview.setImage(image);
