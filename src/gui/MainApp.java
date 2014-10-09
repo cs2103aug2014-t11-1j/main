@@ -7,8 +7,11 @@ import org.controlsfx.control.Notifications;
 import gui.controller.PhantomController;
 import gui.controller.PreferenceManager;
 import gui.controller.Reminder;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 public class MainApp extends Application {
 
@@ -129,10 +133,22 @@ public class MainApp extends Application {
 					}
 				}
 			});
-
-			Reminder popUpReminder = Reminder.getInstance();
-			popUpReminder.startReminder();
-
+			
+			
+		
+//			//for loading of reminder pop ups
+			Timeline reminderService = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
+				Reminder popUpReminder = Reminder.getInstance();
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	
+	    			popUpReminder.startReminder();
+	                System.out.println("this is called every 5 seconds on UI thread");
+	            }
+	        }));
+			reminderService.setCycleCount(Timeline.INDEFINITE);
+			reminderService.play();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
