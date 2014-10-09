@@ -27,8 +27,8 @@ import logic.LogicFacade;
 
 public class EditListener implements ChangeListener<String> {
 
-	// private static final String STRING_FORMAT =
-	// "[%1$s] [%2$s] [%3$s] [%4$s] [%5$s]";
+	 private static final String STRING_FORMAT =
+	 "[%1$s] [%2$s] [%3$s] [%4$s] [%5$s] [%6$s]";
 	private TextField commandLine;
 	private LogicFacade logicFacade;
 	private ObservableList<ModelTask> list;
@@ -48,11 +48,11 @@ public class EditListener implements ChangeListener<String> {
 	
 
 		if (newValue.trim().equalsIgnoreCase("add?")) {
-			commandLine.setText("add taskdecription");
+			commandLine.setText("add [taskdecription] [startdate] [enddate] [starttime] [endtime]");
 		}
 
 		if (newValue.trim().equalsIgnoreCase("edit?")) {
-			commandLine.setText("edit tasknumber");
+			commandLine.setText("edit [tasknumber] [taskdecription] [startdate] [enddate] [starttime] [endtime]");
 		}
 
 		String[] subStrings = newValue.trim().split(" ");
@@ -64,9 +64,7 @@ public class EditListener implements ChangeListener<String> {
 
 				if (!getTaskDescription(Integer.parseInt(subStrings[1])).trim()
 						.equals("")) {
-					commandLine.setText(newValue
-							+ " "
-							+ getTaskDescription(Integer
+					commandLine.setText("edit "	+ getTaskDescription(Integer
 									.parseInt(subStrings[1])));
 				}
 
@@ -115,15 +113,38 @@ public class EditListener implements ChangeListener<String> {
 			}
 		}
 
-		// return (String.format(STRING_FORMAT,currTask.getEvent(),
-		// currTask.getStartDateString(),
-		// currTask.getEndDateString(),
-		// currTask.getStartTimeString(),currTask.getEndTimeString()));
+	
 		if (positionIsFound) {
-			return currTask.getEvent() + " " + currTask.getStartDateString()
-					+ " " + currTask.getEndDateString() + " "
-					+ currTask.getStartTimeString() + " "
-					+ currTask.getEndTimeString();
+			String event = currTask.getEvent();
+			String startDate = currTask.getStartDateString();
+			String endDate = currTask.getEndDateString();
+			String startTime = currTask.getStartTimeString();
+			String endTime = currTask.getEndTimeString();
+			
+			
+			if(startDate==null){
+				startDate = "startdate";
+			}
+			if(endDate==null){
+				endDate = "enddate";
+			}
+			if(startTime==null){
+				startTime = "starttime";
+			}
+			if(endTime==null){
+				endTime = "endtime";
+			}
+			
+			
+			
+			 return (String.format(STRING_FORMAT,currTask.getPosition(),event,startDate
+			 ,endDate,startTime,endTime));
+			
+			
+//			return currTask.getEvent() + " " + currTask.getStartDateString()
+//					+ " " + currTask.getEndDateString() + " "
+//					+ currTask.getStartTimeString() + " "
+//					+ currTask.getEndTimeString();
 		}
 		
 		return "";

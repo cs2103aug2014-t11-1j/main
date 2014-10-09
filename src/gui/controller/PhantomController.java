@@ -198,7 +198,7 @@ public class PhantomController {
 				Date date2 = formatter.parse("09/10/2014");
 				if (eventDay.equals(date2)) {
 					Notifications.create().title("Reminder")
-							.text("Hey, this is notification pop up Yay!")
+							.text("Hey, Go do your coding dumblydore!")
 							.showWarning();
 
 				}
