@@ -201,18 +201,13 @@ public class PhantomController{
 
 		String input;
 		if (keyCombShiftRight.match(e)) {
-			System.out.println("ViewIndex before: " + ah.getViewIndex());
     		animateRight();
-    		System.out.println("ViewIndex after: " + ah.getViewIndex());
         }
 		
 		if (keyCombShiftLeft.match(e)) {
-			System.out.println("ViewIndex before: " + ah.getViewIndex());
 			animateLeft();
-			System.out.println("ViewIndex after: " + ah.getViewIndex());
         }
 		
-		System.out.println("ViewIndex: " + ah.getViewIndex());
 		
 
 		if(e.getCode() == KeyCode.ENTER){
