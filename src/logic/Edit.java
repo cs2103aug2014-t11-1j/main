@@ -34,7 +34,6 @@ public class Edit extends CommandFactory {
         list.remove(index);
         list.add(temp, index);
 
-        updateUndoAndRedoStacks();
         isDone = true;
     }
 
