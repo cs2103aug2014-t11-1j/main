@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
 
+import javafx.animation.TranslateTransition;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,6 +26,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import logic.ErrorMessages;
 import logic.LogicFacade;
 import storage.ModelTask;
@@ -53,12 +56,12 @@ public class PhantomController{
 	private Parent helperView;
 	@FXML
 	private HelperViewController helperViewController;
-	
+
 	@FXML
 	private Parent tentativeView;
 	@FXML
 	private TentativeViewController tentativeViewController;
-	
+
 	@FXML
 	private Label timeLabel;
 
@@ -77,7 +80,12 @@ public class PhantomController{
 	private TentativeViewManager tvm;
 	
 	private String themeUrl;
-
+	
+	final KeyCombination keyCombShiftRight = KeyCodeCombination.valueOf("Shift+RIGHT");
+	final KeyCombination keyCombShiftLeft = KeyCodeCombination.valueOf("Shift+LEFT");
+	
+	private int viewIndex;
+	
 	public PhantomController() {
 		System.out.println("phantom constructor");
 		logicFacade = LogicFacade.getInstance();
@@ -190,8 +198,22 @@ public class PhantomController{
 
 		EditListener editListener = new EditListener(commandLine);
 		commandLine.textProperty().addListener(editListener);
-		
+
 		String input;
+		if (keyCombShiftRight.match(e)) {
+			System.out.println("ViewIndex before: " + ah.getViewIndex());
+    		animateRight();
+    		System.out.println("ViewIndex after: " + ah.getViewIndex());
+        }
+		
+		if (keyCombShiftLeft.match(e)) {
+			System.out.println("ViewIndex before: " + ah.getViewIndex());
+			animateLeft();
+			System.out.println("ViewIndex after: " + ah.getViewIndex());
+        }
+		
+		System.out.println("ViewIndex: " + ah.getViewIndex());
+		
 
 		if(e.getCode() == KeyCode.ENTER){
 			hasOccured = false;
@@ -215,7 +237,7 @@ public class PhantomController{
 				ah.showTentativeView();
 			}
 			else if(input.equalsIgnoreCase("i love big butts")){
-		//		play();
+				play();
 			}
 			else if(input.equalsIgnoreCase("blue theme")){
 				changeCss("BlueTheme");
@@ -267,7 +289,7 @@ public class PhantomController{
 				showPopup();
 			}
 			else if(input.equalsIgnoreCase("tentative")){
-				ah.showTentative();
+				//		ah.showTentative();
 				tvm.setAllList(logicFacade.getAllList());
 			}
 			else{
@@ -297,7 +319,7 @@ public class PhantomController{
 					input = commandLine.getText() + e.getText();
 				}
 
-				System.out.println(input);
+				//	System.out.println(input);
 
 				if(input.split(" ")[0].equalsIgnoreCase("add")){
 					ah.displayHelper();
@@ -413,6 +435,15 @@ public class PhantomController{
 		}
 
 	}
+
+	public void animateRight(){
+		ah.animateRight();
+	}
+
+	public void animateLeft(){
+		ah.animateLeft();
+	}
+
 
 	/*
 	 * unused classes for initial testing with command buttons in gui
