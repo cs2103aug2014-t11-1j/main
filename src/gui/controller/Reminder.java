@@ -70,8 +70,7 @@ public class Reminder {
 							timeFormatter.format(timeToStartReminder))) {
 						String eventDescription = taskList.get(indexOfTask)
 								.getEvent();
-						System.out.println("reminder is active");
-						Notifications.create().title("Reminder")
+						Notifications.create().title("Task Reminder")
 								.text(eventDescription).showWarning();
 					}
 
