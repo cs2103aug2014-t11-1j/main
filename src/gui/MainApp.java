@@ -107,7 +107,7 @@ public class MainApp extends Application {
 			/**
 			 * This snippet of code allows 
 			 * the user to remotely execute undo
-			 * commands when CTRL+Z is pressed
+			 * commands when CTRL+Z is pressed - smallson
 			 */
 			final KeyCombination keyCombUndo = new KeyCodeCombination(KeyCode.Z,
 					KeyCombination.CONTROL_DOWN);
@@ -126,7 +126,7 @@ public class MainApp extends Application {
 			/**
 			 * This snippet of code allows 
 			 * the user to remotely execute redo
-			 * commands when CTRL+R is pressed
+			 * commands when CTRL+R is pressed - smallson
 			 */
 			final KeyCombination keyCombRedo = new KeyCodeCombination(KeyCode.R,
 					KeyCombination.CONTROL_DOWN);
@@ -144,7 +144,7 @@ public class MainApp extends Application {
 			/**
 			 * This snippet of code allows 
 			 * the user to remotely execute clear
-			 * commands when CTRL+L is pressed
+			 * commands when CTRL+L is pressed - smallson
 			 */
 			final KeyCombination keyCombClear = new KeyCodeCombination(KeyCode.L,
 					KeyCombination.CONTROL_DOWN);
