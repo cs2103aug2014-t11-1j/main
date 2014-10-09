@@ -106,6 +106,31 @@ public class PhantomController {
 		initAnimation();
 		initCommandLineUtility();
 
+//		ObservableList<ModelTask> list1 = logicFacade.getAllList();
+//		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//
+//		Date eventDay = null;
+//		for (int i = 0; i < list1.size(); i++) {
+//			if(list1.get(i).getStartDate()!=null){
+//				eventDay = list1.get(i).getStartDate();
+//				}	
+//			
+//			try {
+//				Date date2 = formatter.parse("09/10/2014");
+//				if (eventDay.equals(date2)) {
+//					Notifications.create().title("Reminder")
+//							.text("Hey, Go do your coding dumblydore!")
+//							.showWarning();
+//
+//				}
+//
+//			} catch (ParseException ex) {
+//
+//				ex.printStackTrace();
+//			}
+
+//		}
+		
 	}
 
 	public void initPrefManager() {
@@ -188,14 +213,14 @@ public class PhantomController {
 		ObservableList<ModelTask> list1 = logicFacade.getAllList();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-		Date eventDay = null;
+		Date eventDay = new Date();
 		for (int i = 0; i < list1.size(); i++) {
 			if(list1.get(i).getStartDate()!=null){
 				eventDay = list1.get(i).getStartDate();
 				}	
 			
 			try {
-				Date date2 = formatter.parse("09/10/2014");
+				Date date2 = formatter.parse("18/10/2014");
 				if (eventDay.equals(date2)) {
 					Notifications.create().title("Reminder")
 							.text("Hey, Go do your coding dumblydore!")
