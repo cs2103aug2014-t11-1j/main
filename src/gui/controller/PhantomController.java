@@ -253,6 +253,11 @@ public class PhantomController{
 			}
 			else{
 				executeCommand(input, feedback);
+
+				updateTodayView();
+				clu.forwardToPrevious();
+				clu.pushInput(input);
+				ah.removeHelper();
 			}
 
 		}else if(e.getCode() == KeyCode.UP){
@@ -305,10 +310,6 @@ public class PhantomController{
 
 		tfOutput.setText(feedback);
 
-		updateTodayView();
-		clu.forwardToPrevious();
-		clu.pushInput(input);
-		ah.removeHelper();
 	}
 
 	private void play() {
