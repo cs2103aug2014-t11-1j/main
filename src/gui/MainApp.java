@@ -11,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -35,7 +37,7 @@ public class MainApp extends Application {
 		this.primaryStage.setTitle("Phantom");
 		this.primaryStage.centerOnScreen();
 		this.primaryStage.initStyle(StageStyle.TRANSPARENT);
-		
+
 		ta = TrayApplication.getInstance();
 		try {
 			ta.createTrayIcon(primaryStage);
@@ -43,8 +45,8 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 		sm = ShortcutManager.getInstance();
-	    Platform.setImplicitExit(false);
-	    sm.setHotKeys(primaryStage);
+		Platform.setImplicitExit(false);
+		sm.setHotKeys(primaryStage);
 
 		//        initRootLayout();
 		showPhantomOverallView();
@@ -95,11 +97,68 @@ public class MainApp extends Application {
 			primaryStage.show();
 
 			//            rootLayout.setCenter(overallView);
+			
 
 			PhantomController controller = loader.getController();
 			controller.setPrimaryStage(primaryStage);
 			controller.setOverallView(overallView);
 			controller.initPrefManager();
+			
+			/**
+			 * This snippet of code allows 
+			 * the user to remotely execute undo
+			 * commands when CTRL+Z is pressed
+			 */
+			final KeyCombination keyCombUndo = new KeyCodeCombination(KeyCode.Z,
+					KeyCombination.CONTROL_DOWN);
+			scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+				@Override
+				public void handle(KeyEvent event) {
+					if (keyCombUndo.match(event)) {
+						controller.executeCommand("UNDO","");
+
+					}
+				}
+			});
+			/**
+			 */
+			
+			/**
+			 * This snippet of code allows 
+			 * the user to remotely execute redo
+			 * commands when CTRL+R is pressed
+			 */
+			final KeyCombination keyCombRedo = new KeyCodeCombination(KeyCode.R,
+					KeyCombination.CONTROL_DOWN);
+			scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+				@Override
+				public void handle(KeyEvent event) {
+					if (keyCombRedo.match(event)) {
+						controller.executeCommand("REDO","");
+					}
+				}
+			});
+			/**
+			 */
+			
+			/**
+			 * This snippet of code allows 
+			 * the user to remotely execute clear
+			 * commands when CTRL+L is pressed
+			 */
+			final KeyCombination keyCombClear = new KeyCodeCombination(KeyCode.L,
+					KeyCombination.CONTROL_DOWN);
+			scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+				@Override
+				public void handle(KeyEvent event) {
+					if (keyCombClear.match(event)) {
+						controller.executeCommand("CLEAR","");
+					}
+				}
+			});
+			/**
+			 */
+			
 
 			overallView.setOnMousePressed(new EventHandler<MouseEvent>() {
 				@Override
@@ -115,7 +174,7 @@ public class MainApp extends Application {
 					primaryStage.setY(event.getScreenY() - yOffset);
 				}
 			});
-			
+
 			overallView.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>
 			() {
 
@@ -126,7 +185,7 @@ public class MainApp extends Application {
 					}
 				}
 			});
-			
+
 
 		} catch (IOException e) {
 			e.printStackTrace();

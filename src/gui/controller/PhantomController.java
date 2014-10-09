@@ -15,6 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
@@ -57,7 +59,7 @@ public class PhantomController{
 
 	@FXML
 	private Menu themeMenu;
-	
+
 	private LogicFacade logicFacade;
 	//for testing purposes
 	//private LogicFacadeDummy logicFacade;
@@ -74,7 +76,7 @@ public class PhantomController{
 	public PhantomController() {
 		System.out.println("phantom constructor");
 		logicFacade = LogicFacade.getInstance();
-		
+
 		//for testing purposes
 		//logicFacade = new LogicFacadeDummy();
 	}
@@ -176,7 +178,7 @@ public class PhantomController{
 
 		EditListener editListener = new EditListener(commandLine);
 		commandLine.textProperty().addListener(editListener);
-
+		
 		String input;
 
 		if(e.getCode() == KeyCode.ENTER){
@@ -249,29 +251,8 @@ public class PhantomController{
 			else if(input.equalsIgnoreCase("popup")){
 				showPopup();
 			}
-			else if(input.equalsIgnoreCase("tutorial")){
-				createTutorial();
-			}
 			else{
-				try {
-					feedback = logicFacade.getFeedBack(input);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-
-				if(shouldUpdateAllView(feedback)){
-					setAllView(logicFacade.getAllList());
-				}
-				if(shouldSwitchToSearch(feedback)){
-					switchToSearch(logicFacade.getSearchedList());
-				}
-
-				tfOutput.setText(feedback);
-
-				updateTodayView();
-				clu.forwardToPrevious();
-				clu.pushInput(input);
-				ah.removeHelper();
+				executeCommand(input, feedback);
 			}
 
 		}else if(e.getCode() == KeyCode.UP){
@@ -308,8 +289,26 @@ public class PhantomController{
 		}
 	}
 
-	private void createTutorial() {
-		TutorialLoader tutorialLoader = new TutorialLoader(overallView, themeUrl);
+	public void executeCommand(String input, String feedback) {
+		try {
+			feedback = logicFacade.getFeedBack(input);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		if(shouldUpdateAllView(feedback)){
+			setAllView(logicFacade.getAllList());
+		}
+		if(shouldSwitchToSearch(feedback)){
+			switchToSearch(logicFacade.getSearchedList());
+		}
+
+		tfOutput.setText(feedback);
+
+		updateTodayView();
+		clu.forwardToPrevious();
+		clu.pushInput(input);
+		ah.removeHelper();
 	}
 
 	private void play() {
