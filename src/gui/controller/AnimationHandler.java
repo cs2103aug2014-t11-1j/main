@@ -84,7 +84,16 @@ public class AnimationHandler {
 	public boolean getIsFocusToday(){
 		return isFocusToday;
 	}
-
+	
+	public void showTentative(){
+		if(isFocusTable){
+			slideOutTable.play();
+		}
+		else{
+			slideOutToday.play();
+		}
+	}
+	
 	public void animateLeft(){
 		if(isFocusToday){
 			slideInTable.play();
