@@ -1,9 +1,6 @@
 package gui;
 
 import java.io.IOException;
-
-import org.controlsfx.control.Notifications;
-
 import gui.controller.PhantomController;
 import gui.controller.PreferenceManager;
 import gui.controller.Reminder;
@@ -133,8 +130,6 @@ public class MainApp extends Application {
 					}
 				}
 			});
-			
-			
 		
 //			//for loading of reminder pop ups
 			Timeline reminderService = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
