@@ -294,6 +294,11 @@ public class PhantomController{
 		}
 	}
 
+	/**
+	 * Refactored this snippet of code
+	 * from handleKeyPressed method for
+	 * external use. - smallson
+	 */
 	public void executeCommand(String input, String feedback) {
 		try {
 			feedback = logicFacade.getFeedBack(input);
