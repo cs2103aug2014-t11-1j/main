@@ -186,11 +186,11 @@ public class CommandExecutor {
 				isMoved = cmdf.isDone();
 				// setTaskList(cmd.getTaskList());
 
-				if (isMoved) {
-					setFeedBack(ErrorMessages.SUCCESS_MOVE_MESSAGE);
-				} else {
-					setFeedBack(ErrorMessages.ERROR_MOVE_MESSAGE);
-				}
+//				if (isMoved) {
+//					setFeedBack(ErrorMessages.SUCCESS_MOVE_MESSAGE);
+//				} else {
+//					setFeedBack(ErrorMessages.ERROR_MOVE_MESSAGE);
+//				}
 				break;
 
 			case SORT:

@@ -24,6 +24,7 @@ public class Move extends CommandFactory {
 
     @Override
     protected void execute(String input) {
+    	try{
         String[] splitStrings = formatString(input);
         int index = getIndex(splitStrings, INDEX_TASK);
         int position = getIndex(splitStrings, INDEX_POSITION);
@@ -41,6 +42,10 @@ public class Move extends CommandFactory {
             //printMessage("Please enter 2 valid numbers.");
             CommandExecutor.setFeedBack("Please enter 2 valid numbers.");
         }
+    }catch (IllegalArgumentException ex){
+    	CommandExecutor.setFeedBack("Please enter 2 valid numbers.");
+    }
+    	
     }
 
     @Override

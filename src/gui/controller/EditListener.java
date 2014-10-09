@@ -27,13 +27,9 @@ import logic.LogicFacade;
 
 public class EditListener implements ChangeListener<String> {
 
-	// private static final String STRING_FORMAT =
-	// "[%1$s] [%2$s] [%3$s] [%4$s] [%5$s]";
 	private TextField commandLine;
 	private LogicFacade logicFacade;
 	private ObservableList<ModelTask> list;
-
-	// private KeyEvent keyPress;
 
 	public EditListener(TextField commandLine) {
 		this.logicFacade = LogicFacade.getInstance();
@@ -45,14 +41,12 @@ public class EditListener implements ChangeListener<String> {
 	public void changed(ObservableValue<? extends String> observable,
 			String oldValue, String newValue) {
 
-	
-
 		if (newValue.trim().equalsIgnoreCase("add?")) {
-			commandLine.setText("add taskdecription");
+			commandLine.setText("add taskdecription startdate enddate starttime endtime");
 		}
 
 		if (newValue.trim().equalsIgnoreCase("edit?")) {
-			commandLine.setText("edit tasknumber");
+			commandLine.setText("edit tasknumber taskdecription startdate enddate starttime endtime");
 		}
 
 		String[] subStrings = newValue.trim().split(" ");
@@ -64,9 +58,7 @@ public class EditListener implements ChangeListener<String> {
 
 				if (!getTaskDescription(Integer.parseInt(subStrings[1])).trim()
 						.equals("")) {
-					commandLine.setText(newValue
-							+ " "
-							+ getTaskDescription(Integer
+					commandLine.setText("edit "	+ subStrings[1] + " " + getTaskDescription(Integer
 									.parseInt(subStrings[1])));
 				}
 
@@ -74,18 +66,8 @@ public class EditListener implements ChangeListener<String> {
 			}
 
 		}
-		
-		// for getting search list view
-		 //if(keyPress.getCode()==KeyCode.ENTER){
-		// if(getFirstWord(newValue).equalsIgnoreCase("search")){
-		// list=logicFacade.getSearchedList();
-		// }else{
-		list= logicFacade.getAllList();
-		// }
-		// }
-		//
-		// }
 
+		list= logicFacade.getAllList();
 	}
 
 	private boolean isInteger(String s) {
@@ -115,27 +97,49 @@ public class EditListener implements ChangeListener<String> {
 			}
 		}
 
-		// return (String.format(STRING_FORMAT,currTask.getEvent(),
-		// currTask.getStartDateString(),
-		// currTask.getEndDateString(),
-		// currTask.getStartTimeString(),currTask.getEndTimeString()));
+	
 		if (positionIsFound) {
-			return currTask.getEvent() + " " + currTask.getStartDateString()
-					+ " " + currTask.getEndDateString() + " "
-					+ currTask.getStartTimeString() + " "
-					+ currTask.getEndTimeString();
+			String event = currTask.getEvent();
+			String startDate = currTask.getStartDateString();
+			String endDate = currTask.getEndDateString();
+			String startTime = currTask.getStartTimeString();
+			String endTime = currTask.getEndTimeString();
+			String dateString = "", timeString="";
+
+			if(startDate==null){
+				startDate = "";
+			}
+			if(endDate==null){
+				endDate = "";
+			}
+			if(startTime==null){
+				startTime = "";
+			}
+			if(endTime==null){
+				endTime = "";
+			}
+			
+			if(!startDate.equals("") && !endDate.equals("")){
+				dateString =" from " + startDate + " to " + endDate;
+			}else if(startDate.equals("") && endDate.equals("")){
+				dateString =startDate + endDate;
+			}
+			else{
+				dateString =" by " + startDate + endDate;
+			}
+			
+			if(!startTime.equals("") && !endTime.equals("")){
+				timeString = " from " + startTime + " to " + endTime;
+			}else if(startTime.equals("") && endTime.equals("")){
+				dateString =startTime + endTime;
+			}else{				
+				timeString = " by " + startTime + endTime;
+			}
+			
+			return event + " " + dateString +" " + timeString;
 		}
 		
 		return "";
 	}
-
-	// private String getFirstWord(String input) {
-	// String firstWord = "";
-	// if (input != null) {
-	// String[] token = input.trim().split(" ");
-	// firstWord = token[0];
-	// }
-	// return firstWord;
-	// }
 
 }

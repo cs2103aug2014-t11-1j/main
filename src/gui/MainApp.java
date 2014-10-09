@@ -1,11 +1,14 @@
 package gui;
 
 import java.io.IOException;
-
 import gui.controller.PhantomController;
 import gui.controller.PreferenceManager;
+import gui.controller.Reminder;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,6 +22,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 public class MainApp extends Application {
 
@@ -26,7 +30,7 @@ public class MainApp extends Application {
 	private AnchorPane overallView;
 	private TrayApplication ta;
 	private ShortcutManager sm;
-	//private BorderPane rootLayout;
+	// private BorderPane rootLayout;
 
 	private double xOffset = 0;
 	private double yOffset = 0;
@@ -48,47 +52,49 @@ public class MainApp extends Application {
 		Platform.setImplicitExit(false);
 		sm.setHotKeys(primaryStage);
 
-		//        initRootLayout();
+		// initRootLayout();
 		showPhantomOverallView();
 	}
 
-	//    public void initRootLayout() {
-	//        try {
-	//            FXMLLoader loader = new FXMLLoader();
-	//            loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
-	//            rootLayout = (BorderPane) loader.load();
+	// public void initRootLayout() {
+	// try {
+	// FXMLLoader loader = new FXMLLoader();
+	// loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+	// rootLayout = (BorderPane) loader.load();
 	//
-	//            Scene scene = new Scene(rootLayout);
-	//            primaryStage.setScene(scene);
-	//            primaryStage.show();
-	//            
-	//            rootLayout.setOnMousePressed(new EventHandler<MouseEvent>() {
-	//                @Override
-	//                public void handle(MouseEvent event) {
-	//                    xOffset = event.getSceneX();
-	//                    yOffset = event.getSceneY();
-	//                }
-	//            });
-	//            rootLayout.setOnMouseDragged(new EventHandler<MouseEvent>() {
-	//                @Override
-	//                public void handle(MouseEvent event) {
-	//                    primaryStage.setX(event.getScreenX() - xOffset);
-	//                    primaryStage.setY(event.getScreenY() - yOffset);
-	//                }
-	//            });
-	//            
-	//            this.primaryStage.getIcons().add(new Image("file:Resources/images/ghost.png"));
-	//            
-	//        } catch (IOException e) {
-	//            e.printStackTrace();
-	//        }
-	//    }
+	// Scene scene = new Scene(rootLayout);
+	// primaryStage.setScene(scene);
+	// primaryStage.show();
+	//
+	// rootLayout.setOnMousePressed(new EventHandler<MouseEvent>() {
+	// @Override
+	// public void handle(MouseEvent event) {
+	// xOffset = event.getSceneX();
+	// yOffset = event.getSceneY();
+	// }
+	// });
+	// rootLayout.setOnMouseDragged(new EventHandler<MouseEvent>() {
+	// @Override
+	// public void handle(MouseEvent event) {
+	// primaryStage.setX(event.getScreenX() - xOffset);
+	// primaryStage.setY(event.getScreenY() - yOffset);
+	// }
+	// });
+	//
+	// this.primaryStage.getIcons().add(new
+	// Image("file:Resources/images/ghost.png"));
+	//
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 	public void showPhantomOverallView() {
-		try {  	
+		try {
 			// Load person overview.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/OverallView.fxml"));
+			loader.setLocation(MainApp.class
+					.getResource("view/OverallView.fxml"));
 			overallView = (AnchorPane) loader.load();
 			System.out.println("overall view loaded");
 
@@ -96,7 +102,7 @@ public class MainApp extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 
-			//            rootLayout.setCenter(overallView);
+			// rootLayout.setCenter(overallView);
 			
 
 			PhantomController controller = loader.getController();
@@ -175,17 +181,30 @@ public class MainApp extends Application {
 				}
 			});
 
-			overallView.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>
-			() {
+			overallView.addEventHandler(KeyEvent.KEY_PRESSED,
+					new EventHandler<KeyEvent>() {
 
-				@Override
-				public void handle(KeyEvent t) {
-					if(t.getCode()==KeyCode.ESCAPE){
-						primaryStage.close();
-					}
-				}
-			});
+						@Override
+						public void handle(KeyEvent t) {
+							if (t.getCode() == KeyCode.ESCAPE) {
+								primaryStage.close();
+							}
+						}
+					});
 
+			// //for loading of reminder pop ups
+			Timeline reminderService = new Timeline(new KeyFrame(
+					Duration.seconds(10), new EventHandler<ActionEvent>() {
+						Reminder popUpReminder = Reminder.getInstance();
+
+						@Override
+						public void handle(ActionEvent event) {
+							popUpReminder.startReminder();
+							System.out.println("call UI every 10 seconds");
+						}
+					}));
+			reminderService.setCycleCount(Timeline.INDEFINITE);
+			reminderService.play();
 
 		} catch (IOException e) {
 			e.printStackTrace();
