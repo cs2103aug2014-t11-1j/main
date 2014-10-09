@@ -121,12 +121,17 @@ public class EditListener implements ChangeListener<String> {
 			
 			if(!startDate.equals("") && !endDate.equals("")){
 				dateString =" from " + startDate + " to " + endDate;
-			}else{
+			}else if(startDate.equals("") && endDate.equals("")){
+				dateString =startDate + endDate;
+			}
+			else{
 				dateString =" by " + startDate + endDate;
 			}
 			
 			if(!startTime.equals("") && !endTime.equals("")){
 				timeString = " from " + startTime + " to " + endTime;
+			}else if(startTime.equals("") && endTime.equals("")){
+				dateString =startTime + endTime;
 			}else{				
 				timeString = " by " + startTime + endTime;
 			}

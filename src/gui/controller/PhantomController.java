@@ -105,32 +105,7 @@ public class PhantomController {
 		initClock();
 		initAnimation();
 		initCommandLineUtility();
-
-//		ObservableList<ModelTask> list1 = logicFacade.getAllList();
-//		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-//
-//		Date eventDay = null;
-//		for (int i = 0; i < list1.size(); i++) {
-//			if(list1.get(i).getStartDate()!=null){
-//				eventDay = list1.get(i).getStartDate();
-//				}	
-//			
-//			try {
-//				Date date2 = formatter.parse("09/10/2014");
-//				if (eventDay.equals(date2)) {
-//					Notifications.create().title("Reminder")
-//							.text("Hey, Go do your coding dumblydore!")
-//							.showWarning();
-//
-//				}
-//
-//			} catch (ParseException ex) {
-//
-//				ex.printStackTrace();
-//			}
-
-//		}
-		
+	
 	}
 
 	public void initPrefManager() {
@@ -207,76 +182,6 @@ public class PhantomController {
 
 	@FXML
 	private void handleKeyPressed(KeyEvent e) {
-
-		//testing if reminder pop up for a specific date
-		
-		ObservableList<ModelTask> list1 = logicFacade.getAllList();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
-		Date eventDay = new Date();
-		for (int i = 0; i < list1.size(); i++) {
-			if(list1.get(i).getStartDate()!=null){
-				eventDay = list1.get(i).getStartDate();
-				}	
-			
-			try {
-				Date date2 = formatter.parse("18/10/2014");
-				if (eventDay.equals(date2)) {
-					Notifications.create().title("Reminder")
-							.text("Hey, Go do your coding dumblydore!")
-							.showWarning();
-
-				}
-
-			} catch (ParseException ex) {
-
-				ex.printStackTrace();
-			}
-
-		}
-	
-
-		// testing popup functionality using controlsfx with timer
-		// Platform.runLater(new Runnable(){
-		// @Override
-		// public void run(){
-		//
-		// Timer timer = new Timer();
-		// timer.schedule(new TimerTask() {
-		// public void run() {
-		// Notifications.create().title("Reminder")
-		// .text("Hey, this is notification pop up Yay!").showWarning();
-		//
-		// }
-		// },100,100);
-		// }
-		//
-		// });
-		
-		
-		
-		// ObservableList<ModelTask> allList= logicFacade.getAllList();
-
-		// Calendar c = Calendar.getInstance();
-		// Date todate = c.getTime();
-
-		// Platform.runLater(new Runnable(){
-		// @Override
-		// public void run(){
-		//
-		// Timer timer = new Timer();
-		//
-		// timer.schedule(new TimerTask() {
-		// public void run() {
-		// Notifications.create().title("Reminder")
-		// .text("Hey, this is notification pop up Yay!").showWarning();
-		//
-		// }
-		// },100,100);
-		// }
-		//
-		// });
-	
 
 		EditListener editListener = new EditListener(commandLine);
 		commandLine.textProperty().addListener(editListener);
@@ -445,6 +350,7 @@ public class PhantomController {
 	private void showPopup() {
 
 		try {
+
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/PopupView.fxml"));
 			AnchorPane page = (AnchorPane) loader.load();

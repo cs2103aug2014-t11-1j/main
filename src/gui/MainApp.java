@@ -2,8 +2,11 @@ package gui;
 
 import java.io.IOException;
 
+import org.controlsfx.control.Notifications;
+
 import gui.controller.PhantomController;
 import gui.controller.PreferenceManager;
+import gui.controller.Reminder;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -89,7 +92,7 @@ public class MainApp extends Application {
 			loader.setLocation(MainApp.class.getResource("view/OverallView.fxml"));
 			overallView = (AnchorPane) loader.load();
 			System.out.println("overall view loaded");
-
+			
 			Scene scene = new Scene(overallView);
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -126,7 +129,9 @@ public class MainApp extends Application {
 					}
 				}
 			});
-			
+
+			Reminder popUpReminder = Reminder.getInstance();
+			popUpReminder.startReminder();
 
 		} catch (IOException e) {
 			e.printStackTrace();
