@@ -28,9 +28,10 @@ public class TentativeViewController {
 	
 	final static int COLOUR_GREEN = 1;
 	final static int COLOUR_RED = 2;
+	final static int COLOUR_TRANSPARENT = 3;
 	
 	//this assumes that startTime and endTime have the same date
-	//should this not be true, the date set will be 
+	//should this not be true, the date set will be startTime
 	public void addConfirmedPeriod(Date startTime, Date endTime){
 		int colour = COLOUR_GREEN;
 		

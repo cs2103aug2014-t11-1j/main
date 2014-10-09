@@ -28,7 +28,7 @@
             <Label fx:id="timeLabel" prefHeight="20.0" prefWidth="89.0" styleClass="label-bright" text="Time" />
          </children>
       </HBox>
-      <AnchorPane layoutX="32.0" layoutY="53.0" prefHeight="284.0" prefWidth="610.0">
+      <AnchorPane layoutX="10.0" layoutY="53.0" prefHeight="284.0" prefWidth="610.0">
 			<children>
 				<fx:include fx:id="tentativeView" source="TentativeView.fxml" />
 			</children>      
