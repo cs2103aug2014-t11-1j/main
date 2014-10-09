@@ -200,7 +200,7 @@ public class PhantomController{
 				ah.animateRight();
 			}
 			else if(input.equalsIgnoreCase("i love big butts")){
-				play();
+		//		play();
 			}
 			else if(input.equalsIgnoreCase("blue theme")){
 				changeCss("BlueTheme");
