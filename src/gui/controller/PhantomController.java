@@ -139,7 +139,7 @@ public class PhantomController{
 
 	private void initAnimation() {
 		ah = AnimationHandler.getInstance();
-		ah.initialize(tableView, todayView, helperView);
+		ah.initialize(tableView, todayView, helperView, tentativeView);
 	}
 
 	private void initCommandLineUtility() {
@@ -206,10 +206,13 @@ public class PhantomController{
 				tableViewController.scrollToNext();
 			}
 			else if(input.equalsIgnoreCase("showall")){
-				ah.animateLeft();
+				ah.showTableView();
 			}
 			else if(input.equalsIgnoreCase("showtoday")){
-				ah.animateRight();
+				ah.showTodayView();
+			}
+			else if(input.equalsIgnoreCase("showtentative")){
+				ah.showTentativeView();
 			}
 			else if(input.equalsIgnoreCase("i love big butts")){
 		//		play();
