@@ -23,6 +23,11 @@ public class Reminder {
 	private static Reminder reminder = new Reminder();
 	private LogicFacade logicFacade = LogicFacade.getInstance();
 	ObservableList<ModelTask> taskList = FXCollections.observableArrayList();
+	private String oldTime = "";
+	private String newTime = "";
+
+	SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+	SimpleDateFormat timeFormatter = new SimpleDateFormat("HHmm");
 
 	private Reminder() {
 	}
@@ -32,12 +37,9 @@ public class Reminder {
 	}
 
 	public void startReminder() {
-
+		newTime = getNewTime();
 		// testing if reminder pop up for a specific date
 		taskList = logicFacade.getAllList();
-
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-		SimpleDateFormat timeFormatter = new SimpleDateFormat("HHmm");
 
 		Date eventDate = new Date(), eventTime = new Date();
 		int indexOfTask;
@@ -55,12 +57,12 @@ public class Reminder {
 				Calendar todayDate = Calendar.getInstance();
 				Date currentDateTime = todayDate.getTime();
 
-				/** check if the date is the same
-				 * if date is same check time inteval is within allowed
-				 * reminder range. currently it's set to 5 min before the
-				 * task is activated
+				/**
+				 * check if the date is the same if date is same check time
+				 * inteval is within allowed reminder range. currently it's set
+				 * to 5 min before the task is activated
 				 */
-				
+
 				if (dateFormatter.format(eventDate).equals(
 						dateFormatter.format(currentDateTime))) {
 
@@ -68,10 +70,14 @@ public class Reminder {
 					Date timeToStartReminder = todayDate.getTime();
 					if (timeFormatter.format(eventTime).equals(
 							timeFormatter.format(timeToStartReminder))) {
-						String eventDescription = taskList.get(indexOfTask)
-								.getEvent();
-						Notifications.create().title("Task Reminder")
-								.text(eventDescription).showWarning();
+						//ensure reminder only activate one time for within a minute
+						if (!oldTime.equals(newTime)) {
+							String eventDescription = taskList.get(indexOfTask)
+									.getEvent();
+							Notifications.create().title("Task Reminder")
+									.text(eventDescription).showWarning();
+						}
+
 					}
 
 				}
@@ -82,5 +88,11 @@ public class Reminder {
 			}
 
 		}
+		oldTime = newTime;
+	}
+
+	private String getNewTime() {
+		Calendar c = Calendar.getInstance();
+		return timeFormatter.format(c.getTime());
 	}
 }
