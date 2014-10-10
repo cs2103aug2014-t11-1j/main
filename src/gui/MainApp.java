@@ -50,7 +50,7 @@ public class MainApp extends Application {
 		}
 		sm = ShortcutManager.getInstance();
 		Platform.setImplicitExit(false);
-		sm.setHotKeys(primaryStage);
+//		sm.setHotKeys(primaryStage);
 
 		// initRootLayout();
 		showPhantomOverallView();

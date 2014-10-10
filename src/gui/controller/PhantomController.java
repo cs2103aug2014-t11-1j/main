@@ -340,10 +340,10 @@ public class PhantomController {
 		}
 		if(shouldSwitchToSearch(feedback)){
 			switchToSearch(logicFacade.getSearchedList());
+			ah.showTableView();
 		}
 
 		tfOutput.setText(feedback);
-
 	}
 
 	private void play() {
