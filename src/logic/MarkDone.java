@@ -25,8 +25,7 @@ public class MarkDone extends CommandFactory {
             task.setIsDone(true);
             isDone = true;
         } else {
-            CommandExecutor.setFeedBack("Invalid index!");
-            throw new IllegalArgumentException("Invalid index!");
+            CommandExecutor.setFeedBack(ErrorMessages.ERROR_MARKDONE_MESSAGE);
         }
     }
 

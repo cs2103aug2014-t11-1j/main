@@ -23,7 +23,7 @@ public class ErrorMessages {
 	public static final String ERROR_SORTED_MESSAGE = "Cannot sort tasks";
 	public static final String SUCCESS_SORTED_MESSAGE = "Tasks sorted";
 	public static final String ERROR_MARKDONE_MESSAGE = "Cannot mark done";
-	public static final String SUCCESS_MARKDONE_MESSAGE = "Tasks done";
+	public static final String SUCCESS_MARKDONE_MESSAGE = "Task done";
 	public static final String ERROR_INVALID_MESSAGE = "INVALID COMMAND!";
 	public static final String ERROR_ARGUMENT_MESSAGE = "INVALID ARGUMENT!";
 	public static final String ERROR_COMMAND_TYPE = "Unrecognized command type";
