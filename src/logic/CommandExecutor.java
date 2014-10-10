@@ -173,6 +173,11 @@ public class CommandExecutor {
 				boolean isMarkedDone = cmdf.isDone();
 				
 				break;
+                        case MARK_UNDONE:
+                                cmdf = new MarkUndone(actualCommandDescription);
+                                boolean isUnmarkedDone = cmdf.isDone();
+
+                                break;
                         case CLEAR_DONE:
                                 cmdf = new ClearDone();
                                 boolean isClearDone = cmdf.isDone();

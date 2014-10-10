@@ -54,7 +54,9 @@ public class Action {
 			return CommandType.SEARCH;
 		} else if (commandWord.equalsIgnoreCase("DID")) {
 			return CommandType.MARK_DONE;
-		} else if (commandWord.equalsIgnoreCase("CLEARDONE")) {
+		} else if (commandWord.equalsIgnoreCase("UNDID")) {
+			return CommandType.MARK_UNDONE;
+                } else if (commandWord.equalsIgnoreCase("CLEARDONE")) {
                         return CommandType.CLEAR_DONE;
                 } else if (commandWord.equalsIgnoreCase("HELP")) {
 			return CommandType.HELP;
