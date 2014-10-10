@@ -109,8 +109,8 @@ public class InputParser {
 			if(!isEndTimeFound && !isStartTimeFound){
 				input = tp.parseTimeWithoutKeyword(tokens, i, input);
 				if(tp.getTime() != null){
-					endTime = tp.getTime();
-					isEndTimeFound = true;
+					startTime = tp.getTime();
+					isStartTimeFound = true;
 				}
 			}
 
