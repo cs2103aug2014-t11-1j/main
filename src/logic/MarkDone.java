@@ -18,7 +18,13 @@ public class MarkDone extends CommandFactory {
 
     @Override
     protected void execute(String input) {
-        int index = Integer.parseInt(input) - 1;
+        int index;
+        try {
+            index = Integer.parseInt(input) - 1;
+        } catch (NumberFormatException ex) {
+            CommandExecutor.setFeedBack(ErrorMessages.ERROR_MARKDONE_MESSAGE);
+            return;
+        }
 
         if (isValidLineNumber(index)) {
             ModelTask task = list.get(index);
