@@ -80,6 +80,7 @@ public class Reminder {
 							Notifications.create().title("Task Reminder")
 									.text(eventDescription).showWarning();
 							play();
+							oldTime = newTime;
 						}
 
 					}
@@ -92,7 +93,7 @@ public class Reminder {
 			}
 
 		}
-		oldTime = newTime;
+		
 	}
 
 	private String getNewTime() {
