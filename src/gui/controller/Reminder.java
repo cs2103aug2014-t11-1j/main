@@ -16,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import org.controlsfx.control.Notifications;
 
@@ -77,8 +78,12 @@ public class Reminder {
 						if (!oldTime.equals(newTime)) {
 							String eventDescription = taskList.get(indexOfTask)
 									.getEvent();
-							Notifications.create().title("Task Reminder")
-									.text(eventDescription).showWarning();
+							Notifications.create()
+							.title("Reminder: Task is due in 5 minutes!")
+							.text(eventDescription)
+							.hideAfter(Duration.seconds(8))
+							.showWarning();
+							
 							play();
 							oldTime = newTime;
 						}
