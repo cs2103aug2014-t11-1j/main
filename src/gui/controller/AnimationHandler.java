@@ -190,7 +190,7 @@ public class AnimationHandler {
 			isFocusTable = true;
 		}
 
-		//	viewIndex = TABLE_INDEX;
+			viewIndex = TABLE_INDEX;
 	}
 
 	public void showTodayView(){
@@ -216,7 +216,7 @@ public class AnimationHandler {
 			isFocusToday = true;
 		}
 
-		//	viewIndex = TODAY_INDEX;
+			viewIndex = TODAY_INDEX;
 	}
 
 	public void showTentativeView() {
@@ -241,7 +241,7 @@ public class AnimationHandler {
 			isFocusTentative = true;
 		}
 
-		//	viewIndex = TENTATIVE_INDEX;
+			viewIndex = TENTATIVE_INDEX;
 	}
 
 	public void displayHelper(){
@@ -277,9 +277,8 @@ public class AnimationHandler {
 
 			isFocusTable = true;
 			isFocusHelper = false;
+			viewIndex = TABLE_INDEX;
 		}
-
-		//	viewIndex = TABLE_INDEX;
 	}
 
 	public void revertView(){
@@ -289,9 +288,9 @@ public class AnimationHandler {
 
 			isFocusToday = true;
 			isFocusHelper = false;
+			viewIndex = TODAY_INDEX;
 		}		
 
-		//	viewIndex = TODAY_INDEX;
 	}
 
 	public void animateRight() {
