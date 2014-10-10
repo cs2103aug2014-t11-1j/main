@@ -24,28 +24,30 @@ public class Move extends CommandFactory {
 
     @Override
     protected void execute(String input) {
-    	try{
-        String[] splitStrings = formatString(input);
-        int index = getIndex(splitStrings, INDEX_TASK);
-        int position = getIndex(splitStrings, INDEX_POSITION);
+        try {
+            String[] splitStrings = formatString(input);
+            int index = getIndex(splitStrings, INDEX_TASK);
+            int position = getIndex(splitStrings, INDEX_POSITION);
 
-        if (isValidLineNumber(index) && isValidLineNumber(position) && index != position) {
-            ModelTask temp = list.get(index);
+            if (isValidLineNumber(index) && isValidLineNumber(position) && index != position) {
+                ModelTask temp = list.get(index);
 
-            list.remove(index);
-            list.add(temp, position);
-            isDone = true;
+                list.remove(index);
+                list.add(temp, position);
 
-            //printMessage(String.format("Task %d has been moved to %d.", index + 1, position + 1));
-            CommandExecutor.setFeedBack(String.format("Task %d has been moved to %d.", index + 1, position + 1));
-        } else {
-            //printMessage("Please enter 2 valid numbers.");
+                for (int i = 0; i < list.getListSize(); i++) {
+                    list.get(i).setPosition(i + 1);
+                }
+
+                isDone = true;
+                CommandExecutor.setFeedBack(String.format("Task %d has been moved to no. %d.", index + 1, position + 1));
+            } else {
+                CommandExecutor.setFeedBack("Please enter 2 valid numbers.");
+            }
+        } catch (IllegalArgumentException ex) {
             CommandExecutor.setFeedBack("Please enter 2 valid numbers.");
         }
-    }catch (IllegalArgumentException ex){
-    	CommandExecutor.setFeedBack("Please enter 2 valid numbers.");
-    }
-    	
+
     }
 
     @Override
