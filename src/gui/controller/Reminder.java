@@ -6,6 +6,7 @@ package gui.controller;
  * it should show a display pop up at the bottom right of the screen.
  */
 
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,6 +14,8 @@ import java.util.Date;
 import logic.LogicFacade;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import org.controlsfx.control.Notifications;
 
@@ -76,6 +79,7 @@ public class Reminder {
 									.getEvent();
 							Notifications.create().title("Task Reminder")
 									.text(eventDescription).showWarning();
+							play();
 						}
 
 					}
@@ -94,5 +98,12 @@ public class Reminder {
 	private String getNewTime() {
 		Calendar c = Calendar.getInstance();
 		return timeFormatter.format(c.getTime());
+	}
+	
+	private void play() {
+		final URL resource = getClass().getResource("reminder.mp3");
+		final Media media = new Media(resource.toString());
+		final MediaPlayer mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.play();
 	}
 }
