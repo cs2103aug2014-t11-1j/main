@@ -19,6 +19,7 @@ public class Clear extends CommandFactory {
     protected void execute(String input) {
         list.clear();
         isDone = true;
+        CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_CLEAR_MESSAGE);
     }
 
     @Override

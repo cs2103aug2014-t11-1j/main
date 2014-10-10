@@ -31,18 +31,15 @@ public class Undo extends CommandFactory {
                 list.setList(temp);
                 isDone = true;
 
-                //System.out.println("Action undone");
-                CommandExecutor.setFeedBack("Action undone");
+                CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_UNDONE_MESSAGE);
             } else {
                 ObservableList<ModelTask> temp = FXCollections.observableArrayList();
                 copyList(popped, temp);
                 undoStack.push(temp);
 
-                //System.out.println("Action cannot be undone; original state");
-                CommandExecutor.setFeedBack("Action cannot be undone; original state");
+                CommandExecutor.setFeedBack(ErrorMessages.ERROR_UNDONE_MESSAGE);
             }
         } else {
-            //System.out.println("Error, empty stack");
             CommandExecutor.setFeedBack("Error, empty stack");
         }
     }

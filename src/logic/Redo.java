@@ -25,14 +25,14 @@ public class Redo extends CommandFactory {
     @Override
     protected void execute(String input) {
         if (redoStack.getStack().isEmpty()) {
-            //System.out.println("No action to redo");
-            CommandExecutor.setFeedBack("No action to redo");
+            CommandExecutor.setFeedBack(ErrorMessages.ERROR_REDONE_MESSAGE);
         } else {
             list.setList(redoStack.pop());
             ObservableList<ModelTask> temp = FXCollections.observableArrayList();
             copyList(list.getList(), temp);
             undoStack.push(temp);
             isDone = true;
+            CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_REDONE_MESSAGE);
         }
     }
 
