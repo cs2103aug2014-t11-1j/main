@@ -24,8 +24,18 @@ public class TentativeViewController {
 	@FXML
 	GridPane sunday;
 
-	final static int PERIOD_AM = 0;
-	final static int PERIOD_PM = 1;
+	private final static int LAST_COL = 23;
+	private final static int FIRST_COL = 0;
+
+	private final static int MAX_HOUR = 24;
+	
+	private final static int MAX_HOUR_PERIOD = 12;
+	
+	private final static int AT_HOUR = 0;
+	private final static int QUARTER_HOUR = 15;
+	private final static int HALF_HOUR = 30;
+	private final static int THREE_FOURTHS_HOUR = 45;
+	private final static int FULL_HOUR = 60;
 
 	final static int COLOUR_GREEN = 1;
 	final static int COLOUR_RED = 2;
@@ -33,17 +43,24 @@ public class TentativeViewController {
 
 	@FXML
 	private void initialize() {
+		initilizeEveryDay();
+	}
+
+	private void initilizeEveryDay() {
 		for(int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++){
 			GridPane day = getGridPane(i);
-			for(int j = 0; j < 12; j++){
-				for(int k=0; k<=1; k++){
-					Pane p = new Pane();
-					setColour(p, COLOUR_GREEN);
-					day.add(p, j, k);
-				}
+			initilizeDayWithGreen(day);
+		}
+	}
+
+	private void initilizeDayWithGreen(GridPane day) {
+		for(int col = FIRST_COL; col <= LAST_COL; col++){
+			for(int row = Calendar.AM; row <= Calendar.PM; row++){
+				Pane p = new Pane();
+				setColour(p, COLOUR_GREEN);
+				day.add(p, col, row);
 			}
 		}
-
 	}
 
 	//this assumes that startTime and endTime have the same date
@@ -52,21 +69,70 @@ public class TentativeViewController {
 		int colour = COLOUR_ORANGE;
 
 		int day = getDay(startTime);
-		int startHour = getHour(startTime);
-		int endHour = getHour(endTime);
-
+		int startCol = getStartCol(startTime);
+		int period = findPeriod(startTime);
+		int numCol = getTotalCol(startCol, endTime, period);
+		
+		
+		System.out.println(startTime.toString());
+		System.out.println(endTime.toString());
+		
+		System.out.println(numCol);
 		GridPane dayToAdd = getGridPane(day);
-		int period = PERIOD_AM;
 
-		//setting timings to the 12 hour clock
-		if(startHour > 12){
-			startHour -= 12;
-			endHour -= 12;
-			period = PERIOD_PM;
+		setPeriod(dayToAdd, period, startCol, numCol, colour);
+	}
+	
+	private int getStartCol(Date startTime) {
+		int startHour = getHour(startTime);
+		int startMin = getRoundedMin(startTime);
+		int startCol;
+		
+		if(startHour > MAX_HOUR_PERIOD){
+			startHour -= MAX_HOUR_PERIOD;
 		}
+		
+		startCol = (startHour - 1) * 2;
+		
+		if(startMin == HALF_HOUR){
+			startCol++;
+		}
+		else if(startMin == FULL_HOUR){
+			startCol += 2;
+		}
+		
+		return startCol;
+	}
 
-		setPeriod(dayToAdd, period, startHour, endHour, colour);
+	private int findPeriod(Date startTime) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startTime);
+		return cal.get(Calendar.AM_PM);
+	}
 
+	private int getTotalCol(int startCol, Date endTime, int startPeriod) {
+		int endHour = getHour(endTime);
+		int endMin = getRoundedMin(endTime);
+		int endPeriod = findPeriod(endTime);
+		
+		if(endHour > MAX_HOUR_PERIOD){
+			endHour -= MAX_HOUR_PERIOD;
+		}
+		
+		int numCol = (endHour - 1) * 2 - startCol;
+
+		if(endPeriod == Calendar.PM && startPeriod == Calendar.AM){
+			numCol += MAX_HOUR;
+		}
+		
+		if(endMin == HALF_HOUR){
+			numCol ++;
+		}
+		else if(endMin == FULL_HOUR){
+			numCol += 2;
+		}
+		
+		return numCol;
 	}
 
 	private int getDay(Date startTime) {
@@ -80,7 +146,22 @@ public class TentativeViewController {
 		cal.setTime(time);
 		return cal.get(Calendar.HOUR_OF_DAY);
 	}
-
+	
+	private int getRoundedMin(Date time) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(time);
+		int min = cal.get(Calendar.MINUTE);
+		
+		if(min <= QUARTER_HOUR){
+			return AT_HOUR;
+		}
+		else if(min <= THREE_FOURTHS_HOUR){
+			return HALF_HOUR;
+		}
+		else{
+			return FULL_HOUR;
+		}
+	}
 	private GridPane getGridPane(int day) {
 		switch(day){
 		case Calendar.MONDAY:
@@ -103,29 +184,28 @@ public class TentativeViewController {
 	}
 
 
-	private void setPeriod(GridPane dayToAdd, int period, int startHour,
-			int endHour, int colour) {
+	private void setPeriod(GridPane dayToAdd, int period, int startCol,
+			int numCol, int colour) {
 
-		for(int i = startHour-1; i < endHour-1; i++){
+		for(int col = startCol; col < startCol + numCol; col++){
 			Pane p;
-			if(i <= 12){
-				p = getPaneFromGridPane(dayToAdd, i, period);
+			if(col <= LAST_COL){
+				p = getPaneFromGridPane(dayToAdd, col, period);
 			}
 			else{
-				p = getPaneFromGridPane(dayToAdd, i - 12, period + 1);
+				p = getPaneFromGridPane(dayToAdd, col - MAX_HOUR, period + 1);
 			}
 			setColour(p, colour);
 		}
-
 	}
 
 	private Pane getPaneFromGridPane(GridPane gridPane, int col, int row) {
 		for (Node node : gridPane.getChildren()) {
-	        if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-	            return (Pane) node;
-	        }
-	    }
-	    return null;
+			if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+				return (Pane) node;
+			}
+		}
+		return null;
 	}
 
 	private void setColour(Pane p, int colour) {
