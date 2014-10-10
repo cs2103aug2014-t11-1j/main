@@ -85,7 +85,7 @@ public class CommandExecutor {
 		String actualCommandDescription = pf.getStringWithoutCommand(rawInput);
 		Action action = new Action(commandWord);
 		CommandType commandType = action.getCommandType();
-		System.out.println(commandWord + actualCommandDescription);
+		System.out.println(commandWord + " " + actualCommandDescription);
 		try {
 			switch (commandType) {
 
@@ -173,7 +173,11 @@ public class CommandExecutor {
 				boolean isMarkedDone = cmdf.isDone();
 				
 				break;
-
+                        case CLEAR_DONE:
+                                cmdf = new ClearDone();
+                                boolean isClearDone = cmdf.isDone();
+                            
+                                break;
 			case HELP:
 				/*
 				 * this part need to consult Krystal because this cannot be

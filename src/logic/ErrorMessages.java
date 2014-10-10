@@ -31,4 +31,6 @@ public class ErrorMessages {
 	public static final String ERROR_COMMAND_TYPE = "Unrecognized command type";
         public static final String SUCCESS_SEARCH_MESSAGE = "Search successful";
         public static final String ERROR_SEARCH_MESSAGE = "Search unsuccessful";
+        public static final String SUCCESS_CLEARDONE_MESSAGE = "Done tasks cleared";
+        public static final String ERROR_CLEARDONE_MESSAGE = "Cannot clear done tasks";
 }
