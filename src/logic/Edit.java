@@ -26,15 +26,18 @@ public class Edit extends CommandFactory {
         try {
             splitStrings = formatString(input);
             index = getIndex(splitStrings);
+            Task newTask = getNewTask(splitStrings);
+            ModelTask temp = tc.convert(pf.getTask(input), index + 1);
+            list.remove(index);
+            list.add(temp, index);
+
+            isDone = true;
+            CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_EDIT_MESSAGE);
         } catch (Exception ex) {
+            CommandExecutor.setFeedBack(ErrorMessages.ERROR_EDIT_MESSAGE);
             return;
         }
-        Task newTask = getNewTask(splitStrings);
-        ModelTask temp = tc.convert(pf.getTask(input), index + 1);
-        list.remove(index);
-        list.add(temp, index);
 
-        isDone = true;
     }
 
     @Override

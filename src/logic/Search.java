@@ -29,9 +29,9 @@ public class Search extends CommandFactory {
             }
         }
         if (searchList.isEmpty()) {
-            CommandExecutor.setFeedBack("Search term not found.");
+            CommandExecutor.setFeedBack(ErrorMessages.ERROR_SEARCH_MESSAGE);
         } else {
-            CommandExecutor.setFeedBack("Search term found.");
+            CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_SEARCH_MESSAGE);
             isDone = true;
         }
     }

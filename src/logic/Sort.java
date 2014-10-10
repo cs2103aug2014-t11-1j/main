@@ -28,11 +28,12 @@ public class Sort extends CommandFactory {
         try {
             cmd = getSortCommands(input);
             performSort(cmd);
+            isDone = true;
+            CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_SORTED_MESSAGE);
         } catch (IllegalArgumentException ex) {
+            CommandExecutor.setFeedBack(ErrorMessages.ERROR_SORTED_MESSAGE);
             return;
         }
-
-        isDone = true;
     }
 
     @Override
@@ -42,10 +43,10 @@ public class Sort extends CommandFactory {
 
     private static SortCommands getSortCommands(String input) {
         ArrayList<String> tempStrings = new ArrayList<String>();
-        for(String tempString : input.split(" ")){
+        for (String tempString : input.split(" ")) {
             tempStrings.add(tempString.toLowerCase());
         }
-        
+
         if (tempStrings.contains("alpha")) {
             return SortCommands.ALPHA;
         } else if (tempStrings.contains("date")) {
@@ -65,7 +66,7 @@ public class Sort extends CommandFactory {
             case DATE:
                 //implement date sort
                 //there is no deadline in ModelTask
-            	Collections.sort(CommandFactory.list.getList(), new ModelTaskDateComparator());
+                Collections.sort(CommandFactory.list.getList(), new ModelTaskDateComparator());
                 break;
             case NUM:
                 Collections.sort(CommandFactory.list.getList(), new ModelTaskNumComparator());

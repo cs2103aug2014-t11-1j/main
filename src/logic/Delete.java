@@ -20,17 +20,19 @@ public class Delete extends CommandFactory {
     @Override
     protected void execute(String input) {
         try {
-        	int index = getIndex(input);
+            int index = getIndex(input);
             list.remove(index);
 
-            for(int i = index; i < list.getListSize(); i++){
-            	list.get(i).setPosition(i + 1);
+            for (int i = index; i < list.getListSize(); i++) {
+                list.get(i).setPosition(i + 1);
             }
+            isDone = true;
+            CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_DELETE_MESSAGE);
         } catch (Exception ex) {
+            CommandExecutor.setFeedBack(ErrorMessages.ERROR_DELETE_MESSAGE);
             printMessage(ex.getMessage());
             return;
         }
-        isDone = true;
     }
 
     @Override
@@ -41,13 +43,11 @@ public class Delete extends CommandFactory {
     private static int getIndex(String input) {
         int index;
         if (input == null || input.isEmpty()) {
-            CommandExecutor.setFeedBack("Invalid index!");
             throw new IllegalArgumentException("Invalid index!");
         } else {
             index = Integer.parseInt(input.trim().split("\\s+")[0]) - 1;
         }
         if (!isValidLineNumber(index)) {
-            CommandExecutor.setFeedBack("Invalid index!");
             throw new IllegalArgumentException("Invalid index!");
         } else {
             return index;

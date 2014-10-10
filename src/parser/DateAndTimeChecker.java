@@ -27,20 +27,12 @@ public class DateAndTimeChecker {
 	 */
 	public boolean isValidDefaultTimeFormat(String string) {
 		
-		if(string.length() > 4){
-			return false;
-		}
-		
 		try{
 			Scanner sc = new Scanner(string).useDelimiter("[^0-9]+");		
 			int integer = sc.nextInt();
 
 			if(integer > 12 || integer <= 0){
 				System.out.println("invalid time");
-				return false;
-			}
-			
-			if(integer < 10 && string.length() > 3){
 				return false;
 			}
 			

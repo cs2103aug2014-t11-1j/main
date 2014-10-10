@@ -32,9 +32,9 @@ public class ShortcutManager {
 	public void setHotKeys(Stage primaryStage){
 		ji = JIntellitype.getInstance();
 		ta = TrayApplication.getInstance();	
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(MainApp.class.getResource("view/OverallView.fxml"));
-		pc = loader.getController();
+//		FXMLLoader loader = new FXMLLoader();
+//		loader.setLocation(MainApp.class.getResource("view/OverallView.fxml"));
+//		pc = loader.getController();
 		ji.registerHotKey(1, JIntellitype.MOD_ALT, (int)'Q');
 		ji.registerHotKey(2, JIntellitype.MOD_ALT, (int)'W');
 		ji.registerHotKey(3, JIntellitype.MOD_ALT + JIntellitype.MOD_CONTROL, (int) 'Q');

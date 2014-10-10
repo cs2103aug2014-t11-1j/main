@@ -340,10 +340,10 @@ public class PhantomController {
 		}
 		if(shouldSwitchToSearch(feedback)){
 			switchToSearch(logicFacade.getSearchedList());
+			ah.showTableView();
 		}
 
 		tfOutput.setText(feedback);
-
 	}
 
 	private void play() {
@@ -354,7 +354,7 @@ public class PhantomController {
 	}
 
 	private boolean shouldSwitchToSearch(String feedback) {
-		return feedback.contains("found");
+		return feedback.contains(ErrorMessages.SUCCESS_SEARCH_MESSAGE);
 	}
 
 	private boolean shouldUpdateAllView(String feedback) {

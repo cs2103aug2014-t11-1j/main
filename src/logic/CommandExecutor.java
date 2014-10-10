@@ -93,40 +93,21 @@ public class CommandExecutor {
 				boolean isAdded = false;
 				cmdf = new Add(actualCommandDescription);
 				isAdded = cmdf.isDone();
-				// setTaskList(cmd.getTaskList());
-
-				if (isAdded) {
-					setFeedBack("\"" + actualCommandDescription + "\""
-							+ " ADDED TO LIST!");
-				} else {
-					setFeedBack(ErrorMessages.ERROR_ADDING_MESSAGE);
-				}
+				
 				break;
 
 			case DELETE:
 				boolean isDeleted = false;
 				cmdf = new Delete(actualCommandDescription);
 				isDeleted = cmdf.isDone();
-				// setTaskList(cmd.getTaskList());
-
-				if (isDeleted) {
-					setFeedBack(ErrorMessages.SUCCESS_DELETE_MESSAGE);
-				} else {
-					setFeedBack(ErrorMessages.ERROR_DELETE_MESSAGE);
-				}
+                                
 				break;
 
 			case CLEAR:
 				boolean isCleared = false;
 				cmdf = new Clear();
 				isCleared = cmdf.isDone();
-				// setTaskList(cmd.getTaskList());
-
-				if (isCleared) {
-					setFeedBack(ErrorMessages.SUCCESS_CLEAR_MESSAGE);
-				} else {
-					setFeedBack(ErrorMessages.ERROR_CLEAR_MESSAGE);
-				}
+				
 				break;
 
 			case DISPLAY:
@@ -140,13 +121,7 @@ public class CommandExecutor {
 				boolean isUndone = false;
 				cmdf = new Undo();
 				isUndone = cmdf.isDone();
-				// setTaskList(cmd.getTaskList());
-
-				if (isUndone) {
-					setFeedBack(ErrorMessages.SUCCESS_UNDONE_MESSAGE);
-				} else {
-					setFeedBack(ErrorMessages.ERROR_UNDONE_MESSAGE);
-				}
+				
 				break;
 
 			case REDO:
@@ -154,13 +129,7 @@ public class CommandExecutor {
 
 				cmdf = new Redo();
 				isRedone = cmdf.isDone();
-				// setTaskList(cmd.getTaskList());
-
-				if (isRedone) {
-					setFeedBack(ErrorMessages.SUCCESS_REDONE_MESSAGE);
-				} else {
-					setFeedBack(ErrorMessages.ERROR_REDONE_MESSAGE);
-				}
+				
 				break;
 
 			case EDIT:
@@ -171,40 +140,21 @@ public class CommandExecutor {
 				boolean isEdited = false;
 				cmdf = new Edit(actualCommandDescription);
 				isEdited = cmdf.isDone();
-				// setTaskList(cmd.getTaskList());
-
-				if (isEdited) {
-					setFeedBack(ErrorMessages.SUCCESS_EDIT_MESSAGE);
-				} else {
-					setFeedBack(ErrorMessages.ERROR_EDIT_MESSAGE);
-				}
+				
 				break;
 
 			case MOVE:
 				boolean isMoved = false;
 				cmdf = new Move(actualCommandDescription);
 				isMoved = cmdf.isDone();
-				// setTaskList(cmd.getTaskList());
-
-//				if (isMoved) {
-//					setFeedBack(ErrorMessages.SUCCESS_MOVE_MESSAGE);
-//				} else {
-//					setFeedBack(ErrorMessages.ERROR_MOVE_MESSAGE);
-//				}
+				
 				break;
 
 			case SORT:
 				boolean isSorted = false;
-
                                 cmdf = new Sort(actualCommandDescription);
 				isSorted = cmdf.isDone();
-				// setTaskList(cmd.getTaskList());
-
-				if (isSorted) {
-					setFeedBack(ErrorMessages.SUCCESS_SORTED_MESSAGE);
-				} else {
-					setFeedBack(ErrorMessages.ERROR_SORTED_MESSAGE);
-				}
+                                
 				break;
 
 			case SEARCH:
@@ -216,25 +166,12 @@ public class CommandExecutor {
 				 */
 				cmdf = new Search(actualCommandDescription);
 
-				if(cmdf.isDone()){
-                                setFeedBack(ErrorMessages.SUCCESS_SEARCH_MESSAGE);
-				//setSearchedList(searchedList);
-                                }else{
-                                    setFeedBack(ErrorMessages.ERROR_SEARCH_MESSAGE);
-                                }
-
 				break;
 
 			case MARK_DONE:
 				cmdf = new MarkDone(actualCommandDescription);
 				boolean isMarkedDone = cmdf.isDone();
-				// setTaskList(cmd.getTaskList());
-
-				if (isMarkedDone) {
-					setFeedBack(ErrorMessages.SUCCESS_MARKDONE_MESSAGE);
-				} else {
-					setFeedBack(ErrorMessages.ERROR_MARKDONE_MESSAGE);
-				}
+				
 				break;
 
 			case HELP:
