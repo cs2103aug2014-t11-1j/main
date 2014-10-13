@@ -25,12 +25,12 @@ public class AnimationHandler {
 	@FXML
 	private Parent helperView;
 	@FXML
-	private Parent tentativeView;
+	private Parent timelineView;
 
 	private boolean isFocusTable;
 	private boolean isFocusToday;
 	private boolean isFocusHelper;
-	private boolean isFocusTentative;
+	private boolean isFocusTimeline;
 
 	private boolean isPlaying;
 
@@ -43,13 +43,13 @@ public class AnimationHandler {
 	TranslateTransition slideInHelper;
 	TranslateTransition slideOutHelper;	
 
-	TranslateTransition slideInTentative;
-	TranslateTransition slideOutTentative;
+	TranslateTransition slideInTimeline;
+	TranslateTransition slideOutTimeline;
 
 	private static final int NUMBER_OF_VIEWS = 3;
 	private static final int TODAY_INDEX = 0;
 	private static final int TABLE_INDEX = 1;
-	private static final int TENTATIVE_INDEX = 2;
+	private static final int TIMELINE_INDEX = 2;
 	private static Integer viewIndex;
 
 	private static AnimationHandler ah = new AnimationHandler();
@@ -61,23 +61,23 @@ public class AnimationHandler {
 		return ah;
 	}
 
-	public void initialize(Parent tableView, Parent todayView, Parent helperView, Parent tentativeView){
+	public void initialize(Parent tableView, Parent todayView, Parent helperView, Parent timelineView){
 
 		viewIndex = TODAY_INDEX;
 
 		TranslateTransition slideOutTableInit = new TranslateTransition(Duration.millis(100), tableView);
 		slideOutTableInit.setToX(700);
 		slideOutTableInit.play();
-		TranslateTransition slideOutTentativeInit = new TranslateTransition(Duration.millis(100), tentativeView);
-		slideOutTentativeInit.setToX(700);
-		slideOutTentativeInit.play();
+		TranslateTransition slideOutTimelineInit = new TranslateTransition(Duration.millis(100), timelineView);
+		slideOutTimelineInit.setToX(700);
+		slideOutTimelineInit.play();
 		TranslateTransition slideOutHelperInit = new TranslateTransition(Duration.millis(100), helperView);
 		slideOutHelperInit.setToX(-700);
 		slideOutHelperInit.play();
 
 		isFocusTable = false;
 		isFocusHelper = false;
-		isFocusTentative = false;
+		isFocusTimeline = false;
 		isFocusToday = true;
 
 		slideInTable = new TranslateTransition(Duration.seconds(0.2), tableView);
@@ -90,10 +90,10 @@ public class AnimationHandler {
 		slideOutToday = new TranslateTransition(Duration.seconds(0.2), todayView);
 		slideOutToday.setToX(700);
 
-		slideInTentative = new TranslateTransition(Duration.seconds(0.2), tentativeView);
-		slideInTentative.setToX(0);
-		slideOutTentative = new TranslateTransition(Duration.seconds(0.2), tentativeView);
-		slideOutTentative.setToX(700);
+		slideInTimeline = new TranslateTransition(Duration.seconds(0.2), timelineView);
+		slideInTimeline.setToX(0);
+		slideOutTimeline = new TranslateTransition(Duration.seconds(0.2), timelineView);
+		slideOutTimeline.setToX(700);
 
 		slideInHelper = new TranslateTransition(Duration.seconds(0.2), helperView);
 		slideInHelper.setToX(0);
@@ -129,14 +129,14 @@ public class AnimationHandler {
 				isPlaying = false;
 			}
 		});
-		slideInTentative.setOnFinished(new EventHandler<ActionEvent>(){
+		slideInTimeline.setOnFinished(new EventHandler<ActionEvent>(){
 
 			@Override
 			public void handle(ActionEvent arg0) {
 				isPlaying = false;
 			}
 		});
-		slideOutTentative.setOnFinished(new EventHandler<ActionEvent>(){
+		slideOutTimeline.setOnFinished(new EventHandler<ActionEvent>(){
 
 			@Override
 			public void handle(ActionEvent arg0) {
@@ -158,7 +158,7 @@ public class AnimationHandler {
 		return isFocusToday;
 	}
 
-	public void showTentative(){
+	public void showTimeline(){
 		if(isFocusTable){
 			slideOutTable.play();
 		}
@@ -173,20 +173,20 @@ public class AnimationHandler {
 
 			slideInTable.play();
 			slideOutToday.play();
-			slideOutTentative.play();
+			slideOutTimeline.play();
 
 			isFocusToday = false;
 			isFocusTable = true;
 		}
 
-		if(isFocusTentative){
+		if(isFocusTimeline){
 			isPlaying = true;
 
 			slideInTable.play();
-			slideOutTentative.play();
+			slideOutTimeline.play();
 			slideOutToday.play();
 
-			isFocusTentative = false;
+			isFocusTimeline = false;
 			isFocusTable = true;
 		}
 
@@ -199,49 +199,49 @@ public class AnimationHandler {
 
 			slideOutTable.play();
 			slideInToday.play();
-			slideOutTentative.play();
+			slideOutTimeline.play();
 
 			isFocusTable = false;
 			isFocusToday = true;
 		}
 
-		if(isFocusTentative){
+		if(isFocusTimeline){
 			isPlaying = true;
 
 			slideInToday.play();
-			slideOutTentative.play();
+			slideOutTimeline.play();
 			slideOutTable.play();
 
-			isFocusTentative = false;
+			isFocusTimeline = false;
 			isFocusToday = true;
 		}
 
 			viewIndex = TODAY_INDEX;
 	}
 
-	public void showTentativeView() {
+	public void showTimelineView() {
 		if(isFocusToday){
 			isPlaying = true;
 
-			slideInTentative.play();
+			slideInTimeline.play();
 			slideOutToday.play();
 			slideOutTable.play();
 
 			isFocusToday = false;
-			isFocusTentative = true;
+			isFocusTimeline = true;
 		}
 		if(isFocusTable){
 			isPlaying = true;
 
-			slideInTentative.play();
+			slideInTimeline.play();
 			slideOutTable.play();
 			slideOutToday.play();
 
 			isFocusTable = false;
-			isFocusTentative = true;
+			isFocusTimeline = true;
 		}
 
-			viewIndex = TENTATIVE_INDEX;
+			viewIndex = TIMELINE_INDEX;
 	}
 
 	public void displayHelper(){
@@ -261,11 +261,11 @@ public class AnimationHandler {
 			isFocusHelper = true;
 		}
 
-		if(isFocusTentative){
-			slideOutTentative.play();
+		if(isFocusTimeline){
+			slideOutTimeline.play();
 			slideInHelper.play();
 
-			isFocusTentative = false;
+			isFocusTimeline = false;
 			isFocusHelper = true;
 		}
 	}
@@ -320,8 +320,8 @@ public class AnimationHandler {
 		case TABLE_INDEX :
 			showTableView();
 			break;
-		case TENTATIVE_INDEX :
-			showTentativeView();
+		case TIMELINE_INDEX :
+			showTimelineView();
 			break;			
 		default :
 			System.out.println("lol");;

@@ -8,7 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class TentativeViewController {
+public class TimelineViewController {
 	@FXML
 	GridPane monday;
 	@FXML

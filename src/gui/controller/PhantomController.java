@@ -64,9 +64,9 @@ public class PhantomController {
 	private HelperViewController helperViewController;
 
 	@FXML
-	private Parent tentativeView;
+	private Parent timelineView;
 	@FXML
-	private TentativeViewController tentativeViewController;
+	private TimelineViewController timelineViewController;
 
 	@FXML
 	private Label timeLabel;
@@ -83,7 +83,7 @@ public class PhantomController {
 	private TodayListManager tlm;
 	private ThemeMenuHandler tmh;
 	private PreferenceManager pm;
-	private TentativeViewManager tvm;
+	private TimelineViewManager tvm;
 	
 	private String themeUrl;
 	
@@ -123,7 +123,7 @@ public class PhantomController {
 		initClock();
 		initAnimation();
 		initCommandLineUtility();
-		initTentative();
+		initTimeline();
 	}
 
 	public void initPrefManager() {
@@ -151,7 +151,7 @@ public class PhantomController {
 
 	private void initAnimation() {
 		ah = AnimationHandler.getInstance();
-		ah.initialize(tableView, todayView, helperView, tentativeView);
+		ah.initialize(tableView, todayView, helperView, timelineView);
 	}
 
 	private void initCommandLineUtility() {
@@ -159,10 +159,10 @@ public class PhantomController {
 		clu.initialize(commandLine);
 	}
 
-	private void initTentative() {
-		tvm = new TentativeViewManager();
-		tvm.setTentativeViewController(tentativeViewController);
-		
+	private void initTimeline() {
+		tvm = new TimelineViewManager();
+		tvm.setTimelineViewController(timelineViewController);
+		updateTimelineView();
 	}
 	
 	//FXML event handling
@@ -231,7 +231,7 @@ public class PhantomController {
 			} else if (input.equalsIgnoreCase("showtoday")) {
 				ah.showTodayView();
 			}else if(input.equalsIgnoreCase("showtentative")){
-				ah.showTentativeView();
+				ah.showTimelineView();
 			}else if(input.equalsIgnoreCase("i love big butts")){
 				play();
 			} else if (input.equalsIgnoreCase("blue theme")) {
@@ -272,7 +272,7 @@ public class PhantomController {
 				executeCommand(input, feedback);
 
 				updateTodayView();
-				updateTentativeView();
+				updateTimelineView();
 				clu.forwardToPrevious();
 				clu.pushInput(input);
 				ah.removeHelper();
@@ -343,7 +343,7 @@ public class PhantomController {
 		todayViewController.setTodayView(todayList);
 	}
 
-	private void updateTentativeView() {
+	private void updateTimelineView() {
 		tvm.setAllList(logicFacade.getAllList());
 	}
 

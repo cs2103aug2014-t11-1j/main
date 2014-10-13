@@ -6,9 +6,9 @@ import java.util.Date;
 import storage.ModelTask;
 import javafx.collections.ObservableList;
 
-public class TentativeViewManager {
+public class TimelineViewManager {
 	
-	TentativeViewController controller;
+	TimelineViewController controller;
 	ObservableList<ModelTask> allList;
 	
 	Date thisMonday;
@@ -17,7 +17,7 @@ public class TentativeViewManager {
 	Date nextMonday;
 	Date nextSunday;
 	
-	public TentativeViewManager(){
+	public TimelineViewManager(){
 		setMonday();
 		setSunday();
 	}
@@ -49,7 +49,7 @@ public class TentativeViewManager {
 		nextSunday = sundayCal.getTime();
 	}
 
-	public void setTentativeViewController(TentativeViewController tentativeViewController) {
+	public void setTimelineViewController(TimelineViewController tentativeViewController) {
 		controller = tentativeViewController;
 	}
 
