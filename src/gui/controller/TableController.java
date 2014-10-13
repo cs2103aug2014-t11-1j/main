@@ -67,12 +67,16 @@ public class TableController{
                           super.updateItem(eventAndDone, empty);
                           System.out.println("updating" + this.getIndex());
                           if (!empty && eventAndDone!=null && eventAndDone.getIsDone()) {
+                        	  System.out.println(eventAndDone.getEvent());
                         	  setText(eventAndDone.getEvent());
                         	  setStyle("-fx-text-fill: green");
                           }
                           else if(!empty && eventAndDone!=null){
                         	  setText(eventAndDone.getEvent());
                         	  setStyle("-fx-text-fill: white");
+                          }
+                          else{
+                        	  setText("");
                           }
                       }
 				  };
@@ -98,7 +102,6 @@ public class TableController{
                       @Override
                       public void updateItem(Boolean isDone, boolean empty) {
                           super.updateItem(isDone, empty);
-                          System.out.println("isDone update" + this.getIndex());
                           if (!empty && isDone!=null && isDone.booleanValue()) {
                         	  Image image = new Image(ResourceLoader.load("tick.png"));
                               imageview.setImage(image);
