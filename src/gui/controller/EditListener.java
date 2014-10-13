@@ -42,32 +42,38 @@ public class EditListener implements ChangeListener<String> {
 			String oldValue, String newValue) {
 
 		if (newValue.trim().equalsIgnoreCase("add?")) {
-			commandLine.setText("add taskdecription startdate enddate starttime endtime");
+			commandLine
+					.setText("add taskdecription startdate enddate starttime endtime");
 		}
 
 		if (newValue.trim().equalsIgnoreCase("edit?")) {
-			commandLine.setText("edit tasknumber taskdecription startdate enddate starttime endtime");
+			commandLine
+					.setText("edit tasknumber taskdecription startdate enddate starttime endtime");
 		}
 
-		String[] subStrings = newValue.trim().split(" ");
-
-		if (subStrings.length == 2) {
+		if (containsTwoSpace(newValue)) {
+			String[] subStrings = newValue.trim().split(" ");
 			if (subStrings[0].equalsIgnoreCase("edit")
 					&& isInteger(subStrings[1])
 					&& !PhantomController.hasOccured) {
 
-				if (!getTaskDescription(Integer.parseInt(subStrings[1])).trim()
-						.equals("")) {
-					commandLine.setText("edit "	+ subStrings[1] + " " + getTaskDescription(Integer
-									.parseInt(subStrings[1])));
-				}
-
+				commandLine.setText(newValue
+						+ getTaskDescription(Integer.parseInt(subStrings[1])));
 				PhantomController.hasOccured = true;
 			}
 
 		}
 
-		list= logicFacade.getAllList();
+		list = logicFacade.getAllList();
+	}
+
+	private boolean containsTwoSpace(String input) {
+		int spaces = input.length() - input.replace(" ", "").length();
+
+		if (spaces == 2) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean isInteger(String s) {
@@ -89,7 +95,7 @@ public class EditListener implements ChangeListener<String> {
 
 		ModelTask currTask = new ModelTask();
 		Boolean positionIsFound = false;
-
+		String feedBack = "";
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getPosition() == position) {
 				currTask = list.get(i);
@@ -97,49 +103,48 @@ public class EditListener implements ChangeListener<String> {
 			}
 		}
 
-	
 		if (positionIsFound) {
 			String event = currTask.getEvent();
 			String startDate = currTask.getStartDateString();
 			String endDate = currTask.getEndDateString();
 			String startTime = currTask.getStartTimeString();
 			String endTime = currTask.getEndTimeString();
-			String dateString = "", timeString="";
+			String dateString = "", timeString = "";
 
-			if(startDate==null){
+			System.out.println(startDate + endDate);
+			if (startDate == null) {
 				startDate = "";
 			}
-			if(endDate==null){
+			if (endDate == null) {
 				endDate = "";
 			}
-			if(startTime==null){
+			if (startTime == null) {
 				startTime = "";
 			}
-			if(endTime==null){
+			if (endTime == null) {
 				endTime = "";
 			}
-			
-			if(!startDate.equals("") && !endDate.equals("")){
-				dateString =" from " + startDate + " to " + endDate;
-			}else if(startDate.equals("") && endDate.equals("")){
-				dateString =startDate + endDate;
+
+			if (!startDate.equals("") && !endDate.equals("")) {
+				dateString = "from " + startDate + " to " + endDate;
+			} else if (startDate.equals("") && endDate.equals("")) {
+				dateString = startDate + endDate;
+			} else {
+				dateString = "by " + startDate + endDate;
 			}
-			else{
-				dateString =" by " + startDate + endDate;
+
+			if (!startTime.equals("") && !endTime.equals("")) {
+				timeString = "from " + startTime + " to " + endTime;
+			} else if (startTime.equals("") && endTime.equals("")) {
+				timeString = startTime + endTime;
+			} else {
+				timeString = "by " + startTime + endTime;
 			}
-			
-			if(!startTime.equals("") && !endTime.equals("")){
-				timeString = " from " + startTime + " to " + endTime;
-			}else if(startTime.equals("") && endTime.equals("")){
-				dateString =startTime + endTime;
-			}else{				
-				timeString = " by " + startTime + endTime;
-			}
-			
-			return event + " " + dateString +" " + timeString;
+			feedBack = event + " " + dateString + " " + timeString;
+			return feedBack;
 		}
-		
-		return "";
+
+		return feedBack;
 	}
 
 }
