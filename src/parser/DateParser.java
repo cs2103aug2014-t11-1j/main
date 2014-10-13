@@ -78,6 +78,10 @@ public class DateParser {
 				date = tokens[i];
 				input = input.replaceFirst(date, "").trim();
 				date = ds.formatDate(FORMAT_DICTIONARY_DAY + date);
+				if(dateStart != null){
+					System.out.println("enter 1");
+					adjustDayDate();
+				}
 			}
 
 			if(tokens[i].contains("/")){
@@ -203,7 +207,7 @@ public class DateParser {
 				input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 				date = ds.formatDate(FORMAT_DICTIONARY_DAY + date);
 				if(dateStart != null){
-					adjustDate();
+					adjustDayDate();
 				}
 			}
 
@@ -287,13 +291,13 @@ public class DateParser {
 		return input;
 	}
 
-	private void adjustDate() {
+	private void adjustDayDate() {
 
 		if(!validEndDate(date,dateStart)){
 			try {
-				date = getModifiedDate(7,date);
+				date = getWeekModifiedDate(7,date);
 			} catch (ParseException e) {
-				e.printStackTrace();
+				System.out.println("Invalid end week mod date!");
 			}
 		}
 
@@ -338,17 +342,27 @@ public class DateParser {
 		return true;
 	}
 
-	private static String getModifiedDate(int offset, String date) throws ParseException{
+	private static String getWeekModifiedDate(int offset, String date) throws ParseException{
 		String modDate;
 		SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/YYYY");
-		Date currDate = dayFormat.parse(date);
+		
+		System.out.println(date);
+		
+		String[] dateArray = date.split(STRING_SLASH);
+		int day = Integer.parseInt(dateArray[0]);
+		int month = Integer.parseInt(dateArray[1]);
+		int year = Integer.parseInt(dateArray[2]);
 
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(currDate);
-		calendar.add(Calendar.DATE, offset);
+		calendar.set(year, month, day);
+		calendar.add(Calendar.DAY_OF_MONTH, offset);
+		calendar.add(Calendar.MONTH, -1);
 		modDate = dayFormat.format(calendar.getTime());
 
+		System.out.println(modDate);
 		return modDate;
-	}	
+	}
+	
+	
 
 }
