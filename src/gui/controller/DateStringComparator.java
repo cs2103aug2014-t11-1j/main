@@ -24,12 +24,12 @@ public class DateStringComparator implements Comparator<String>{
 		else if(!str1.equals("") && str2.equals("")){
 			return 1;
 		}
-		else if(str1.equals("") && !str2.equals("")){
+		else if(str1.equals("") && str2.equals("")){
 			return 0;
 		}
 		
-		
-		if(str1.contains("-")){
+		System.out.println("checking: " + str1);
+		if(isTwoDates(str1)){
 			if(isOneMonth(str1)){
 				str1 = cutOutOneMonthDate(str1);
 			}
@@ -39,10 +39,11 @@ public class DateStringComparator implements Comparator<String>{
 			date1 = twoDateGetter.parse(str1, new ParsePosition(0));
 		}
 		else{
+			System.out.println("one date");
 			date1 = oneDateGetter.parse(str1, new ParsePosition(0));
 		}
 		
-		if(str2.contains("-")){
+		if(isTwoDates(str2)){
 			if(isOneMonth(str2)){
 				str2 = cutOutOneMonthDate(str2);
 			}
@@ -55,6 +56,7 @@ public class DateStringComparator implements Comparator<String>{
 			date2 = oneDateGetter.parse(str2, new ParsePosition(0));
 		}
 		
+		//compare the parsed dates
 		if(date1.compareTo(date2) < 0){
 			return -1;
 		}
@@ -65,8 +67,10 @@ public class DateStringComparator implements Comparator<String>{
 			return 1;
 		}
 	}
-	
 
+	private boolean isTwoDates(String str) {
+		return str.contains("-");
+	}
 
 	//d - d MMM
 	private boolean isOneMonth(String str) {
@@ -85,7 +89,6 @@ public class DateStringComparator implements Comparator<String>{
 	//d MMM - d MMM
 	private String cutOutTwoMonthDate(String str) {
 		str = str.substring(0, str.indexOf('-') -1);
-		System.out.println(str);
 		return str;
 	}
 
