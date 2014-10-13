@@ -1,16 +1,17 @@
 package logic;
 
+import static logic.CommandFactory.isValidLineNumber;
 import storage.ModelTask;
 
 /**
  *
  * @author Jireh
  */
-public class MarkDone extends CommandFactory {
+public class MarkUndone extends CommandFactory {
 
     private boolean isDone;
 
-    protected MarkDone(String input) {
+    protected MarkUndone(String input) {
         execute(input);
         updateUndoAndRedoStacks();
         updateTaskList();
@@ -22,17 +23,17 @@ public class MarkDone extends CommandFactory {
         try {
             index = Integer.parseInt(input) - 1;
         } catch (NumberFormatException ex) {
-            CommandExecutor.setFeedBack(ErrorMessages.ERROR_MARKDONE_MESSAGE);
+            CommandExecutor.setFeedBack(ErrorMessages.ERROR_MARKUNDONE_MESSAGE);
             return;
         }
 
         if (isValidLineNumber(index)) {
             ModelTask task = list.get(index);
-            task.setIsDone(true);
+            task.setIsDone(false);
             isDone = true;
-            CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_MARKDONE_MESSAGE);
+            CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_MARKUNDONE_MESSAGE);
         } else {
-            CommandExecutor.setFeedBack(ErrorMessages.ERROR_MARKDONE_MESSAGE);
+            CommandExecutor.setFeedBack(ErrorMessages.ERROR_MARKUNDONE_MESSAGE);
         }
     }
 
@@ -40,4 +41,5 @@ public class MarkDone extends CommandFactory {
     protected boolean isDone() {
         return isDone;
     }
+
 }

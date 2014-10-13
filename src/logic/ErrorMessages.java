@@ -26,9 +26,13 @@ public class ErrorMessages {
 	public static final String SUCCESS_SORTED_MESSAGE = "Tasks sorted";
 	public static final String ERROR_MARKDONE_MESSAGE = "Cannot mark done";
 	public static final String SUCCESS_MARKDONE_MESSAGE = "Task done";
+        public static final String ERROR_MARKUNDONE_MESSAGE = "Cannot mark undone";
+	public static final String SUCCESS_MARKUNDONE_MESSAGE = "Task undone";
 	public static final String ERROR_INVALID_MESSAGE = "INVALID COMMAND!";
 	public static final String ERROR_ARGUMENT_MESSAGE = "INVALID ARGUMENT!";
 	public static final String ERROR_COMMAND_TYPE = "Unrecognized command type";
         public static final String SUCCESS_SEARCH_MESSAGE = "Search successful";
         public static final String ERROR_SEARCH_MESSAGE = "Search unsuccessful";
+        public static final String SUCCESS_CLEARDONE_MESSAGE = "Done tasks cleared";
+        public static final String ERROR_CLEARDONE_MESSAGE = "Cannot clear done tasks";
 }

@@ -194,13 +194,13 @@ public class MainApp extends Application {
 
 			// //for loading of reminder pop ups
 			Timeline reminderService = new Timeline(new KeyFrame(
-					Duration.seconds(10), new EventHandler<ActionEvent>() {
+					Duration.seconds(5), new EventHandler<ActionEvent>() {
 						Reminder popUpReminder = Reminder.getInstance();
 
 						@Override
 						public void handle(ActionEvent event) {
 							popUpReminder.startReminder();
-							System.out.println("call UI every 10 seconds");
+							System.out.println("check reminder 5 seconds");
 						}
 					}));
 			reminderService.setCycleCount(Timeline.INDEFINITE);

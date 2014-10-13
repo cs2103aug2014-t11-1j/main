@@ -8,27 +8,11 @@ import java.util.Date;
  */
 public class TimePeriod {
 
-    private Date startTime, endTime, startDate, endDate;
+    private Date startDate, endDate;
 
-    public TimePeriod(Date startTime, Date endTime, Date startDate, Date endDate) {
-        this.startTime = startTime;
-        this.endTime = endTime;
+    public TimePeriod(Date startDate, Date endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
-    }
-
-    /**
-     * @return the startTime
-     */
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    /**
-     * @return the endTime
-     */
-    public Date getEndTime() {
-        return endTime;
     }
 
     /**
