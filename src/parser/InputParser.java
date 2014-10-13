@@ -157,6 +157,7 @@ public class InputParser {
 					input = dp.parseDateWithKeyword(tokens, i, input);
 					if(dp.getDate() != null){
 						startDate = dp.getDate();
+						dp.setDateStart(startDate);
 						isStartDateFound = true;
 					}
 				}
