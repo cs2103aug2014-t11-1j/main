@@ -15,13 +15,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
+import storage.EventAndDone;
 import storage.ModelTask;
 
 public class TableController{
 	@FXML
 	private TableView<ModelTask> taskTable;
 	@FXML
-	private TableColumn<ModelTask, String> taskColumn;
+	private TableColumn<ModelTask, EventAndDone> taskColumn;
 	@FXML
 	private TableColumn<ModelTask, String> dateColumn;
 	@FXML
@@ -52,10 +53,31 @@ public class TableController{
 	private void initialize() {
 		System.out.println("table initilising");
 		numColumn.setCellValueFactory(cellData -> cellData.getValue().getPositionStringProperty());
-		taskColumn.setCellValueFactory(cellData -> cellData.getValue().getEventProperty());
+		taskColumn.setCellValueFactory(cellData -> cellData.getValue().getEventAndDoneProperty());
 		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDateStringProperty());
 		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTimeStringProperty());
 		doneColumn.setCellValueFactory(cellData -> cellData.getValue().getisDoneBooleanProperty());
+		
+		taskColumn.setCellFactory(new Callback<TableColumn<ModelTask, EventAndDone>, TableCell<ModelTask, EventAndDone>>(){
+			  @Override
+              public TableCell<ModelTask, EventAndDone> call(TableColumn<ModelTask, EventAndDone> param){
+				  return new TableCell<ModelTask, EventAndDone>(){      
+                      @Override
+                      public void updateItem(EventAndDone eventAndDone, boolean empty) {
+                          super.updateItem(eventAndDone, empty);
+                          System.out.println("updating" + this.getIndex());
+                          if (!empty && eventAndDone!=null && eventAndDone.getIsDone()) {
+                        	  setText(eventAndDone.getEvent());
+                        	  setStyle("-fx-text-fill: green");
+                          }
+                          else if(!empty && eventAndDone!=null){
+                        	  setText(eventAndDone.getEvent());
+                        	  setStyle("-fx-text-fill: white");
+                          }
+                      }
+				  };
+			  }
+		});
 		
 		doneColumn.setCellFactory(new Callback<TableColumn<ModelTask, Boolean>, TableCell<ModelTask, Boolean>>(){
 			  @Override
@@ -76,7 +98,7 @@ public class TableController{
                       @Override
                       public void updateItem(Boolean isDone, boolean empty) {
                           super.updateItem(isDone, empty);
-
+                          System.out.println("isDone update" + this.getIndex());
                           if (!empty && isDone!=null && isDone.booleanValue()) {
                         	  Image image = new Image(ResourceLoader.load("tick.png"));
                               imageview.setImage(image);
@@ -91,7 +113,7 @@ public class TableController{
 		
 		numColumn.setComparator(new NumStringComparator());
 		dateColumn.setComparator(new DateStringComparator());
-		taskColumn.setComparator(String.CASE_INSENSITIVE_ORDER);
+		//taskColumn.setComparator(String.CASE_INSENSITIVE_ORDER);
 		
 		taskTable.setPlaceholder(new Label(""));
 		
@@ -109,6 +131,8 @@ public class TableController{
 		taskTable.setItems(taskList);
 		viewIndex = INITIAL_VIEW_INDEX;
 		isSearched = false;
+		
+		System.out.println("setting all view");
 	}
 	
 	protected void switchToSearch(ObservableList<ModelTask> list) {

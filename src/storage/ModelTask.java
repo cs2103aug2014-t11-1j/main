@@ -5,7 +5,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -15,6 +17,8 @@ public class ModelTask {
 	private StringProperty timeStringProperty;
 	private StringProperty positionStringProperty;
 	private BooleanProperty isDoneBooleanProperty;
+	
+	private ObjectProperty<EventAndDone> eventAndDoneProperty;
 
 	private SimpleDateFormat standardFormatter, dateFormatter,
 			startDateFormatter, endDateFormatter, timeFormatter;
@@ -23,6 +27,8 @@ public class ModelTask {
 			endTimeString, deadLineString;
 	private int position;
 	private boolean isDone;
+	
+	private EventAndDone eventAndDone;
 
 	// constructor
 	public ModelTask() {
@@ -41,7 +47,11 @@ public class ModelTask {
 		this.timeStringProperty = new SimpleStringProperty();
 		this.positionStringProperty = new SimpleStringProperty();
 		this.isDoneBooleanProperty = new SimpleBooleanProperty();
+		this.eventAndDoneProperty = new SimpleObjectProperty<EventAndDone>();
+		
+		this.eventAndDone = new EventAndDone(event, isDone);
 
+		setEvent(event);
 		setDate(startDate, endDate);
 		setTime(startTime, endTime);
 		setStartDateString(startDate);
@@ -65,8 +75,11 @@ public class ModelTask {
             this.timeStringProperty = new SimpleStringProperty();
             this.positionStringProperty = new SimpleStringProperty();
             this.isDoneBooleanProperty = new SimpleBooleanProperty();
+            this.eventAndDoneProperty = new SimpleObjectProperty<EventAndDone>();
             
-            event = mt.event;            
+            this.eventAndDone = new EventAndDone(mt.getEvent(), mt.isDone);
+            
+            setEvent(mt.getEvent());           
             setDate(mt.startDate, mt.endDate);
             setTime(mt.startTime, mt.endTime);
             setStartDateString(mt.startDate);
@@ -81,6 +94,8 @@ public class ModelTask {
 	// mutators
 	public void setEvent(String event) {
 		this.event.set(event);
+		this.eventAndDone = new EventAndDone(event, isDone);
+		eventAndDoneProperty.setValue(eventAndDone);
 	}
 
 	public void setPosition(int position) {
@@ -91,6 +106,8 @@ public class ModelTask {
 	public void setIsDone(boolean isDone) {
 		this.isDone = isDone;
 		isDoneBooleanProperty.set(isDone);
+		this.eventAndDone = new EventAndDone(eventAndDone.getEvent(), isDone);
+		eventAndDoneProperty.set(eventAndDone);
 	}
 
 	public void setStartDateString(Date startDate) {
@@ -275,5 +292,9 @@ public class ModelTask {
 	
 	public BooleanProperty getisDoneBooleanProperty(){
 		return isDoneBooleanProperty;
+	}
+	
+	public ObjectProperty<EventAndDone> getEventAndDoneProperty(){
+		return eventAndDoneProperty;
 	}
 }
