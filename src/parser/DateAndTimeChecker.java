@@ -12,6 +12,8 @@ public class DateAndTimeChecker {
 	private static final String[] DICTIONARY_MONTHS = {"janurary","feburary","march","april","may","june","july","august","september","october","november","december",
 		"jan","feb","mar","apr","jun","jul","aug","sept","sep","oct","nov","dec"};
 	
+	private static final String[] DICTIONARY_SUFFIX_TIME = {"AM","PM","MN","NN"};
+	
 	private static DateAndTimeChecker checker = new DateAndTimeChecker();
 	
 	private DateAndTimeChecker(){
@@ -30,6 +32,10 @@ public class DateAndTimeChecker {
 		try{
 			Scanner sc = new Scanner(string).useDelimiter("[^0-9]+");		
 			int integer = sc.nextInt();
+			
+			if(!dictionaryContains(DICTIONARY_SUFFIX_TIME,string.substring(string.length() - 2))){
+				return false;
+			}
 
 			if(integer > 12 || integer <= 0){
 				System.out.println("invalid time");
@@ -52,6 +58,8 @@ public class DateAndTimeChecker {
 	}
 
 	public boolean isValidMilitaryTimeFormat(String string) {
+		
+		string = string.replaceAll(":", "");
 
 		try{
 			String firstTwoDigits = string.substring(0,2);

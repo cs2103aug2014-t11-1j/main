@@ -9,10 +9,13 @@ package logic;
  * 
  */
 
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import storage.ModelTask;
 import storage.Storage;
+import storage.TentativeTask;
+import storage.TimePeriod;
 
 public class LogicFacade {
 
@@ -68,4 +71,15 @@ public class LogicFacade {
 		return storage;
 	}
 
+        public ArrayList<TentativeTask> getTentativeTasks(){
+            return CommandFactory.tentativeTasks;
+        }
+        
+        public ArrayList<TimePeriod> getGlobalBlockedTimePeriods(){
+            return CommandFactory.globalBlockedTimePeriods;
+        }
+        
+        public ObservableList<String> getTentativeTasksObservableList(){
+            return CommandFactory.tentativeTasksObservableList;
+        }
 }

@@ -197,6 +197,15 @@ public class InputParser {
 					input = tempInput;
 				}
 			}
+			
+		}
+		
+		if(isEndDateFound && isDeadLineFound && !isStartDateFound){
+			if(validEndDate(endDate , deadLine)){
+				startDate = deadLine;
+				deadLine = null;
+				isStartDateFound = true;
+			} 
 		}
 
 		if(!isDeadLineFound && !isStartDateFound && !isEndDateFound){
@@ -229,8 +238,9 @@ public class InputParser {
 				}
 			}
 		}
+
 		
-		if(isDeadLineFound && !isEndTimeFound){
+		if(onlyDeadLineFound()){
 			endTime = STRING_BEFORE_MIDNIGHT;
 		}
 
@@ -238,6 +248,10 @@ public class InputParser {
 		taskDescription = input;						
 	}
 	
+	private boolean onlyDeadLineFound() {
+		return isDeadLineFound && !isStartDateFound && !isEndDateFound && !isStartTimeFound && !isEndTimeFound;
+	}
+
 	private boolean isNotOutOfBounds(int index, int length) {
 		return index < length && index > 0;
 	}
