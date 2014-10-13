@@ -1,5 +1,6 @@
 package logic;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javafx.collections.FXCollections;
@@ -8,6 +9,8 @@ import parser.ParserFacade;
 import storage.ModelTask;
 import storage.TaskConverter;
 import storage.TaskList;
+import storage.TentativeTask;
+import storage.TimePeriod;
 import storage.UndoRedoStack;
 
 /**
@@ -22,6 +25,8 @@ public abstract class CommandFactory {
     protected static TaskList searchList = new TaskList();
     protected static UndoRedoStack undoStack = new UndoRedoStack();
     protected static UndoRedoStack redoStack = new UndoRedoStack();
+    protected static ArrayList<TentativeTask> tentativeTasks = new ArrayList<TentativeTask>();
+    protected static ArrayList<TimePeriod> globalBlockedTimePeriods = new ArrayList<TimePeriod>();
 
     /**
      * Abstract methods
@@ -75,5 +80,9 @@ public abstract class CommandFactory {
 
     protected static void updateSearchList() {
         CommandExecutor.setSearchList(searchList.getList());
+    }
+    
+    protected static void updateGlobalBlockedTimePeriods(){
+        globalBlockedTimePeriods = TentativeTask.getGlobalBlockedTimePeriods();
     }
 }
