@@ -17,7 +17,8 @@ public class TimeParser {
 	/**
 	 * String constants
 	 */
-	private final String STRING_SPACE = " ";
+	private static final String STRING_SPACE = " ";
+	private static final String STRING_COLON = ":";
 	
 	private static final String FORMAT_SPECIAL = "SPT ";
 	private static final String FORMAT_DEFAULT = "DT ";
@@ -60,7 +61,7 @@ public class TimeParser {
 				}
 			}
 
-			if(tokens[i].length() == 4){
+			if(tokens[i].replaceFirst(STRING_COLON, "").length() == 4){
 				if(checker.isValidMilitaryTimeFormat(tokens[i])){
 					time = tokens[i];
 					input = input.replaceFirst(time, "").trim();
@@ -93,7 +94,7 @@ public class TimeParser {
 				}
 			}
 			
-			if(tokens[i+1].length() == 4){
+			if(tokens[i+1].replaceFirst(STRING_COLON, "").length() == 4){
 				if(checker.isValidMilitaryTimeFormat(tokens[i+1])){
 					time = tokens[i+1];
 					input = input.replaceFirst(tokens[i] + STRING_SPACE + time, "").trim();

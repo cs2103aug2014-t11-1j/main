@@ -58,6 +58,8 @@ public class DateAndTimeChecker {
 	}
 
 	public boolean isValidMilitaryTimeFormat(String string) {
+		
+		string = string.replaceAll(":", "");
 
 		try{
 			String firstTwoDigits = string.substring(0,2);

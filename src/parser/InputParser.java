@@ -230,7 +230,7 @@ public class InputParser {
 			}
 		}
 		
-		if(isDeadLineFound && !isEndTimeFound){
+		if(onlyDeadLineFound()){
 			endTime = STRING_BEFORE_MIDNIGHT;
 		}
 
@@ -238,6 +238,10 @@ public class InputParser {
 		taskDescription = input;						
 	}
 	
+	private boolean onlyDeadLineFound() {
+		return isDeadLineFound && !isStartDateFound && !isEndTimeFound && !isStartTimeFound && !isEndTimeFound;
+	}
+
 	private boolean isNotOutOfBounds(int index, int length) {
 		return index < length && index > 0;
 	}
