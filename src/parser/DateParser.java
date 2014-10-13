@@ -79,7 +79,6 @@ public class DateParser {
 				input = input.replaceFirst(date, "").trim();
 				date = ds.formatDate(FORMAT_DICTIONARY_DAY + date);
 				if(dateStart != null){
-					System.out.println("enter 1");
 					adjustDayDate();
 				}
 			}
@@ -89,6 +88,9 @@ public class DateParser {
 					date = tokens[i];
 					input = input.replaceFirst(date, "");
 					date = ds.formatDate(FORMAT_SLASH_DATE + date);
+					if(dateStart != null){
+						adjustDate();
+					}
 				}
 			}
 		}
@@ -119,6 +121,10 @@ public class DateParser {
 						input = input.replaceFirst(date, "").trim();
 						date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 					}
+
+					if(dateStart != null){
+						adjustDate();
+					}
 				}
 			}
 
@@ -147,6 +153,10 @@ public class DateParser {
 						input = input.replaceFirst(date, "").trim();
 						date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
 					}
+					
+					if(dateStart != null){
+						adjustDate();
+					}
 				}
 			}
 
@@ -156,6 +166,9 @@ public class DateParser {
 						date = "next " + tokens[i+1];
 						input = input.replaceFirst(date, "").trim();
 						date = ds.formatDate(FORMAT_NEXT_DICTIONARY_DAY + date);
+						if(dateStart != null){
+							adjustDayDate();
+						}
 					}
 				}
 			}
@@ -216,6 +229,9 @@ public class DateParser {
 					date = tokens[i+1];
 					input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "");
 					date = ds.formatDate(FORMAT_SLASH_DATE + date);
+					if(dateStart != null){
+						adjustDate();
+					}
 				}
 			}
 		}
@@ -246,6 +262,10 @@ public class DateParser {
 						input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 						date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 					}
+					
+					if(dateStart != null){
+						adjustDate();
+					}
 				}
 			}
 
@@ -274,6 +294,9 @@ public class DateParser {
 						input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 						date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
 					}
+					if(dateStart != null){
+						adjustDate();
+					}
 				}
 			}
 
@@ -283,12 +306,22 @@ public class DateParser {
 						date = "next " + tokens[i+2];
 						input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 						date = ds.formatDate(FORMAT_NEXT_DICTIONARY_DAY + date);
+						if(dateStart != null){
+							adjustDayDate();
+						}
 					}
 				}
 			}
 		}
 
 		return input;
+	}
+
+	private void adjustDate() {
+
+		if(!validEndDate(date,dateStart)){
+			date = getYearModifiedDate();
+		}	
 	}
 
 	private void adjustDayDate() {
@@ -345,9 +378,7 @@ public class DateParser {
 	private static String getWeekModifiedDate(int offset, String date) throws ParseException{
 		String modDate;
 		SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/YYYY");
-		
-		System.out.println(date);
-		
+
 		String[] dateArray = date.split(STRING_SLASH);
 		int day = Integer.parseInt(dateArray[0]);
 		int month = Integer.parseInt(dateArray[1]);
@@ -359,10 +390,28 @@ public class DateParser {
 		calendar.add(Calendar.MONTH, -1);
 		modDate = dayFormat.format(calendar.getTime());
 
-		System.out.println(modDate);
 		return modDate;
 	}
-	
-	
+
+	private String getYearModifiedDate() {		
+
+		String modDate;
+		SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/YYYY");
+
+		System.out.println(date);
+
+		String[] dateArray = date.split(STRING_SLASH);
+		int day = Integer.parseInt(dateArray[0]);
+		int month = Integer.parseInt(dateArray[1]);
+		int year = Integer.parseInt(dateArray[2]);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month, day);
+		calendar.add(Calendar.YEAR, 1);
+		modDate = dayFormat.format(calendar.getTime());
+
+		System.out.println(modDate);
+		return modDate;
+	}	
 
 }
