@@ -27,6 +27,7 @@ public abstract class CommandFactory {
     protected static UndoRedoStack redoStack = new UndoRedoStack();
     protected static ArrayList<TentativeTask> tentativeTasks = new ArrayList<TentativeTask>();
     protected static ArrayList<TimePeriod> globalBlockedTimePeriods = new ArrayList<TimePeriod>();
+    protected static ObservableList<String> tentativeTasksObservableList = FXCollections.observableArrayList();
 
     /**
      * Abstract methods
@@ -81,8 +82,8 @@ public abstract class CommandFactory {
     protected static void updateSearchList() {
         CommandExecutor.setSearchList(searchList.getList());
     }
-    
-    protected static void updateGlobalBlockedTimePeriods(){
+
+    protected static void updateGlobalBlockedTimePeriods() {
         globalBlockedTimePeriods = TentativeTask.getGlobalBlockedTimePeriods();
     }
 }

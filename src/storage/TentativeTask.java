@@ -2,12 +2,16 @@ package storage;
 
 import java.util.ArrayList;
 import java.util.Date;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
  * @author Jireh
  */
 public class TentativeTask {
+
+    private StringProperty eventStringProperty;
 
     private String event;
     private static ArrayList<TimePeriod> globalBlockedTimePeriods;
@@ -16,6 +20,7 @@ public class TentativeTask {
     public TentativeTask(String event) {
         blockedTimePeriods = new ArrayList<TimePeriod>();
         this.event = event;
+        this.eventStringProperty = new SimpleStringProperty(event);
     }
 
     public boolean blockTimePeriod(TimePeriod tp) {

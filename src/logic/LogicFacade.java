@@ -75,7 +75,11 @@ public class LogicFacade {
             return CommandFactory.tentativeTasks;
         }
         
-        public ArrayList<TimePeriod> globalBlockedTimePeriods(){
+        public ArrayList<TimePeriod> getGlobalBlockedTimePeriods(){
             return CommandFactory.globalBlockedTimePeriods;
+        }
+        
+        public ObservableList<String> getTentativeTasksObservableList(){
+            return CommandFactory.tentativeTasksObservableList;
         }
 }
