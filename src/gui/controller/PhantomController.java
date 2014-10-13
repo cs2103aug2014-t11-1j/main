@@ -92,6 +92,7 @@ public class PhantomController {
 	
 	private int viewIndex;
 	
+	//setting items from MainApp
 	public PhantomController() {
 		System.out.println("phantom constructor");
 		logicFacade = LogicFacade.getInstance();
@@ -108,6 +109,7 @@ public class PhantomController {
 		this.overallView = overallView;
 	}
 
+	//Initialisation
 	@FXML
 	private void initialize() {
 		System.out.println("phantom initilising");
@@ -141,11 +143,6 @@ public class PhantomController {
 		updateTodayView();
 	}
 
-	private void updateTodayView() {
-		ObservableList<ModelTask> allList = logicFacade.getAllList();
-		ObservableList<ModelTask> todayList = tlm.getTodayList(allList);
-		todayViewController.setTodayView(todayList);
-	}
 
 	private void initClock() {
 		PhantomClock pc = PhantomClock.getInstance();
@@ -165,9 +162,10 @@ public class PhantomController {
 	private void initTentative() {
 		tvm = new TentativeViewManager();
 		tvm.setTentativeViewController(tentativeViewController);
-		//tvm.setAllList(logicFacade.getAllList());
+		
 	}
-
+	
+	//FXML event handling
 	@FXML
 	private void handleExit() {
 		System.exit(0);
@@ -216,8 +214,6 @@ public class PhantomController {
 		if (keyCombShiftLeft.match(e)) {
 			animateLeft();
         }
-		
-		
 
 		if (e.getCode() == KeyCode.ENTER) {
 			hasOccured = false;
@@ -234,11 +230,9 @@ public class PhantomController {
 				ah.showTableView();
 			} else if (input.equalsIgnoreCase("showtoday")) {
 				ah.showTodayView();
-			}
-			else if(input.equalsIgnoreCase("showtentative")){
+			}else if(input.equalsIgnoreCase("showtentative")){
 				ah.showTentativeView();
-			}
-			else if(input.equalsIgnoreCase("i love big butts")){
+			}else if(input.equalsIgnoreCase("i love big butts")){
 				play();
 			} else if (input.equalsIgnoreCase("blue theme")) {
 				changeCss("BlueTheme");
@@ -274,14 +268,11 @@ public class PhantomController {
 			} else if (input.equalsIgnoreCase("popup")) {
 				showPopup();
 			}
-			else if(input.equalsIgnoreCase("tentative")){
-				//		ah.showTentative();
-				tvm.setAllList(logicFacade.getAllList());
-			}
 			else{
 				executeCommand(input, feedback);
 
 				updateTodayView();
+				updateTentativeView();
 				clu.forwardToPrevious();
 				clu.pushInput(input);
 				ah.removeHelper();
@@ -306,9 +297,7 @@ public class PhantomController {
 				} else {
 					input = commandLine.getText() + e.getText();
 				}
-
-				//	System.out.println(input);
-
+				
 				if (input.split(" ")[0].equalsIgnoreCase("add")) {
 					ah.displayHelper();
 				} else if (input.length() < 2) {
@@ -323,6 +312,8 @@ public class PhantomController {
 		}
 	}
 
+	
+	//
 	/**
 	 * Refactored this snippet of code
 	 * from handleKeyPressed method for
@@ -344,6 +335,16 @@ public class PhantomController {
 		}
 
 		tfOutput.setText(feedback);
+	}
+	
+	private void updateTodayView() {
+		ObservableList<ModelTask> allList = logicFacade.getAllList();
+		ObservableList<ModelTask> todayList = tlm.getTodayList(allList);
+		todayViewController.setTodayView(todayList);
+	}
+
+	private void updateTentativeView() {
+		tvm.setAllList(logicFacade.getAllList());
 	}
 
 	private void play() {
@@ -398,7 +399,6 @@ public class PhantomController {
 	}
 
 	private void showPopup() {
-
 		try {
 
 			FXMLLoader loader = new FXMLLoader();

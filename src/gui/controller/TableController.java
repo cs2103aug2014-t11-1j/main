@@ -65,9 +65,8 @@ public class TableController{
                       @Override
                       public void updateItem(EventAndDone eventAndDone, boolean empty) {
                           super.updateItem(eventAndDone, empty);
-                          System.out.println("updating" + this.getIndex());
+
                           if (!empty && eventAndDone!=null && eventAndDone.getIsDone()) {
-                        	  System.out.println(eventAndDone.getEvent());
                         	  setText(eventAndDone.getEvent());
                         	  setStyle("-fx-text-fill: green");
                           }
