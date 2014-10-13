@@ -18,6 +18,7 @@ public class DateParser {
 	 * String constants
 	 */
 	private static final String STRING_SPACE = " ";
+	private static final String STRING_SLASH = "/";
 	
 	private static final String FORMAT_DICTIONARY_DAY = "DD ";
 	private static final String FORMAT_SLASH_DATE = "SD ";
@@ -30,7 +31,7 @@ public class DateParser {
 	 * String Dictionaries
 	 */
 	private static final String[] DICTIONARY_DAYS = { "monday", "tuesday", "wednesday", "thursday", "friday","saturday", "sunday",
-		"mon", "tue","tues","wed", "thurs","fri", "sat","sun",	"tmr", "tomorrow"};
+		"mon", "tue","tues","wed", "thurs","fri", "sat", "sun",	"tmr", "tomorrow"};
 
 	private static final String[] DICTIONARY_MONTHS = {"janurary","feburary","march","april","may","june","july","august","september","october","november","december",
 		"jan","feb","mar","apr","jun","jul","aug","sept","sep","oct","nov","dec"};
@@ -46,6 +47,18 @@ public class DateParser {
 
 	public DateParser(){
 		
+	}
+	
+	protected String getDate() {
+		return date;
+	}
+	
+	protected String getDateStart() {
+		return dateStart;
+	}
+	
+	protected String getDateEnd() {
+		return dateEnd;
 	}
 	
 	protected String parseDateWithoutKeyword(String[] tokens, int i,String input){
@@ -265,19 +278,6 @@ public class DateParser {
 		return input;
 	}
 
-	//returns the date
-	protected String getDate() {
-		return date;
-	}
-	
-	protected String getDateStart() {
-		return dateStart;
-	}
-	
-	protected String getDateEnd() {
-		return dateEnd;
-	}
-
 	private boolean isNotOutOfBounds(int index, int length) {
 		return index < length && index > 0;
 	}
@@ -297,9 +297,24 @@ public class DateParser {
 		return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 	}
 
-	public String parseDashDateWithKeyword(String[] tokens, int i, String input) {
-		// TODO Auto-generated method stub
-		return null;
+	private boolean validEndDate(String endDate, String startDate) {
+
+		String[] endArray = endDate.split(STRING_SLASH);
+		String[] startArray = startDate.split(STRING_SLASH);
+		
+		if(Integer.parseInt(endArray[2]) < Integer.parseInt(startArray[2])){
+			return false;
+		} if (Integer.parseInt(endArray[2]) == Integer.parseInt(startArray[2])){
+			if (Integer.parseInt(endArray[1]) < Integer.parseInt(startArray[1])){
+				return false;
+			}
+		} if (Integer.parseInt(endArray[1]) == Integer.parseInt(startArray[1])){
+			if (Integer.parseInt(endArray[0]) < Integer.parseInt(startArray[0])){
+				return false;
+			}
+		}
+
+		return true;
 	}
 	
 }
