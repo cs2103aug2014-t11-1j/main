@@ -26,7 +26,11 @@ public class TimeParser {
 	/**
 	 * String Dictionaries
 	 */
-	private static final String[] DICTIONARY_SPECIAL_TIME = {"NOON", "NN", "MIDNIGHT", "MN"};
+	private static final String[] DICTIONARY_SPECIAL_TIME = {"NOON", "NN",
+															"MIDNIGHT", "MN",
+															"MORNING", "MORN",
+															"AFTERNOON", "AFTN",
+															"TONIGHT", "NIGHTTIME", "NITE", "TONITE"};
 	
 	private String time = null;
 	

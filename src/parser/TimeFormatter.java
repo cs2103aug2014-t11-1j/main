@@ -15,19 +15,36 @@ public class TimeFormatter {
 	
 	private static final String[] DICTIONARY_NOON = {"NOON", "NN"};
 	private static final String[] DICTIONARY_MIDNIGHT = {"MIDNIGHT", "MN"};
+	private static final String[] DICTIONARY_MORNING = {"MORNING", "MORN"};
+	private static final String[] DICTIONARY_AFTERNOON = {"AFTERNOON", "AFTN"};
+	private static final String[] DICTIONARY_EVENING = {"EVENING"};
+	private static final String[] DICTIONARY_NIGHT = {"TONIGHT", "NIGHTTIME", "NITE", "TONITE"};
 	
 	private static final String STRING_NOON = "1200";
 	private static final String STRING_MIDNIGHT = "0000";
+	private static final String STRING_MORNING = "1100";
+	private static final String STRING_AFTERNOON = "1700";
+	private static final String STRING_EVENING = "1900";
+	private static final String STRING_NIGHT = "2300";
 	
 	
 	public TimeFormatter(){
 	}
 
 	public String convertSPTformat(String time) {
-		if(dictionaryContains(DICTIONARY_NOON,time)){
+		
+		if(dictionaryContains(DICTIONARY_NOON, time)){
 			return STRING_NOON;
-		}else if(dictionaryContains(DICTIONARY_MIDNIGHT,time)){
+		} else if (dictionaryContains(DICTIONARY_MIDNIGHT, time)){
 			return STRING_MIDNIGHT;
+		} else if (dictionaryContains(DICTIONARY_MORNING, time)){
+			return STRING_MORNING;
+		} else if (dictionaryContains(DICTIONARY_AFTERNOON, time)){
+			return STRING_AFTERNOON;
+		} else if (dictionaryContains(DICTIONARY_EVENING, time)){
+			return STRING_EVENING;
+		} else if (dictionaryContains(DICTIONARY_NIGHT, time)){
+			return STRING_NIGHT;
 		}
 		System.out.println("fail");
 		return time;
