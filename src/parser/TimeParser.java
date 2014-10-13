@@ -61,13 +61,13 @@ public class TimeParser {
 				}
 			}
 
-			if(tokens[i].replaceFirst(STRING_COLON, "").length() == 4){
-				if(checker.isValidMilitaryTimeFormat(tokens[i])){
-					time = tokens[i];
-					input = input.replaceFirst(time, "").trim();
-					time = ts.formatTime(FORMAT_MILITARY + time);
-				}
-			}
+//			if(tokens[i].replaceFirst(STRING_COLON, "").length() == 4){
+//				if(checker.isValidMilitaryTimeFormat(tokens[i])){
+//					time = tokens[i];
+//					input = input.replaceFirst(time, "").trim();
+//					time = ts.formatTime(FORMAT_MILITARY + time);
+//				}
+//			}
 
 		}
 		return input;
