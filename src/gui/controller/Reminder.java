@@ -3,7 +3,7 @@ package gui.controller;
 /**
  * @author zhang
  * this class is used to display popup reminder for events which have a start date. 
- * it should show a display pop up at the bottom right of the screen.
+ * it should show a display pop up at the bottom right of the screen 5 min before the event start.
  */
 
 import java.net.URL;

@@ -8,8 +8,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.logging.Level;
 
 import org.controlsfx.control.Notifications;
+
+import com.MyLogger;
+
 import javafx.animation.TranslateTransition;
 
 
@@ -95,6 +99,7 @@ public class PhantomController {
 	//setting items from MainApp
 	public PhantomController() {
 		System.out.println("phantom constructor");
+		MyLogger.log(Level.INFO,"phantom constructor");
 		logicFacade = LogicFacade.getInstance();
 
 		// for testing purposes

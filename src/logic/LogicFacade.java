@@ -10,6 +10,10 @@ package logic;
  */
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+
+import com.MyLogger;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import storage.ModelTask;
@@ -33,6 +37,7 @@ public class LogicFacade {
 			executor = new CommandExecutor(taskList,storage);
 			searchedList = FXCollections.observableArrayList();
 		} catch (Exception e) {
+			MyLogger.log(Level.SEVERE,"cannot initialize logicFacade class");
 			System.out.println("cannot initialize logicFacade class");
 		}
 	}

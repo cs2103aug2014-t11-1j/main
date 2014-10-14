@@ -1,5 +1,9 @@
 package storage;
-
+/** 
+ * 
+ * @author zhang
+ *this class is used to convert ModelTask to a save string for saving into text file
+ */
 //import java.text.SimpleDateFormat;
 //import java.util.Date;
 

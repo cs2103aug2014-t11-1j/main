@@ -1,5 +1,9 @@
 package gui.controller;
 
+import java.util.logging.Level;
+
+import com.MyLogger;
+
 import storage.ModelTask;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,11 +23,13 @@ public class TodayViewController {
 	
 	public TodayViewController(){
 		System.out.println("today view constructor");
+		MyLogger.log(Level.INFO,"today view constructor");
 	}
 	
 	@FXML
 	private void initialize(){
 		System.out.println("today view initilising");
+		MyLogger.log(Level.INFO,"today view initilising");
 		taskColumn.setCellValueFactory(cellData -> cellData.getValue().getEventProperty());
 		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTimeStringProperty());
 		

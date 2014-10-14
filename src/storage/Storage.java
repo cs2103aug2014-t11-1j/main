@@ -3,7 +3,7 @@ package storage;
 /** 
  * @author: zhang yongkai
  * this storage will load from txt file or write to text file
- * to use, Storage  = new TaskManager("text.txt");  = Storage.load();
+ * this is a singleton class
  */
 
 import java.io.BufferedWriter;
@@ -13,18 +13,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import java.util.logging.Level;
+
+import com.MyLogger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Storage {
-
 	private ObservableList<ModelTask> list;
 	private File inputFile;
-
+	
 	// constructor
 	public Storage(String inputFileName) throws IOException {
+		
+		MyLogger.log(Level.INFO,"initializing storage");
 		initialize(inputFileName);
+		
 	}
 
 	private void initialize(String inputFileName) throws IOException {
@@ -32,7 +37,7 @@ public class Storage {
 		inputFile = new File(inputFileName);
 		inputFile.createNewFile();
 		initializeObservableList();
-
+		
 	}
 
 	// writes existing contents of file to observableList if any
