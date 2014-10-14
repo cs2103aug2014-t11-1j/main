@@ -72,7 +72,7 @@ public class AnimationHandler {
 		slideOutTimelineInit.setToX(700);
 		slideOutTimelineInit.play();
 		TranslateTransition slideOutHelperInit = new TranslateTransition(Duration.millis(100), helperView);
-		slideOutHelperInit.setToX(-700);
+		slideOutHelperInit.setToX(700);
 		slideOutHelperInit.play();
 
 		isFocusTable = false;
@@ -98,7 +98,7 @@ public class AnimationHandler {
 		slideInHelper = new TranslateTransition(Duration.seconds(0.2), helperView);
 		slideInHelper.setToX(0);
 		slideOutHelper = new TranslateTransition(Duration.seconds(0.2), helperView);
-		slideOutHelper.setToX(-700);
+		slideOutHelper.setToX(700);
 
 		slideInTable.setOnFinished(new EventHandler<ActionEvent>(){
 
