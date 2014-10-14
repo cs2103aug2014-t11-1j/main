@@ -267,6 +267,8 @@ public class PhantomController {
 				changeCss("GhostsTheme");
 			} else if (input.equalsIgnoreCase("popup")) {
 				showPopup();
+			}else if(input.equalsIgnoreCase("tutorial")){
+				new TutorialLoader(overallView, themeUrl);
 			}
 			else{
 				executeCommand(input, feedback);

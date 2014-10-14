@@ -24,10 +24,12 @@ public class TutorialLoader {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/TutorialView.fxml"));
 			tutorialView = (AnchorPane) loader.load();
-			tutorialView.getStylesheets().clear();
-			tutorialView.getStylesheets().add(themeUrl);
+			
 			this.overallView = overallView;
 			overallView.getChildren().add(tutorialView);
+			
+			tutorialView.getStylesheets().clear();
+			tutorialView.getStylesheets().add(themeUrl);
 			
 			TutorialViewController controller = loader.getController();
 			controller.setTutorialView(tutorialView);
