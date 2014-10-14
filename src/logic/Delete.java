@@ -1,5 +1,9 @@
 package logic;
 
+import java.util.logging.Level;
+
+import com.MyLogger;
+
 /**
  *
  * @author Jireh
@@ -28,8 +32,10 @@ public class Delete extends CommandFactory {
             }
             isDone = true;
             CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_DELETE_MESSAGE);
+            MyLogger.log(Level.INFO,ErrorMessages.SUCCESS_DELETE_MESSAGE);
         } catch (Exception ex) {
             CommandExecutor.setFeedBack(ErrorMessages.ERROR_DELETE_MESSAGE);
+            MyLogger.log(Level.WARNING,ErrorMessages.ERROR_DELETE_MESSAGE);
             printMessage(ex.getMessage());
             return;
         }

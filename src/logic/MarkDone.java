@@ -23,6 +23,7 @@ public class MarkDone extends CommandFactory {
             index = Integer.parseInt(input) - 1;
         } catch (NumberFormatException ex) {
             CommandExecutor.setFeedBack(ErrorMessages.ERROR_MARKDONE_MESSAGE);
+            
             return;
         }
 

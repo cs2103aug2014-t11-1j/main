@@ -1,6 +1,11 @@
 package logic;
 
 import static logic.CommandFactory.tc;
+
+import java.util.logging.Level;
+
+import com.MyLogger;
+
 import storage.ModelTask;
 import storage.Task;
 
@@ -33,8 +38,10 @@ public class Edit extends CommandFactory {
 
             isDone = true;
             CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_EDIT_MESSAGE);
+            MyLogger.log(Level.INFO,ErrorMessages.SUCCESS_EDIT_MESSAGE);
         } catch (Exception ex) {
             CommandExecutor.setFeedBack(ErrorMessages.ERROR_EDIT_MESSAGE);
+            MyLogger.log(Level.WARNING,ErrorMessages.ERROR_EDIT_MESSAGE);
             return;
         }
 
@@ -48,6 +55,7 @@ public class Edit extends CommandFactory {
     private static String[] formatString(String input) {
         if (input == null || input.isEmpty()) {
             CommandExecutor.setFeedBack("Invalid index!");
+            MyLogger.log(Level.WARNING,"Invalid index!");
             throw new IllegalArgumentException("Invalid index!");
         } else {
             return input.trim().split("\\s+", 2);
@@ -59,6 +67,7 @@ public class Edit extends CommandFactory {
 
         if (!isValidLineNumber(index)) {
             CommandExecutor.setFeedBack("Invalid index!");
+            MyLogger.log(Level.WARNING,"Invalid index!");
             throw new IllegalArgumentException("Invalid index!");
         } else {
             return index;

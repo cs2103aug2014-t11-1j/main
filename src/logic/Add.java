@@ -1,6 +1,9 @@
 package logic;
 
+import java.util.logging.Level;
+import com.MyLogger;
 import storage.ModelTask;
+
 
 /**
  *
@@ -32,6 +35,7 @@ public class Add extends CommandFactory {
             CommandExecutor.setFeedBack(String.format("\"%s\" %s", temp.getEvent(), ErrorMessages.SUCCESS_ADDING_MESSAGE));
         } catch (IllegalArgumentException ex) {
             CommandExecutor.setFeedBack(ErrorMessages.ERROR_ADDING_MESSAGE);
+            MyLogger.log(Level.WARNING,ErrorMessages.ERROR_ADDING_MESSAGE);
             return;
         }
     }

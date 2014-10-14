@@ -1,5 +1,9 @@
 package logic;
 
+import java.util.logging.Level;
+
+import com.MyLogger;
+
 /**
  *
  * @author Jireh
@@ -20,6 +24,7 @@ public class Clear extends CommandFactory {
         list.clear();
         isDone = true;
         CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_CLEAR_MESSAGE);
+        MyLogger.log(Level.INFO,ErrorMessages.SUCCESS_CLEAR_MESSAGE);
     }
 
     @Override

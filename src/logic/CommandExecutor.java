@@ -1,6 +1,9 @@
 package logic;
 
 import java.io.IOException;
+import java.util.logging.Level;
+
+import com.MyLogger;
 
 import storage.ModelTask;
 /**
@@ -44,6 +47,7 @@ public class CommandExecutor {
 		try {
 			storage.save(taskList);
 		} catch (IOException e) {
+			MyLogger.log(Level.WARNING,"cannot save to text file");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -230,6 +234,7 @@ public class CommandExecutor {
 			}
 		} catch (NumberFormatException e) {
 			setFeedBack(ErrorMessages.ERROR_ARGUMENT_MESSAGE);
+			MyLogger.log(Level.WARNING,ErrorMessages.ERROR_ARGUMENT_MESSAGE);
 			System.out.println(feedBack);
 		}
 

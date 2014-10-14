@@ -1,6 +1,10 @@
 package logic;
 
 import java.util.Iterator;
+import java.util.logging.Level;
+
+import com.MyLogger;
+
 import storage.ModelTask;
 
 /**
@@ -31,6 +35,7 @@ public class ClearDone extends CommandFactory {
         }
         isDone = true;
         CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_CLEARDONE_MESSAGE);
+        MyLogger.log(Level.INFO,ErrorMessages.SUCCESS_CLEARDONE_MESSAGE);
     }
 
     @Override
