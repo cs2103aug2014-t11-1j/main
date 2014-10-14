@@ -17,6 +17,7 @@ public class ModelTask {
 	private StringProperty timeStringProperty;
 	private StringProperty positionStringProperty;
 	private BooleanProperty isDoneBooleanProperty;
+        private BooleanProperty isUrgentBooleanProperty;
 	
 	private ObjectProperty<EventAndDone> eventAndDoneProperty;
 
@@ -27,6 +28,7 @@ public class ModelTask {
 			endTimeString, deadLineString;
 	private int position;
 	private boolean isDone;
+        private boolean isUrgent;
 	
 	private EventAndDone eventAndDone;
 
@@ -35,7 +37,7 @@ public class ModelTask {
 	}
 
 	public ModelTask(String event, Date startDate, Date endDate,
-		Date startTime, Date endTime, int position, boolean isDone) {
+		Date startTime, Date endTime, int position, boolean isDone, boolean isUrgent) {
 		standardFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		dateFormatter = new SimpleDateFormat("EEE, MMM d");
 		startDateFormatter = new SimpleDateFormat("d ");
@@ -47,6 +49,7 @@ public class ModelTask {
 		this.timeStringProperty = new SimpleStringProperty();
 		this.positionStringProperty = new SimpleStringProperty();
 		this.isDoneBooleanProperty = new SimpleBooleanProperty();
+                this.isUrgentBooleanProperty = new SimpleBooleanProperty();
 		this.eventAndDoneProperty = new SimpleObjectProperty<EventAndDone>();
 		
 		this.eventAndDone = new EventAndDone(event, isDone);
@@ -61,6 +64,7 @@ public class ModelTask {
 		setPosition(position);
 		setDeadLineString(deadLine);
 		setIsDone(isDone);
+                setIsUrgent(isUrgent);
 	}
         
         public ModelTask(ModelTask mt){
@@ -109,6 +113,11 @@ public class ModelTask {
 		this.eventAndDone = new EventAndDone(eventAndDone.getEvent(), isDone);
 		eventAndDoneProperty.set(eventAndDone);
 	}
+        
+        public void setIsUrgent(boolean isUrgent){
+                this.isUrgent = isUrgent;
+                isUrgentBooleanProperty.set(isUrgent);
+        }
 
 	public void setStartDateString(Date startDate) {
 		if (startDate != null) {
@@ -273,6 +282,10 @@ public class ModelTask {
 	public boolean isDone() {
 		return this.isDone;
 	}
+        
+        public boolean isUrgent(){
+            return this.isUrgent;
+        }
 
 	public StringProperty getDateStringProperty() {
 		return dateStringProperty;
@@ -293,6 +306,10 @@ public class ModelTask {
 	public BooleanProperty getisDoneBooleanProperty(){
 		return isDoneBooleanProperty;
 	}
+        
+        public BooleanProperty getIsUrgentBooleanProperty(){
+            return isUrgentBooleanProperty;
+        }
 	
 	public ObjectProperty<EventAndDone> getEventAndDoneProperty(){
 		return eventAndDoneProperty;

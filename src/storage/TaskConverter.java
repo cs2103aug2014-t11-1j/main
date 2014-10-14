@@ -82,7 +82,7 @@ public class TaskConverter {
 			}
 		}
 		
-		ModelTask modelTask = new ModelTask(task.getTaskDescription(), startDate, endDate, startTime, endTime, position, task.isDone());
+		ModelTask modelTask = new ModelTask(task.getTaskDescription(), startDate, endDate, startTime, endTime, position, task.isDone(), task.isUrgent());
 		return modelTask;
 	}
 	
