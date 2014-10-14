@@ -24,10 +24,11 @@ public class ModelTaskToSaveStringConverter {
 		String endTime = task.getEndTimeString();
 		String deadLine = task.getDeadLineString();
 		boolean isDone = task.isDone();
+                boolean isUrgent = task.isUrgent();
 		
 		
 		String saveString =event + ";" + startDate + ";" + endDate + ";" 
-		+ startTime + ";" +endTime + ";" + deadLine +";" + isDone;
+		+ startTime + ";" +endTime + ";" + deadLine +";" + isDone+ ";" + isUrgent;
 		return saveString;
 	}
 

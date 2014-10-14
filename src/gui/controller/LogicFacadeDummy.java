@@ -17,7 +17,7 @@ public class LogicFacadeDummy {
 	}
 	
 	public ObservableList<ModelTask> getAllList(){
-		taskList.add(new ModelTask("task", new Date(), null, new Date(), null, 1, true));
+		taskList.add(new ModelTask("task", new Date(), null, new Date(), null, 1, true, true));
 		return taskList;
 	}
 	
@@ -31,7 +31,7 @@ public class LogicFacadeDummy {
 	}
 
 	public ObservableList<ModelTask> getSearchedList() {
-		searchedList.add(new ModelTask("task", new Date(), null, new Date(), null, 1, true));
+		searchedList.add(new ModelTask("task", new Date(), null, new Date(), null, 1, true, true));
 		return searchedList;
 	}
 }

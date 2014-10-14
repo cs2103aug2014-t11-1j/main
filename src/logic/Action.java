@@ -8,6 +8,21 @@ package logic;
  */
 
 public class Action {
+    
+        private static final String[] DICTIONARY_ADD = {"ADD","A"};
+        private static final String[] DICTIONARY_ADD_URGENT = {"ADD!","A!"};
+        private static final String[] DICTIONARY_DELETE = {"DELETE","DEL","D"};
+        private static final String[] DICTIONARY_CLEAR = {"CLEAR","CLS","CLR"};
+        private static final String[] DICTIONARY_EDIT = {"EDIT","E"};
+        private static final String[] DICTIONARY_MOVE = {"MOVE","MV","M"};
+        private static final String[] DICTIONARY_SORT = {"SORT","SRT"};
+        private static final String[] DICTIONARY_SEARCH = {"SEARCH","?"};
+        private static final String[] DICTIONARY_MARK_DONE = {"DONE","DID"};
+        private static final String[] DICTIONARY_MARK_UNDONE = {"UNDONE","NOTDONE","UNDID","NOTDID"};
+        private static final String[] DICTIONARY_CLEAR_DONE = {"CLEARDONE","CLEARD","CLSDONE","CLRDONE","CLSD","CLRD"};
+        private static final String[] DICTIONARY_MARK_URGENT = {"URGENT","UR","URG","URGE"};
+        private static final String[] DICTIONARY_MARK_NOT_URGENT = {"NOTURGENT","NURGENT","NUR","NURG","NURGE"};
+        private static final String[] DICTIONARY_CLEAR_URGENT = {"CLEARURGENT","CLEARUR","CLSURGENT","CLRURGENT","CLSUR","CLRUR"};
 
 	private String commandWord;
 	private CommandType commandType;
@@ -32,11 +47,13 @@ public class Action {
 	}
 		
 	private CommandType determineCommandType(String command) {
-		if (commandWord.equalsIgnoreCase("ADD")) {
+		if (dictionaryContains(DICTIONARY_ADD, command)) {
 			return CommandType.ADD;
-		} else if (commandWord.equalsIgnoreCase("DELETE")) {
+		} else if (dictionaryContains(DICTIONARY_ADD_URGENT, command)) {
+			return CommandType.ADDURGENT;
+                } else if (dictionaryContains(DICTIONARY_DELETE, command)) {
 			return CommandType.DELETE;
-		} else if (commandWord.equalsIgnoreCase("CLEAR")) {
+		} else if (dictionaryContains(DICTIONARY_CLEAR, command)) {
 			return CommandType.CLEAR;
 		} else if (commandWord.equalsIgnoreCase("DISPLAY")) {
 			return CommandType.DISPLAY;
@@ -44,20 +61,26 @@ public class Action {
 			return CommandType.UNDO;
 		} else if (commandWord.equalsIgnoreCase("REDO")) {
 			return CommandType.REDO;
-		} else if (commandWord.equalsIgnoreCase("EDIT")) {
+		} else if (dictionaryContains(DICTIONARY_EDIT, command)) {
 			return CommandType.EDIT;
-		} else if (commandWord.equalsIgnoreCase("MOVE")) {
+		} else if (dictionaryContains(DICTIONARY_MOVE, command)) {
 			return CommandType.MOVE;
-		} else if (commandWord.equalsIgnoreCase("SORT")) {
+		} else if (dictionaryContains(DICTIONARY_SORT, command)) {
 			return CommandType.SORT;
-		} else if (commandWord.equalsIgnoreCase("SEARCH")) {
+		} else if (dictionaryContains(DICTIONARY_SEARCH, command)) {
 			return CommandType.SEARCH;
-		} else if (commandWord.equalsIgnoreCase("DID")) {
+		} else if (dictionaryContains(DICTIONARY_MARK_DONE, command)) {
 			return CommandType.MARK_DONE;
-		} else if (commandWord.equalsIgnoreCase("UNDID")) {
+		} else if (dictionaryContains(DICTIONARY_MARK_UNDONE, command)) {
 			return CommandType.MARK_UNDONE;
-                } else if (commandWord.equalsIgnoreCase("CLEARDONE")) {
+                } else if (dictionaryContains(DICTIONARY_CLEAR_DONE, command)) {
                         return CommandType.CLEAR_DONE;
+                } else if (dictionaryContains(DICTIONARY_MARK_URGENT, command)) {
+			return CommandType.MARK_URGENT;
+		} else if (dictionaryContains(DICTIONARY_MARK_NOT_URGENT, command)) {
+			return CommandType.MARK_NOT_URGENT;
+                } else if (dictionaryContains(DICTIONARY_CLEAR_URGENT, command)) {
+                        return CommandType.CLEAR_URGENT;
                 } else if (commandWord.equalsIgnoreCase("HELP")) {
 			return CommandType.HELP;
 		} else if (commandWord.equalsIgnoreCase("EXIT")) {
@@ -65,5 +88,16 @@ public class Action {
 		} else {
 			return CommandType.INVALID;
 		}
+	}
+        
+        private boolean dictionaryContains(String[] dictionary, String keyword) {
+		boolean isFound = false;
+		for (int i = 0; i < dictionary.length; i++) {
+			if (dictionary[i].equalsIgnoreCase(keyword)) {
+				isFound = true;
+				break;
+			}
+		}
+		return isFound;
 	}
 }

@@ -20,6 +20,7 @@ public class Task {
 	private final int INDEX_OF_STARTTIME = 3;
 	private final int INDEX_OF_ENDTIME = 4;
 	private final int INDEX_OF_ISDONE = 6;
+        private final int INDEX_OF_ISURGENT = 7;
 	
 	
 	private String taskDescription;
@@ -29,6 +30,7 @@ public class Task {
 	private String endTime;
 	private String deadLine;
 	private boolean isDone;
+        private boolean isUrgent;
 	
 	/**
 	 * Constructor
@@ -42,6 +44,7 @@ public class Task {
 		this.endTime = endTime;
 		this.deadLine = deadLine;
 		this.isDone = false;
+                this.isUrgent = false;
 	}
 	
 	
@@ -88,6 +91,14 @@ public class Task {
 		}else{
 			this.isDone = false;
 		}
+                
+                input = array[INDEX_OF_ISURGENT];
+		
+		if(input.equalsIgnoreCase("true")){
+			this.isUrgent = true;
+		}else{
+			this.isUrgent = false;
+		}
 	}
 	
 	
@@ -115,6 +126,9 @@ public class Task {
 	public boolean isDone(){
 		return this.isDone;
 	}
+        public boolean isUrgent(){
+                return this.isUrgent;
+        }
 	
 	/**
 	 * Mutators
@@ -137,4 +151,7 @@ public class Task {
 	public void setIsDone(boolean isDone){
 		this.isDone = isDone;
 	}
+        public void setIsUrgent(boolean isUrgent){
+            this.isUrgent = isUrgent;
+        }
 }

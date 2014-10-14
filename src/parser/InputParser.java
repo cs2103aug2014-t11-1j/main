@@ -101,8 +101,9 @@ public class InputParser {
 			if(!isDeadLineFound && !isEndDateFound && !isStartDateFound){
 				input = dp.parseDateWithoutKeyword(tokens, i, input);
 				if(dp.getDate() != null){
-					deadLine = dp.getDate();
-					isDeadLineFound = true;
+					startDate = dp.getDate();
+					dp.setDateStart(startDate);
+					isStartDateFound = true;
 				}
 			}
 
@@ -157,6 +158,7 @@ public class InputParser {
 					input = dp.parseDateWithKeyword(tokens, i, input);
 					if(dp.getDate() != null){
 						startDate = dp.getDate();
+						dp.setDateStart(startDate);
 						isStartDateFound = true;
 					}
 				}
@@ -190,13 +192,13 @@ public class InputParser {
 				
 			}
 
-			if(isEndDateFound && isStartDateFound){
-				if(!validEndDate(endDate , startDate)){
-					endDate = null;
-					isEndDateFound = false;
-					input = tempInput;
-				}
-			}
+//			if(isEndDateFound && isStartDateFound){
+//				if(!validEndDate(endDate , startDate)){
+//					endDate = null;
+//					isEndDateFound = false;
+//					input = tempInput;
+//				}
+//			}
 			
 		}
 		
