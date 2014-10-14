@@ -91,10 +91,17 @@ public class CommandExecutor {
 
 			case ADD:
 				boolean isAdded = false;
-				cmdf = new Add(actualCommandDescription);
+				cmdf = new Add(actualCommandDescription, false);
 				isAdded = cmdf.isDone();
 				
 				break;
+                            
+                        case ADDURGENT:
+                                boolean isAddedUrgent = false;
+				cmdf = new Add(actualCommandDescription, true);
+				isAddedUrgent = cmdf.isDone();
+				
+				break; 
 
 			case DELETE:
 				boolean isDeleted = false;
@@ -181,6 +188,21 @@ public class CommandExecutor {
                         case CLEAR_DONE:
                                 cmdf = new ClearDone();
                                 boolean isClearDone = cmdf.isDone();
+                            
+                                break;
+                        case MARK_URGENT:
+				cmdf = new MarkUrgent(actualCommandDescription);
+				boolean isMarkedUrgent = cmdf.isDone();
+				
+				break;
+                        case MARK_NOT_URGENT:
+                                cmdf = new MarkNotUrgent(actualCommandDescription);
+                                boolean isUnmarkedUrgent = cmdf.isDone();
+
+                                break;
+                        case CLEAR_URGENT:
+                                cmdf = new ClearUrgent();
+                                boolean isClearUrgent = cmdf.isDone();
                             
                                 break;
 			case HELP:

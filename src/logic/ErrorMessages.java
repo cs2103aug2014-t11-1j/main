@@ -35,4 +35,10 @@ public class ErrorMessages {
         public static final String ERROR_SEARCH_MESSAGE = "Search unsuccessful";
         public static final String SUCCESS_CLEARDONE_MESSAGE = "Done tasks cleared";
         public static final String ERROR_CLEARDONE_MESSAGE = "Cannot clear done tasks";
+        public static final String SUCCESS_MARKURGENT_MESSAGE = "Task marked as urgent";
+        public static final String ERROR_MARKURGENT_MESSAGE = "Task cannot be marked as urgent";
+        public static final String SUCCESS_MARKNOTURGENT_MESSAGE = "Task marked as not urgent";
+        public static final String ERROR_MARKNOTURGENT_MESSAGE = "Task cannot be marked as not urgent";
+        public static final String SUCCESS_CLEARURGENT_MESSAGE = "Urgent tasks cleared";
+        public static final String ERROR_CLEARURGENT_MESSAGE = "Cannot clear urgent tasks";
 }

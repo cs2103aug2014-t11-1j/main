@@ -79,6 +79,7 @@ public class ModelTask {
             this.timeStringProperty = new SimpleStringProperty();
             this.positionStringProperty = new SimpleStringProperty();
             this.isDoneBooleanProperty = new SimpleBooleanProperty();
+            this.isUrgentBooleanProperty = new SimpleBooleanProperty();
             this.eventAndDoneProperty = new SimpleObjectProperty<EventAndDone>();
             
             this.eventAndDone = new EventAndDone(mt.getEvent(), mt.isDone);
@@ -93,6 +94,7 @@ public class ModelTask {
             setPosition(mt.position);
             setDeadLineString(mt.deadLine);
             setIsDone(mt.isDone);
+            setIsUrgent(mt.isUrgent);
         }
 
 	// mutators

@@ -9,11 +9,13 @@ import storage.ModelTask;
 public class Add extends CommandFactory {
 
     private boolean isDone;
+    private boolean isUrgent;
 
     /**
      * Constructor
      */
-    protected Add(String input) {
+    protected Add(String input, boolean isUrgent) {
+        this.isUrgent = isUrgent;
         execute(input);
         updateUndoAndRedoStacks();
         updateTaskList();
@@ -24,6 +26,7 @@ public class Add extends CommandFactory {
         try {
             input = formatString(input);
             ModelTask temp = tc.convert(pf.getTask("add " + input), list.getListSize() + 1);
+            temp.setIsUrgent(isUrgent);
             list.add(temp);
             isDone = true;
             CommandExecutor.setFeedBack(String.format("\"%s\" %s", temp.getEvent(), ErrorMessages.SUCCESS_ADDING_MESSAGE));

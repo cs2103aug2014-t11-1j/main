@@ -34,7 +34,9 @@ public class Action {
 	private CommandType determineCommandType(String command) {
 		if (commandWord.equalsIgnoreCase("ADD")) {
 			return CommandType.ADD;
-		} else if (commandWord.equalsIgnoreCase("DELETE")) {
+		} else if (commandWord.equalsIgnoreCase("ADD!")) {
+			return CommandType.ADDURGENT;
+                } else if (commandWord.equalsIgnoreCase("DELETE")) {
 			return CommandType.DELETE;
 		} else if (commandWord.equalsIgnoreCase("CLEAR")) {
 			return CommandType.CLEAR;
@@ -58,6 +60,12 @@ public class Action {
 			return CommandType.MARK_UNDONE;
                 } else if (commandWord.equalsIgnoreCase("CLEARDONE")) {
                         return CommandType.CLEAR_DONE;
+                } else if (commandWord.equalsIgnoreCase("URGENT")) {
+			return CommandType.MARK_URGENT;
+		} else if (commandWord.equalsIgnoreCase("NOTURGENT")) {
+			return CommandType.MARK_NOT_URGENT;
+                } else if (commandWord.equalsIgnoreCase("CLEARURGENT")) {
+                        return CommandType.CLEAR_URGENT;
                 } else if (commandWord.equalsIgnoreCase("HELP")) {
 			return CommandType.HELP;
 		} else if (commandWord.equalsIgnoreCase("EXIT")) {
