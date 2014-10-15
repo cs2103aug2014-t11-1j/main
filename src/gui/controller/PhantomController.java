@@ -52,21 +52,36 @@ public class PhantomController {
 	private Parent tableView;
 	@FXML
 	private TableController tableViewController;
+	@FXML
+	private AnchorPane tableAnchor;
 
 	@FXML
 	private Parent todayView;
 	@FXML
 	private TodayViewController todayViewController;
+	@FXML
+	private AnchorPane todayAnchor;
 
 	@FXML
 	private Parent helperView;
 	@FXML
 	private HelperViewController helperViewController;
+	@FXML
+	private AnchorPane helperAnchor;
 
 	@FXML
 	private Parent timelineView;
 	@FXML
 	private TimelineViewController timelineViewController;
+	@FXML
+	private AnchorPane timelineAnchor;
+	
+	@FXML
+	private Parent tentativeView;
+	@FXML
+	private TentativeViewController tentativeViewController;
+	@FXML
+	private AnchorPane tentativeAnchor;
 
 	@FXML
 	private Label timeLabel;
@@ -151,7 +166,7 @@ public class PhantomController {
 
 	private void initAnimation() {
 		ah = AnimationHandler.getInstance();
-		ah.initialize(tableView, todayView, helperView, timelineView);
+		ah.initialize(tableAnchor, todayAnchor, helperAnchor, timelineAnchor);
 	}
 
 	private void initCommandLineUtility() {
