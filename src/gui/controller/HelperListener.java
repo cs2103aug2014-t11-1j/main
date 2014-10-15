@@ -19,12 +19,11 @@ public class HelperListener implements ChangeListener<String>{
 		String firstWord = newValue.split(" ")[0];
 		if (firstWord.equalsIgnoreCase("add") || firstWord.equalsIgnoreCase("add!")) {
 			ah.displayHelper();
-		} else if (newValue.length() < 2) {
+			helperViewController.setHelperView(newValue);
+		} else if (newValue.length() < 2 && newValue.length() > 0) {
 			ah.revertView();
+			helperViewController.setHelperView("");
 		}
-		
-		helperViewController.setHelperView(newValue);
-		
 	}
 
 }
