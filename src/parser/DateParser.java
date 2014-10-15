@@ -95,7 +95,7 @@ public class DateParser {
 			}
 		}
 
-		if(dictionaryContains(DICTIONARY_MONTHS,tokens[i])){				
+		if(dictionaryContains(DICTIONARY_MONTHS,tokens[i])){
 			String temp = tokens[i].replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " " ).trim();
 			String[] dateArray = temp.split(STRING_SPACE);
 			if(checker.isValidDayFirstStringDateFormat(dateArray, 1)){
@@ -115,34 +115,35 @@ public class DateParser {
 		}
 
 		if(isNotOutOfBounds(i+1, tokens.length)){
-
-			if(checker.isValidDayFirstStringDateFormat(tokens,i+1)){
-				if(i+2 < tokens.length){
-					try{
-						if(Integer.parseInt(tokens[i+2]) > 0){
-							date = tokens[i] + STRING_SPACE + tokens[i+1] + STRING_SPACE + tokens[i+2];
-							input = input.replaceFirst(date, "").trim();
-							date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
-						}
-						else{
+			if(dictionaryContains(DICTIONARY_MONTHS,tokens[i+1])){
+				if(checker.isValidDayFirstStringDateFormat(tokens,i+1)){
+					if(i+2 < tokens.length){
+						try{
+							if(Integer.parseInt(tokens[i+2]) > 0){
+								date = tokens[i] + STRING_SPACE + tokens[i+1] + STRING_SPACE + tokens[i+2];
+								input = input.replaceFirst(date, "").trim();
+								date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
+							}
+							else{
+								date = tokens[i] + STRING_SPACE + tokens[i+1];
+								input = input.replaceFirst(date, "").trim();
+								date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
+							}
+						} catch(Exception e){
 							date = tokens[i] + STRING_SPACE + tokens[i+1];
 							input = input.replaceFirst(date, "").trim();
 							date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 						}
-					} catch(Exception e){
+					}
+					else{
 						date = tokens[i] + STRING_SPACE + tokens[i+1];
 						input = input.replaceFirst(date, "").trim();
 						date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 					}
-				}
-				else{
-					date = tokens[i] + STRING_SPACE + tokens[i+1];
-					input = input.replaceFirst(date, "").trim();
-					date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
-				}
 
-				if(dateStart != null){
-					adjustDate();
+					if(dateStart != null){
+						adjustDate();
+					}
 				}
 			}
 		}
