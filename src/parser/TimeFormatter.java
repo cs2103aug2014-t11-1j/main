@@ -27,6 +27,8 @@ public class TimeFormatter {
 	private static final String STRING_EVENING = "1900";
 	private static final String STRING_NIGHT = "2300";
 	
+	private static final String STRING_DASH = "-";
+	
 	
 	public TimeFormatter(){
 	}
@@ -106,5 +108,83 @@ public class TimeFormatter {
 			}
 		}
 		return isFound;
+	}
+
+	public String convertDTFformat(String time) {
+		
+		String hours = null;
+		String minutes = "00";
+		
+		String[] timeArray = time.split(STRING_DASH);
+		
+		try{
+			Scanner sc = new Scanner(timeArray[0]).useDelimiter("[^0-9]+");		
+			Integer integer = sc.nextInt();
+			if(integer == 12){
+				if(time.contains("AM") || time.contains("am")){
+					integer -= 12;
+				}
+			}
+			
+			if(time.contains("PM") || time.contains("pm") && integer < 12){
+				integer += 12;
+			}
+			
+			hours = integer.toString();
+			
+			if(sc.hasNextInt()){
+				Integer temp = sc.nextInt();
+				minutes = temp.toString();
+			}
+			
+		} catch(Exception e){
+			System.out.println("exception");
+			return null;
+		}
+		
+		if(hours.length() < 2){
+			hours = "0" + hours;
+		}
+		
+		return hours + minutes;
+	}
+
+	public String convertDTNformat(String time) {
+		
+		String hours = null;
+		String minutes = "00";
+		
+		String[] timeArray = time.split(STRING_DASH);
+		
+		try{
+			Scanner sc = new Scanner(timeArray[1]).useDelimiter("[^0-9]+");		
+			Integer integer = sc.nextInt();
+			if(integer == 12){
+				if(time.contains("AM") || time.contains("am")){
+					integer -= 12;
+				}
+			}
+			
+			if(time.contains("PM") || time.contains("pm") && integer < 12){
+				integer += 12;
+			}
+			
+			hours = integer.toString();
+			
+			if(sc.hasNextInt()){
+				Integer temp = sc.nextInt();
+				minutes = temp.toString();
+			}
+			
+		} catch(Exception e){
+			System.out.println("exception");
+			return null;
+		}
+		
+		if(hours.length() < 2){
+			hours = "0" + hours;
+		}
+
+		return hours + minutes;
 	}
 }
