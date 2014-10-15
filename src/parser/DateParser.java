@@ -256,25 +256,25 @@ public class DateParser {
 				}
 			}
 
-//			if(dictionaryContains(DICTIONARY_MONTHS,tokens[i+1])){				
-//				temp = tokens[i+1].replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " " ).trim();
-//				String[] dateArray = temp.split(STRING_SPACE);
-//				if(checker.isValidDayFirstStringDateFormat(dateArray, 1)){
-//					input = input.replaceFirst(tokens[i] + STRING_SPACE + tokens[i+1], "").trim();
-//					date = ds.formatDate(FORMAT_DAY_FIRST_STRING + temp);
-//					if(dateStart != null){
-//						adjustDate();
-//					}
-//				}
-//				if(checker.isValidMonthFirstStringDateFormat(dateArray, 0)){
-//					input = input.replaceFirst(tokens[i] + STRING_SPACE + tokens[i+1], "").trim();
-//					date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + temp);
-//					if(dateStart != null){
-//						adjustDate();
-//					}
-//				}
-//			}
-//		}
+			if(dictionaryContains(DICTIONARY_MONTHS,tokens[i+1])){				
+				temp = tokens[i+1].replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " " ).trim();
+				String[] dateArray = temp.split(STRING_SPACE);
+				if(checker.isValidDayFirstStringDateFormat(dateArray, 1)){
+					input = input.replaceFirst(tokens[i] + STRING_SPACE + tokens[i+1], "").trim();
+					date = ds.formatDate(FORMAT_DAY_FIRST_STRING + temp);
+					if(dateStart != null){
+						adjustDate();
+					}
+				}
+				if(checker.isValidMonthFirstStringDateFormat(dateArray, 0)){
+					input = input.replaceFirst(tokens[i] + STRING_SPACE + tokens[i+1], "").trim();
+					date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + temp);
+					if(dateStart != null){
+						adjustDate();
+					}
+				}
+			}
+		}
 
 		if(isNotOutOfBounds(i+2, tokens.length)){
 			if(dictionaryEquals(DICTIONARY_MONTHS,tokens[i+2])){
@@ -309,36 +309,36 @@ public class DateParser {
 				}
 			}
 
-//			if(dictionaryEquals(DICTIONARY_MONTHS,tokens[i+1])){
-//				if(checker.isValidMonthFirstStringDateFormat(tokens,i+1)){
-//					if(i+3 < tokens.length){
-//						try{
-//							if(Integer.parseInt(tokens[i+3]) > 0){
-//								date = tokens[i+1] + STRING_SPACE + tokens[i+2] + STRING_SPACE + tokens[i+3];
-//								input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
-//								date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
-//							}
-//							else{
-//								date = tokens[i+1] + STRING_SPACE + tokens[i+2];
-//								input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
-//								date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
-//							}
-//						} catch(Exception e){
-//							date = tokens[i+1] + STRING_SPACE + tokens[i+2];
-//							input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
-//							date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
-//						}
-//					}
-//					else{
-//						date = tokens[i+1] + STRING_SPACE + tokens[i+2];
-//						input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
-//						date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
-//					}
-//					if(dateStart != null){
-//						adjustDate();
-//					}
-//				}
-//			}
+			if(dictionaryEquals(DICTIONARY_MONTHS,tokens[i+1])){
+				if(checker.isValidMonthFirstStringDateFormat(tokens,i+1)){
+					if(i+3 < tokens.length){
+						try{
+							if(Integer.parseInt(tokens[i+3]) > 0){
+								date = tokens[i+1] + STRING_SPACE + tokens[i+2] + STRING_SPACE + tokens[i+3];
+								input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
+								date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
+							}
+							else{
+								date = tokens[i+1] + STRING_SPACE + tokens[i+2];
+								input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
+								date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
+							}
+						} catch(Exception e){
+							date = tokens[i+1] + STRING_SPACE + tokens[i+2];
+							input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
+							date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
+						}
+					}
+					else{
+						date = tokens[i+1] + STRING_SPACE + tokens[i+2];
+						input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
+						date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + date);
+					}
+					if(dateStart != null){
+						adjustDate();
+					}
+				}
+			}
 
 			if(tokens[i+1].equalsIgnoreCase("next")){
 				if(dictionaryEquals(DICTIONARY_DAYS,tokens[i+2])){
@@ -395,60 +395,60 @@ public class DateParser {
 		return isFound;
 	}
 
-//	private boolean validEndDate(String endDate, String startDate) {
-//
-//		String[] endArray = endDate.split(STRING_SLASH);
-//		String[] startArray = startDate.split(STRING_SLASH);
-//
-//		if(Integer.parseInt(endArray[2]) < Integer.parseInt(startArray[2])){
-//			return false;
-//		} if (Integer.parseInt(endArray[2]) == Integer.parseInt(startArray[2])){
-//			if (Integer.parseInt(endArray[1]) < Integer.parseInt(startArray[1])){
-//				return false;
-//			}
-//		} if (Integer.parseInt(endArray[1]) == Integer.parseInt(startArray[1])){
-//			if (Integer.parseInt(endArray[0]) < Integer.parseInt(startArray[0])){
-//				return false;
-//			}
-//		}
-//
-//		return true;
-//	}
-//
-//	private static String getWeekModifiedDate(int offset, String date){
-//
-//		String modDate;
-//		SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/YYYY");
-//
-//		String[] dateArray = date.split(STRING_SLASH);
-//		int day = Integer.parseInt(dateArray[0]);
-//		int month = Integer.parseInt(dateArray[1]);
-//		int year = Integer.parseInt(dateArray[2]);
-//
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.set(year, month - 1, day);
-//		calendar.add(Calendar.DAY_OF_MONTH, offset);
-//		modDate = dayFormat.format(calendar.getTime());
-//
-//		return modDate;
-//	}
-//
-//	private String getYearModifiedDate() {		
-//
-//		String modDate;
-//		SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/YYYY");
-//
-//		String[] dateArray = date.split(STRING_SLASH);
-//		int day = Integer.parseInt(dateArray[0]);
-//		int month = Integer.parseInt(dateArray[1]);
-//		int year = Integer.parseInt(dateArray[2]);
-//
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.set(year, month - 1, day);
-//		calendar.add(Calendar.YEAR, 1);
-//		modDate = dayFormat.format(calendar.getTime());
-//
-//		return modDate;
-//	}	
+	private boolean validEndDate(String endDate, String startDate) {
+
+		String[] endArray = endDate.split(STRING_SLASH);
+		String[] startArray = startDate.split(STRING_SLASH);
+
+		if(Integer.parseInt(endArray[2]) < Integer.parseInt(startArray[2])){
+			return false;
+		} if (Integer.parseInt(endArray[2]) == Integer.parseInt(startArray[2])){
+			if (Integer.parseInt(endArray[1]) < Integer.parseInt(startArray[1])){
+				return false;
+			}
+		} if (Integer.parseInt(endArray[1]) == Integer.parseInt(startArray[1])){
+			if (Integer.parseInt(endArray[0]) < Integer.parseInt(startArray[0])){
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private static String getWeekModifiedDate(int offset, String date){
+
+		String modDate;
+		SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/YYYY");
+
+		String[] dateArray = date.split(STRING_SLASH);
+		int day = Integer.parseInt(dateArray[0]);
+		int month = Integer.parseInt(dateArray[1]);
+		int year = Integer.parseInt(dateArray[2]);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month - 1, day);
+		calendar.add(Calendar.DAY_OF_MONTH, offset);
+		modDate = dayFormat.format(calendar.getTime());
+
+		return modDate;
+	}
+
+	private String getYearModifiedDate() {		
+
+		String modDate;
+		SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/YYYY");
+
+		String[] dateArray = date.split(STRING_SLASH);
+		int day = Integer.parseInt(dateArray[0]);
+		int month = Integer.parseInt(dateArray[1]);
+		int year = Integer.parseInt(dateArray[2]);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month - 1, day);
+		calendar.add(Calendar.YEAR, 1);
+		modDate = dayFormat.format(calendar.getTime());
+
+		return modDate;
+	}	
 
 }
