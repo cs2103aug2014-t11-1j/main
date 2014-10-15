@@ -75,7 +75,7 @@ public class PhantomController {
 	private TimelineViewController timelineViewController;
 	@FXML
 	private AnchorPane timelineAnchor;
-	
+
 	@FXML
 	private Parent tentativeView;
 	@FXML
@@ -100,13 +100,15 @@ public class PhantomController {
 	private PreferenceManager pm;
 	private TimelineViewManager tvm;
 	
+	private HelperListener helperListener;
+
 	private String themeUrl;
-	
+
 	final KeyCombination keyCombShiftRight = KeyCodeCombination.valueOf("Shift+RIGHT");
 	final KeyCombination keyCombShiftLeft = KeyCodeCombination.valueOf("Shift+LEFT");
-	
+
 	private int viewIndex;
-	
+
 	//setting items from MainApp
 	public PhantomController() {
 		System.out.println("phantom constructor");
@@ -139,6 +141,8 @@ public class PhantomController {
 		initAnimation();
 		initCommandLineUtility();
 		initTimeline();
+		helperListener = new HelperListener(helperViewController);
+		commandLine.textProperty().addListener(helperListener);
 	}
 
 	public void initPrefManager() {
@@ -179,7 +183,7 @@ public class PhantomController {
 		tvm.setTimelineViewController(timelineViewController);
 		updateTimelineView();
 	}
-	
+
 	//FXML event handling
 	@FXML
 	private void handleExit() {
@@ -223,12 +227,12 @@ public class PhantomController {
 
 		String input;
 		if (keyCombShiftRight.match(e)) {
-    		animateRight();
-        }
-		
+			animateRight();
+		}
+
 		if (keyCombShiftLeft.match(e)) {
 			animateLeft();
-        }
+		}
 
 		if (e.getCode() == KeyCode.ENTER) {
 			hasOccured = false;
@@ -301,36 +305,35 @@ public class PhantomController {
 			clu.displayForwardInput();
 		} else {
 
-			try {
-				if (e.getCode() == KeyCode.BACK_SPACE) {
+			//			try {
+			//				if (e.getCode() == KeyCode.BACK_SPACE) {
 
-					if (ah.getIsFocusTable()
-							&& commandLine.getText().equals("")) {
-						tableViewController.scrollToBack();
-					}
-
-					input = commandLine.getText().substring(0,
-							commandLine.getText().length() - 1);
-				} else {
-					input = commandLine.getText() + e.getText();
-				}
-				
-				if (input.split(" ")[0].equalsIgnoreCase("add")) {
-					ah.displayHelper();
-				} else if (input.length() < 2) {
-					ah.revertView();
-				}
-
-				helperViewController.setHelperView(input);
-
-			} catch (Exception exc) {
-				System.out.println("mother father gentlemen");
+			if (ah.getIsFocusTable()
+					&& commandLine.getText().equals("")) {
+				tableViewController.scrollToBack();
 			}
+			//
+			//					input = commandLine.getText().substring(0,
+			//							commandLine.getText().length() - 1);
+			//				} else {
+			//					input = commandLine.getText() + e.getText();
+			//				}
+			//				
+			//				if (input.split(" ")[0].equalsIgnoreCase("add")) {
+			//					ah.displayHelper();
+			//				} else if (input.length() < 2) {
+			//					ah.revertView();
+			//				}
+			//
+			//				helperViewController.setHelperView(input);
+			//
+			//			} catch (Exception exc) {
+			//				System.out.println("mother father gentlemen");
+			//			}
 		}
 	}
 
-	
-	//
+
 	/**
 	 * Refactored this snippet of code
 	 * from handleKeyPressed method for
@@ -353,7 +356,7 @@ public class PhantomController {
 
 		tfOutput.setText(feedback);
 	}
-	
+
 	private void updateTodayView() {
 		ObservableList<ModelTask> allList = logicFacade.getAllList();
 		ObservableList<ModelTask> todayList = tlm.getTodayList(allList);
