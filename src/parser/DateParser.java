@@ -96,10 +96,9 @@ public class DateParser {
 		}
 
 		if(dictionaryContains(DICTIONARY_MONTHS,tokens[i])){				
-			String temp = tokens[i].replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " " );
+			String temp = tokens[i].replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " " ).trim();
 			String[] dateArray = temp.split(STRING_SPACE);
 			if(checker.isValidDayFirstStringDateFormat(dateArray, 1)){
-				date = temp;
 				input = input.replaceFirst(tokens[i], "");
 				date = ds.formatDate(FORMAT_DAY_FIRST_STRING + temp);
 				if(dateStart != null){
@@ -107,9 +106,8 @@ public class DateParser {
 				}
 			}
 			if(checker.isValidMonthFirstStringDateFormat(dateArray, 0)){
-				date = temp;
 				input = input.replaceFirst(tokens[i], "");
-				date = ds.formatDate(FORMAT_DAY_FIRST_STRING + temp);
+				date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + temp);
 				if(dateStart != null){
 					adjustDate();
 				}
@@ -233,6 +231,7 @@ public class DateParser {
 
 		date = null;
 		DateStandardizer ds = new DateStandardizer();
+		String temp = "";
 
 		if(isNotOutOfBounds(i+1, tokens.length)){
 
@@ -257,10 +256,9 @@ public class DateParser {
 			}
 
 			if(dictionaryContains(DICTIONARY_MONTHS,tokens[i+1])){				
-				String temp = tokens[i+1].replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " " );
+				temp = tokens[i+1].replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " " );
 				String[] dateArray = temp.split(STRING_SPACE);
 				if(checker.isValidDayFirstStringDateFormat(dateArray, 1)){
-					date = temp;
 					input = input.replaceFirst(tokens[i] + STRING_SPACE + tokens[i+1], "");
 					date = ds.formatDate(FORMAT_DAY_FIRST_STRING + temp);
 					if(dateStart != null){
@@ -268,7 +266,6 @@ public class DateParser {
 					}
 				}
 				if(checker.isValidMonthFirstStringDateFormat(dateArray, 0)){
-					date = temp;
 					input = input.replaceFirst(tokens[i] + STRING_SPACE + tokens[i+1], "");
 					date = ds.formatDate(FORMAT_DAY_FIRST_STRING + temp);
 					if(dateStart != null){
