@@ -245,11 +245,19 @@ public class InputParser {
 		if(onlyDeadLineFound()){
 			endTime = STRING_BEFORE_MIDNIGHT;
 		}
+		
+		if(allDatesFound()){
+			deadLine = null;
+		}
 
 		input = pfm.replaceParseFree(input);
 		taskDescription = input;						
 	}
 	
+	private boolean allDatesFound() {
+		return isDeadLineFound && isStartDateFound && isEndDateFound;
+	}
+
 	private boolean onlyDeadLineFound() {
 		return isDeadLineFound && !isStartDateFound && !isEndDateFound && !isStartTimeFound && !isEndTimeFound;
 	}
