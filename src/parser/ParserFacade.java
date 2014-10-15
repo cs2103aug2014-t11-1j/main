@@ -1,6 +1,7 @@
 package parser;
 
 import storage.Task;
+import storage.TentativeTask;
 
 /**
  * This class is the facade class for the
@@ -35,6 +36,11 @@ public class ParserFacade {
 	public String getStringWithoutCommand(String input){
 		CommandRetriever cr = CommandRetriever.getInstance();
 		return input.replaceFirst(cr.getCommandString(input),"").trim();
+	}
+	
+	public TentativeTask getTentative(String input){
+		TentativeParser tp = TentativeParser.getInstance();
+		return tp.parseTentative(input);
 	}
 	
 }

@@ -130,10 +130,6 @@ public class DateAndTimeChecker {
 	}
 
 	public boolean isValidMonthFirstStringDateFormat(String[] words, int index) {
-		
-		if(validSingleStringDate(words,index,1)){
-			return true;
-		}
 
 		try{
 			words[index + 1] = words[index + 1].replaceAll("st","");
@@ -145,13 +141,13 @@ public class DateAndTimeChecker {
 				return false;
 			}
 		} catch(Exception e){
-			System.out.println("month first string day exception");
+	//		System.out.println("month first string day exception");
 			return false;
 		}
 		return true;
 	}
 
-	private boolean validSingleStringDate(String[] words, int index, int type) {
+	public boolean isValidSingleStringDateFormat(String[] words, int index, int type) {
 		
 		String date = words[index].replaceAll("([^\\d-]?)(-?[\\d\\.]+)([^\\d]?)", "$1 $2 $3").replaceAll(" +", " ");
 		String[] dateArray = date.split(" ");
@@ -167,10 +163,6 @@ public class DateAndTimeChecker {
 
 	public boolean isValidDayFirstStringDateFormat(String[] words, int index) {
 		
-		if(validSingleStringDate(words,index,0)){
-			return true;
-		}
-
 		try{
 			words[index - 1] = words[index - 1].replaceAll("st","");
 			words[index - 1] = words[index - 1].replaceAll("nd","");
@@ -181,7 +173,7 @@ public class DateAndTimeChecker {
 				return false;
 			}
 		} catch(Exception e){
-			System.out.println("day first string day exception");
+	//		System.out.println("day first string day exception");
 			return false;
 		}
 
