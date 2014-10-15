@@ -14,6 +14,9 @@ public class DateAndTimeChecker {
 	
 	private static final String[] DICTIONARY_SUFFIX_TIME = {"AM","PM","MN","NN"};
 	
+	private static final String STRING_SPACE = " ";
+	private static final String STRING_DASH = STRING_SPACE;
+	
 	private static DateAndTimeChecker checker = new DateAndTimeChecker();
 	
 	private DateAndTimeChecker(){
@@ -28,6 +31,10 @@ public class DateAndTimeChecker {
 	 * Time Verification
 	 */
 	public boolean isValidDefaultTimeFormat(String string) {
+		
+		if(string.length() > 6){
+			return false;
+		}
 		
 		try{
 			Scanner sc = new Scanner(string).useDelimiter("[^0-9]+");		
@@ -150,8 +157,8 @@ public class DateAndTimeChecker {
 
 	public boolean isValidSingleStringDateFormat(String[] words, int index, int type) {
 		
-		String date = words[index].replaceAll("([^\\d-]?)(-?[\\d\\.]+)([^\\d]?)", "$1 $2 $3").replaceAll(" +", " ");
-		String[] dateArray = date.split(" ");
+		String date = words[index].replaceAll("([^\\d-]?)(-?[\\d\\.]+)([^\\d]?)", "$1 $2 $3").replaceAll(" +", STRING_SPACE);
+		String[] dateArray = date.split(STRING_SPACE);
 		
 		if(dateArray.length > 3 || dateArray.length < 2){
 			System.out.println("valid");
