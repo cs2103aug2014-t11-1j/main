@@ -127,17 +127,17 @@ public class InputParser {
 				}
 			}
 			
-			if(!isStartTimeFound && !isEndTimeFound){
-				if(tokens[i].matches("[1-9]")){
-					input = tp.parseDashTimeWithoutKeyword(tokens, i, input);
-					if(tp.getStart() != null && tp.getEnd() != null){
-						startTime = tp.getStart();
-						endTime = tp.getEnd();
-						isStartTimeFound = true;
-						isEndTimeFound = true;
-					}
-				}
-			}
+//			if(!isStartTimeFound && !isEndTimeFound){
+//				if(tokens[i].matches("[1-9]")){
+//					input = tp.parseDashTimeWithoutKeyword(tokens, i, input);
+//					if(tp.getStart() != null && tp.getEnd() != null){
+//						startTime = tp.getStart();
+//						endTime = tp.getEnd();
+//						isStartTimeFound = true;
+//						isEndTimeFound = true;
+//					}
+//				}
+//			}
 
 			if(dictionaryContains(DICTIONARY_KEYWORDS_DEADLINE, tokens[i])){
 				if(!isDeadLineFound){
