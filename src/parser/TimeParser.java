@@ -34,6 +34,8 @@ public class TimeParser {
 															"TONIGHT", "NIGHTTIME", "NITE", "TONITE"};
 	
 	private String time = null;
+	private String start = null;
+	private String end = null;
 	
 	private DateAndTimeChecker checker = DateAndTimeChecker.getInstance();
 
@@ -60,6 +62,7 @@ public class TimeParser {
 					time = ts.formatTime(FORMAT_DEFAULT + time);
 				}
 			}
+			
 
 //			if(tokens[i].replaceFirst(STRING_COLON, "").length() == 4){
 //				if(checker.isValidMilitaryTimeFormat(tokens[i])){
@@ -70,6 +73,30 @@ public class TimeParser {
 //			}
 
 		}
+		return input;
+	}
+	
+	protected String parseDashTimeWithoutKeyword(String[] tokens, int i, String input){
+		start = null;
+		end = null;
+		String toReplace = null;
+		
+		if(isNotOutOfBounds(i+2, tokens.length)){
+			String temp = tokens[i] + tokens[i+1] + tokens[i+2];
+			if(temp.matches("(1[012]|[1-9])(:|.)?[0-5]?[0-9]?(\\s)?(to|-)(\\s)?(1[012]|[1-9])(:|.|to)?[0-5]?[0-9]?(\\s)?(?i)(am|pm|mn|nn)")){
+				toReplace = tokens[i] + STRING_SPACE + tokens[i+1] + STRING_SPACE + tokens[i+2];
+				System.out.println(true);
+				input = input.replaceFirst(toReplace, "");
+			}
+		}
+		
+		if(isNotOutOfBounds(i, tokens.length)){
+			if(tokens[i].matches("(1[012]|[1-9])(:|.)?[0-5]?[0-9]?(\\s)?(to|-)(\\s)?(1[012]|[1-9])(:|.|to)?[0-5]?[0-9]?(\\s)?(?i)(am|pm|mn|nn)")){
+				System.out.println(true);
+				input = input.replaceFirst(toReplace, "");
+			}
+		}
+		
 		return input;
 	}
 
@@ -109,6 +136,14 @@ public class TimeParser {
 
 	protected String getTime() {
 		return time;
+	}
+	
+	protected String getStart(){
+		return start;
+	}
+	
+	protected String getEnd(){
+		return end;
 	}
 	
 	private boolean isNotOutOfBounds(int index, int length) {
