@@ -75,6 +75,7 @@ public class DateFormatter {
 
 	public String convertDFSformat(String date) {
 		
+		date = removeDaySuffix(date);
 		MonthParser mp = new MonthParser();
 		String[] dateArray = date.split(STRING_SPACE);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
@@ -111,6 +112,7 @@ public class DateFormatter {
 
 	public String convertMFSformat(String date) {
 		
+		date = removeDaySuffix(date);
 		MonthParser mp = new MonthParser();
 		String[] dateArray = date.split(STRING_SPACE);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
@@ -123,6 +125,14 @@ public class DateFormatter {
 		}
 		
 		return dateFormat.format(calendar.getTime());
+	}
+
+	private String removeDaySuffix(String date) {
+		date = date.replaceAll("st","");
+		date = date.replaceAll("nd","");
+		date = date.replaceAll("rd","");
+		date = date.replaceAll("th","");
+		return date;
 	}
 
 	public String convertNDDformat(String date) {

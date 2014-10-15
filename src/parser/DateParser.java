@@ -256,7 +256,7 @@ public class DateParser {
 			}
 
 			if(dictionaryContains(DICTIONARY_MONTHS,tokens[i+1])){				
-				temp = tokens[i+1].replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " " );
+				temp = tokens[i+1].replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " " ).trim();
 				String[] dateArray = temp.split(STRING_SPACE);
 				if(checker.isValidDayFirstStringDateFormat(dateArray, 1)){
 					input = input.replaceFirst(tokens[i] + STRING_SPACE + tokens[i+1], "");
@@ -267,7 +267,7 @@ public class DateParser {
 				}
 				if(checker.isValidMonthFirstStringDateFormat(dateArray, 0)){
 					input = input.replaceFirst(tokens[i] + STRING_SPACE + tokens[i+1], "");
-					date = ds.formatDate(FORMAT_DAY_FIRST_STRING + temp);
+					date = ds.formatDate(FORMAT_MONTH_FIRST_STRING + temp);
 					if(dateStart != null){
 						adjustDate();
 					}
@@ -277,20 +277,25 @@ public class DateParser {
 
 		if(isNotOutOfBounds(i+2, tokens.length)){
 			if(dictionaryEquals(DICTIONARY_MONTHS,tokens[i+2])){
+				System.out.println("yes");
 				if(checker.isValidDayFirstStringDateFormat(tokens,i+2)){
+					System.out.println("valid");
 					if(i+3 < tokens.length){
 						try{
 							if(Integer.parseInt(tokens[i+3]) > 0){
+								System.out.println("1");
 								date = tokens[i+1] + STRING_SPACE + tokens[i+2] + STRING_SPACE + tokens[i+3];
 								input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 								date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 							}
 							else{
+								System.out.println("2");
 								date = tokens[i+1] + STRING_SPACE + tokens[i+2];
 								input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 								date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 							}
 						} catch(Exception e){
+							System.out.println("3");
 							date = tokens[i+1] + STRING_SPACE + tokens[i+2];
 							input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
 							date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
@@ -298,7 +303,10 @@ public class DateParser {
 					}
 					else{
 						date = tokens[i+1] + STRING_SPACE + tokens[i+2];
+						System.out.println(input);
+						System.out.println(date);
 						input = input.replaceFirst(tokens[i] + STRING_SPACE + date, "").trim();
+						System.out.println(input);
 						date = ds.formatDate(FORMAT_DAY_FIRST_STRING + date);
 					}
 

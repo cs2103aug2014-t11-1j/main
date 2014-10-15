@@ -132,11 +132,12 @@ public class DateAndTimeChecker {
 	public boolean isValidMonthFirstStringDateFormat(String[] words, int index) {
 
 		try{
-			words[index + 1] = words[index + 1].replaceAll("st","");
-			words[index + 1] = words[index + 1].replaceAll("nd","");
-			words[index + 1] = words[index + 1].replaceAll("rd","");
-			words[index + 1] = words[index + 1].replaceAll("th","");
-			if(Integer.parseInt(words[index + 1]) > 31 || Integer.parseInt(words[index + 1]) <= 0){
+			String temp = words[index + 1];
+			temp = temp.replaceAll("st","");
+			temp = temp.replaceAll("nd","");
+			temp = temp.replaceAll("rd","");
+			temp = temp.replaceAll("th","");
+			if(Integer.parseInt(temp) > 31 || Integer.parseInt(temp) <= 0){
 				System.out.println("invalid string day");
 				return false;
 			}
@@ -164,11 +165,12 @@ public class DateAndTimeChecker {
 	public boolean isValidDayFirstStringDateFormat(String[] words, int index) {
 		
 		try{
-			words[index - 1] = words[index - 1].replaceAll("st","");
-			words[index - 1] = words[index - 1].replaceAll("nd","");
-			words[index - 1] = words[index - 1].replaceAll("rd","");
-			words[index - 1] = words[index - 1].replaceAll("th","");
-			if(Integer.parseInt(words[index-1]) > 31 || Integer.parseInt(words[index-1]) <= 0){
+			String temp = words[index - 1];
+			temp = temp.replaceAll("st","");
+			temp = temp.replaceAll("nd","");
+			temp = temp.replaceAll("rd","");
+			temp = temp.replaceAll("th","");
+			if(Integer.parseInt(temp) > 31 || Integer.parseInt(temp) <= 0){
 				System.out.println("invalid string day");
 				return false;
 			}
