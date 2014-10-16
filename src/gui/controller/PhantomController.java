@@ -175,7 +175,7 @@ public class PhantomController {
 
 	private void initAnimation() {
 		ah = AnimationHandler.getInstance();
-		ah.initialize(tableAnchor, todayAnchor, helperAnchor, timelineAnchor);
+		ah.initialize(tableAnchor, todayAnchor, helperAnchor, timelineAnchor, tentativeAnchor);
 	}
 
 	private void initCommandLineUtility() {

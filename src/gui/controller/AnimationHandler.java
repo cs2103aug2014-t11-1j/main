@@ -26,11 +26,14 @@ public class AnimationHandler {
 	@FXML
 	private AnchorPane helperAnchor;
 	@FXML
+	private AnchorPane tentativeAnchor;
+	@FXML
 	private AnchorPane timelineAnchor;
 
 	private boolean isFocusTable;
 	private boolean isFocusToday;
 	private boolean isFocusHelper;
+	private boolean isFocusTentative;
 	private boolean isFocusTimeline;
 
 	private boolean isPlaying;
@@ -46,11 +49,15 @@ public class AnimationHandler {
 
 	TranslateTransition slideInTimeline;
 	TranslateTransition slideOutTimeline;
+	
+	TranslateTransition slideInTentative;
+	TranslateTransition slideOutTentative;
 
-	private static final int NUMBER_OF_VIEWS = 3;
+	private static final int NUMBER_OF_VIEWS = 4;
 	private static final int TODAY_INDEX = 0;
 	private static final int TABLE_INDEX = 1;
-	private static final int TIMELINE_INDEX = 2;
+	private static final int TENTATIVE_INDEX = 2;
+	private static final int TIMELINE_INDEX = 3;
 	private static Integer viewIndex;
 
 	private static AnimationHandler ah = new AnimationHandler();
@@ -62,13 +69,16 @@ public class AnimationHandler {
 		return ah;
 	}
 
-	public void initialize(AnchorPane tableAnchor, AnchorPane todayAnchor, AnchorPane helperAnchor, AnchorPane timelineAnchor){
+	public void initialize(AnchorPane tableAnchor, AnchorPane todayAnchor, AnchorPane helperAnchor, AnchorPane timelineAnchor, AnchorPane tentativeAnchor){
 
 		viewIndex = TODAY_INDEX;
 
 		TranslateTransition slideOutTableInit = new TranslateTransition(Duration.millis(100), tableAnchor);
 		slideOutTableInit.setToX(700);
 		slideOutTableInit.play();
+		TranslateTransition slideOutTentativeInit = new TranslateTransition(Duration.millis(100), tentativeAnchor);
+		slideOutTentativeInit.setToX(700);
+		slideOutTentativeInit.play();
 		TranslateTransition slideOutTimelineInit = new TranslateTransition(Duration.millis(100), timelineAnchor);
 		slideOutTimelineInit.setToX(700);
 		slideOutTimelineInit.play();
@@ -78,6 +88,7 @@ public class AnimationHandler {
 
 		isFocusTable = false;
 		isFocusHelper = false;
+		isFocusTentative = false;
 		isFocusTimeline = false;
 		isFocusToday = true;
 
@@ -90,6 +101,11 @@ public class AnimationHandler {
 		slideInToday.setToX(0);
 		slideOutToday = new TranslateTransition(Duration.seconds(0.2), todayAnchor);
 		slideOutToday.setToX(700);
+		
+		slideInTentative = new TranslateTransition(Duration.seconds(0.2), tentativeAnchor);
+		slideInTentative.setToX(0);
+		slideOutTentative = new TranslateTransition(Duration.seconds(0.2), tentativeAnchor);
+		slideOutTentative.setToX(700);
 
 		slideInTimeline = new TranslateTransition(Duration.seconds(0.2), timelineAnchor);
 		slideInTimeline.setToX(0);
@@ -101,49 +117,8 @@ public class AnimationHandler {
 		slideOutHelper = new TranslateTransition(Duration.seconds(0.2), helperAnchor);
 		slideOutHelper.setToX(700);
 
-		slideInTable.setOnFinished(new EventHandler<ActionEvent>(){
 
-			@Override
-			public void handle(ActionEvent arg0) {
-				isPlaying = false;
-			}
-		});
-		slideOutTable.setOnFinished(new EventHandler<ActionEvent>(){
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				isPlaying = false;
-			}
-		});
-
-		slideInToday.setOnFinished(new EventHandler<ActionEvent>(){
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				isPlaying = false;
-			}
-		});
-		slideOutToday.setOnFinished(new EventHandler<ActionEvent>(){
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				isPlaying = false;
-			}
-		});
-		slideInTimeline.setOnFinished(new EventHandler<ActionEvent>(){
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				isPlaying = false;
-			}
-		});
-		slideOutTimeline.setOnFinished(new EventHandler<ActionEvent>(){
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				isPlaying = false;
-			}
-		});
+		
 
 	}
 
@@ -190,8 +165,16 @@ public class AnimationHandler {
 			isFocusTimeline = false;
 			isFocusTable = true;
 		}
+		
+		if(isFocusTentative){
+			slideInTable.play();
+			slideOutTentative.play();
+			
+			isFocusTentative = false;
+			isFocusTable = true;
+		}
 
-			viewIndex = TABLE_INDEX;
+		viewIndex = TABLE_INDEX;
 	}
 
 	public void showTodayView(){
@@ -216,8 +199,44 @@ public class AnimationHandler {
 			isFocusTimeline = false;
 			isFocusToday = true;
 		}
+		
+		if(isFocusTentative){
+			slideInToday.play();
+			slideOutTentative.play();
+			
+			isFocusTentative = false;
+			isFocusToday = true;
+		}
 
-			viewIndex = TODAY_INDEX;
+		viewIndex = TODAY_INDEX;
+	}
+	
+	public void showTentativeView(){
+		if(isFocusToday){
+			slideOutToday.play();
+			slideInTentative.play();
+			
+			isFocusToday = false;
+			isFocusTentative = true;
+		}
+		
+		if(isFocusTable){
+			slideOutTable.play();
+			slideInTentative.play();
+			
+			isFocusTable = false;
+			isFocusTentative = true;
+		}
+		
+		if(isFocusTimeline){
+			slideOutTimeline.play();
+			slideInTentative.play();
+			
+			isFocusTable = false;
+			isFocusTentative = true;
+		}
+		
+		viewIndex = TENTATIVE_INDEX;
 	}
 
 	public void showTimelineView() {
@@ -241,8 +260,15 @@ public class AnimationHandler {
 			isFocusTable = false;
 			isFocusTimeline = true;
 		}
+		if(isFocusTentative){
+			slideInTimeline.play();
+			slideOutTentative.play();
+			
+			isFocusTentative = false;
+			isFocusTimeline = true;
+		}
 
-			viewIndex = TIMELINE_INDEX;
+		viewIndex = TIMELINE_INDEX;
 	}
 
 	public void displayHelper(){
@@ -259,6 +285,14 @@ public class AnimationHandler {
 			slideInHelper.play();
 
 			isFocusTable = false;
+			isFocusHelper = true;
+		}
+		
+		if(isFocusTentative){
+			slideOutTentative.play();
+			slideInHelper.play();
+
+			isFocusTentative = false;
 			isFocusHelper = true;
 		}
 
@@ -320,6 +354,9 @@ public class AnimationHandler {
 			break;
 		case TABLE_INDEX :
 			showTableView();
+			break;
+		case TENTATIVE_INDEX :
+			showTentativeView();
 			break;
 		case TIMELINE_INDEX :
 			showTimelineView();
