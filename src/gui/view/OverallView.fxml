@@ -28,22 +28,27 @@
             <Label fx:id="timeLabel" prefHeight="20.0" prefWidth="89.0" styleClass="label-bright" text="Time" />
          </children>
       </HBox>
-      <AnchorPane layoutX="10.0" layoutY="53.0" prefHeight="284.0" prefWidth="610.0">
+      <AnchorPane fx:id="timelineAnchor" layoutX="10.0" layoutY="53.0" prefHeight="284.0" prefWidth="610.0">
 			<children>
 				<fx:include fx:id="timelineView" source="TimelineView.fxml" />
 			</children>      
       </AnchorPane>
-      <AnchorPane layoutX="105.0" layoutY="72.0" prefHeight="272.0" prefWidth="520.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="72.0">
+       <AnchorPane fx:id="tentativeAnchor" layoutX="38.0" layoutY="81.0" prefHeight="264.0" prefWidth="580.0">
+      	<children>
+      		<fx:include fx:id="tentativeView" source="TentativeView.fxml" />
+      	</children>
+      </AnchorPane>
+      <AnchorPane fx:id="todayAnchor" layoutX="105.0" layoutY="72.0" prefHeight="272.0" prefWidth="520.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="72.0">
 	      <children>
 	      	<fx:include fx:id="todayView" source="TodayView.fxml" />
 	      </children>
       </AnchorPane>
-      <AnchorPane layoutX="105.0" layoutY="72.0" prefHeight="272.0" prefWidth="520.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="72.0">
+      <AnchorPane fx:id="helperAnchor" layoutX="105.0" layoutY="72.0" prefHeight="272.0" prefWidth="520.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="72.0">
 	      <children>
 	      	<fx:include fx:id="helperView" source="HelperView.fxml" />
 	      </children>
       </AnchorPane>
-      <AnchorPane layoutX="38.0" layoutY="73.0" prefHeight="264.0" prefWidth="580.0" AnchorPane.bottomAnchor="82.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="73.0">
+      <AnchorPane fx:id="tableAnchor" layoutX="38.0" layoutY="73.0" prefHeight="264.0" prefWidth="580.0" AnchorPane.bottomAnchor="82.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="73.0">
          <children>
          	<fx:include fx:id="tableView" source="TableView.fxml" />
          </children>

@@ -56,21 +56,36 @@ public class PhantomController {
 	private Parent tableView;
 	@FXML
 	private TableController tableViewController;
+	@FXML
+	private AnchorPane tableAnchor;
 
 	@FXML
 	private Parent todayView;
 	@FXML
 	private TodayViewController todayViewController;
+	@FXML
+	private AnchorPane todayAnchor;
 
 	@FXML
 	private Parent helperView;
 	@FXML
 	private HelperViewController helperViewController;
+	@FXML
+	private AnchorPane helperAnchor;
 
 	@FXML
 	private Parent timelineView;
 	@FXML
 	private TimelineViewController timelineViewController;
+	@FXML
+	private AnchorPane timelineAnchor;
+
+	@FXML
+	private Parent tentativeView;
+	@FXML
+	private TentativeViewController tentativeViewController;
+	@FXML
+	private AnchorPane tentativeAnchor;
 
 	@FXML
 	private Label timeLabel;
@@ -89,13 +104,15 @@ public class PhantomController {
 	private PreferenceManager pm;
 	private TimelineViewManager tvm;
 	
+	private HelperListener helperListener;
+
 	private String themeUrl;
-	
+
 	final KeyCombination keyCombShiftRight = KeyCodeCombination.valueOf("Shift+RIGHT");
 	final KeyCombination keyCombShiftLeft = KeyCodeCombination.valueOf("Shift+LEFT");
-	
+
 	private int viewIndex;
-	
+
 	//setting items from MainApp
 	public PhantomController() {
 		System.out.println("phantom constructor");
@@ -129,6 +146,8 @@ public class PhantomController {
 		initAnimation();
 		initCommandLineUtility();
 		initTimeline();
+		helperListener = new HelperListener(helperViewController);
+		commandLine.textProperty().addListener(helperListener);
 	}
 
 	public void initPrefManager() {
@@ -156,7 +175,7 @@ public class PhantomController {
 
 	private void initAnimation() {
 		ah = AnimationHandler.getInstance();
-		ah.initialize(tableView, todayView, helperView, timelineView);
+		ah.initialize(tableAnchor, todayAnchor, helperAnchor, timelineAnchor);
 	}
 
 	private void initCommandLineUtility() {
@@ -169,7 +188,7 @@ public class PhantomController {
 		tvm.setTimelineViewController(timelineViewController);
 		updateTimelineView();
 	}
-	
+
 	//FXML event handling
 	@FXML
 	private void handleExit() {
@@ -213,12 +232,12 @@ public class PhantomController {
 
 		String input;
 		if (keyCombShiftRight.match(e)) {
-    		animateRight();
-        }
-		
+			animateRight();
+		}
+
 		if (keyCombShiftLeft.match(e)) {
 			animateLeft();
-        }
+		}
 
 		if (e.getCode() == KeyCode.ENTER) {
 			hasOccured = false;
@@ -272,6 +291,8 @@ public class PhantomController {
 				changeCss("GhostsTheme");
 			} else if (input.equalsIgnoreCase("popup")) {
 				showPopup();
+			}else if(input.equalsIgnoreCase("tutorial")){
+				new TutorialLoader(overallView, themeUrl);
 			}
 			else{
 				executeCommand(input, feedback);
@@ -289,36 +310,35 @@ public class PhantomController {
 			clu.displayForwardInput();
 		} else {
 
-			try {
-				if (e.getCode() == KeyCode.BACK_SPACE) {
+			//			try {
+			//				if (e.getCode() == KeyCode.BACK_SPACE) {
 
-					if (ah.getIsFocusTable()
-							&& commandLine.getText().equals("")) {
-						tableViewController.scrollToBack();
-					}
-
-					input = commandLine.getText().substring(0,
-							commandLine.getText().length() - 1);
-				} else {
-					input = commandLine.getText() + e.getText();
-				}
-				
-				if (input.split(" ")[0].equalsIgnoreCase("add")) {
-					ah.displayHelper();
-				} else if (input.length() < 2) {
-					ah.revertView();
-				}
-
-				helperViewController.setHelperView(input);
-
-			} catch (Exception exc) {
-				System.out.println("mother father gentlemen");
+			if (ah.getIsFocusTable()
+					&& commandLine.getText().equals("")) {
+				tableViewController.scrollToBack();
 			}
+			//
+			//					input = commandLine.getText().substring(0,
+			//							commandLine.getText().length() - 1);
+			//				} else {
+			//					input = commandLine.getText() + e.getText();
+			//				}
+			//				
+			//				if (input.split(" ")[0].equalsIgnoreCase("add")) {
+			//					ah.displayHelper();
+			//				} else if (input.length() < 2) {
+			//					ah.revertView();
+			//				}
+			//
+			//				helperViewController.setHelperView(input);
+			//
+			//			} catch (Exception exc) {
+			//				System.out.println("mother father gentlemen");
+			//			}
 		}
 	}
 
-	
-	//
+
 	/**
 	 * Refactored this snippet of code
 	 * from handleKeyPressed method for
@@ -341,7 +361,7 @@ public class PhantomController {
 
 		tfOutput.setText(feedback);
 	}
-	
+
 	private void updateTodayView() {
 		ObservableList<ModelTask> allList = logicFacade.getAllList();
 		ObservableList<ModelTask> todayList = tlm.getTodayList(allList);

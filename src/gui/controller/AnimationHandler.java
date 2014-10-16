@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 /**
@@ -19,13 +20,13 @@ import javafx.util.Duration;
 public class AnimationHandler {
 
 	@FXML
-	private Parent tableView;
+	private AnchorPane tableAnchor;
 	@FXML
-	private Parent todayView;
+	private AnchorPane todayAnchor;
 	@FXML
-	private Parent helperView;
+	private AnchorPane helperAnchor;
 	@FXML
-	private Parent timelineView;
+	private AnchorPane timelineAnchor;
 
 	private boolean isFocusTable;
 	private boolean isFocusToday;
@@ -61,17 +62,17 @@ public class AnimationHandler {
 		return ah;
 	}
 
-	public void initialize(Parent tableView, Parent todayView, Parent helperView, Parent timelineView){
+	public void initialize(AnchorPane tableAnchor, AnchorPane todayAnchor, AnchorPane helperAnchor, AnchorPane timelineAnchor){
 
 		viewIndex = TODAY_INDEX;
 
-		TranslateTransition slideOutTableInit = new TranslateTransition(Duration.millis(100), tableView);
+		TranslateTransition slideOutTableInit = new TranslateTransition(Duration.millis(100), tableAnchor);
 		slideOutTableInit.setToX(700);
 		slideOutTableInit.play();
-		TranslateTransition slideOutTimelineInit = new TranslateTransition(Duration.millis(100), timelineView);
+		TranslateTransition slideOutTimelineInit = new TranslateTransition(Duration.millis(100), timelineAnchor);
 		slideOutTimelineInit.setToX(700);
 		slideOutTimelineInit.play();
-		TranslateTransition slideOutHelperInit = new TranslateTransition(Duration.millis(100), helperView);
+		TranslateTransition slideOutHelperInit = new TranslateTransition(Duration.millis(100), helperAnchor);
 		slideOutHelperInit.setToX(700);
 		slideOutHelperInit.play();
 
@@ -80,24 +81,24 @@ public class AnimationHandler {
 		isFocusTimeline = false;
 		isFocusToday = true;
 
-		slideInTable = new TranslateTransition(Duration.seconds(0.2), tableView);
+		slideInTable = new TranslateTransition(Duration.seconds(0.2), tableAnchor);
 		slideInTable.setToX(0);
-		slideOutTable = new TranslateTransition(Duration.seconds(0.2), tableView);
+		slideOutTable = new TranslateTransition(Duration.seconds(0.2), tableAnchor);
 		slideOutTable.setToX(700);
 
-		slideInToday = new TranslateTransition(Duration.seconds(0.2), todayView);
+		slideInToday = new TranslateTransition(Duration.seconds(0.2), todayAnchor);
 		slideInToday.setToX(0);
-		slideOutToday = new TranslateTransition(Duration.seconds(0.2), todayView);
+		slideOutToday = new TranslateTransition(Duration.seconds(0.2), todayAnchor);
 		slideOutToday.setToX(700);
 
-		slideInTimeline = new TranslateTransition(Duration.seconds(0.2), timelineView);
+		slideInTimeline = new TranslateTransition(Duration.seconds(0.2), timelineAnchor);
 		slideInTimeline.setToX(0);
-		slideOutTimeline = new TranslateTransition(Duration.seconds(0.2), timelineView);
+		slideOutTimeline = new TranslateTransition(Duration.seconds(0.2), timelineAnchor);
 		slideOutTimeline.setToX(700);
 
-		slideInHelper = new TranslateTransition(Duration.seconds(0.2), helperView);
+		slideInHelper = new TranslateTransition(Duration.seconds(0.2), helperAnchor);
 		slideInHelper.setToX(0);
-		slideOutHelper = new TranslateTransition(Duration.seconds(0.2), helperView);
+		slideOutHelper = new TranslateTransition(Duration.seconds(0.2), helperAnchor);
 		slideOutHelper.setToX(700);
 
 		slideInTable.setOnFinished(new EventHandler<ActionEvent>(){
@@ -324,8 +325,7 @@ public class AnimationHandler {
 			showTimelineView();
 			break;			
 		default :
-			System.out.println("lol");;
-
+			System.out.println("lol");
 		}		
 	}
 

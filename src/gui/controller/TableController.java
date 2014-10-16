@@ -1,8 +1,5 @@
 package gui.controller;
 
-import javax.imageio.ImageIO;
-
-import gui.MainApp;
 import gui.ResourceLoader;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,9 +8,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.util.Callback;
 import storage.EventAndDone;
 import storage.ModelTask;
@@ -30,7 +29,7 @@ public class TableController{
 	@FXML
 	private TableColumn<ModelTask, String> timeColumn;
 	@FXML
-	private TableColumn<ModelTask, Boolean> doneColumn;
+	private TableColumn<ModelTask, Boolean> urgentColumn;
 	
 	private boolean isSearched;
 	
@@ -56,33 +55,40 @@ public class TableController{
 		taskColumn.setCellValueFactory(cellData -> cellData.getValue().getEventAndDoneProperty());
 		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDateStringProperty());
 		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTimeStringProperty());
-		doneColumn.setCellValueFactory(cellData -> cellData.getValue().getisDoneBooleanProperty());
+		urgentColumn.setCellValueFactory(cellData -> cellData.getValue().getIsUrgentBooleanProperty());
 		
 		taskColumn.setCellFactory(new Callback<TableColumn<ModelTask, EventAndDone>, TableCell<ModelTask, EventAndDone>>(){
 			  @Override
               public TableCell<ModelTask, EventAndDone> call(TableColumn<ModelTask, EventAndDone> param){
 				  return new TableCell<ModelTask, EventAndDone>(){      
-                      @Override
+					  Text text;
+					  {
+						  text = new Text("");
+						  setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                          setGraphic(text);
+                          text.setFill(Color.WHITE);
+					  }
+					  @Override
                       public void updateItem(EventAndDone eventAndDone, boolean empty) {
-                          super.updateItem(eventAndDone, empty);
+                    	  super.updateItem(eventAndDone, empty);
 
                           if (!empty && eventAndDone!=null && eventAndDone.getIsDone()) {
-                        	  setText(eventAndDone.getEvent());
-                        	  setStyle("-fx-text-fill: green");
+                        	  text.setText(eventAndDone.getEvent());
+                        	  text.setStrikethrough(true);
                           }
                           else if(!empty && eventAndDone!=null){
-                        	  setText(eventAndDone.getEvent());
-                        	  setStyle("-fx-text-fill: white");
+                        	  text.setText(eventAndDone.getEvent());
+                        	  text.setStrikethrough(false);                          
                           }
                           else{
-                        	  setText("");
+                        	  text.setText("");
                           }
                       }
 				  };
 			  }
 		});
 		
-		doneColumn.setCellFactory(new Callback<TableColumn<ModelTask, Boolean>, TableCell<ModelTask, Boolean>>(){
+		urgentColumn.setCellFactory(new Callback<TableColumn<ModelTask, Boolean>, TableCell<ModelTask, Boolean>>(){
 			  @Override
               public TableCell<ModelTask, Boolean> call(TableColumn<ModelTask, Boolean> param){
 				  return new TableCell<ModelTask, Boolean>(){
@@ -91,18 +97,16 @@ public class TableController{
                           imageview = new ImageView(); 
                           imageview.setFitHeight(15);
                           imageview.setFitWidth(15);
-                          Image image = new Image(ResourceLoader.load("tick.png"));
                           
-                          imageview.setImage(image);
                           setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                           setGraphic(imageview);
                       }
                       
                       @Override
-                      public void updateItem(Boolean isDone, boolean empty) {
-                          super.updateItem(isDone, empty);
-                          if (!empty && isDone!=null && isDone.booleanValue()) {
-                        	  Image image = new Image(ResourceLoader.load("tick.png"));
+                      public void updateItem(Boolean isUrgent, boolean empty) {
+                          super.updateItem(isUrgent, empty);
+                          if (!empty && isUrgent!=null && isUrgent.booleanValue()) {
+                        	  Image image = new Image(ResourceLoader.load("star.png"));
                               imageview.setImage(image);
                           }
                           else {

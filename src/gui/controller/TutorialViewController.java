@@ -45,7 +45,7 @@ public class TutorialViewController {
 			commandLine.clear();
 
 			if(input.equalsIgnoreCase("quit")){
-				overallView.getChildren().remove(tutorialView);
+				quitTutorial();
 			}
 			else if(isWaitForInput){
 				if(isCorrectInput(input)){
@@ -85,13 +85,6 @@ public class TutorialViewController {
 		this.overallView = overallView;
 	}
 
-	private void runAdd1(){
-		label1.setText("Hello, you seem a bit lost.");
-		label2.setText("Don't panic, I'm here to help.");
-		label3.setText("I'm here to help a busy soul like you manage your piorities");
-		label4.setText("Try typing: add world domination");
-		isWaitForInput = true;
-	}
 
 	private boolean isCorrectInput(String input) {
 		switch(currentStage){
@@ -104,14 +97,42 @@ public class TutorialViewController {
 
 	private void runNextStage(String input) {
 		System.out.println("run next stage: " + currentStage);
+		switch(currentStage){
+		case STAGE_ADD_1:
+			runAdd1();
+			break;
+		case STAGE_ADD_2:
+			runAdd2();
+			break;
+		default:
+			quitTutorial();
+		}		
+	}
+
+	private void runAdd1(){
+		label1.setText("Hello, you seem a bit lost.");
+		label2.setText("Don't panic, I'm here to help.");
+		label3.setText("I'm here to help a busy soul like you manage your piorities");
+		label4.setText("Try typing: add world domination");
+		isWaitForInput = true;
+	}
+
+	private void runAdd2(){
 		label1.setText("");
 		label2.setText("");
 		label3.setText("");
 		label4.setText("");
+		tutorialView.getChildren().get(0).setOpacity(0.0);
 	}
 
 	private void runRepeatInstructions() {
 		System.out.println("repeating instructions");
 	}
+	
+
+	private void quitTutorial() {
+		overallView.getChildren().remove(tutorialView);
+	}
+	
 
 }

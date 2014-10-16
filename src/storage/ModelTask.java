@@ -17,7 +17,7 @@ public class ModelTask {
 	private StringProperty timeStringProperty;
 	private StringProperty positionStringProperty;
 	private BooleanProperty isDoneBooleanProperty;
-        private BooleanProperty isUrgentBooleanProperty;
+    private BooleanProperty isUrgentBooleanProperty;
 	
 	private ObjectProperty<EventAndDone> eventAndDoneProperty;
 
@@ -309,9 +309,9 @@ public class ModelTask {
 		return isDoneBooleanProperty;
 	}
         
-        public BooleanProperty getIsUrgentBooleanProperty(){
+    public BooleanProperty getIsUrgentBooleanProperty(){
             return isUrgentBooleanProperty;
-        }
+    }
 	
 	public ObjectProperty<EventAndDone> getEventAndDoneProperty(){
 		return eventAndDoneProperty;
