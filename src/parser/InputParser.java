@@ -106,8 +106,18 @@ public class InputParser {
 					isStartDateFound = true;
 				}
 			}
+			
+			if(!isStartTimeFound && !isEndTimeFound){
+				input = tp.parseDashTimeWithoutKeyword(tokens, i, input);
+				if(tp.getStart() != null && tp.getEnd() != null){
+					startTime = tp.getStart();
+					endTime = tp.getEnd();
+					isStartTimeFound = true;
+					isEndTimeFound = true;
+				}
+			}
 
-			if(!isEndTimeFound && !isStartTimeFound){
+			if(!isStartTimeFound && !isEndTimeFound){
 				input = tp.parseTimeWithoutKeyword(tokens, i, input);
 				if(tp.getTime() != null){
 					startTime = tp.getTime();
@@ -123,18 +133,6 @@ public class InputParser {
 						endDate = dp.getDateEnd();
 						isStartDateFound = true;
 						isEndDateFound = true;
-					}
-				}
-			}
-			
-			if(!isStartTimeFound && !isEndTimeFound){
-				if(tokens[i].matches("[1-9]")){
-					input = tp.parseDashTimeWithoutKeyword(tokens, i, input);
-					if(tp.getStart() != null && tp.getEnd() != null){
-						startTime = tp.getStart();
-						endTime = tp.getEnd();
-						isStartTimeFound = true;
-						isEndTimeFound = true;
 					}
 				}
 			}
@@ -155,7 +153,7 @@ public class InputParser {
 						isEndTimeFound = true;
 					}
 				}	
-				
+
 				if(isNotOutOfBounds(i+1,tokens.length) && !isEndTimeFound){
 					if(dictionaryContains(DICTIONARY_KEYWORDS_TODAY, tokens[i+1])){
 						endTime = STRING_BEFORE_MIDNIGHT;
@@ -201,19 +199,19 @@ public class InputParser {
 						isEndTimeFound = true;
 					}
 				}
-				
+
 			}
 
-//			if(isEndDateFound && isStartDateFound){
-//				if(!validEndDate(endDate , startDate)){
-//					endDate = null;
-//					isEndDateFound = false;
-//					input = tempInput;
-//				}
-//			}
-			
+			//			if(isEndDateFound && isStartDateFound){
+			//				if(!validEndDate(endDate , startDate)){
+			//					endDate = null;
+			//					isEndDateFound = false;
+			//					input = tempInput;
+			//				}
+			//			}
+
 		}
-		
+
 		if(isEndDateFound && isDeadLineFound && !isStartDateFound){
 			if(validEndDate(endDate , deadLine)){
 				startDate = deadLine;
@@ -253,11 +251,11 @@ public class InputParser {
 			}
 		}
 
-		
+
 		if(onlyDeadLineFound()){
 			endTime = STRING_BEFORE_MIDNIGHT;
 		}
-		
+
 		if(allDatesFound()){
 			deadLine = null;
 		}
@@ -265,7 +263,7 @@ public class InputParser {
 		input = pfm.replaceParseFree(input);
 		taskDescription = input;						
 	}
-	
+
 	private boolean allDatesFound() {
 		return isDeadLineFound && isStartDateFound && isEndDateFound;
 	}
@@ -282,7 +280,7 @@ public class InputParser {
 
 		String[] endArray = endDate.split(STRING_SLASH);
 		String[] startArray = startDate.split(STRING_SLASH);
-		
+
 		if(Integer.parseInt(endArray[2]) < Integer.parseInt(startArray[2])){
 			return false;
 		} if (Integer.parseInt(endArray[2]) == Integer.parseInt(startArray[2])){

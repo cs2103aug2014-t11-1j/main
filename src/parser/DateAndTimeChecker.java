@@ -15,7 +15,7 @@ public class DateAndTimeChecker {
 	private static final String[] DICTIONARY_SUFFIX_TIME = {"AM","PM","MN","NN"};
 	
 	private static final String STRING_SPACE = " ";
-	private static final String STRING_DASH = STRING_SPACE;
+	private static final String STRING_DASH = "-";
 	
 	private static DateAndTimeChecker checker = new DateAndTimeChecker();
 	
@@ -37,6 +37,7 @@ public class DateAndTimeChecker {
 		}
 		
 		try{
+			String minutes = string.substring(string.length() - 4, string.length() - 2);
 			Scanner sc = new Scanner(string).useDelimiter("[^0-9]+");		
 			int integer = sc.nextInt();
 			
@@ -50,16 +51,16 @@ public class DateAndTimeChecker {
 			}
 			
 			if(sc.hasNextInt()){
-				if(sc.nextInt() > 59){
+				int temp = sc.nextInt();
+				if(temp > 59 || temp < 0 || temp != Integer.parseInt(minutes)){
 					return false;
 				}
 			}
 			
 		} catch(Exception e){
-			System.out.println("exception");
+		//	System.out.println("exception");
 			return false;
 		}
-	//	System.out.println(string);
 
 		return true;
 	}

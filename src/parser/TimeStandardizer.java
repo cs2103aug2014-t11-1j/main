@@ -43,11 +43,9 @@ public class TimeStandardizer {
 			time = tf.convertMTformat(time);
 			break;
 		case DTF :
-			//System.out.println("time Format: MT");
 			time = tf.convertDTFformat(time);
 			break;
 		case DTN :
-			//System.out.println("time Format: MT");
 			time = tf.convertDTNformat(time);
 			break;
 		case INVALID :

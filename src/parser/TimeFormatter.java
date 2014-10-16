@@ -146,6 +146,8 @@ public class TimeFormatter {
 			hours = "0" + hours;
 		}
 		
+		
+		
 		return hours + minutes;
 	}
 
@@ -184,6 +186,8 @@ public class TimeFormatter {
 		if(hours.length() < 2){
 			hours = "0" + hours;
 		}
+		
+		System.out.println(hours+minutes);
 
 		return hours + minutes;
 	}
