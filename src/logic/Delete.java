@@ -32,10 +32,12 @@ public class Delete extends CommandFactory {
             }
             isDone = true;
             CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_DELETE_MESSAGE);
-            MyLogger.log(Level.INFO,ErrorMessages.SUCCESS_DELETE_MESSAGE);
-        } catch (Exception ex) {
+            MyLogger.log(Level.INFO, ErrorMessages.SUCCESS_DELETE_MESSAGE);
+        } catch (NumberFormatException ex) {
+            CommandFactory cmdf = new Search(input);
+        } catch (IllegalArgumentException ex) {
             CommandExecutor.setFeedBack(ErrorMessages.ERROR_DELETE_MESSAGE);
-            MyLogger.log(Level.WARNING,ErrorMessages.ERROR_DELETE_MESSAGE);
+            MyLogger.log(Level.WARNING, ErrorMessages.ERROR_DELETE_MESSAGE);
             printMessage(ex.getMessage());
             return;
         }
@@ -52,11 +54,11 @@ public class Delete extends CommandFactory {
             throw new IllegalArgumentException("Invalid index!");
         } else {
             index = Integer.parseInt(input.trim().split("\\s+")[0]) - 1;
-        }
-        if (!isValidLineNumber(index)) {
-            throw new IllegalArgumentException("Invalid index!");
-        } else {
-            return index;
+            if (!isValidLineNumber(index)) {
+                throw new IllegalArgumentException("Invalid index!");
+            } else {
+                return index;
+            }
         }
     }
 }
