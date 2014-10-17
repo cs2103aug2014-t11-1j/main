@@ -5,7 +5,7 @@ import java.util.Iterator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class TaskList implements Iterable<ModelTask>{
+public class TaskList implements Iterable<ModelTask> {
 
     /**
      * Class Attributes
@@ -61,8 +61,8 @@ public class TaskList implements Iterable<ModelTask>{
         list.clear();
     }
 
-	@Override
-	public Iterator<ModelTask> iterator() {
-		 return list.iterator();
-	}
+    @Override
+    public Iterator<ModelTask> iterator() {
+        return list.iterator();
+    }
 }

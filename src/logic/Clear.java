@@ -12,7 +12,7 @@ import storage.ModelTask;
  * @author Jireh
  */
 public class Clear extends CommandFactory {
-    
+
     private boolean isDone;
 
     //Constructor
@@ -21,17 +21,17 @@ public class Clear extends CommandFactory {
         updateUndoAndRedoStacks();
         updateTaskList();
     }
-    
+
     @Override
     protected void execute(String input) {
         determineClear(input);
     }
-    
+
     @Override
     protected boolean isDone() {
         return isDone;
     }
-    
+
     private void determineClear(String input) {
         if (input.equalsIgnoreCase("")) {
             clearAll();
@@ -43,17 +43,17 @@ public class Clear extends CommandFactory {
             CommandExecutor.setFeedBack(ErrorMessages.ERROR_CLEAR_MESSAGE);
         }
     }
-    
+
     private void clearAll() {
         list.clear();
         isDone = true;
         CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_CLEAR_MESSAGE);
         MyLogger.log(Level.INFO, ErrorMessages.SUCCESS_CLEAR_MESSAGE);
     }
-    
+
     private void clearDone() {
-        Iterator<ModelTask> iterator = list.getIterator();
-        
+        Iterator<ModelTask> iterator = list.iterator();
+
         while (iterator.hasNext()) {
             if (iterator.next().isDone()) {
                 iterator.remove();
@@ -66,10 +66,10 @@ public class Clear extends CommandFactory {
         CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_CLEARDONE_MESSAGE);
         MyLogger.log(Level.INFO, ErrorMessages.SUCCESS_CLEARDONE_MESSAGE);
     }
-    
+
     private void clearUrgent() {
-        Iterator<ModelTask> iterator = list.getIterator();
-        
+        Iterator<ModelTask> iterator = list.iterator();
+
         while (iterator.hasNext()) {
             if (iterator.next().isUrgent()) {
                 iterator.remove();
