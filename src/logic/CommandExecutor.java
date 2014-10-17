@@ -218,6 +218,7 @@ public class CommandExecutor {
 				break;
 
 			case EXIT:
+				MyLogger.closeLogger();
 				System.exit(0);
 
 			default:
