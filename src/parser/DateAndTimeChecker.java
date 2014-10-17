@@ -11,8 +11,9 @@ public class DateAndTimeChecker {
 	
 	private static final String[] DICTIONARY_MONTHS = {"janurary","feburary","march","april","may","june","july","august","september","october","november","december",
 		"jan","feb","mar","apr","jun","jul","aug","sept","sep","oct","nov","dec"};
-	
 	private static final String[] DICTIONARY_SUFFIX_TIME = {"AM","PM","MN","NN"};
+	
+	private static final String DEFAULT_TIME_REGEX = "(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(?i)(am|pm|mn|nn)";
 	
 	private static final String STRING_SPACE = " ";
 	private static final String STRING_DASH = "-";
@@ -33,6 +34,10 @@ public class DateAndTimeChecker {
 	public boolean isValidDefaultTimeFormat(String string) {
 		
 		if(string.length() > 6){
+			return false;
+		}
+		
+		if(!string.matches(DEFAULT_TIME_REGEX)){
 			return false;
 		}
 		
