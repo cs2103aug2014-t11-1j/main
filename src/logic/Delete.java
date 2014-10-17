@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 import storage.ModelTask;
 import storage.TaskList;
@@ -16,6 +17,8 @@ import com.MyLogger;
 public class Delete extends CommandFactory {
 
 	private boolean isDone;
+	private final static Pattern numberPattern = Pattern.compile("\\d++");
+	private final static int INITIAL_INPUT = -1;
 
 	/**
 	 * Constructor
@@ -27,39 +30,40 @@ public class Delete extends CommandFactory {
 	@Override
 	protected void execute(String input) {
 		try {
-			int index = -1;
-			
+			int index = INITIAL_INPUT;
+
 			if(isNumberInput(input)){
 				index = getIndex(input);
 			}
 			else {
 				tempList.clear();
 				getDeleteList(input);
-				if(tempList.getListSize() == 1){
-					index = tempList.get(0).getPosition() - 1;
+				if(isOnePossibility()){
+					index = getTaskIndex();
 				}
 			}
 
-			if(index >= 0){
+			if(index != INITIAL_INPUT){
 				list.remove(index);
-				for (int i = index; i < list.getListSize(); i++) {
-					list.get(i).setPosition(i + 1);
-				}
+				updatePositionsInTaskList(index);
+				
 				updateUndoAndRedoStacks();
 				updateTaskList();
 				isDone = true;
+				
 				CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_DELETE_MESSAGE);
 				MyLogger.log(Level.INFO,ErrorMessages.SUCCESS_DELETE_MESSAGE);
+			}else{
+
+				if(noPossibleTask()){
+					CommandExecutor.setFeedBack(ErrorMessages.ERROR_DELETE_MESSAGE);
+					MyLogger.log(Level.INFO,ErrorMessages.ERROR_DELETE_MESSAGE);
+				}
+
+				CommandExecutor.setFeedBack(ErrorMessages.WAIT_DELETE_MESSAGE);
+				MyLogger.log(Level.INFO,ErrorMessages.WAIT_DELETE_MESSAGE);
 			}
-			
-			if(tempList.getListSize() == 0){
-				CommandExecutor.setFeedBack(ErrorMessages.ERROR_DELETE_MESSAGE);
-				MyLogger.log(Level.INFO,ErrorMessages.ERROR_DELETE_MESSAGE);
-			}
-			
-			CommandExecutor.setFeedBack(ErrorMessages.WAIT_DELETE_MESSAGE);
-			MyLogger.log(Level.INFO,ErrorMessages.WAIT_DELETE_MESSAGE);
-			
+
 		} catch (Exception ex) {
 			CommandExecutor.setFeedBack(ErrorMessages.ERROR_DELETE_MESSAGE);
 			MyLogger.log(Level.INFO,ErrorMessages.ERROR_DELETE_MESSAGE);
@@ -68,13 +72,34 @@ public class Delete extends CommandFactory {
 		}
 	}
 
+	private boolean noPossibleTask() {
+		return tempList.getListSize() == 0;
+	}
+
+	private void updatePositionsInTaskList(int index) {
+		for (int i = index; i < list.getListSize(); i++) {
+			list.get(i).setPosition(i + 1);
+		}
+	}
+
 	private void getDeleteList(String input) {
-		// TODO Auto-generated method stub
+		for(ModelTask task : list){
+			if(task.getEvent().contains(input)){
+				tempList.add(task);
+			}
+		}
 	}
 
 	private boolean isNumberInput(String input) {
-		// TODO Auto-generated method stub
-		return false;
+		return input != null && numberPattern.matcher(input).matches();
+	}
+	
+	private boolean isOnePossibility() {
+		return tempList.getListSize() == 1;
+	}
+	
+	private int getTaskIndex() {
+		return tempList.get(0).getPosition() - 1;
 	}
 
 	@Override
