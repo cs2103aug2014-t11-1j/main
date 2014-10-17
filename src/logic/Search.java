@@ -1,6 +1,5 @@
 package logic;
 
-import java.util.Iterator;
 import storage.ModelTask;
 
 /**
@@ -9,7 +8,6 @@ import storage.ModelTask;
  */
 public class Search extends CommandFactory {
 
-    // private static ObservableList<ModelTask> searchList;
     private boolean isDone;
 
     protected Search(String input) {
@@ -21,7 +19,7 @@ public class Search extends CommandFactory {
     @Override
     protected void execute(String input) {
 
-       for(ModelTask task : list){
+        for (ModelTask task : list) {
             if (task.getEvent().contains(input)) {
                 tempList.add(task);
             }
