@@ -28,7 +28,7 @@ public class InputParser {
 	 */
 	private final String[] DICTIONARY_KEYWORDS_DEADLINE = { "BY", "BEFORE", "ON" };
 	private final String[] DICTIONARY_KEYWORDS_STARTTIME = { "AT", "AFTER", "FROM"};
-	private final String[] DICTIONARY_KEYWORDS_ENDTIME = { "TO" };
+	private final String[] DICTIONARY_KEYWORDS_ENDTIME = { "TO" , "-" };
 	private final String[] DICTIONARY_KEYWORDS_TODAY = { "TODAY", "TDY" };
 	//	private final String[] DICTIONARY_KEYWORDS_DASH = { "-", "~" };
 
@@ -117,11 +117,16 @@ public class InputParser {
 				}
 			}
 
-			if(!isStartTimeFound && !isEndTimeFound){
+			if(!isStartTimeFound || !isEndTimeFound){
 				input = tp.parseTimeWithoutKeyword(tokens, i, input);
 				if(tp.getTime() != null){
-					startTime = tp.getTime();
-					isStartTimeFound = true;
+					if(!isStartTimeFound){
+						startTime = tp.getTime();
+						isStartTimeFound = true;
+					} else if(!isEndTimeFound) {
+						endTime = tp.getTime();
+						isEndTimeFound = true;
+					}
 				}
 			}
 
@@ -164,7 +169,7 @@ public class InputParser {
 			}
 
 			if(dictionaryContains(DICTIONARY_KEYWORDS_STARTTIME, tokens[i])){
-				
+
 				if(!isStartTimeFound && !isEndTimeFound){
 					input = tp.parseDashTimeWithKeyword(tokens, i, input);
 					if(tp.getStart() != null && tp.getEnd() != null){
@@ -174,7 +179,7 @@ public class InputParser {
 						isEndTimeFound = true;
 					}
 				}
-				
+
 				if(!isStartDateFound){
 					input = dp.parseDateWithKeyword(tokens, i, input);
 					if(dp.getDate() != null){
@@ -246,9 +251,7 @@ public class InputParser {
 				if(Integer.parseInt(endTime) < Integer.parseInt(startTime)){
 					startDate = getModifiedDate(0);
 					endDate = getModifiedDate(1);
-				} else {
-					deadLine = getModifiedDate(0);
-				}
+				} 
 			} 
 			if (temp != null){
 				try{
