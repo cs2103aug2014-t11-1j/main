@@ -53,7 +53,7 @@ public class CommandExecutor {
 		}
 	}
 
-	protected static void setSearchList(ObservableList<ModelTask> searchList) {
+	protected static void setTempList(ObservableList<ModelTask> searchList) {
 		CommandExecutor.searchedList = searchList;
 		try {
 			storage.save(taskList);
