@@ -12,6 +12,7 @@ public class ErrorMessages {
 	public static final String SUCCESS_ADDING_MESSAGE = " added";
 	public static final String ERROR_DELETE_MESSAGE = "Delete unsuccessful";
 	public static final String SUCCESS_DELETE_MESSAGE = "Delete successful";
+	public static final String WAIT_DELETE_MESSAGE = "Please choose which task to delete";
 	public static final String SUCCESS_CLEAR_MESSAGE = "List cleared";
 	public static final String ERROR_CLEAR_MESSAGE = "Error with clearing";
 	public static final String ERROR_UNDONE_MESSAGE = "Action cannot be undone. "
