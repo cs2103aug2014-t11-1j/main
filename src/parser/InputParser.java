@@ -16,12 +16,12 @@ public class InputParser {
 	/**
 	 * String constants
 	 */
-	private final String STRING_SPACE = " ";
-	private final String STRING_DASH = "-";
-	private final String STRING_SLASH = "/";
-	private final String STRING_WAVE_DASH = "~";
-	private final String STRING_TO = "TO";
-	private final String STRING_BEFORE_MIDNIGHT = "2359";
+	private static final String STRING_SPACE = " ";
+	private static final String STRING_DASH = "-";
+	private static final String STRING_SLASH = "/";
+	private static final String STRING_WAVE_DASH = "~";
+	private static final String STRING_TO = "TO";
+	private static final String STRING_BEFORE_MIDNIGHT = "2359";
 
 	/**
 	 * String Dictionaries
@@ -98,7 +98,7 @@ public class InputParser {
 
 			tempInput = input;
 
-			if(!isDeadLineFound && !isEndDateFound && !isStartDateFound){
+			if(!isDeadLineFound && !isEndDateFound && !isStartDateFound && previousNotKeyWord(tokens,i,input)){
 				input = dp.parseDateWithoutKeyword(tokens, i, input);
 				if(dp.getDate() != null){
 					startDate = dp.getDate();
@@ -117,7 +117,7 @@ public class InputParser {
 				}
 			}
 
-			if(!isStartTimeFound || !isEndTimeFound){
+			if((!isStartTimeFound || !isEndTimeFound) && previousNotKeyWord(tokens,i,input)){
 				input = tp.parseTimeWithoutKeyword(tokens, i, input);
 				if(tp.getTime() != null){
 					if(!isStartTimeFound){
@@ -251,19 +251,30 @@ public class InputParser {
 				if(Integer.parseInt(endTime) < Integer.parseInt(startTime)){
 					startDate = getModifiedDate(0);
 					endDate = getModifiedDate(1);
+					isStartDateFound = true;
+					isEndDateFound = true;
 				} 
 			} 
 			if (temp != null){
 				try{
 					if(Integer.parseInt(getCurrentTime()) > Integer.parseInt(temp)){
 						deadLine = getModifiedDate(1);
+						isDeadLineFound = true;
 					}
 					else{
 						deadLine = getModifiedDate(0);
+						isDeadLineFound = true;
 					}
 				}catch(Exception e){
 					System.out.println("error");
 				}
+			}
+		}
+		
+		if(isStartDateFound && isStartTimeFound && isEndTimeFound && !isEndDateFound){
+			if(Integer.parseInt(endTime) < Integer.parseInt(startTime)){
+				endDate = getDayModifiedDate(1,startDate);
+				isEndDateFound = true;
 			}
 		}
 
@@ -278,6 +289,40 @@ public class InputParser {
 
 		input = pfm.replaceParseFree(input);
 		taskDescription = input;						
+	}
+
+	private boolean previousNotKeyWord(String[] tokens, int i, String input) {
+		
+		try{
+			if(dictionaryContains(DICTIONARY_KEYWORDS_DEADLINE,tokens[i-1])){
+				return false;
+			} else if (dictionaryContains(DICTIONARY_KEYWORDS_STARTTIME,tokens[i-1])){
+				return false;
+			} else if (dictionaryContains(DICTIONARY_KEYWORDS_ENDTIME,tokens[i-1])){
+				return false;
+			}
+		} catch (IndexOutOfBoundsException e){
+			return false;
+		}
+		return true;
+	}
+	
+	private static String getDayModifiedDate(int offset, String date){
+
+		String modDate;
+		SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/YYYY");
+
+		String[] dateArray = date.split(STRING_SLASH);
+		int day = Integer.parseInt(dateArray[0]);
+		int month = Integer.parseInt(dateArray[1]);
+		int year = Integer.parseInt(dateArray[2]);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month - 1, day);
+		calendar.add(Calendar.DAY_OF_MONTH, offset);
+		modDate = dayFormat.format(calendar.getTime());
+
+		return modDate;
 	}
 
 	private boolean allDatesFound() {
