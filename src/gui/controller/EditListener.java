@@ -51,16 +51,10 @@ public class EditListener implements ChangeListener<String> {
 					.setText("edit tasknumber taskdecription startdate enddate starttime endtime");
 		}
 
-		if (containsTwoSpace(newValue)) {
-			String[] subStrings = newValue.trim().split(" ");
-			if (subStrings[0].equalsIgnoreCase("edit")
-					&& isInteger(subStrings[1])
-					&& !PhantomController.hasOccured) {
-
-				commandLine.setText(newValue
-						+ getTaskDescription(Integer.parseInt(subStrings[1])));
-				PhantomController.hasOccured = true;
-			}
+		if (containsTwoSpace(newValue) && !PhantomController.hasOccured) {
+			String[] subStrings = newValue.trim().split("\\s+");
+			commandLine.setText(newValue
+					+ getTaskDescription(Integer.parseInt(subStrings[1])));
 
 		}
 
@@ -68,10 +62,21 @@ public class EditListener implements ChangeListener<String> {
 	}
 
 	private boolean containsTwoSpace(String input) {
-		int spaces = input.length() - input.replace(" ", "").length();
+		// int spaces = input.length() - input.replace(" ", "").length();
 
-		if (spaces == 2) {
-			return true;
+		if ((input != null) && ((input.replaceAll("\\s+", "")) != "")) {
+
+			if (input.length() > 0
+					&& input.substring(input.length() - 1).equals(" ")) {
+				System.out.println("here");
+				String[] subStrings = input.trim().split("\\s+");
+				if (subStrings.length >= 2) {
+					if (subStrings[0].equalsIgnoreCase("edit")
+							&& isInteger(subStrings[1])) {
+						return true;
+					}
+				}
+			}
 		}
 		return false;
 	}
@@ -92,7 +97,7 @@ public class EditListener implements ChangeListener<String> {
 	 */
 
 	private String getTaskDescription(int position) {
-
+		PhantomController.hasOccured = true;
 		ModelTask currTask = new ModelTask();
 		Boolean positionIsFound = false;
 		String feedBack = "";
