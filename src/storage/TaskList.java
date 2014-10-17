@@ -1,10 +1,11 @@
 package storage;
 
 import java.util.Iterator;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class TaskList {
+public class TaskList implements Iterable<ModelTask>{
 
     /**
      * Class Attributes
@@ -33,10 +34,6 @@ public class TaskList {
         return list.get(index);
     }
 
-    public Iterator<ModelTask> getIterator() {
-        return list.iterator();
-    }
-
     public boolean isEmpty() {
         return list.isEmpty();
     }
@@ -63,4 +60,9 @@ public class TaskList {
     public void clear() {
         list.clear();
     }
+
+	@Override
+	public Iterator<ModelTask> iterator() {
+		 return list.iterator();
+	}
 }

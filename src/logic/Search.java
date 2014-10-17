@@ -20,12 +20,10 @@ public class Search extends CommandFactory {
 
     @Override
     protected void execute(String input) {
-        Iterator<ModelTask> iterator = list.getIterator();
 
-        while (iterator.hasNext()) {
-            ModelTask currentTask = iterator.next();
-            if (currentTask.getEvent().contains(input)) {
-                tempList.add(currentTask);
+       for(ModelTask task : list){
+            if (task.getEvent().contains(input)) {
+                tempList.add(task);
             }
         }
         if (tempList.isEmpty()) {
