@@ -21,6 +21,7 @@ public class Action {
         private static final String[] DICTIONARY_MARK_UNDONE = {"UNDONE","NOTDONE","UNDID","NOTDID"};
         private static final String[] DICTIONARY_MARK_URGENT = {"URGENT","UR","URG","URGE"};
         private static final String[] DICTIONARY_MARK_NOT_URGENT = {"NOTURGENT","NURGENT","NUR","NURG","NURGE"};
+        private static final String[] DICTIONARY_DISPLAY = {"DISPLAY","SHOW"};
 
 	private String commandWord;
 	private CommandType commandType;
@@ -53,7 +54,7 @@ public class Action {
 			return CommandType.DELETE;
 		} else if (dictionaryContains(DICTIONARY_CLEAR, command)) {
 			return CommandType.CLEAR;
-		} else if (commandWord.equalsIgnoreCase("DISPLAY")) {
+		} else if (dictionaryContains(DICTIONARY_DISPLAY, command)) {
 			return CommandType.DISPLAY;
 		} else if (commandWord.equalsIgnoreCase("UNDO")) {
 			return CommandType.UNDO;

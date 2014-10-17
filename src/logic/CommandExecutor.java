@@ -122,9 +122,9 @@ public class CommandExecutor {
 				break;
 
 			case DISPLAY:
-				// cmd.display();
-				// setTaskList(cmd.getTaskList());
-				setFeedBack("");
+				boolean isDisplayed = false;
+                                cmdf = new Display(actualCommandDescription);
+                                isDisplayed = cmdf.isDone();
 
 				break;
 

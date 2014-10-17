@@ -43,4 +43,5 @@ public class ErrorMessages {
 	public static final String ERROR_MARKNOTURGENT_MESSAGE = "Task cannot be marked as not urgent";
 	public static final String SUCCESS_CLEARURGENT_MESSAGE = "Urgent tasks cleared";
 	public static final String ERROR_CLEARURGENT_MESSAGE = "Cannot clear urgent tasks";
+        public static final String ERROR_DISPLAY_MESSAGE = "No such display type";
 }
