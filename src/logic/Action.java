@@ -19,10 +19,8 @@ public class Action {
         private static final String[] DICTIONARY_SEARCH = {"SEARCH","?"};
         private static final String[] DICTIONARY_MARK_DONE = {"DONE","DID"};
         private static final String[] DICTIONARY_MARK_UNDONE = {"UNDONE","NOTDONE","UNDID","NOTDID"};
-        private static final String[] DICTIONARY_CLEAR_DONE = {"CLEARDONE","CLEARD","CLSDONE","CLRDONE","CLSD","CLRD"};
         private static final String[] DICTIONARY_MARK_URGENT = {"URGENT","UR","URG","URGE"};
         private static final String[] DICTIONARY_MARK_NOT_URGENT = {"NOTURGENT","NURGENT","NUR","NURG","NURGE"};
-        private static final String[] DICTIONARY_CLEAR_URGENT = {"CLEARURGENT","CLEARUR","CLSURGENT","CLRURGENT","CLSUR","CLRUR"};
 
 	private String commandWord;
 	private CommandType commandType;
@@ -73,14 +71,10 @@ public class Action {
 			return CommandType.MARK_DONE;
 		} else if (dictionaryContains(DICTIONARY_MARK_UNDONE, command)) {
 			return CommandType.MARK_UNDONE;
-                } else if (dictionaryContains(DICTIONARY_CLEAR_DONE, command)) {
-                        return CommandType.CLEAR_DONE;
                 } else if (dictionaryContains(DICTIONARY_MARK_URGENT, command)) {
 			return CommandType.MARK_URGENT;
 		} else if (dictionaryContains(DICTIONARY_MARK_NOT_URGENT, command)) {
 			return CommandType.MARK_NOT_URGENT;
-                } else if (dictionaryContains(DICTIONARY_CLEAR_URGENT, command)) {
-                        return CommandType.CLEAR_URGENT;
                 } else if (commandWord.equalsIgnoreCase("HELP")) {
 			return CommandType.HELP;
 		} else if (commandWord.equalsIgnoreCase("EXIT")) {

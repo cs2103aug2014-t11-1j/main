@@ -116,7 +116,7 @@ public class CommandExecutor {
 
 			case CLEAR:
 				boolean isCleared = false;
-				cmdf = new Clear();
+				cmdf = new Clear(actualCommandDescription);
 				isCleared = cmdf.isDone();
 				
 				break;
@@ -189,11 +189,7 @@ public class CommandExecutor {
                                 boolean isUnmarkedDone = cmdf.isDone();
 
                                 break;
-                        case CLEAR_DONE:
-                                cmdf = new ClearDone();
-                                boolean isClearDone = cmdf.isDone();
-                            
-                                break;
+                        
                         case MARK_URGENT:
 				cmdf = new MarkUrgent(actualCommandDescription);
 				boolean isMarkedUrgent = cmdf.isDone();
@@ -204,11 +200,7 @@ public class CommandExecutor {
                                 boolean isUnmarkedUrgent = cmdf.isDone();
 
                                 break;
-                        case CLEAR_URGENT:
-                                cmdf = new ClearUrgent();
-                                boolean isClearUrgent = cmdf.isDone();
-                            
-                                break;
+                        
 			case HELP:
 				/*
 				 * this part need to consult Krystal because this cannot be
