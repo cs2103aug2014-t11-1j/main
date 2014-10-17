@@ -106,7 +106,7 @@ public class InputParser {
 					isStartDateFound = true;
 				}
 			}
-			
+
 			if(!isStartTimeFound && !isEndTimeFound){
 				input = tp.parseDashTimeWithoutKeyword(tokens, i, input);
 				if(tp.getStart() != null && tp.getEnd() != null){
@@ -223,11 +223,12 @@ public class InputParser {
 		if(!isDeadLineFound && !isStartDateFound && !isEndDateFound){
 
 			String temp = null;
-			if(isStartTimeFound){
-				temp = startTime;
-			}
+
 			if(isEndTimeFound){
 				temp = endTime;
+			}
+			if(isStartTimeFound){
+				temp = startTime;
 			}
 
 			if(isStartTimeFound && isEndTimeFound){
@@ -237,7 +238,8 @@ public class InputParser {
 				} else {
 					deadLine = getModifiedDate(0);
 				}
-			} else if (temp != null){
+			} 
+			if (temp != null){
 				try{
 					if(Integer.parseInt(getCurrentTime()) > Integer.parseInt(temp)){
 						deadLine = getModifiedDate(1);
