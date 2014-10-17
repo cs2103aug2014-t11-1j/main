@@ -164,6 +164,17 @@ public class InputParser {
 			}
 
 			if(dictionaryContains(DICTIONARY_KEYWORDS_STARTTIME, tokens[i])){
+				
+				if(!isStartTimeFound && !isEndTimeFound){
+					input = tp.parseDashTimeWithKeyword(tokens, i, input);
+					if(tp.getStart() != null && tp.getEnd() != null){
+						startTime = tp.getStart();
+						endTime = tp.getEnd();
+						isStartTimeFound = true;
+						isEndTimeFound = true;
+					}
+				}
+				
 				if(!isStartDateFound){
 					input = dp.parseDateWithKeyword(tokens, i, input);
 					if(dp.getDate() != null){

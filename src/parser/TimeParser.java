@@ -98,10 +98,7 @@ public class TimeParser {
 			if(tokens[i].matches("(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(-)(\\s)?(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(?i)(am|pm|mn|nn)")){
 				start = ts.formatTime(FORMAT_DASH_TIME_FIRST + tokens[i]);
 				end = ts.formatTime(FORMAT_DASH_TIME_NEXT + tokens[i]);
-				System.out.println(input);
-				System.out.println(toReplace);
 				input = input.replaceFirst(tokens[i], "");
-				System.out.println(input);
 			}
 		}
 		
@@ -135,6 +132,34 @@ public class TimeParser {
 					input = input.replaceFirst(tokens[i] + STRING_SPACE + time, "").trim();
 					time = ts.formatTime(FORMAT_MILITARY + time);
 				}
+			}
+		}
+		
+		return input;
+	}
+	
+	protected String parseDashTimeWithKeyword(String[] tokens, int i, String input){
+		start = null;
+		end = null;
+		String toReplace = null;
+		TimeStandardizer ts = new TimeStandardizer();
+		
+		if(isNotOutOfBounds(i+3, tokens.length)){
+			String temp = tokens[i+1] + tokens[i+2] + tokens[i+3];
+			if(temp.matches("(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(-)(\\s)?(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(?i)(am|pm|mn|nn)")){
+				toReplace = tokens[i] + STRING_SPACE + tokens[i+1] + STRING_SPACE + tokens[i+2] + STRING_SPACE + tokens[i+3];
+				start = ts.formatTime(FORMAT_DASH_TIME_FIRST + temp);
+				end = ts.formatTime(FORMAT_DASH_TIME_NEXT + temp);
+				input = input.replaceFirst(toReplace, "");
+			}
+		}
+		
+		if(isNotOutOfBounds(i+1, tokens.length)){
+			System.out.println(tokens[i+1]);
+			if(tokens[i+1].matches("(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(-)(\\s)?(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(?i)(am|pm|mn|nn)")){
+				start = ts.formatTime(FORMAT_DASH_TIME_FIRST + tokens[i]);
+				end = ts.formatTime(FORMAT_DASH_TIME_NEXT + tokens[i]);
+				input = input.replaceFirst(tokens[i] + STRING_SPACE + tokens[i+1], "");
 			}
 		}
 		
