@@ -23,11 +23,9 @@ public class ClearDone extends CommandFactory {
 
     @Override
     protected void execute(String input) {
-        Iterator<ModelTask> iterator = list.getIterator();
-
-        while (iterator.hasNext()) {
-            if (iterator.next().isDone()) {
-                iterator.remove();
+        for(ModelTask task: list){
+            if (task.isDone()) {
+                list.remove(task.getPosition()-1);
             }
         }
         for (int i = 0; i < list.getListSize(); i++) {

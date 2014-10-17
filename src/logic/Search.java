@@ -13,22 +13,20 @@ public class Search extends CommandFactory {
     private boolean isDone;
 
     protected Search(String input) {
-        searchList.clear();
+        tempList.clear();
         execute(input);
-        updateSearchList();
+        updateTempList();
     }
 
     @Override
     protected void execute(String input) {
-        Iterator<ModelTask> iterator = list.getIterator();
 
-        while (iterator.hasNext()) {
-            ModelTask currentTask = iterator.next();
-            if (currentTask.getEvent().contains(input)) {
-                searchList.add(currentTask);
+       for(ModelTask task : list){
+            if (task.getEvent().contains(input)) {
+                tempList.add(task);
             }
         }
-        if (searchList.isEmpty()) {
+        if (tempList.isEmpty()) {
             CommandExecutor.setFeedBack(ErrorMessages.ERROR_SEARCH_MESSAGE);
         } else {
             CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_SEARCH_MESSAGE);

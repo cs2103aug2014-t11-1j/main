@@ -22,7 +22,7 @@ public abstract class CommandFactory {
     protected static ParserFacade pf = ParserFacade.getInstance();
     protected static TaskConverter tc = TaskConverter.getInstance();
     protected static TaskList list = new TaskList();
-    protected static TaskList searchList = new TaskList();
+    protected static TaskList tempList = new TaskList();
     protected static UndoRedoStack undoStack = new UndoRedoStack();
     protected static UndoRedoStack redoStack = new UndoRedoStack();
     protected static ArrayList<TentativeTask> tentativeTasks = new ArrayList<TentativeTask>();
@@ -79,8 +79,8 @@ public abstract class CommandFactory {
         CommandExecutor.setTaskList(list.getList());
     }
 
-    protected static void updateSearchList() {
-        CommandExecutor.setSearchList(searchList.getList());
+    protected static void updateTempList() {
+        CommandExecutor.setTempList(tempList.getList());
     }
 
     protected static void updateGlobalBlockedTimePeriods() {
