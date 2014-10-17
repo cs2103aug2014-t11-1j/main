@@ -39,6 +39,8 @@ public class Clear extends CommandFactory {
             clearDone();
         } else if (input.equalsIgnoreCase("URGENT")) {
             clearUrgent();
+        } else if (input.equalsIgnoreCase("NORMAL")) {
+            clearNormal();
         } else {
             CommandExecutor.setFeedBack(ErrorMessages.ERROR_CLEAR_MESSAGE);
         }
@@ -72,6 +74,21 @@ public class Clear extends CommandFactory {
 
         while (iterator.hasNext()) {
             if (iterator.next().isUrgent()) {
+                iterator.remove();
+            }
+        }
+        for (int i = 0; i < list.getListSize(); i++) {
+            list.get(i).setPosition(i + 1);
+        }
+        isDone = true;
+        CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_CLEARURGENT_MESSAGE);
+    }
+
+    private void clearNormal() {
+        Iterator<ModelTask> iterator = list.iterator();
+
+        while (iterator.hasNext()) {
+            if (!iterator.next().isUrgent()) {
                 iterator.remove();
             }
         }
