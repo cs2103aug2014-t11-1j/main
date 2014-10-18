@@ -249,9 +249,7 @@ public class PhantomController {
 				switchToAll();
 			}
 			
-			if (ah.getIsFocusTable() && input.equals("")) {
-				tableViewController.scrollToNext();
-			} else if (input.equalsIgnoreCase("showall")) {
+			if (input.equalsIgnoreCase("showall")) {
 				ah.showTableView();
 			} else if (input.equalsIgnoreCase("showtoday")) {
 				ah.showTodayView();
@@ -309,33 +307,17 @@ public class PhantomController {
 			clu.displayPreviousInput();
 		} else if (e.getCode() == KeyCode.DOWN) {
 			clu.displayForwardInput();
-		} else {
-
-			//			try {
-			//				if (e.getCode() == KeyCode.BACK_SPACE) {
-
-			if (ah.getIsFocusTable()
+		} else if(e.getCode() == KeyCode.PAGE_DOWN){
+			if (ah.getIsFocusTable() 
+					&& commandLine.getText().equals("")) {
+				tableViewController.scrollToNext();
+			}
+	
+		}else if(e.getCode() == KeyCode.PAGE_UP){
+			if (ah.getIsFocusTable() 
 					&& commandLine.getText().equals("")) {
 				tableViewController.scrollToBack();
 			}
-			//
-			//					input = commandLine.getText().substring(0,
-			//							commandLine.getText().length() - 1);
-			//				} else {
-			//					input = commandLine.getText() + e.getText();
-			//				}
-			//				
-			//				if (input.split(" ")[0].equalsIgnoreCase("add")) {
-			//					ah.displayHelper();
-			//				} else if (input.length() < 2) {
-			//					ah.revertView();
-			//				}
-			//
-			//				helperViewController.setHelperView(input);
-			//
-			//			} catch (Exception exc) {
-			//				System.out.println("mother father gentlemen");
-			//			}
 		}
 	}
 
