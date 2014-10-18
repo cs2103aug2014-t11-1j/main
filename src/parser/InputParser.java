@@ -128,6 +128,12 @@ public class InputParser {
 						isEndTimeFound = true;
 					}
 				}
+				
+				if(dictionaryContains(DICTIONARY_KEYWORDS_TODAY, tokens[i]) && !isEndTimeFound){
+					endTime = STRING_BEFORE_MIDNIGHT;
+					isEndTimeFound = true;
+					input = input.replaceFirst(tokens[i], "").trim();
+				}
 			}
 
 			if(!isStartDateFound && !isEndDateFound){
