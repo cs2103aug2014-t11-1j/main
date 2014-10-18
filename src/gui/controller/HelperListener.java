@@ -24,14 +24,34 @@ public class HelperListener implements ChangeListener<String> {
 				firstWord = newValue.split(" ")[0];
 			}
 		}
+
 		if (firstWord.equalsIgnoreCase("add")
 				|| firstWord.equalsIgnoreCase("add!")) {
+			helperViewController.setAddHelperView(newValue);
 			ah.displayHelper();
-			helperViewController.setHelperView(newValue);
 		} else if (newValue.length() < 2 && newValue.length() > 0) {
+			helperViewController.setAddHelperView("");
 			ah.revertView();
-			helperViewController.setHelperView("");
+		}
+
+		if(firstWord.equalsIgnoreCase("CLEAR")){
+			setClearHelper(newValue);
+		} else if (newValue.length() < 3 && newValue.length() > 0) {
+			ah.revertView();
 		}
 	}
 
+	private void setClearHelper(String newValue) {		
+
+		if (newValue.equalsIgnoreCase("CLEAR DONE")) {
+			helperViewController.setClearDoneHelperView();
+			ah.displayHelper();
+		} else if (newValue.equalsIgnoreCase("CLEAR URGENT")) {
+			helperViewController.setClearUrgentHelperView();
+			ah.displayHelper();
+		} else {
+			helperViewController.setClearAllHelperView();
+			ah.displayHelper();
+		} 
+	}
 }

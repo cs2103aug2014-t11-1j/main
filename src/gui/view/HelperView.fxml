@@ -9,10 +9,10 @@
    <children>
       <VBox layoutX="54.0" layoutY="70.0" spacing="5.0">
          <children>
-            <Label fx:id="taskDescription" layoutX="90.0" layoutY="71.0" text="Task Description:" textFill="#110f0f" />
-            <Label fx:id="deadline" text="Deadline:" />
-            <Label fx:id="start" text="Start:" />
-            <Label fx:id="end" text="End:" />
+            <Label fx:id="firstLabel" layoutX="90.0" layoutY="71.0" text="Task Description:" textFill="#110f0f" />
+            <Label fx:id="secondLabel" text="Deadline:" />
+            <Label fx:id="thirdLabel" text="Start:" />
+            <Label fx:id="forthLabel" text="End:" />
          </children>
       </VBox>
    </children>

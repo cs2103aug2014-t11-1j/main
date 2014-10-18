@@ -14,7 +14,7 @@ import javafx.scene.control.Label;
  */
 
 public class HelperViewController {
-	
+
 	/**
 	 * String constants
 	 */
@@ -23,58 +23,103 @@ public class HelperViewController {
 	private static final String STRING_START = "Start: ";
 	private static final String STRING_END = "End: ";
 	private static final String STRING_SPACE = " ";
-	
+
+	private static final String MESSAGE_CAUTION = "CAUTION!";
+	private static final String MESSAGE_CLEAR_ALL = "You are about to clear ALL your tasks";
+	private static final String MESSAGE_CLEAR_URGENT = "You are about to clear ALL URGENT tasks";
+	private static final String MESSAGE_CLEAR_DONE = "You are about to clear ALL COMPLETED tasks";
+	private static final String MESSAGE_ENTER_CONTINUE = "Press enter to continue..";
+
 	@FXML
-	Label taskDescription;
+	Label firstLabel;
 	@FXML
-	Label deadline;
+	Label secondLabel;
 	@FXML 
-	Label start;
+	Label thirdLabel;
 	@FXML 
-	Label end;
-	
-	
+	Label forthLabel;
+
+
 	private static ParserFacade pf;
-	
+
 	public HelperViewController(){
-		taskDescription = new Label();
-		deadline = new Label();
 		pf = ParserFacade.getInstance();
 	}
-	
-	public void setHelperView(String input){
+
+	public void setAddHelperView(String input){
 		Task task = pf.getTask(input);
-		
+
+		firstLabel.setVisible(true);
+		secondLabel.setVisible(true);
+		thirdLabel.setVisible(true);
+		forthLabel.setVisible(true);
+
 		if(task.getTaskDescription() != null){
-			taskDescription.setText(STRING_DESCRIPTION + task.getTaskDescription());
-		}else{
-			taskDescription.setText(STRING_DESCRIPTION);
+			firstLabel.setText(STRING_DESCRIPTION + task.getTaskDescription());
+		} else {
+			firstLabel.setText(STRING_DESCRIPTION);
 		}
-		
+
 		if(task.getDeadLine() != null){
-			deadline.setText(STRING_DEADLINE + task.getDeadLine());
-		}else{
-			deadline.setText(STRING_DEADLINE);
+			secondLabel.setText(STRING_DEADLINE + task.getDeadLine());
+		} else {
+			secondLabel.setText(STRING_DEADLINE);
 		}
-		
+
 		if(task.getStartDate() != null && task.getStartTime() != null){
-			start.setText(STRING_START + task.getStartDate() + STRING_SPACE + task.getStartTime());
-		}else if(task.getStartDate() == null && task.getStartTime() != null){
-			start.setText(STRING_START + task.getStartTime());
-		}else if(task.getStartTime() == null && task.getStartDate() != null){
-			start.setText(STRING_START + task.getStartDate());
-		}else{
-			start.setText(STRING_START);
+			thirdLabel.setText(STRING_START + task.getStartDate() + STRING_SPACE + task.getStartTime());
+		} else if (task.getStartDate() == null && task.getStartTime() != null){
+			thirdLabel.setText(STRING_START + task.getStartTime());
+		} else if (task.getStartTime() == null && task.getStartDate() != null){
+			thirdLabel.setText(STRING_START + task.getStartDate());
+		} else {
+			thirdLabel.setText(STRING_START);
 		}
-		
+
 		if(task.getEndDate() != null && task.getEndTime() != null){
-			end.setText(STRING_END + task.getEndDate() + STRING_SPACE + task.getEndTime());
-		}else if(task.getEndDate() == null && task.getEndTime() != null) {
-			end.setText(STRING_END + task.getEndTime());
-		}else if(task.getEndTime() == null && task.getEndDate() != null){
-			end.setText(STRING_END + task.getEndDate());
-		}else{
-			end.setText(STRING_END);
+			forthLabel.setText(STRING_END + task.getEndDate() + STRING_SPACE + task.getEndTime());
+		} else if (task.getEndDate() == null && task.getEndTime() != null) {
+			forthLabel.setText(STRING_END + task.getEndTime());
+		} else if (task.getEndTime() == null && task.getEndDate() != null){
+			forthLabel.setText(STRING_END + task.getEndDate());
+		} else {
+			forthLabel.setText(STRING_END);
 		}		
+	}
+
+	public void setClearAllHelperView(){
+
+		firstLabel.setVisible(true);
+		secondLabel.setVisible(true);
+		thirdLabel.setVisible(true);
+		forthLabel.setVisible(false);
+
+		firstLabel.setText(MESSAGE_CAUTION);
+		secondLabel.setText(MESSAGE_CLEAR_ALL);
+		thirdLabel.setText(MESSAGE_ENTER_CONTINUE);
+	}
+
+	public void setClearUrgentHelperView(){
+
+		firstLabel.setVisible(true);
+		secondLabel.setVisible(true);
+		thirdLabel.setVisible(true);
+		forthLabel.setVisible(false);
+
+		firstLabel.setText(MESSAGE_CAUTION);
+		secondLabel.setText(MESSAGE_CLEAR_URGENT);
+		thirdLabel.setText(MESSAGE_ENTER_CONTINUE);
+	}
+
+	public void setClearDoneHelperView(){
+
+		firstLabel.setVisible(true);
+		secondLabel.setVisible(true);
+		thirdLabel.setVisible(true);
+		forthLabel.setVisible(false);
+
+		firstLabel.setText(MESSAGE_CAUTION);
+		secondLabel.setText(MESSAGE_CLEAR_DONE);
+		thirdLabel.setText(MESSAGE_ENTER_CONTINUE);
 	}
 }

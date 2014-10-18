@@ -200,7 +200,7 @@ public class MainApp extends Application {
 						@Override
 						public void handle(ActionEvent event) {
 							popUpReminder.startReminder();
-							System.out.println("check reminder 5 seconds");
+				//			System.out.println("check reminder 5 seconds");
 						}
 					}));
 			reminderService.setCycleCount(Timeline.INDEFINITE);
