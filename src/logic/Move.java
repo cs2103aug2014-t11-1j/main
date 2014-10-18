@@ -40,12 +40,15 @@ public class Move extends CommandFactory {
                 }
 
                 isDone = true;
-                CommandExecutor.setFeedBack(String.format("Task %d has been moved to no. %d.", index + 1, position + 1));
+                CommandExecutor.setUserFeedBack(String.format("Task %d has been moved to no. %d.", index + 1, position + 1));
+                CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
             } else {
-                CommandExecutor.setFeedBack("Please enter 2 valid numbers.");
+                CommandExecutor.setUserFeedBack("Please enter 2 valid numbers.");
+                CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
             }
         } catch (IllegalArgumentException ex) {
-            CommandExecutor.setFeedBack("Please enter 2 valid numbers.");
+            CommandExecutor.setUserFeedBack("Please enter 2 valid numbers.");
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
         }
 
     }

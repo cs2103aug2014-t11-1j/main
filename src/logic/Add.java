@@ -32,10 +32,11 @@ public class Add extends CommandFactory {
             temp.setIsUrgent(isUrgent);
             list.add(temp);
             isDone = true;
-            CommandExecutor.setFeedBack(String.format("\"%s\" %s", temp.getEvent(), ErrorMessages.SUCCESS_ADDING_MESSAGE));
+            CommandExecutor.setUserFeedBack(String.format("\"%s\" %s", temp.getEvent(), FeedbackMessages.SUCCESS_ADDING_MESSAGE));
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
         } catch (IllegalArgumentException ex) {
-            CommandExecutor.setFeedBack(ErrorMessages.ERROR_ADDING_MESSAGE);
-            MyLogger.log(Level.WARNING,ErrorMessages.ERROR_ADDING_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_ADDING_MESSAGE);
+            MyLogger.log(Level.WARNING,FeedbackMessages.ERROR_ADDING_MESSAGE);
             return;
         }
     }

@@ -37,7 +37,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import logic.ErrorMessages;
+import logic.FeedbackMessages;
 import logic.LogicFacade;
 import storage.ModelTask;
 
@@ -244,10 +244,11 @@ public class PhantomController {
 
 			input = commandLine.getText();
 			commandLine.clear();
-			String feedback = "";
+			
 			if (tableViewController.isSearched()) {
 				switchToAll();
 			}
+			
 			if (ah.getIsFocusTable() && input.equals("")) {
 				tableViewController.scrollToNext();
 			} else if (input.equalsIgnoreCase("showall")) {
@@ -295,7 +296,7 @@ public class PhantomController {
 				new TutorialLoader(overallView, themeUrl);
 			}
 			else{
-				executeCommand(input, feedback);
+				executeCommand(input);
 
 				updateTodayView();
 				updateTimelineView();
@@ -344,22 +345,26 @@ public class PhantomController {
 	 * from handleKeyPressed method for
 	 * external use. - smallson
 	 */
-	public void executeCommand(String input, String feedback) {
+	public void executeCommand(String input) {
+		int guiFeedBack = FeedbackMessages.NORMAL_STATE;
+		String userFeedBack = "";
+		
 		try {
-			feedback = logicFacade.getFeedBack(input);
+			guiFeedBack = logicFacade.executeCommand(input);
+			userFeedBack = logicFacade.getUserFeedBack();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		if(shouldUpdateAllView(feedback)){
+		if(shouldUpdateAllView(guiFeedBack)){
 			setAllView(logicFacade.getAllList());
 		}
-		if(shouldSwitchToSearch(feedback)){
+		if(shouldSwitchToSearch(guiFeedBack)){
 			switchToSearch(logicFacade.getSearchedList());
 			ah.showTableView();
 		}
 
-		tfOutput.setText(feedback);
+		tfOutput.setText(userFeedBack);
 	}
 
 	private void updateTodayView() {
@@ -379,13 +384,12 @@ public class PhantomController {
 		mediaPlayer.play();
 	}
 
-	private boolean shouldSwitchToSearch(String feedback) {
-		return feedback.contains(ErrorMessages.SUCCESS_SEARCH_MESSAGE);
+	private boolean shouldSwitchToSearch(int guiFeedBack) {
+		return guiFeedBack == FeedbackMessages.SWITCH_TO_TEMP;
 	}
 
-	private boolean shouldUpdateAllView(String feedback) {
-		return feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE
-				|| feedback == ErrorMessages.SUCCESS_REDONE_MESSAGE;
+	private boolean shouldUpdateAllView(int guiFeedBack) {
+		return guiFeedBack == FeedbackMessages.UPDATE_ALL_LIST;
 	}
 
 	private void switchToSearch(ObservableList<ModelTask> list) {

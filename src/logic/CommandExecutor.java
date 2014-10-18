@@ -23,7 +23,8 @@ public class CommandExecutor {
 	private static ParserFacade pf;
 	private String commandWord;
 	private String actualCommandDescription;
-	private static String feedBack;
+	private static String userFeedBack;
+	private static int guiFeedBack;
 	private static ObservableList<ModelTask> taskList;
 	private static ObservableList<ModelTask> searchedList;
 	private static Storage storage;
@@ -38,8 +39,12 @@ public class CommandExecutor {
 	}
 
 	// mutator
-	protected static void setFeedBack(String feedBack) {
-		CommandExecutor.feedBack = feedBack;
+	protected static void setUserFeedBack(String feedBack) {
+		CommandExecutor.userFeedBack = feedBack;
+	}
+	
+	protected static void setGuiFeedBack(int feedBack){
+		CommandExecutor.guiFeedBack = feedBack;
 	}
 
 	protected static void setTaskList(ObservableList<ModelTask> taskList) {
@@ -72,8 +77,12 @@ public class CommandExecutor {
 		return actualCommandDescription;
 	}
 
-	public String getFeedBack() {
-		return feedBack;
+	public String getUserFeedBack() {
+		return userFeedBack;
+	}
+	
+	public int getGuiFeedBack(){
+		return guiFeedBack;
 	}
 
 	public ObservableList<ModelTask> getAllList() {
@@ -214,7 +223,7 @@ public class CommandExecutor {
 				break;
 
 			case INVALID:
-				setFeedBack(ErrorMessages.ERROR_INVALID_MESSAGE);
+				setUserFeedBack(FeedbackMessages.ERROR_INVALID_MESSAGE);
 				break;
 
 			case EXIT:
@@ -223,12 +232,12 @@ public class CommandExecutor {
 
 			default:
 				// throw an error if the command is not recognized
-				throw new Error(ErrorMessages.ERROR_COMMAND_TYPE);
+				throw new Error(FeedbackMessages.ERROR_COMMAND_TYPE);
 			}
 		} catch (NumberFormatException e) {
-			setFeedBack(ErrorMessages.ERROR_ARGUMENT_MESSAGE);
-			MyLogger.log(Level.WARNING,ErrorMessages.ERROR_ARGUMENT_MESSAGE);
-			System.out.println(feedBack);
+			setUserFeedBack(FeedbackMessages.ERROR_ARGUMENT_MESSAGE);
+			MyLogger.log(Level.WARNING,FeedbackMessages.ERROR_ARGUMENT_MESSAGE);
+			System.out.println(userFeedBack);
 		}
 
 	}

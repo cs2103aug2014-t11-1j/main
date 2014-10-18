@@ -25,9 +25,11 @@ public class Search extends CommandFactory {
             }
         }
         if (tempList.isEmpty()) {
-            CommandExecutor.setFeedBack(ErrorMessages.ERROR_SEARCH_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_SEARCH_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
         } else {
-            CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_SEARCH_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_SEARCH_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.SWITCH_TO_TEMP);
             isDone = true;
         }
     }

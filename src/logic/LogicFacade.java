@@ -51,14 +51,14 @@ public class LogicFacade {
 		return storage.getListFromFile();
 	}
 	
-	public String getFeedBack(String InputFromGui) throws Exception {
-		String feedBack = executeCommand(InputFromGui);
+	public String getUserFeedBack() throws Exception {
+		String feedBack = executor.getUserFeedBack();
 		return feedBack;
 	}
 
-	public String executeCommand(String inputFromGui) throws Exception {
+	public int executeCommand(String inputFromGui) throws Exception {
 		executor.executeCommand(inputFromGui);
-		String feedBack = executor.getFeedBack();
+		int feedBack = executor.getGuiFeedBack();
 		return feedBack;
 	}
 

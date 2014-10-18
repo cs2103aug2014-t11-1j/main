@@ -23,7 +23,8 @@ public class MarkUndone extends CommandFactory {
         try {
             index = Integer.parseInt(input) - 1;
         } catch (NumberFormatException ex) {
-            CommandExecutor.setFeedBack(ErrorMessages.ERROR_MARKUNDONE_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKUNDONE_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
             return;
         }
 
@@ -31,9 +32,11 @@ public class MarkUndone extends CommandFactory {
             ModelTask task = list.get(index);
             task.setIsDone(false);
             isDone = true;
-            CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_MARKUNDONE_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_MARKUNDONE_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
         } else {
-            CommandExecutor.setFeedBack(ErrorMessages.ERROR_MARKUNDONE_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKUNDONE_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
         }
     }
 

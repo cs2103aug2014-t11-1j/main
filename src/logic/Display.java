@@ -32,11 +32,11 @@ public class Display extends CommandFactory {
 
     private boolean determineDisplay(String input) {
         if (input.equalsIgnoreCase("DONE")) {
-            displayDone();
+            displayDone();          
         } else if (input.equalsIgnoreCase("URGENT")) {
             displayUrgent();
         } else {
-            CommandExecutor.setFeedBack(ErrorMessages.ERROR_DISPLAY_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_DISPLAY_MESSAGE);
             return false;
         }
         return true;
@@ -60,9 +60,11 @@ public class Display extends CommandFactory {
 
     private void setFeedback() {
         if (tempList.isEmpty()) {
-            CommandExecutor.setFeedBack(ErrorMessages.ERROR_SEARCH_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_SEARCH_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
         } else {
-            CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_SEARCH_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_SEARCH_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.SWITCH_TO_TEMP);
             isDone = true;
         }
     }

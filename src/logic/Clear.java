@@ -3,7 +3,9 @@ package logic;
 import java.util.logging.Level;
 
 import com.MyLogger;
+
 import java.util.Iterator;
+
 import static logic.CommandFactory.list;
 import storage.ModelTask;
 
@@ -42,15 +44,17 @@ public class Clear extends CommandFactory {
         } else if (input.equalsIgnoreCase("NORMAL")) {
             clearNormal();
         } else {
-            CommandExecutor.setFeedBack(ErrorMessages.ERROR_CLEAR_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_CLEAR_MESSAGE);
         }
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
     }
 
     private void clearAll() {
         list.clear();
         isDone = true;
-        CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_CLEAR_MESSAGE);
-        MyLogger.log(Level.INFO, ErrorMessages.SUCCESS_CLEAR_MESSAGE);
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_CLEAR_MESSAGE);
+        MyLogger.log(Level.INFO, FeedbackMessages.SUCCESS_CLEAR_MESSAGE);
+        
     }
 
     private void clearDone() {
@@ -65,8 +69,8 @@ public class Clear extends CommandFactory {
             list.get(i).setPosition(i + 1);
         }
         isDone = true;
-        CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_CLEARDONE_MESSAGE);
-        MyLogger.log(Level.INFO, ErrorMessages.SUCCESS_CLEARDONE_MESSAGE);
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_CLEARDONE_MESSAGE);
+        MyLogger.log(Level.INFO, FeedbackMessages.SUCCESS_CLEARDONE_MESSAGE);
     }
 
     private void clearUrgent() {
@@ -81,7 +85,7 @@ public class Clear extends CommandFactory {
             list.get(i).setPosition(i + 1);
         }
         isDone = true;
-        CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_CLEARURGENT_MESSAGE);
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_CLEARURGENT_MESSAGE);
     }
 
     private void clearNormal() {
@@ -96,6 +100,6 @@ public class Clear extends CommandFactory {
             list.get(i).setPosition(i + 1);
         }
         isDone = true;
-        CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_CLEARURGENT_MESSAGE);
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_CLEARURGENT_MESSAGE);
     }
 }

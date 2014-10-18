@@ -6,8 +6,11 @@ package logic;
  * 
  */
 
-public class ErrorMessages {
-
+public class FeedbackMessages {
+	public static final int NORMAL_STATE = 0;
+	public static final int UPDATE_ALL_LIST = 1;
+	public static final int SWITCH_TO_TEMP = 2;	
+	
 	public static final String ERROR_ADDING_MESSAGE = "Error with adding";
 	public static final String SUCCESS_ADDING_MESSAGE = " added";
 	public static final String ERROR_DELETE_MESSAGE = "Delete unsuccessful";
@@ -43,5 +46,5 @@ public class ErrorMessages {
 	public static final String ERROR_MARKNOTURGENT_MESSAGE = "Task cannot be marked as not urgent";
 	public static final String SUCCESS_CLEARURGENT_MESSAGE = "Urgent tasks cleared";
 	public static final String ERROR_CLEARURGENT_MESSAGE = "Cannot clear urgent tasks";
-        public static final String ERROR_DISPLAY_MESSAGE = "No such display type";
+    public static final String ERROR_DISPLAY_MESSAGE = "No such display type";
 }
