@@ -10,6 +10,7 @@ public class FeedbackMessages {
 	public static final int NORMAL_STATE = 0;
 	public static final int UPDATE_ALL_LIST = 1;
 	public static final int SWITCH_TO_TEMP = 2;	
+	public static final int SWITCH_TO_TEMP_DELETE = 3;
 	
 	public static final String ERROR_ADDING_MESSAGE = "Error with adding";
 	public static final String SUCCESS_ADDING_MESSAGE = " added";

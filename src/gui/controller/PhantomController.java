@@ -338,12 +338,18 @@ public class PhantomController {
 			e1.printStackTrace();
 		}
 
-		if(shouldUpdateAllView(guiFeedBack)){
+		if(guiFeedBack == FeedbackMessages.UPDATE_ALL_LIST){
 			setAllView(logicFacade.getAllList());
 		}
-		if(shouldSwitchToSearch(guiFeedBack)){
+		if(guiFeedBack == FeedbackMessages.SWITCH_TO_TEMP){
 			switchToSearch(logicFacade.getSearchedList());
 			ah.showTableView();
+		}
+		if(guiFeedBack == FeedbackMessages.SWITCH_TO_TEMP_DELETE){
+			switchToSearch(logicFacade.getSearchedList());
+			ah.showTableView();
+			commandLine.setText("delete ");
+			commandLine.end();
 		}
 
 		tfOutput.setText(userFeedBack);
@@ -364,14 +370,6 @@ public class PhantomController {
 		final Media media = new Media(resource.toString());
 		final MediaPlayer mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.play();
-	}
-
-	private boolean shouldSwitchToSearch(int guiFeedBack) {
-		return guiFeedBack == FeedbackMessages.SWITCH_TO_TEMP;
-	}
-
-	private boolean shouldUpdateAllView(int guiFeedBack) {
-		return guiFeedBack == FeedbackMessages.UPDATE_ALL_LIST;
 	}
 
 	private void switchToSearch(ObservableList<ModelTask> list) {

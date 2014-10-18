@@ -66,7 +66,7 @@ public class Delete extends CommandFactory {
 				updateTempList();
 				CommandExecutor.setUserFeedBack(FeedbackMessages.WAIT_DELETE_MESSAGE);
 				MyLogger.log(Level.INFO,FeedbackMessages.WAIT_DELETE_MESSAGE);
-				CommandExecutor.setGuiFeedBack(FeedbackMessages.SWITCH_TO_TEMP);
+				CommandExecutor.setGuiFeedBack(FeedbackMessages.SWITCH_TO_TEMP_DELETE);
 			}
 
 		} catch (Exception ex) {
