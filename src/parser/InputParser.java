@@ -194,6 +194,14 @@ public class InputParser {
 						isStartDateFound = true;
 					}
 				}
+				
+				if(isNotOutOfBounds(i+1,tokens.length) && !isStartDateFound){
+					if(dictionaryContains(DICTIONARY_KEYWORDS_TODAY, tokens[i+1])){
+						startDate = getCurrentDate();
+						isStartDateFound = true;
+						input = input.replaceFirst(tokens[i] + STRING_SPACE + tokens[i+1], "").trim();
+					}
+				}
 
 				if(!isStartTimeFound){
 					input = tp.parseTimeWithKeyword(tokens, i, input);
@@ -297,6 +305,16 @@ public class InputParser {
 		taskDescription = input;						
 	}
 
+	private String getCurrentDate() {
+		String currDate;
+		SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/YYYY");
+
+		Calendar calendar = Calendar.getInstance();
+		currDate = dayFormat.format(calendar.getTime());
+
+		return currDate;
+	}
+
 	private boolean previousNotKeyWord(String[] tokens, int i, String input) {
 		
 		try{
@@ -386,13 +404,13 @@ public class InputParser {
 	}
 
 	private static String getModifiedDate(int offset){
-		String currDate;
+		String modDate;
 		SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/YYYY");
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DAY_OF_MONTH, offset);
-		currDate = dayFormat.format(calendar.getTime());
+		modDate = dayFormat.format(calendar.getTime());
 
-		return currDate;
+		return modDate;
 	}	
 }
