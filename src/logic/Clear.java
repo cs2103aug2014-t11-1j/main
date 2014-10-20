@@ -1,13 +1,11 @@
 package logic;
 
+import java.util.Iterator;
 import java.util.logging.Level;
 
-import com.MyLogger;
-
-import java.util.Iterator;
-
-import static logic.CommandFactory.list;
 import storage.ModelTask;
+
+import com.MyLogger;
 
 /**
  *

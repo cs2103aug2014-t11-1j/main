@@ -39,7 +39,7 @@ public class TentativeParser {
 		input = replaceCommandWord(input);
 		String [] inputArray = input.split(STRING_COLON);
 		String taskDescription = inputArray[0];
-		TentativeTask task = new TentativeTask(taskDescription);
+		TentativeTask task = new TentativeTask();
 		
 		if(inputArray.length > 2){
 			task = parseDateAndTime(input,task);

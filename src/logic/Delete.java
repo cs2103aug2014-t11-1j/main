@@ -4,9 +4,6 @@ import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 import storage.ModelTask;
-import storage.TaskList;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import com.MyLogger;
 
@@ -25,6 +22,11 @@ public class Delete extends CommandFactory {
 	 */
 	protected Delete(String input) {
 		execute(input);
+	}
+	
+	@Override
+	protected boolean isDone() {
+		return isDone;
 	}
 
 	@Override
@@ -107,11 +109,6 @@ public class Delete extends CommandFactory {
 	
 	private int getTaskIndex() {
 		return tempList.get(0).getPosition() - 1;
-	}
-
-	@Override
-	protected boolean isDone() {
-		return isDone;
 	}
 
 	private static int getIndex(String input) {

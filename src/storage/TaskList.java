@@ -37,6 +37,11 @@ public class TaskList implements Iterable<ModelTask> {
     public boolean isEmpty() {
         return list.isEmpty();
     }
+    
+    @Override
+    public Iterator<ModelTask> iterator() {
+        return list.iterator();
+    }
 
     /**
      * Mutators
@@ -61,8 +66,5 @@ public class TaskList implements Iterable<ModelTask> {
         list.clear();
     }
 
-    @Override
-    public Iterator<ModelTask> iterator() {
-        return list.iterator();
-    }
+
 }

@@ -3,10 +3,6 @@ package storage;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.scene.control.TreeItem;
-
 /**
  *
  * @author Jireh and Krystal
@@ -36,8 +32,6 @@ public class TentativeTask {
 	public void setPosition(int position) {
 		this.position = position;
 	}
-
-
 
     public boolean blockTimePeriod(TimePeriod tp) {
         for (TimePeriod period : globalBlockedTimePeriods) {

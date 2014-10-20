@@ -2,13 +2,15 @@ package storage;
 
 import java.util.ArrayList;
 
-import javafx.beans.property.StringProperty;
 import javafx.scene.control.TreeItem;
 
 public class ModelTentativeTask extends ModelTask{
+	
+    final static boolean isTentative = true;
 
 	private ArrayList<String> dates;
-    
+	private ArrayList<TimePeriod> blockedTimePeriods;
+	    
     private TreeItem<TentativeNode> node;
 	
 	public ModelTentativeTask(String event, int position){
@@ -17,6 +19,8 @@ public class ModelTentativeTask extends ModelTask{
 		timeStringProperty.set("Tentative");
 		
 		dates = new ArrayList<String>();
+		blockedTimePeriods = new ArrayList<TimePeriod>();
+		
 		node = new TreeItem<TentativeNode>(new TentativeNode(event, String.valueOf(position)));
         node.setExpanded(true);
 	}
@@ -24,6 +28,7 @@ public class ModelTentativeTask extends ModelTask{
 	@Override
 	public ModelTask copyTask(){
 		ModelTentativeTask temp = new ModelTentativeTask(getEvent(), position);
+		temp.setBlockedTimePeriods(blockedTimePeriods);
 		return temp;
 	}
 	
@@ -45,9 +50,22 @@ public class ModelTentativeTask extends ModelTask{
 		setChild(date);
 	}
 	
+	public void setDates(ArrayList<String> dates){
+		this.dates = dates;
+		setChildren();
+	}
+	
+	public void setBlockedTimePeriods(ArrayList<TimePeriod> timePeriods){
+		blockedTimePeriods = timePeriods;
+	}
+	
 	//accessors
 	public ArrayList<String> getDates(){
 		return dates;
+	}
+	
+	public ArrayList<TimePeriod> getBlockedTimePeriods(){
+		return blockedTimePeriods;
 	}
 	
 	public TreeItem<TentativeNode> getNode(){
@@ -57,9 +75,7 @@ public class ModelTentativeTask extends ModelTask{
 	//private methods
 	private void setChildren(){
 		for(String date : dates){
-			TreeItem<TentativeNode> leaf = new TreeItem<TentativeNode>(new TentativeNode(date, null));
-			node.getChildren().add(leaf);
-			node.setExpanded(true);
+			setChild(date);
 		}
 	}
 	

@@ -21,6 +21,8 @@ public class ModelTask {
 	final static SimpleDateFormat startDateTwoMonthFormatter = new SimpleDateFormat("d MMM");
 	final static SimpleDateFormat endDateFormatter = new SimpleDateFormat("- d MMM");
 	final static SimpleDateFormat timeFormatter = new SimpleDateFormat("HHmm");
+	
+	final static boolean isTentative = false;
 
 	StringProperty event;
 	StringProperty dateStringProperty;
@@ -35,8 +37,7 @@ public class ModelTask {
 	String startDateString, endDateString, startTimeString,
 	endTimeString, deadLineString;
 	int position;
-	boolean isDone;
-	boolean isUrgent;
+	boolean isDone, isUrgent;
 
 	EventAndDone eventAndDone;
 
@@ -286,13 +287,17 @@ public class ModelTask {
 	}
 
 	public boolean isDone() {
-		return this.isDone;
+		return isDone;
 	}
 
 	public boolean isUrgent(){
-		return this.isUrgent;
+		return isUrgent;
 	}
 
+	public boolean isTentative(){
+		return isTentative;
+	}
+	
 	public StringProperty getDateStringProperty() {
 		return dateStringProperty;
 	}

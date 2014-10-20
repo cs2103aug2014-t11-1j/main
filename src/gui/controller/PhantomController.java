@@ -4,21 +4,9 @@ import gui.MainApp;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Scanner;
 import java.util.logging.Level;
 
-import org.controlsfx.control.Notifications;
-
-import com.MyLogger;
-
-import javafx.animation.TranslateTransition;
-
-
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,10 +24,11 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 import logic.FeedbackMessages;
 import logic.LogicFacade;
 import storage.ModelTask;
+
+import com.MyLogger;
 
 public class PhantomController {
 	protected static boolean hasOccured = false;
@@ -113,7 +102,7 @@ public class PhantomController {
 
 	private int viewIndex;
 
-	//setting items from MainApp
+	//constructor
 	public PhantomController() {
 		System.out.println("phantom constructor");
 		MyLogger.log(Level.INFO,"phantom constructor");
@@ -354,7 +343,8 @@ public class PhantomController {
 
 		tfOutput.setText(userFeedBack);
 	}
-
+	
+	//private methods
 	private void updateTodayView() {
 		ObservableList<ModelTask> allList = logicFacade.getAllList();
 		ObservableList<ModelTask> todayList = tlm.getTodayList(allList);
