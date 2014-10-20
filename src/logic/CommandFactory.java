@@ -67,10 +67,8 @@ public abstract class CommandFactory {
         if (!newList.isEmpty()) {
             newList.clear();
         }
-        Iterator<ModelTask> itr = oldList.iterator();
-
-        while (itr.hasNext()) {
-            ModelTask temp = new ModelTask(itr.next());
+        for(ModelTask task : oldList){
+            ModelTask temp = task.copyTask();
             newList.add(temp);
         }
     }

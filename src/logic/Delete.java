@@ -38,6 +38,7 @@ public class Delete extends CommandFactory {
 			else {
 				tempList.clear();
 				getDeleteList(input);
+				
 				if(isOnePossibility()){
 					index = getTaskIndex();
 				}
@@ -51,22 +52,27 @@ public class Delete extends CommandFactory {
 				updateTaskList();
 				isDone = true;
 				
-				CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_DELETE_MESSAGE);
-				MyLogger.log(Level.INFO,ErrorMessages.SUCCESS_DELETE_MESSAGE);
+				CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_DELETE_MESSAGE);
+				MyLogger.log(Level.INFO,FeedbackMessages.SUCCESS_DELETE_MESSAGE);
+				CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
 			}else{
 
 				if(noPossibleTask()){
-					CommandExecutor.setFeedBack(ErrorMessages.ERROR_DELETE_MESSAGE);
-					MyLogger.log(Level.INFO,ErrorMessages.ERROR_DELETE_MESSAGE);
+					CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_DELETE_MESSAGE);
+					MyLogger.log(Level.INFO,FeedbackMessages.ERROR_DELETE_MESSAGE);
+					CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
 				}
 
-				CommandExecutor.setFeedBack(ErrorMessages.WAIT_DELETE_MESSAGE);
-				MyLogger.log(Level.INFO,ErrorMessages.WAIT_DELETE_MESSAGE);
+				updateTempList();
+				CommandExecutor.setUserFeedBack(FeedbackMessages.WAIT_DELETE_MESSAGE);
+				MyLogger.log(Level.INFO,FeedbackMessages.WAIT_DELETE_MESSAGE);
+				CommandExecutor.setGuiFeedBack(FeedbackMessages.SWITCH_TO_TEMP_DELETE);
 			}
 
 		} catch (Exception ex) {
-			CommandExecutor.setFeedBack(ErrorMessages.ERROR_DELETE_MESSAGE);
-			MyLogger.log(Level.INFO,ErrorMessages.ERROR_DELETE_MESSAGE);
+			CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_DELETE_MESSAGE);
+			MyLogger.log(Level.INFO,FeedbackMessages.ERROR_DELETE_MESSAGE);
+			CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
 			printMessage(ex.getMessage());
 			return;
 		}
@@ -85,6 +91,7 @@ public class Delete extends CommandFactory {
 	private void getDeleteList(String input) {
 		for(ModelTask task : list){
 			if(task.getEvent().contains(input)){
+				System.out.println(task.getEvent());
 				tempList.add(task);
 			}
 		}

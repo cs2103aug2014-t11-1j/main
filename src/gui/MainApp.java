@@ -91,7 +91,7 @@ public class MainApp extends Application {
 
 	public void showPhantomOverallView() {
 		try {
-			// Load person overview.
+			// Load overallView.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class
 					.getResource("view/OverallView.fxml"));
@@ -121,13 +121,11 @@ public class MainApp extends Application {
 				@Override
 				public void handle(KeyEvent event) {
 					if (keyCombUndo.match(event)) {
-						controller.executeCommand("UNDO","");
+						controller.executeCommand("UNDO");
 
 					}
 				}
 			});
-			/**
-			 */
 			
 			/**
 			 * This snippet of code allows 
@@ -140,12 +138,10 @@ public class MainApp extends Application {
 				@Override
 				public void handle(KeyEvent event) {
 					if (keyCombRedo.match(event)) {
-						controller.executeCommand("REDO","");
+						controller.executeCommand("REDO");
 					}
 				}
 			});
-			/**
-			 */
 			
 			/**
 			 * This snippet of code allows 
@@ -158,13 +154,10 @@ public class MainApp extends Application {
 				@Override
 				public void handle(KeyEvent event) {
 					if (keyCombClear.match(event)) {
-						controller.executeCommand("CLEAR","");
+						controller.executeCommand("CLEAR");
 					}
 				}
 			});
-			/**
-			 */
-			
 
 			overallView.setOnMousePressed(new EventHandler<MouseEvent>() {
 				@Override

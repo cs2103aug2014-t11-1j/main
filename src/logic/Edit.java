@@ -37,11 +37,13 @@ public class Edit extends CommandFactory {
             list.add(temp, index);
 
             isDone = true;
-            CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_EDIT_MESSAGE);
-            MyLogger.log(Level.INFO,ErrorMessages.SUCCESS_EDIT_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_EDIT_MESSAGE);
+            MyLogger.log(Level.INFO,FeedbackMessages.SUCCESS_EDIT_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
         } catch (Exception ex) {
-            CommandExecutor.setFeedBack(ErrorMessages.ERROR_EDIT_MESSAGE);
-            MyLogger.log(Level.WARNING,ErrorMessages.ERROR_EDIT_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_EDIT_MESSAGE);
+            MyLogger.log(Level.WARNING,FeedbackMessages.ERROR_EDIT_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
             return;
         }
 
@@ -54,7 +56,7 @@ public class Edit extends CommandFactory {
 
     private static String[] formatString(String input) {
         if (input == null || input.isEmpty()) {
-            CommandExecutor.setFeedBack("Invalid index!");
+            CommandExecutor.setUserFeedBack("Invalid index!");
             MyLogger.log(Level.WARNING,"Invalid index!");
             throw new IllegalArgumentException("Invalid index!");
         } else {
@@ -66,7 +68,7 @@ public class Edit extends CommandFactory {
         int index = Integer.parseInt(splitStrings[0]) - 1;
 
         if (!isValidLineNumber(index)) {
-            CommandExecutor.setFeedBack("Invalid index!");
+            CommandExecutor.setUserFeedBack("Invalid index!");
             MyLogger.log(Level.WARNING,"Invalid index!");
             throw new IllegalArgumentException("Invalid index!");
         } else {

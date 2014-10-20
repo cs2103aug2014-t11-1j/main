@@ -29,9 +29,11 @@ public class Sort extends CommandFactory {
             cmd = getSortCommands(input);
             performSort(cmd);
             isDone = true;
-            CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_SORTED_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_SORTED_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
         } catch (IllegalArgumentException ex) {
-            CommandExecutor.setFeedBack(ErrorMessages.ERROR_SORTED_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_SORTED_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
             return;
         }
     }

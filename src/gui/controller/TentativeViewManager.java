@@ -5,14 +5,14 @@ import javafx.collections.ObservableList;
 
 public class TentativeViewManager {
 	
-	TentativeViewController controller;
+	TimelineViewController controller;
 	ObservableList<ModelTask> allList;
 	
 	public TentativeViewManager(){
 		
 	}
 
-	public void setTentativeViewController(TentativeViewController tentativeViewController) {
+	public void setTentativeViewController(TimelineViewController tentativeViewController) {
 		controller = tentativeViewController;
 	}
 

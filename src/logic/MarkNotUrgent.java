@@ -23,7 +23,8 @@ public class MarkNotUrgent extends CommandFactory {
         try {
             index = Integer.parseInt(input) - 1;
         } catch (NumberFormatException ex) {
-            CommandExecutor.setFeedBack(ErrorMessages.ERROR_MARKNOTURGENT_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKNOTURGENT_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
             return;
         }
 
@@ -31,9 +32,11 @@ public class MarkNotUrgent extends CommandFactory {
             ModelTask task = list.get(index);
             task.setIsUrgent(false);
             isDone = true;
-            CommandExecutor.setFeedBack(ErrorMessages.SUCCESS_MARKNOTURGENT_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_MARKNOTURGENT_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
         } else {
-            CommandExecutor.setFeedBack(ErrorMessages.ERROR_MARKNOTURGENT_MESSAGE);
+            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKNOTURGENT_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
         }
     }
 

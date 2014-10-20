@@ -37,7 +37,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import logic.ErrorMessages;
+import logic.FeedbackMessages;
 import logic.LogicFacade;
 import storage.ModelTask;
 
@@ -244,13 +244,12 @@ public class PhantomController {
 
 			input = commandLine.getText();
 			commandLine.clear();
-			String feedback = "";
+			
 			if (tableViewController.isSearched()) {
 				switchToAll();
 			}
-			if (ah.getIsFocusTable() && input.equals("")) {
-				tableViewController.scrollToNext();
-			} else if (input.equalsIgnoreCase("showall")) {
+			
+			if (input.equalsIgnoreCase("showall")) {
 				ah.showTableView();
 			} else if (input.equalsIgnoreCase("showtoday")) {
 				ah.showTodayView();
@@ -295,7 +294,7 @@ public class PhantomController {
 				new TutorialLoader(overallView, themeUrl);
 			}
 			else{
-				executeCommand(input, feedback);
+				executeCommand(input);
 
 				updateTodayView();
 				updateTimelineView();
@@ -308,33 +307,17 @@ public class PhantomController {
 			clu.displayPreviousInput();
 		} else if (e.getCode() == KeyCode.DOWN) {
 			clu.displayForwardInput();
-		} else {
-
-			//			try {
-			//				if (e.getCode() == KeyCode.BACK_SPACE) {
-
-			if (ah.getIsFocusTable()
+		} else if(e.getCode() == KeyCode.PAGE_DOWN){
+			if (ah.getIsFocusTable() 
+					&& commandLine.getText().equals("")) {
+				tableViewController.scrollToNext();
+			}
+	
+		}else if(e.getCode() == KeyCode.PAGE_UP){
+			if (ah.getIsFocusTable() 
 					&& commandLine.getText().equals("")) {
 				tableViewController.scrollToBack();
 			}
-			//
-			//					input = commandLine.getText().substring(0,
-			//							commandLine.getText().length() - 1);
-			//				} else {
-			//					input = commandLine.getText() + e.getText();
-			//				}
-			//				
-			//				if (input.split(" ")[0].equalsIgnoreCase("add")) {
-			//					ah.displayHelper();
-			//				} else if (input.length() < 2) {
-			//					ah.revertView();
-			//				}
-			//
-			//				helperViewController.setHelperView(input);
-			//
-			//			} catch (Exception exc) {
-			//				System.out.println("mother father gentlemen");
-			//			}
 		}
 	}
 
@@ -344,22 +327,32 @@ public class PhantomController {
 	 * from handleKeyPressed method for
 	 * external use. - smallson
 	 */
-	public void executeCommand(String input, String feedback) {
+	public void executeCommand(String input) {
+		int guiFeedBack = FeedbackMessages.NORMAL_STATE;
+		String userFeedBack = "";
+		
 		try {
-			feedback = logicFacade.getFeedBack(input);
+			guiFeedBack = logicFacade.executeCommand(input);
+			userFeedBack = logicFacade.getUserFeedBack();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		if(shouldUpdateAllView(feedback)){
+		if(guiFeedBack == FeedbackMessages.UPDATE_ALL_LIST){
 			setAllView(logicFacade.getAllList());
 		}
-		if(shouldSwitchToSearch(feedback)){
+		if(guiFeedBack == FeedbackMessages.SWITCH_TO_TEMP){
 			switchToSearch(logicFacade.getSearchedList());
 			ah.showTableView();
 		}
+		if(guiFeedBack == FeedbackMessages.SWITCH_TO_TEMP_DELETE){
+			switchToSearch(logicFacade.getSearchedList());
+			ah.showTableView();
+			commandLine.setText("delete ");
+			commandLine.end();
+		}
 
-		tfOutput.setText(feedback);
+		tfOutput.setText(userFeedBack);
 	}
 
 	private void updateTodayView() {
@@ -377,15 +370,6 @@ public class PhantomController {
 		final Media media = new Media(resource.toString());
 		final MediaPlayer mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.play();
-	}
-
-	private boolean shouldSwitchToSearch(String feedback) {
-		return feedback.contains(ErrorMessages.SUCCESS_SEARCH_MESSAGE);
-	}
-
-	private boolean shouldUpdateAllView(String feedback) {
-		return feedback == ErrorMessages.SUCCESS_UNDONE_MESSAGE
-				|| feedback == ErrorMessages.SUCCESS_REDONE_MESSAGE;
 	}
 
 	private void switchToSearch(ObservableList<ModelTask> list) {
