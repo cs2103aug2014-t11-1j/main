@@ -17,42 +17,27 @@ public class TentativeTask {
     private static ArrayList<TimePeriod> globalBlockedTimePeriods;
     private ArrayList<TimePeriod> blockedTimePeriods;
     
-    //used by GUI to create tree
     private String event;
     private int position;
-	private ArrayList<String> dates;
-    
-    private TreeItem<TentativeNode> node;
   
-    public TentativeTask(String event, int position) {
+    public TentativeTask() {
         blockedTimePeriods = new ArrayList<TimePeriod>();
-		dates = new ArrayList<String>();
-		
-		//set dates?
-		
-        node = new TreeItem<TentativeNode>(new TentativeNode(event, String.valueOf(position)));
-        node.setExpanded(true);
-        
+		        
         setEvent(event);
         setPosition(position);
-        //setChildren();
+
     }
 	
 	//Mutators
 	public void setEvent(String event){
 		this.event = event;
-		node.getValue().setPosition(event);
 	}
 	
 	public void setPosition(int position) {
 		this.position = position;
-		node.getValue().setPosition(String.valueOf(position));
 	}
 
-	public void addDate(String date){
-		dates.add(date);
-		setChild(date);
-	}
+
 
     public boolean blockTimePeriod(TimePeriod tp) {
         for (TimePeriod period : globalBlockedTimePeriods) {
@@ -78,10 +63,6 @@ public class TentativeTask {
 		return event;
 	}
 	
-	public ArrayList<String> getDates(){
-		return dates;
-	}
-	
 	public int getPosition(){
 		return position;
 	}
@@ -100,17 +81,4 @@ public class TentativeTask {
         return isStartBeforeEnd && isStartValid && isEndValid;
     }
 
-	private void setChildren(){
-		for(String date : dates){
-			TreeItem<TentativeNode> leaf = new TreeItem<TentativeNode>(new TentativeNode(date, null));
-			node.getChildren().add(leaf);
-			node.setExpanded(true);
-		}
-	}
-	
-	private void setChild(String date){
-		TreeItem<TentativeNode> leaf = new TreeItem<TentativeNode>(new TentativeNode(date, null));
-		node.getChildren().add(leaf);
-		node.setExpanded(true);
-	}
 }
