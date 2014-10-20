@@ -77,30 +77,24 @@ public class ModelTask {
 		setIsUrgent(isUrgent);
 	}
 
-	//constructor to duplicate the given model task
-	public ModelTask(ModelTask mt){
+	//method to return a copy of a modelTask
+	public ModelTask copyTask(){
 
-		this.event = new SimpleStringProperty();
-		this.dateStringProperty = new SimpleStringProperty();
-		this.timeStringProperty = new SimpleStringProperty();
-		this.positionStringProperty = new SimpleStringProperty();
-		this.isDoneBooleanProperty = new SimpleBooleanProperty();
-		this.isUrgentBooleanProperty = new SimpleBooleanProperty();
-		this.eventAndDoneProperty = new SimpleObjectProperty<EventAndDone>();
+		ModelTask temp = new ModelTask();
 
-		this.eventAndDone = new EventAndDone(mt.getEvent(), mt.isDone);
-
-		setEvent(mt.getEvent());           
-		setDate(mt.startDate, mt.endDate);
-		setTime(mt.startTime, mt.endTime);
-		setStartDateString(mt.startDate);
-		setEndDateString(mt.endDate);
-		setStartTimeString(mt.startTime);
-		setEndTimeString(mt.endTime);
-		setPosition(mt.position);
-		setDeadLineString(mt.deadLine);
-		setIsDone(mt.isDone);
-		setIsUrgent(mt.isUrgent);
+		temp.setEvent(getEvent());           
+		temp.setDate(startDate, endDate);
+		temp.setTime(startTime, endTime);
+		temp.setStartDateString(startDate);
+		temp.setEndDateString(endDate);
+		temp.setStartTimeString(startTime);
+		temp.setEndTimeString(endTime);
+		temp.setPosition(position);
+		temp.setDeadLineString(deadLine);
+		temp.setIsDone(isDone);
+		temp.setIsUrgent(isUrgent);
+		
+		return temp;
 	}
 
 	// mutators
