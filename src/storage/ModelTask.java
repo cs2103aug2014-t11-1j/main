@@ -12,46 +12,56 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class ModelTask {
-	private StringProperty event;
-	private StringProperty dateStringProperty;
-	private StringProperty timeStringProperty;
-	private StringProperty positionStringProperty;
-	private BooleanProperty isDoneBooleanProperty;
-    private BooleanProperty isUrgentBooleanProperty;
+	//variables are package-private for sub-classes to access these variables
 	
-	private ObjectProperty<EventAndDone> eventAndDoneProperty;
+	//date formatters for all tasks
+	final static SimpleDateFormat standardFormatter = new SimpleDateFormat("dd/MM/yyyy");
+	final static SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE, MMM d");
+	final static SimpleDateFormat startDateOneMonthFormatter = new SimpleDateFormat("d ");
+	final static SimpleDateFormat startDateTwoMonthFormatter = new SimpleDateFormat("d MMM");
+	final static SimpleDateFormat endDateFormatter = new SimpleDateFormat("- d MMM");
+	final static SimpleDateFormat timeFormatter = new SimpleDateFormat("HHmm");
 
-	private SimpleDateFormat standardFormatter, dateFormatter,
-			startDateFormatter, endDateFormatter, timeFormatter;
-	private Date startDate, endDate, startTime, endTime, deadLine;
-	private String startDateString, endDateString, startTimeString,
-			endTimeString, deadLineString;
-	private int position;
-	private boolean isDone;
-        private boolean isUrgent;
-	
-	private EventAndDone eventAndDone;
+	StringProperty event;
+	StringProperty dateStringProperty;
+	StringProperty timeStringProperty;
+	StringProperty positionStringProperty;
+	BooleanProperty isDoneBooleanProperty;
+	BooleanProperty isUrgentBooleanProperty;
 
-	// constructor
+	ObjectProperty<EventAndDone> eventAndDoneProperty;
+
+	Date startDate, endDate, startTime, endTime, deadLine;
+	String startDateString, endDateString, startTimeString,
+	endTimeString, deadLineString;
+	int position;
+	boolean isDone;
+	boolean isUrgent;
+
+	EventAndDone eventAndDone;
+
+	// constructors
 	public ModelTask() {
+		this.event = new SimpleStringProperty();
+		this.dateStringProperty = new SimpleStringProperty();
+		this.timeStringProperty = new SimpleStringProperty();
+		this.positionStringProperty = new SimpleStringProperty();
+		this.isDoneBooleanProperty = new SimpleBooleanProperty();
+		this.isUrgentBooleanProperty = new SimpleBooleanProperty();
+		this.eventAndDoneProperty = new SimpleObjectProperty<EventAndDone>();
 	}
 
 	public ModelTask(String event, Date startDate, Date endDate,
-		Date startTime, Date endTime, int position, boolean isDone, boolean isUrgent) {
-		standardFormatter = new SimpleDateFormat("dd/MM/yyyy");
-		dateFormatter = new SimpleDateFormat("EEE, MMM d");
-		startDateFormatter = new SimpleDateFormat("d ");
-		endDateFormatter = new SimpleDateFormat("- d MMM");
-		timeFormatter = new SimpleDateFormat("HHmm");
+			Date startTime, Date endTime, int position, boolean isDone, boolean isUrgent) {
 
 		this.event = new SimpleStringProperty(event);
 		this.dateStringProperty = new SimpleStringProperty();
 		this.timeStringProperty = new SimpleStringProperty();
 		this.positionStringProperty = new SimpleStringProperty();
 		this.isDoneBooleanProperty = new SimpleBooleanProperty();
-                this.isUrgentBooleanProperty = new SimpleBooleanProperty();
+		this.isUrgentBooleanProperty = new SimpleBooleanProperty();
 		this.eventAndDoneProperty = new SimpleObjectProperty<EventAndDone>();
-		
+
 		this.eventAndDone = new EventAndDone(event, isDone);
 
 		setEvent(event);
@@ -64,38 +74,34 @@ public class ModelTask {
 		setPosition(position);
 		setDeadLineString(deadLine);
 		setIsDone(isDone);
-                setIsUrgent(isUrgent);
+		setIsUrgent(isUrgent);
 	}
-        
-        public ModelTask(ModelTask mt){
-            standardFormatter = new SimpleDateFormat("dd/MM/yyyy");
-            dateFormatter = new SimpleDateFormat("EEE, MMM d");
-            startDateFormatter = new SimpleDateFormat("d ");
-            endDateFormatter = new SimpleDateFormat("- d MMM");
-            timeFormatter = new SimpleDateFormat("HHmm");
-            
-            this.event = new SimpleStringProperty();
-            this.dateStringProperty = new SimpleStringProperty();
-            this.timeStringProperty = new SimpleStringProperty();
-            this.positionStringProperty = new SimpleStringProperty();
-            this.isDoneBooleanProperty = new SimpleBooleanProperty();
-            this.isUrgentBooleanProperty = new SimpleBooleanProperty();
-            this.eventAndDoneProperty = new SimpleObjectProperty<EventAndDone>();
-            
-            this.eventAndDone = new EventAndDone(mt.getEvent(), mt.isDone);
-            
-            setEvent(mt.getEvent());           
-            setDate(mt.startDate, mt.endDate);
-            setTime(mt.startTime, mt.endTime);
-            setStartDateString(mt.startDate);
-            setEndDateString(mt.endDate);
-            setStartTimeString(mt.startTime);
-            setEndTimeString(mt.endTime);
-            setPosition(mt.position);
-            setDeadLineString(mt.deadLine);
-            setIsDone(mt.isDone);
-            setIsUrgent(mt.isUrgent);
-        }
+
+	//constructor to duplicate the given model task
+	public ModelTask(ModelTask mt){
+
+		this.event = new SimpleStringProperty();
+		this.dateStringProperty = new SimpleStringProperty();
+		this.timeStringProperty = new SimpleStringProperty();
+		this.positionStringProperty = new SimpleStringProperty();
+		this.isDoneBooleanProperty = new SimpleBooleanProperty();
+		this.isUrgentBooleanProperty = new SimpleBooleanProperty();
+		this.eventAndDoneProperty = new SimpleObjectProperty<EventAndDone>();
+
+		this.eventAndDone = new EventAndDone(mt.getEvent(), mt.isDone);
+
+		setEvent(mt.getEvent());           
+		setDate(mt.startDate, mt.endDate);
+		setTime(mt.startTime, mt.endTime);
+		setStartDateString(mt.startDate);
+		setEndDateString(mt.endDate);
+		setStartTimeString(mt.startTime);
+		setEndTimeString(mt.endTime);
+		setPosition(mt.position);
+		setDeadLineString(mt.deadLine);
+		setIsDone(mt.isDone);
+		setIsUrgent(mt.isUrgent);
+	}
 
 	// mutators
 	public void setEvent(String event) {
@@ -115,11 +121,11 @@ public class ModelTask {
 		this.eventAndDone = new EventAndDone(eventAndDone.getEvent(), isDone);
 		eventAndDoneProperty.set(eventAndDone);
 	}
-        
-        public void setIsUrgent(boolean isUrgent){
-                this.isUrgent = isUrgent;
-                isUrgentBooleanProperty.set(isUrgent);
-        }
+
+	public void setIsUrgent(boolean isUrgent){
+		this.isUrgent = isUrgent;
+		isUrgentBooleanProperty.set(isUrgent);
+	}
 
 	public void setStartDateString(Date startDate) {
 		if (startDate != null) {
@@ -164,6 +170,7 @@ public class ModelTask {
 	public void setDate(Date startDate, Date endDate) {
 		this.startDate = startDate;
 		this.endDate = endDate;
+		SimpleDateFormat startDateFormatter;
 
 		// setting deadline
 		if (endDate != null) {
@@ -176,7 +183,10 @@ public class ModelTask {
 
 		if (startDate != null && endDate != null) {
 			if (!isSameMonth(startDate, endDate)) {
-				startDateFormatter = new SimpleDateFormat("d MMM ");
+				startDateFormatter = startDateTwoMonthFormatter;
+			}
+			else{
+				startDateFormatter = startDateOneMonthFormatter;
 			}
 			String startDateString = startDateFormatter.format(startDate);
 			String endDateString = endDateFormatter.format(endDate);
@@ -217,7 +227,7 @@ public class ModelTask {
 			String startTimeString = timeFormatter.format(startTime);
 			String endTimeString = timeFormatter.format(endTime);
 			this.timeStringProperty
-					.set(startTimeString + " - " + endTimeString);
+			.set(startTimeString + " - " + endTimeString);
 		} else if (startTime == null && endTime == null) {
 			this.timeStringProperty.set("");
 		} else if (startTime != null) {
@@ -284,10 +294,10 @@ public class ModelTask {
 	public boolean isDone() {
 		return this.isDone;
 	}
-        
-        public boolean isUrgent(){
-            return this.isUrgent;
-        }
+
+	public boolean isUrgent(){
+		return this.isUrgent;
+	}
 
 	public StringProperty getDateStringProperty() {
 		return dateStringProperty;
@@ -304,15 +314,15 @@ public class ModelTask {
 	public StringProperty getPositionStringProperty() {
 		return positionStringProperty;
 	}
-	
+
 	public BooleanProperty getisDoneBooleanProperty(){
 		return isDoneBooleanProperty;
 	}
-        
-    public BooleanProperty getIsUrgentBooleanProperty(){
-            return isUrgentBooleanProperty;
-    }
-	
+
+	public BooleanProperty getIsUrgentBooleanProperty(){
+		return isUrgentBooleanProperty;
+	}
+
 	public ObjectProperty<EventAndDone> getEventAndDoneProperty(){
 		return eventAndDoneProperty;
 	}
