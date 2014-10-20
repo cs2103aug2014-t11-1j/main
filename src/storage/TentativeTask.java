@@ -12,12 +12,14 @@ public class TentativeTask {
 	//used by Logic to check for clashes
     private static ArrayList<TimePeriod> globalBlockedTimePeriods;
     private ArrayList<TimePeriod> blockedTimePeriods;
+    private ArrayList<TimePeriod> timePeriods;
     
     private String event;
     private int position;
   
     public TentativeTask() {
         blockedTimePeriods = new ArrayList<TimePeriod>();
+        timePeriods = new ArrayList<TimePeriod>();
 		        
         setEvent(event);
         setPosition(position);
@@ -32,7 +34,11 @@ public class TentativeTask {
 	public void setPosition(int position) {
 		this.position = position;
 	}
-
+	
+	public void addTimePeriod(TimePeriod tp){
+		timePeriods.add(tp);
+	}
+	
     public boolean blockTimePeriod(TimePeriod tp) {
         for (TimePeriod period : globalBlockedTimePeriods) {
             if (!isValidTimePeriod(tp, period)) {
@@ -51,6 +57,10 @@ public class TentativeTask {
 
     public ArrayList<TimePeriod> getBlockedTimePeriods() {
         return blockedTimePeriods;
+    }
+    
+    public ArrayList<TimePeriod> getTimePeriods(){
+    	return timePeriods;
     }
     
 	public String getEvent(){
