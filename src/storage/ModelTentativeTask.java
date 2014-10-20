@@ -9,5 +9,11 @@ public class ModelTentativeTask extends ModelTask{
 		dateStringProperty.set("Tentative");
 		timeStringProperty.set("Tentative");
 	}
+	
+	@Override
+	public ModelTask copyTask(){
+		ModelTentativeTask temp = new ModelTentativeTask(getEvent(), position);
+		return temp;
+	}
 
 }
