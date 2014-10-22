@@ -1,5 +1,6 @@
 package gui.controller;
 
+import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
@@ -7,6 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
@@ -364,6 +367,14 @@ public class AnimationHandler {
 		default :
 			System.out.println("lol");
 		}		
+	}
+	
+	public void fadeLabel(Label tfOutput){
+		FadeTransition fadeTransition
+		= new FadeTransition(Duration.millis(3200), tfOutput);
+		fadeTransition.setFromValue(1.0);
+		fadeTransition.setToValue(0.0);
+		fadeTransition.play();
 	}
 
 }

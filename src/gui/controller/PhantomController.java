@@ -342,6 +342,7 @@ public class PhantomController {
 		}
 
 		tfOutput.setText(userFeedBack);
+		ah.fadeLabel(tfOutput);
 	}
 	
 	//private methods
