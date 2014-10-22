@@ -63,7 +63,7 @@ public class TestStorage {
 			display += stringConverter.toSave(taskList.get(i)) + "\n";
 		}
 		oneTest("testing adding a task and displaying it",
-				"tasknumber1;null;null;null;null;null;false\n", display);
+				"tasknumber1;null;null;null;null;null;false;false\n", display);
 
 	}
 	
