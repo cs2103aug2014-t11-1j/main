@@ -17,9 +17,9 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class MyLogger {
-	static Logger logger;
-	static Handler fileHandler;
-	Formatter plainText;
+	public static Logger logger;
+	private static Handler fileHandler;
+	private static Formatter plainText;
 
 	private MyLogger() throws IOException {
 		// instance the logger
@@ -34,8 +34,7 @@ public class MyLogger {
 		logger.setUseParentHandlers(false);
 		// set preference to log everything
 		logger.setLevel(Level.ALL);
-		
-		
+
 	}
 
 	private static Logger getLogger() {
@@ -49,12 +48,13 @@ public class MyLogger {
 		return logger;
 	}
 
-	public static void log(Level level, String msg) {
+	public static void log(Level level, String msg){
 		getLogger().log(level, msg);
-		//System.out.println(msg);
-		fileHandler.close();
+		// System.out.println(msg);
+		 //fileHandler.close();
 	}
-	public static void closeLogger(){
+
+	public static void closeLogger() {
 		fileHandler.close();
 	}
 }
