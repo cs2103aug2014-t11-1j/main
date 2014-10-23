@@ -86,7 +86,7 @@ public class TimeParser {
 		
 		if(isNotOutOfBounds(i+2, tokens.length)){
 			String temp = tokens[i] + tokens[i+1] + tokens[i+2];
-			if(temp.matches("(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(-)(\\s)?(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(?i)(am|pm|mn|nn)")){
+			if(temp.matches("(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(-|to)(\\s)?(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(?i)(am|pm|mn|nn)")){
 				toReplace = tokens[i] + STRING_SPACE + tokens[i+1] + STRING_SPACE + tokens[i+2];
 				start = ts.formatTime(FORMAT_DASH_TIME_FIRST + temp);
 				end = ts.formatTime(FORMAT_DASH_TIME_NEXT + temp);
@@ -95,7 +95,7 @@ public class TimeParser {
 		}
 		
 		if(isNotOutOfBounds(i, tokens.length)){
-			if(tokens[i].matches("(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(-)(\\s)?(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(?i)(am|pm|mn|nn)")){
+			if(tokens[i].matches("(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(-|to)(\\s)?(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(?i)(am|pm|mn|nn)")){
 				start = ts.formatTime(FORMAT_DASH_TIME_FIRST + tokens[i]);
 				end = ts.formatTime(FORMAT_DASH_TIME_NEXT + tokens[i]);
 				input = input.replaceFirst(tokens[i], "");
