@@ -84,11 +84,12 @@ public class TentativeParser {
 			timeParser.parseTimeWithoutKeyword(startWords, i, period[0]);
 			if(timeParser.getTime() != null){
 				//set start time
+				timePeriod.setStartTimeString(timeParser.getTime());
 			}
 
 			dateParser.parseDateWithoutKeyword(startWords, i, period[0]);
 			if(dateParser.getDate() != null){
-				//set start date
+				timePeriod.setStartDateString(dateParser.getDate());
 			}
 		}
 
@@ -96,15 +97,15 @@ public class TentativeParser {
 
 			timeParser.parseTimeWithoutKeyword(startWords, i, period[1]);
 			if(timeParser.getTime() != null){
-				//set end time
+				timePeriod.setEndTimeString(timeParser.getTime());
 			}
 
 			dateParser.parseDateWithoutKeyword(startWords, i, period[1]);
 			if(dateParser.getDate() != null){
-				//set end date
+				timePeriod.setEndDateString(dateParser.getDate());
 			}
 		}
-		
+		task.addTimePeriod(timePeriod);
 		return task;
 	}
 
