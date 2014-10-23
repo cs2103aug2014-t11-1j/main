@@ -1,11 +1,13 @@
 package gui.controller;
 
 import gui.MainApp;
+import gui.controller.filteredListTextBox.FilteredListTextBox;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +41,7 @@ public class PhantomController {
 	@FXML
 	private Label tfOutput;
 	@FXML
+	private FilteredListTextBox filteredListTextBox;
 	private TextField commandLine;
 
 	@FXML
@@ -129,6 +132,10 @@ public class PhantomController {
 
 	private void initAll() {
 		tableViewController.setAllView(logicFacade.getAllList());
+		commandLine = filteredListTextBox.getTextbox();
+		ObservableList<String> temp = FXCollections.observableArrayList();
+		temp.addAll("add <task>", "delete <num>", "clear");
+		filteredListTextBox.setData(temp);
 		initMenuBar();
 		initTodayList();
 		initClock();

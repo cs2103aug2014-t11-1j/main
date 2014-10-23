@@ -1,4 +1,4 @@
-package gui.controller.FilteredListTextBox;
+package gui.controller.filteredListTextBox;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;

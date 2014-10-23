@@ -1,4 +1,4 @@
-package gui.controller.FilteredListTextBox;
+package gui.controller.filteredListTextBox;
 
 import java.util.List;
 

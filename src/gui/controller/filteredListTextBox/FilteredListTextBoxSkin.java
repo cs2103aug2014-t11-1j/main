@@ -1,4 +1,4 @@
-package gui.controller.FilteredListTextBox;
+package gui.controller.filteredListTextBox;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -37,24 +37,18 @@ EventHandler{
 
 	public FilteredListTextBoxSkin(FilteredListTextBox<T> control) {
 		super(control);
-
 		filteredListTextbox = control;
-
 		data = control.getData();
-
 		FXCollections.sort(data);
-
 		initListView(control);
-
 		initTextBox(control);
-
 		initPopup();
 	}
 
 	public void selectList() {
-		Object i = listview.getSelectionModel().getSelectedItem();
-		if (i != null) {
-			textbox.setText(i.toString());
+		Object selected = listview.getSelectionModel().getSelectedItem();
+		if (selected != null) {
+			textbox.setText(selected.toString());
 			listview.getItems().clear();
 			textbox.requestFocus();
 			textbox.requestLayout();
@@ -147,18 +141,15 @@ EventHandler{
 				cell.focusedProperty().addListener(new InvalidationListener() {
 					@Override
 					public void invalidated(Observable observable) {
-						if(cell.getItem() != null && cell.isFocused()) {
-							String prev;							
+						if(cell.getItem() != null && cell.isFocused()) {						
 							if(temporaryTxt.length() <= 0){
 								if(listview.getItems().size() != data.size()){
 									temporaryTxt = textbox.getText();
 								}
 							}
-							prev = temporaryTxt;
 							textbox.setText(cell.getItem().toString());
-							textbox.selectRange(prev.length(), cell.getItem().toString().length());
+							textbox.selectRange(temporaryTxt.length(), cell.getItem().toString().length());
 						}
-
 					}
 				});				
 				return cell;

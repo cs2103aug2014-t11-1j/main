@@ -1,10 +1,11 @@
-package gui.controller.FilteredListTextBox;
+package gui.controller.filteredListTextBox;
 
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Control;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
 
 public class FilteredListTextBox<T> extends Control implements FilteredListTextBoxFactory<T> {
@@ -21,10 +22,17 @@ public class FilteredListTextBox<T> extends Control implements FilteredListTextB
 	public FilteredListTextBox(ObservableList<T> data) {
 		init();
 		this.data = data;
+		this.setStyle(".filteredList-textbox");
+
+		this.getStylesheets().add("-fx-skin:\"gui.controller.filteredListTextBox.FilteredListTextBoxSkin\"");
 	}
 	
 	public FilteredListTextBox() {
 		init();
+	}
+	
+	protected Skin<?> createDefaultSkin() {
+	    return new FilteredListTextBoxSkin(this);
 	}
 	
 	//Initialisation
@@ -55,6 +63,7 @@ public class FilteredListTextBox<T> extends Control implements FilteredListTextB
 	public void addData(T data) {
 		this.data.add(data);
 	}
+	
 	
 	//overridden methods
 	//From FilteredListBoxFactory
