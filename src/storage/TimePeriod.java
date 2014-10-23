@@ -9,70 +9,87 @@ import java.util.Date;
  */
 public class TimePeriod {
 
-    private Date startDate, endDate, startTime, endTime;
-    private SimpleDateFormat dateFormat, timeFormat;
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+	private static final SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
+	
+	private String startDateString, endDateString, startTimeString, endTimeString;
+    private Date startDate, endDate;
+    
 
     //constructors
     public TimePeriod() {
-        startDate = new Date();
-        startTime = new Date();
-        endDate = new Date();
-        endTime = new Date();
-
-        dateFormat = new SimpleDateFormat("dd/mm/yyyy");
-        timeFormat = new SimpleDateFormat("hh:mm");
     }
 
-    public TimePeriod(Date startDate, Date endDate, Date startTime, Date endTime) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.startTime = startTime;
-        this.endTime = endTime;
-
-        dateFormat = new SimpleDateFormat("dd/mm/yyyy");
-        timeFormat = new SimpleDateFormat("hh:mm");
+    public TimePeriod(String startDate, String endDate, String startTime, String endTime) {
+        this.startDateString = startDate;
+        this.endDateString = endDate;
+        this.startTimeString = startTime;
+        this.endTimeString = endTime;
+        
+        convertStartDate();
+        convertEndDate();
     }
 
     //mutators
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setStartDateString(String startDate) {
+        this.startDateString = startDate;
+        convertStartDate();
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEndDateString(String endDate) {
+        this.endDateString = endDate;
+        convertEndDate();
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStartTimeString(String startTime) {
+        this.startTimeString = startTime;
+        convertStartDate();
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setEndTimeString(String endTime) {
+        this.endTimeString = endTime;
+        convertEndDate();
     }
 
     //accessors
-    public Date getStartDate() {
-        return startDate;
+    public String getStartDateString() {
+        return startDateString;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public String getEndDateString() {
+        return endDateString;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public String getStartTimeString() {
+        return startTimeString;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public String getEndTimeString() {
+        return endTimeString;
+    }
+    
+    public Date getStartDate(){
+    	return startDate;
+    }
+    
+    public Date getEndDate(){
+    	return endDate;
     }
 
     @Override
     public String toString() {
-        String returnString = String.format("%s %s - %s %s", timeFormat.format(startTime),
-                dateFormat.format(startDate), timeFormat.format(endTime),
-                dateFormat.format(endDate));
+        String returnString = String.format("%s %s - %s %s", timeFormat.format(startTimeString),
+                dateFormat.format(startDateString), timeFormat.format(endTimeString),
+                dateFormat.format(endDateString));
         return returnString;
+    }
+    
+    private void convertStartDate(){
+    	
+    }
+    
+    private void convertEndDate(){
+    	
     }
 
 }
