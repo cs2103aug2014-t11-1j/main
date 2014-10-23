@@ -185,20 +185,8 @@ public class MainApp extends Application {
 						}
 					});
 
-			// //for loading of reminder pop ups
-			Timeline reminderService = new Timeline(new KeyFrame(
-					Duration.seconds(5), new EventHandler<ActionEvent>() {
-						Reminder popUpReminder = Reminder.getInstance();
-
-						@Override
-						public void handle(ActionEvent event) {
-							popUpReminder.startReminder();
-				//			System.out.println("check reminder 5 seconds");
-						}
-					}));
-			reminderService.setCycleCount(Timeline.INDEFINITE);
-			reminderService.play();
-
+			//loading the reminder service. reminder will be activated 5 min before the task starttime
+			TimeService.startReminderService();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

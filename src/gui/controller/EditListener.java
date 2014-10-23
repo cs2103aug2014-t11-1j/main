@@ -68,7 +68,7 @@ public class EditListener implements ChangeListener<String> {
 
 			if (input.length() > 0
 					&& input.substring(input.length() - 1).equals(" ")) {
-				System.out.println("here");
+
 				String[] subStrings = input.trim().split("\\s+");
 				if (subStrings.length >= 2) {
 					if (subStrings[0].equalsIgnoreCase("edit")
