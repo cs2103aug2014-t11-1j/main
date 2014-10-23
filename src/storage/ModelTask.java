@@ -325,4 +325,28 @@ public class ModelTask {
 	public ObjectProperty<EventAndDone> getEventAndDoneProperty(){
 		return eventAndDoneProperty;
 	}
+
+	
+	/**
+	 * this returns a string representation of a ModelTask for saving to text file
+	 * format is: event;startdate;enddate;starttime;endtime;isDone;isUrgent
+	 */
+	public String toString() {
+
+		String event = getEvent();
+		String startDate = getStartDateString();
+		String endDate = getEndDateString();
+		String startTime = getStartTimeString();
+		String endTime = getEndTimeString();
+		String deadLine = getDeadLineString();
+		boolean isDone = isDone();
+        boolean isUrgent = isUrgent();
+		
+		
+		String saveString =event + ";" + startDate + ";" + endDate + ";" 
+		+ startTime + ";" +endTime + ";" + deadLine +";" + isDone+ ";" + isUrgent;
+		return saveString;
+	}
+
+
 }

@@ -70,9 +70,9 @@ public class Storage {
 		FileWriter fileWriter = new FileWriter(inputFile, false);
 		BufferedWriter buffer = new BufferedWriter(fileWriter);
 		PrintWriter printWriter = new PrintWriter(buffer);
-		ModelTaskToSaveStringConverter converter = new ModelTaskToSaveStringConverter();
+		//ModelTaskToSaveStringConverter converter = new ModelTaskToSaveStringConverter();
 		for (int i = 0; i < list.size(); i++) {
-			printWriter.println(converter.toSave(list.get(i)));
+			printWriter.println(list.get(i).toString());
 		}
 
 		printWriter.close();
