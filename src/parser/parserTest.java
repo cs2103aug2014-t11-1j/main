@@ -8,12 +8,15 @@ package parser;
  */
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Scanner;
 
 import storage.Task;
+import storage.TentativeTask;
+import storage.TimePeriod;
 
 public class parserTest {
 
@@ -23,12 +26,25 @@ public class parserTest {
 		while(true){
 			System.out.print("line: ");
 			String input = sc.nextLine();
-			Task task = pf.getTask(input);
+			TentativeTask task = pf.getTentative(input);
+			ArrayList<TimePeriod> list = task.getTimePeriods();
+			
+			System.out.println(task.getEvent());
+			System.out.println(list.get(0).getStartDateString());
+			System.out.println(list.get(0).getStartTimeString());
+			System.out.println(list.get(0).getEndDateString());
+			System.out.println(list.get(0).getEndTimeString());
+			if(list.size() > 1){
+				System.out.println(list.get(1).getStartDateString());
+				System.out.println(list.get(1).getStartTimeString());
+				System.out.println(list.get(1).getEndDateString());
+				System.out.println(list.get(1).getEndTimeString());
+			}
 //			System.out.println("command: " + pf.getCommandString(input));
-			System.out.println("event: " + task.getTaskDescription());
-			System.out.println("deadline: " + task.getDeadLine());
-			System.out.println("start: " + task.getStartTime() + " " + task.getStartDate());
-			System.out.println("end: " + task.getEndTime() + " " + task.getEndDate());
+//			System.out.println("event: " + task.getTaskDescription());
+//			System.out.println("deadline: " + task.getDeadLine());
+//			System.out.println("start: " + task.getStartTime() + " " + task.getStartDate());
+//			System.out.println("end: " + task.getEndTime() + " " + task.getEndDate());
 			
 //			System.out.println(getCurrentDay());
 //			System.out.println(getCurrentMonth());

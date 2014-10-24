@@ -370,7 +370,7 @@ public class DateParser {
 	}
 
 	private boolean isNotOutOfBounds(int index, int length) {
-		return index < length && index > 0;
+		return index < length && index >= 0;
 	}
 
 	private boolean dictionaryEquals(String[] dictionary, String keyword) {
