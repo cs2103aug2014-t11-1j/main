@@ -28,6 +28,7 @@ public class TimeFormatter {
 	private static final String STRING_NIGHT = "2300";
 	
 	private static final String STRING_DASH = "-";
+	private static final String STRING_TO = "to";
 	
 	
 	public TimeFormatter(){
@@ -116,6 +117,9 @@ public class TimeFormatter {
 		String minutes = "00";
 		
 		String[] timeArray = time.split(STRING_DASH);
+		if(timeArray.length < 2){
+			timeArray = time.split(STRING_TO);
+		}
 		
 		try{
 			Scanner sc = new Scanner(timeArray[0]).useDelimiter("[^0-9]+");		
@@ -157,6 +161,9 @@ public class TimeFormatter {
 		String minutes = "00";
 		
 		String[] timeArray = time.split(STRING_DASH);
+		if(timeArray.length < 2){
+			timeArray = time.split(STRING_TO);
+		}
 		
 		try{
 			Scanner sc = new Scanner(timeArray[1]).useDelimiter("[^0-9]+");		
@@ -186,8 +193,6 @@ public class TimeFormatter {
 		if(hours.length() < 2){
 			hours = "0" + hours;
 		}
-		
-		System.out.println(hours+minutes);
 
 		return hours + minutes;
 	}

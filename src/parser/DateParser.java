@@ -180,7 +180,7 @@ public class DateParser {
 			}
 		}
 
-		if(tokens[i].equalsIgnoreCase("next")){
+		if(tokens[i].equalsIgnoreCase("next") && isNotOutOfBounds(i+1,tokens.length)){
 			if(dictionaryEquals(DICTIONARY_DAYS,tokens[i+1])){
 				if(!tokens[i+1].equalsIgnoreCase("tmr") && !tokens[i+1].equalsIgnoreCase("tommorrow")){
 					date = "next " + tokens[i+1];

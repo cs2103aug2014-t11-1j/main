@@ -49,8 +49,8 @@ public class TimelineViewManager {
 		nextSunday = sundayCal.getTime();
 	}
 
-	public void setTimelineViewController(TimelineViewController tentativeViewController) {
-		controller = tentativeViewController;
+	public void setTimelineViewController(TimelineViewController timelineViewController) {
+		controller = timelineViewController;
 	}
 
 	public void setAllList(ObservableList<ModelTask> allList) {
@@ -61,6 +61,7 @@ public class TimelineViewManager {
 	public void updateTentative(){
 		for(ModelTask task:allList){
 			if(isThisWeek(task) && hasTimePeriod(task)){
+				System.out.println("task: " + task.getEvent());
 				controller.addConfirmedPeriod(task.getStartTime(), task.getEndTime());
 			}
 		}

@@ -16,7 +16,7 @@ import java.util.Date;
 public class TaskConverter {
 	
 	private static TaskConverter taskConverter = new TaskConverter();
-	private static SimpleDateFormat dateGetter;
+	private static final SimpleDateFormat dateGetter = new SimpleDateFormat("dd/MM/yyyy");
 	
 	private final static int START_DATE = 1;
 	private final static int DEADLINE_DATE = 2;
@@ -36,7 +36,6 @@ public class TaskConverter {
 	private final static int NO_TIME = 3;
 	
 	private TaskConverter(){
-		dateGetter = new SimpleDateFormat("dd/MM/yyyy");
 	}
 	
 	public static TaskConverter getInstance(){
