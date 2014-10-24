@@ -22,7 +22,7 @@ public class TimePeriodTest {
 
         cal.set(2013, 1, 15);
 
-        test.setStartDate(cal.getTime());
+        //test.setStartDate(cal.getTime());
 
         System.out.println(test);
     }

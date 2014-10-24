@@ -84,6 +84,10 @@ public class TentativeParser {
 			timeParser.parseTimeWithoutKeyword(startWords, i, period[0]);
 			System.out.println(timeParser.getTime());
 			if(timeParser.getTime() != null){
+<<<<<<< HEAD
+=======
+				//set start time
+>>>>>>> origin/master
 				timePeriod.setStartTimeString(timeParser.getTime());
 			}
 

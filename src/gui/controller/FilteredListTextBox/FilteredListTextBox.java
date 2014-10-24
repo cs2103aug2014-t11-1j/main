@@ -1,5 +1,6 @@
 package gui.controller.FilteredListTextBox;
 
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Control;
@@ -87,6 +88,7 @@ public class FilteredListTextBox<T> extends Control implements FilteredListTextB
 		return limit;
 	}
 	
+	//overriden methods from JavaFX Node
 	//sizing the FilteredListTextBox
 	@Override
 	public void setMinSize(double minWidth, double minHeight) {
