@@ -76,6 +76,8 @@ public class Action {
 			return CommandType.MARK_URGENT;
 		} else if (dictionaryContains(DICTIONARY_MARK_NOT_URGENT, command)) {
 			return CommandType.MARK_NOT_URGENT;
+                } else if(commandWord.equalsIgnoreCase("TENTATIVE")){
+                        return CommandType.TENTATIVE;
                 } else if (commandWord.equalsIgnoreCase("HELP")) {
 			return CommandType.HELP;
 		} else if (commandWord.equalsIgnoreCase("EXIT")) {
