@@ -23,8 +23,6 @@ public class FilteredListTextBox<T> extends Control implements FilteredListTextB
 		init();
 		this.data = data;
 		this.setStyle(".filteredList-textbox");
-
-		this.getStylesheets().add("-fx-skin:\"gui.controller.filteredListTextBox.FilteredListTextBoxSkin\"");
 	}
 	
 	public FilteredListTextBox() {
@@ -69,7 +67,9 @@ public class FilteredListTextBox<T> extends Control implements FilteredListTextB
 	//From FilteredListBoxFactory
 	@Override
 	public void setData(ObservableList<T> data) {
-		this.data = data;	
+		this.data = data;
+		listview.setItems(data);
+		System.out.println("data set");
 	}
 
 	@Override

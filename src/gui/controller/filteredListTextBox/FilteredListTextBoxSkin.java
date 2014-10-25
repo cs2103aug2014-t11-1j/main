@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SkinBase;
@@ -34,6 +35,8 @@ EventHandler{
 	private Popup popup;
 
 	private String temporaryTxt = "";
+	
+	private final static int TEXTBOX_HEIGHT = 29;
 
 	public FilteredListTextBoxSkin(FilteredListTextBox<T> control) {
 		super(control);
@@ -57,10 +60,10 @@ EventHandler{
 			hidePopup();
 		}
 	}
-	
-    public Window getWindow() {
-        return filteredListTextbox.getScene().getWindow();
-    }
+
+	public Window getWindow() {
+		return filteredListTextbox.getScene().getWindow();
+	}
 
 	@Override
 	public void handle(Event event) {
@@ -82,10 +85,10 @@ EventHandler{
 			}
 		}
 	}
-	
+
 	private void handleListviewEvent(Event event) {
-		KeyEvent keyEvent = (KeyEvent)event;
 		if(event.getEventType() == KeyEvent.KEY_RELEASED) {
+			KeyEvent keyEvent = (KeyEvent)event;
 			if(keyEvent.getCode() == KeyCode.ENTER) {
 				selectList();
 			}else if(keyEvent.getCode() == KeyCode.UP){
@@ -99,20 +102,20 @@ EventHandler{
 	}
 
 	@Override
-	public void changed(ObservableValue<? extends String> observable,
+	public void changed(ObservableValue<? extends String> ov,
 			String oldValue, String newValue) {
-		// TODO Auto-generated method stub
-
+		showPopup();
 	}
-	
+
 	private void initListView(FilteredListTextBox<T> control) {
 		listview = control.getListview();
-		listview.setItems(data);
+		listview.setItems(control.getData());
 
-		listview.itemsProperty().addListener(new ChangeListener<Object>() {
+		listview.itemsProperty().addListener(new ChangeListener() {
 			@Override
 			public void changed(ObservableValue observable, Object oldValue,
 					Object newValue) {
+				System.out.println("changed");
 				if(listview.getItems().size() > 0 && listview.getItems() != null) {
 					showPopup();
 				}else{
@@ -137,21 +140,7 @@ EventHandler{
 						}
 					}
 
-				};
-				cell.focusedProperty().addListener(new InvalidationListener() {
-					@Override
-					public void invalidated(Observable observable) {
-						if(cell.getItem() != null && cell.isFocused()) {						
-							if(temporaryTxt.length() <= 0){
-								if(listview.getItems().size() != data.size()){
-									temporaryTxt = textbox.getText();
-								}
-							}
-							textbox.setText(cell.getItem().toString());
-							textbox.selectRange(temporaryTxt.length(), cell.getItem().toString().length());
-						}
-					}
-				});				
+				};			
 				return cell;
 			}     	
 		});
@@ -167,7 +156,6 @@ EventHandler{
 			public void changed(ObservableValue observable, Object oldValue,
 					Object newValue) {
 				textbox.end();
-				System.out.println(newValue.toString());
 			}
 
 		});
@@ -178,22 +166,21 @@ EventHandler{
 
 	private void initPopup() {
 		popup = new Popup();
-		popup.setAutoHide(true);
+		popup.setAutoHide(false);
 		popup.getContent().add(listview);
 	}
 
 	private void showPopup() {
 		listview.setPrefWidth(textbox.getWidth());
 		if (listview.getItems().size() > 6) {
-			listview.setPrefHeight((6 * 24));
+			listview.setPrefHeight((6 * 28));
 		} else {
-			listview.setPrefHeight((listview.getItems().size() * 24));
+			listview.setPrefHeight((listview.getItems().size() * 28));
 		}
 
-		popup.show(
-				getWindow(),
+		popup.show(getWindow(),
 				getWindow().getX() + textbox.localToScene(0, 0).getX() + textbox.getScene().getX(),
-				getWindow().getY() + textbox.localToScene(0, 0).getY() + textbox.getScene().getY());
+				getWindow().getY() + textbox.localToScene(0, 0).getY() + textbox.getScene().getY() + TEXTBOX_HEIGHT);
 
 		listview.getSelectionModel().clearSelection();
 		listview.getFocusModel().focus(-1);

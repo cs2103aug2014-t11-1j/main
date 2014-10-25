@@ -41,7 +41,7 @@ public class PhantomController {
 	@FXML
 	private Label tfOutput;
 	@FXML
-	private FilteredListTextBox filteredListTextBox;
+	private FilteredListTextBox<String> filteredListTextBox;
 	private TextField commandLine;
 
 	@FXML
@@ -134,7 +134,7 @@ public class PhantomController {
 		tableViewController.setAllView(logicFacade.getAllList());
 		commandLine = filteredListTextBox.getTextbox();
 		ObservableList<String> temp = FXCollections.observableArrayList();
-		temp.addAll("add <task>", "delete <num>", "clear");
+		temp.add("add <task>");
 		filteredListTextBox.setData(temp);
 		initMenuBar();
 		initTodayList();
@@ -288,6 +288,8 @@ public class PhantomController {
 				showPopup();
 			}else if(input.equalsIgnoreCase("tutorial")){
 				new TutorialLoader(overallView, themeUrl);
+			}else if(input.equalsIgnoreCase("text")){
+				filteredListTextBox.addData("hello");
 			}
 			else{
 				executeCommand(input);
