@@ -53,7 +53,6 @@ public class TentativeParser {
 		return task;
 	}
 
-
 	private TentativeTask parseDateAndTime(String input, TentativeTask task) {
 
 		String[] periods = input.split(PERIOD_SEPERATOR);
@@ -82,12 +81,7 @@ public class TentativeParser {
 			DateParser dateParser = new DateParser();
 
 			timeParser.parseTimeWithoutKeyword(startWords, i, period[0]);
-			System.out.println(timeParser.getTime());
 			if(timeParser.getTime() != null){
-<<<<<<< HEAD
-=======
-				//set start time
->>>>>>> origin/master
 				timePeriod.setStartTimeString(timeParser.getTime());
 			}
 
@@ -103,7 +97,6 @@ public class TentativeParser {
 			DateParser dateParser = new DateParser();
 
 			timeParser.parseTimeWithoutKeyword(endWords, i, period[1]);
-			System.out.println(timeParser.getTime());
 			if(timeParser.getTime() != null){
 				timePeriod.setEndTimeString(timeParser.getTime());
 			}
