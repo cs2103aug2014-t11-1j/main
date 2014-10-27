@@ -180,7 +180,7 @@ public class TimeParser {
 	}
 	
 	private boolean isNotOutOfBounds(int index, int length) {
-		return index < length && index > 0;
+		return index < length && index >= 0;
 	}
 
 	private boolean dictionaryContains(String[] dictionary, String keyword) {

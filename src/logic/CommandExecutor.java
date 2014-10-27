@@ -209,6 +209,12 @@ public class CommandExecutor {
                                 boolean isUnmarkedUrgent = cmdf.isDone();
 
                                 break;
+                            
+                        case TENTATIVE:
+                                cmdf = new BlockTentative(actualCommandDescription);
+                                boolean isTentativeBlocked = cmdf.isDone();
+                            
+                                break;
                         
 			case HELP:
 				/*

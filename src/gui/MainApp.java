@@ -186,7 +186,9 @@ public class MainApp extends Application {
 					});
 
 			//loading the reminder service. reminder will be activated 5 min before the task starttime
-			TimeService.startReminderService();
+			TimeService timeService = TimeService.getInstance();
+			timeService.startReminderService();
+						
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
