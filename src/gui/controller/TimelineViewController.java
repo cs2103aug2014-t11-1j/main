@@ -28,9 +28,9 @@ public class TimelineViewController {
 	private final static int FIRST_COL = 0;
 
 	private final static int MAX_HOUR = 24;
-	
+
 	private final static int MAX_HOUR_PERIOD = 12;
-	
+
 	private final static int AT_HOUR = 0;
 	private final static int QUARTER_HOUR = 15;
 	private final static int HALF_HOUR = 30;
@@ -72,66 +72,70 @@ public class TimelineViewController {
 		int startCol = getStartCol(startTime);
 		int period = findPeriod(startTime);
 		int numCol = getTotalCol(startCol, endTime, period);
-		
-		
+
+
 		System.out.println(startTime.toString());
 		System.out.println(endTime.toString());
-		
+
 		System.out.println(numCol);
 		GridPane dayToAdd = getGridPane(day);
 
 		setPeriod(dayToAdd, period, startCol, numCol, colour);
 	}
-	
+
 	private int getStartCol(Date startTime) {
 		int startHour = getHour(startTime);
 		int startMin = getRoundedMin(startTime);
 		int startCol;
-		
+
 		if(startHour > MAX_HOUR_PERIOD){
 			startHour -= MAX_HOUR_PERIOD;
 		}
-		
+
 		startCol = (startHour - 1) * 2;
-		
+
 		if(startMin == HALF_HOUR){
 			startCol++;
 		}
 		else if(startMin == FULL_HOUR){
 			startCol += 2;
 		}
-		
+
 		return startCol;
 	}
 
-	private int findPeriod(Date startTime) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(startTime);
-		return cal.get(Calendar.AM_PM);
+	private int findPeriod(Date time) {
+		int hour = getHour(time);
+		
+		if(hour <= 12){
+			return Calendar.AM;
+		}else{
+			return Calendar.PM;
+		}
 	}
 
 	private int getTotalCol(int startCol, Date endTime, int startPeriod) {
 		int endHour = getHour(endTime);
 		int endMin = getRoundedMin(endTime);
 		int endPeriod = findPeriod(endTime);
-		
+
 		if(endHour > MAX_HOUR_PERIOD){
 			endHour -= MAX_HOUR_PERIOD;
 		}
-		
+
 		int numCol = (endHour - 1) * 2 - startCol;
 
 		if(endPeriod == Calendar.PM && startPeriod == Calendar.AM){
 			numCol += MAX_HOUR;
 		}
-		
+
 		if(endMin == HALF_HOUR){
 			numCol ++;
 		}
 		else if(endMin == FULL_HOUR){
 			numCol += 2;
 		}
-		
+
 		return numCol;
 	}
 
@@ -146,12 +150,12 @@ public class TimelineViewController {
 		cal.setTime(time);
 		return cal.get(Calendar.HOUR_OF_DAY);
 	}
-	
+
 	private int getRoundedMin(Date time) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(time);
 		int min = cal.get(Calendar.MINUTE);
-		
+
 		if(min <= QUARTER_HOUR){
 			return AT_HOUR;
 		}
