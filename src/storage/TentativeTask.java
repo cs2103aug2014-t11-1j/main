@@ -16,12 +16,7 @@ public class TentativeTask {
     private int position;
 
     public TentativeTask() {
-
         timePeriods = new ArrayList<TimePeriod>();
-
-        setEvent(event);
-        setPosition(position);
-
     }
 
     //Mutators

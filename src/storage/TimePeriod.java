@@ -32,6 +32,8 @@ public class TimePeriod {
 
 	//constructors
 	public TimePeriod() {
+		startDateString = endDateString = startTimeString = endTimeString = null;
+		startDate = endDate = null;
 	}
 
 	public TimePeriod(String startDate, String endDate, String startTime, String endTime) {
@@ -39,7 +41,9 @@ public class TimePeriod {
 		this.endDateString = endDate;
 		this.startTimeString = startTime;
 		this.endTimeString = endTime;
-
+		
+		startDate = endDate = null;
+		
 		convertStartDate();
 		convertEndDate();
 	}
