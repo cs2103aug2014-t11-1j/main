@@ -15,20 +15,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.ModelTask;
-import com.ModelTaskToSaveStringConverter;
 import com.TaskConverter;
 
 import parser.ParserFacade;
 
-public class TestModelTaskToSaveStringConverter {
+public class TestModelTaskToString {
 
-	public ModelTaskToSaveStringConverter converter;
 	TaskConverter taskConverter;
 	ParserFacade pf = ParserFacade.getInstance();
 
 	@Before
 	public void setUp() {
-		converter = new ModelTaskToSaveStringConverter();
 		taskConverter = TaskConverter.getInstance();
 	}
 
@@ -39,7 +36,7 @@ public class TestModelTaskToSaveStringConverter {
 				+ "this is crazy"), 1);
 		testTaskOutputString("testing task conversion",
 				"this is crazy;null;null;null;null;null;false;false",
-				converter.toSave(newTask));
+				newTask.toString());
 		
 		//testing task with one date
 		//using formate dd/mm/yyyy
@@ -47,7 +44,7 @@ public class TestModelTaskToSaveStringConverter {
 				+ "go to school on 13/12/2014"), 1);
 		testTaskOutputString("testing task conversion",
 				"go to school;13/12/2014;null;2359;null;13/12/2014;false;false",
-				converter.toSave(newTask2));
+				newTask2.toString());
 	}
 
 	private void testTaskOutputString(String description, String expected, String actual) {

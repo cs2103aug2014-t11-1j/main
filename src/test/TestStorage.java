@@ -21,7 +21,6 @@ import org.junit.Test;
 //import parser.ParserFacade;
 
 import com.ModelTask;
-import com.ModelTaskToSaveStringConverter;
 
 import storage.Storage;
 //import storage.TaskConverter;
@@ -31,7 +30,7 @@ public class TestStorage {
 	private Storage storage;
 	private CommandExecutor executor;
 	private ObservableList<ModelTask> taskList;
-	private ModelTaskToSaveStringConverter stringConverter;
+
 
 	@Before
 	public void setUp() {
@@ -40,7 +39,7 @@ public class TestStorage {
 		} catch (IOException e) {
 			System.out.println("this is not possible haha");
 		}
-		stringConverter = new ModelTaskToSaveStringConverter();
+	
 	//	pf = ParserFacade.getInstance();
 		taskList = storage.getListFromFile();
 		executor = new CommandExecutor(taskList, storage);
@@ -54,7 +53,7 @@ public class TestStorage {
 		// display initial storage
 		String display = "";
 		for (int i = 0; i < taskList.size(); i++) {
-			display = stringConverter.toSave(taskList.get(i));
+			display = taskList.get(i).toString();
 		}
 		oneTest("testing original file content when loading", "", display);
 
@@ -62,7 +61,7 @@ public class TestStorage {
 		executor.executeCommand("add tasknumber1");
 		taskList = executor.getAllList();
 		for (int i = 0; i < taskList.size(); i++) {
-			display += stringConverter.toSave(taskList.get(i)) + "\n";
+			display += taskList.get(i).toString() + "\n";
 		}
 		oneTest("testing adding a task and displaying it",
 				"tasknumber1;null;null;null;null;null;false;false\n", display);
