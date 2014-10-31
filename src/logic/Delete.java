@@ -3,9 +3,8 @@ package logic;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import storage.ModelTask;
-
-import com.MyLogger;
+import com.ModelTask;
+import com.util.MyLogger;
 
 /**
  *

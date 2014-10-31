@@ -1,6 +1,7 @@
 package gui.controller;
 
-import storage.TentativeNode;
+import com.TentativeNode;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;

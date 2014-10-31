@@ -1,4 +1,4 @@
-package storage;
+package com;
 
 /**
  * This class is used to store information about a task

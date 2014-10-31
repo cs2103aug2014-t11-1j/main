@@ -5,9 +5,10 @@
  */
 package logic;
 
+import com.ModelTask;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import storage.ModelTask;
 
 /**
  *

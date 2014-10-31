@@ -28,9 +28,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import logic.FeedbackMessages;
 import logic.LogicFacade;
-import storage.ModelTask;
 
-import com.MyLogger;
+import com.ModelTask;
+import com.util.MyLogger;
 
 public class PhantomController {
 	protected static boolean hasOccured = false;

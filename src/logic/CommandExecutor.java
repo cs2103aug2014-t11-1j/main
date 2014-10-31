@@ -3,9 +3,9 @@ package logic;
 import java.io.IOException;
 import java.util.logging.Level;
 
-import com.MyLogger;
+import com.ModelTask;
+import com.util.MyLogger;
 
-import storage.ModelTask;
 /**
  * @author Zhang Yongkai
  *

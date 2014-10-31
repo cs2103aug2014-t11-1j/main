@@ -2,8 +2,8 @@ package parser;
 
 import java.util.ArrayList;
 
-import storage.TentativeTask;
-import storage.TimePeriod;
+import com.TentativeTask;
+import com.TimePeriod;
 
 /**
  * This class is used to parse

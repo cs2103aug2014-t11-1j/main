@@ -10,7 +10,7 @@ package logic;
 import java.util.Comparator;
 import java.util.Date;
 
-import storage.ModelTask;
+import com.ModelTask;
 
 public class ModelTaskDateComparator implements Comparator<ModelTask> {
 

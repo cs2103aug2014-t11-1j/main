@@ -12,14 +12,14 @@ package logic;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import com.MyLogger;
+import com.ModelTask;
+import com.TentativeTask;
+import com.TimePeriod;
+import com.util.MyLogger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import storage.ModelTask;
 import storage.Storage;
-import storage.TentativeTask;
-import storage.TimePeriod;
 
 public class LogicFacade {
 

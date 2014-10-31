@@ -1,7 +1,8 @@
 package logic;
 
 import static logic.CommandFactory.updateUndoAndRedoStacks;
-import storage.ModelTask;
+
+import com.ModelTask;
 
 /**
  *

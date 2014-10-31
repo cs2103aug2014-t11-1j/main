@@ -3,9 +3,8 @@ package logic;
 import java.util.Iterator;
 import java.util.logging.Level;
 
-import storage.ModelTask;
-
-import com.MyLogger;
+import com.ModelTask;
+import com.util.MyLogger;
 
 /**
  *

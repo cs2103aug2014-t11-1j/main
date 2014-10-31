@@ -1,6 +1,6 @@
 package logic;
 
-import storage.ModelTask;
+import com.ModelTask;
 
 /**
  * Takes in String input containing 2 integers in the format "%d %d", where the

@@ -1,6 +1,7 @@
 package gui.controller;
 
-import storage.ModelTask;
+import com.ModelTask;
+
 import javafx.collections.ObservableList;
 
 public class TentativeViewManager {

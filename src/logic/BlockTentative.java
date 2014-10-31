@@ -1,8 +1,9 @@
 package logic;
 
 import java.util.Date;
-import storage.TentativeTask;
-import storage.TimePeriod;
+
+import com.TentativeTask;
+import com.TimePeriod;
 
 /**
  *

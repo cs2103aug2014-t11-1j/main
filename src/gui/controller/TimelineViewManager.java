@@ -3,7 +3,8 @@ package gui.controller;
 import java.util.Calendar;
 import java.util.Date;
 
-import storage.ModelTask;
+import com.ModelTask;
+
 import javafx.collections.ObservableList;
 
 public class TimelineViewManager {

@@ -1,4 +1,4 @@
-package com;
+package com.util;
 
 /**
  * @author zhang
@@ -51,7 +51,7 @@ public class MyLogger {
 	public static void log(Level level, String msg){
 		getLogger().log(level, msg);
 		// System.out.println(msg);
-		 //fileHandler.close();
+		// fileHandler.close();
 	}
 
 	public static void closeLogger() {

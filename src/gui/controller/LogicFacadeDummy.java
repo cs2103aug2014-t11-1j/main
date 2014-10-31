@@ -2,9 +2,10 @@ package gui.controller;
 
 import java.util.Date;
 
+import com.ModelTask;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import storage.ModelTask;
 
 public class LogicFacadeDummy {
 

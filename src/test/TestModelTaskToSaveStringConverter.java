@@ -13,10 +13,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.ModelTask;
+import com.ModelTaskToSaveStringConverter;
+import com.TaskConverter;
+
 import parser.ParserFacade;
-import storage.ModelTask;
-import storage.ModelTaskToSaveStringConverter;
-import storage.TaskConverter;
 
 public class TestModelTaskToSaveStringConverter {
 

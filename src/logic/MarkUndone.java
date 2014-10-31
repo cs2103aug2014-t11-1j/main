@@ -1,7 +1,8 @@
 package logic;
 
 import static logic.CommandFactory.isValidLineNumber;
-import storage.ModelTask;
+
+import com.ModelTask;
 
 /**
  *

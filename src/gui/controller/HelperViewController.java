@@ -1,7 +1,8 @@
 package gui.controller;
 
+import com.Task;
+
 import parser.ParserFacade;
-import storage.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 

@@ -2,7 +2,8 @@
 package logic;
 
 import java.util.Comparator;
-import storage.ModelTask;
+
+import com.ModelTask;
 
 /**
  *

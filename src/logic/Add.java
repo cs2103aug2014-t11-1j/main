@@ -1,8 +1,9 @@
 package logic;
 
 import java.util.logging.Level;
-import com.MyLogger;
-import storage.ModelTask;
+
+import com.ModelTask;
+import com.util.MyLogger;
 
 
 /**

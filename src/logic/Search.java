@@ -1,6 +1,6 @@
 package logic;
 
-import storage.ModelTask;
+import com.ModelTask;
 
 /**
  *

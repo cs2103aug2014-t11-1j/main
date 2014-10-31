@@ -4,10 +4,9 @@ import static logic.CommandFactory.tc;
 
 import java.util.logging.Level;
 
-import com.MyLogger;
-
-import storage.ModelTask;
-import storage.Task;
+import com.ModelTask;
+import com.Task;
+import com.util.MyLogger;
 
 /**
  *

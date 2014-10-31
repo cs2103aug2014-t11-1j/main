@@ -1,5 +1,8 @@
 package gui.controller;
 
+import com.EventAndDone;
+import com.ModelTask;
+
 import gui.ResourceLoader;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,8 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Callback;
-import storage.EventAndDone;
-import storage.ModelTask;
 
 public class TableController{
 	@FXML
