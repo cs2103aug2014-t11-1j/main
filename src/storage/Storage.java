@@ -1,7 +1,7 @@
 package storage;
 
 /** 
- * @author: zhang yongkai
+ * @author: Zhang Yongkai
  * this storage will load from txt file or write to text file
  * this is a singleton class
  */

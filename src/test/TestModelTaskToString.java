@@ -43,7 +43,7 @@ public class TestModelTaskToString {
 		ModelTask newTask2 = taskConverter.convert(pf.getTask("add "
 				+ "go to school on 13/12/2014"), 1);
 		testTaskOutputString("testing task conversion",
-				"go to school;13/12/2014;null;2359;null;13/12/2014;false;false",
+				"go to school;13/12/2014;null;null;null;13/12/2014;false;false",
 				newTask2.toString());
 	}
 

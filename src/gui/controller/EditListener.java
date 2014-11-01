@@ -63,8 +63,6 @@ public class EditListener implements ChangeListener<String> {
 	}
 
 	private boolean containsTwoSpace(String input) {
-		// int spaces = input.length() - input.replace(" ", "").length();
-
 		if ((input != null) && ((input.replaceAll("\\s+", "")) != "")) {
 
 			if (input.length() > 0

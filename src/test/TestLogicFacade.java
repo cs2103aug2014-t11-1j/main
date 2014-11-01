@@ -1,12 +1,11 @@
 /**
  * 
- * @author zhang
+ * @author Zhang Yongkai
  * 
  * this Junit test will test the LogicFacade class. 
  * 
  * note: the list is cleared before and after the whole test
- * 
- * 
+ *  
  * for each test, we will check:
  * 1. if feedback message is correct
  * 2. the the list size is correct
@@ -19,11 +18,9 @@ package test;
 import static org.junit.Assert.*;
 import javafx.collections.ObservableList;
 import logic.LogicFacade;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import com.ModelTask;
 
 public class TestLogicFacade {
@@ -36,22 +33,22 @@ public class TestLogicFacade {
 	private LogicFacade logic;
 
 	@Before
-	public void initializa() throws Exception {
+	public void initialize() throws Exception {
 		logic = LogicFacade.getInstance();
 		// clear the list in the logic before testing
 		logic.executeCommand("clear");
 	}
 
 	@Test
-	public void testLogicOperation() throws Exception {
+	public void testBasic() throws Exception {
 
 		// boundary case: user types nothing, then program should display error
 		testLogicFeedBack("INVALID COMMAND!", "");
 		testListSize(0);
+	}
 
-		/**
-		 * testing clear function
-		 */
+	@Test
+	public void testClear() throws Exception {
 		// clear list when the task has 2 tasks
 		logic.executeCommand("add task1");
 		logic.executeCommand("add task2");
@@ -62,55 +59,157 @@ public class TestLogicFacade {
 		testListSize(0);
 
 		logic.executeCommand("clear");
+	}
 
-		/**
-		 * testing add function
-		 */
+	@Test
+	public void testAddFloatingTask() throws Exception {
+
 		// adding tasks without dates and times
-		testLogicFeedBack("\"go to school\"  added", "add go to school");
+		testLogicFeedBack("\"go to school\" added", "add go to school");
 		testListSize(1);
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to school", "null",
 				"null", "null", "null", "false", "false"), 1);
+		logic.executeCommand("clear");
+	}
+
+	@Test
+	public void testAddTimedTaskOneDate() throws Exception {
 		// adding tasks with 1 date
 		// boundary case: using keyword "by"
-		testLogicFeedBack("\"do homework\"  added",
+		testLogicFeedBack("\"do homework\" added",
 				"add do homework by 11/11/2014");
-		testListSize(2);
+		testListSize(1);
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "do homework",
-				"11/11/2014", "null", "2359", "null", "false", "false"), 2);
+				"11/11/2014", "null", "2359", "null", "false", "false"), 1);
+		logic.executeCommand("clear");
+	}
 
+	@Test
+	public void testAddTimedTaskTwoDate() throws Exception {
 		// adding task with 2 dates
 		// using keyword "from" and "to"
-		testLogicFeedBack("\"go to zoo\"  added",
+		testLogicFeedBack("\"go to zoo\" added",
 				"add go to zoo from 11/11/2014 to 12/12/2014");
-		testListSize(3);
+		testListSize(1);
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to zoo",
 				"11/11/2014", "12/12/2014", "null", "null", "false", "false"),
-				3);
+				1);
+		logic.executeCommand("clear");
+	}
 
+	@Test
+	public void testAddTimedTaskWithTime() throws Exception {
 		// adding task with a time
 		// boundary : adding a date using keyword "on" and "at"
-		testLogicFeedBack("\"watch ipman with girlfriend\"  added",
+		testLogicFeedBack("\"watch ipman with girlfriend\" added",
 				"add watch ipman with girlfriend on 11/11/2014 at 8am");
-		testListSize(4);
+		testListSize(1);
 		testLogicOutput(String.format(TASKSTRINGFORMAT,
 				"watch ipman with girlfriend", "11/11/2014", "null", "0800",
-				"null", "false", "false"), 4);
+				"null", "false", "false"), 1);
+		logic.executeCommand("clear");
+	}
 
+	@Test
+	public void testAddTimedWithTwoDateTwoTime() throws Exception {
 		// adding task with 2 dates and 2 time using keyword "from" and "to"
-		testLogicFeedBack("\"practice kungfu fighting\"  added",
+		testLogicFeedBack("\"practice kungfu fighting\" added",
 				"add practice kungfu fighting from 12/11/2014 to 13/11/2014"
 						+ " from 8am to 9am");
-		testListSize(5);
+		testListSize(1);
 		testLogicOutput(String.format(TASKSTRINGFORMAT,
 				"practice kungfu fighting", "12/11/2014", "13/11/2014", "0800",
-				"0900", "false", "false"), 5);
+				"0900", "false", "false"), 1);
 
 		logic.executeCommand("clear");
+	}
 
-		/**
-		 * testing delete function
-		 */
+	@Test
+	public void testAddMultiple() throws Exception {
+		// adding task with 2 dates and 2 time using keyword "from" and "to"
+		testLogicFeedBack("\"a\" added", "add a");
+		testLogicFeedBack("\"b\" added", "add b");
+		testLogicFeedBack("\"c\" added", "add c");
+		testLogicFeedBack("\"d\" added", "add d");
+		testLogicFeedBack("\"e\" added", "add e");
+		testLogicFeedBack("\"f\" added", "add f");
+		testLogicFeedBack("\"g\" added", "add g");
+		testLogicFeedBack("\"h\" added", "add h");
+		testLogicFeedBack("\"i\" added", "add i");
+		testLogicFeedBack("\"j\" added", "add j");
+		testLogicFeedBack("\"k\" added", "add k");
+		testListSize(11);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "a", "null", "null",
+				"null", "null", "false", "false"), 1);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "b", "null", "null",
+				"null", "null", "false", "false"), 2);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "c", "null", "null",
+				"null", "null", "false", "false"), 3);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "d", "null", "null",
+				"null", "null", "false", "false"), 4);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "e", "null", "null",
+				"null", "null", "false", "false"), 5);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "f", "null", "null",
+				"null", "null", "false", "false"), 6);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "g", "null", "null",
+				"null", "null", "false", "false"), 7);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "h", "null", "null",
+				"null", "null", "false", "false"), 8);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "i", "null", "null",
+				"null", "null", "false", "false"), 9);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "j", "null", "null",
+				"null", "null", "false", "false"), 10);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "k", "null", "null",
+				"null", "null", "false", "false"), 11);
+
+		logic.executeCommand("clear");
+	}
+
+	@Test
+	public void testSortAlphabetically() throws Exception {
+		// bondary case: tasks start with capital or small letter and numbers
+		logic.executeCommand("add zelDa");
+		logic.executeCommand("add apple");
+		logic.executeCommand("add G-Dragon");
+		logic.executeCommand("add Apple");
+		logic.executeCommand("add bear");
+		logic.executeCommand("add Boss");
+		logic.executeCommand("add xxx");
+		logic.executeCommand("add 12233");
+		logic.executeCommand("add 230");
+		testListSize(9);
+		logic.executeCommand("sort alpha");
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "12233", "null",
+				"null", "null", "null", "false", "false"), 8);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "230", "null", "null",
+				"null", "null", "false", "false"), 9);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "Apple", "null",
+				"null", "null", "null", "false", "false"), 4);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "apple", "null",
+				"null", "null", "null", "false", "false"), 2);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "Boss", "null", "null",
+				"null", "null", "false", "false"), 6);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "bear", "null", "null",
+				"null", "null", "false", "false"), 5);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "G-Dragon", "null",
+				"null", "null", "null", "false", "false"), 3);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "xxx", "null", "null",
+				"null", "null", "false", "false"), 7);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "zelDa", "null",
+				"null", "null", "null", "false", "false"), 1);
+		logic.executeCommand("clear");
+	}
+
+	@Test
+	public void testAddUrgentTask() throws Exception {
+
+		testLogicFeedBack("\"task1\" added", "add! task1");
+		testListSize(1);
+		logic.executeCommand("clear");
+	}
+
+	@Test
+	public void testDelete() throws Exception {
 		// testing delete when list contains 1 task
 		logic.executeCommand("add go to school");
 		testLogicFeedBack("Delete successful", "delete 1");
@@ -127,11 +226,10 @@ public class TestLogicFacade {
 		testLogicFeedBack("Delete unsuccessful", "delete 3");
 		testListSize(2);
 		logic.executeCommand("clear");
+	}
 
-		/**
-		 * testing edit function
-		 */
-
+	@Test
+	public void testEdit() throws Exception {
 		logic.executeCommand("add go to school");
 		// edit tasks without dates and times
 		testLogicFeedBack("Task edited", "edit 1 do not go to school");
@@ -147,7 +245,7 @@ public class TestLogicFacade {
 				"edit 2 Ironman is destroying the city on 18 dec 2015");
 		testListSize(2);
 		testLogicOutput(String.format(TASKSTRINGFORMAT,
-				"Ironman is destroying the city", "18/12/2015", "null", "2359",
+				"Ironman is destroying the city", "18/12/2015", "null", "null",
 				"null", "false", "false"), 2);
 
 		// boundary case: edit task by expanding time or dates
@@ -167,16 +265,17 @@ public class TestLogicFacade {
 				"null", "false", "false"), 2);
 		logic.executeCommand("clear");
 
-		/**
-		 * insert other function here for testing
-		 */
-
 	}
+
+	/**
+	 * insert other function here for testing
+	 */
 
 	// checking whether the feedback message is correct
 	public void testLogicFeedBack(String expected, String userInput)
 			throws Exception {
-		assertEquals(expected, logic.executeCommand(userInput));
+		logic.executeCommand(userInput);
+		assertEquals(expected, logic.getUserFeedBack());
 	}
 
 	// checking whether the size of the list is correct after performing various
@@ -189,9 +288,18 @@ public class TestLogicFacade {
 	// checking whether the task is correct after every operation
 	private void testLogicOutput(String expected, int taskNumber) {
 		if (taskNumber > 0) {
-			assertEquals(expected, TaskStringRepresentation(logic.getAllList()
-					.get(taskNumber - 1)));
+			ObservableList<ModelTask> allList = logic.getAllList();
+			for (int i = 0; i < allList.size(); i++) {
+				ModelTask currTask = allList.get(i);
+				if (taskNumberIsCorrect(taskNumber, currTask.getPosition())) {
+					assertEquals(expected, TaskStringRepresentation(currTask));
+				}
+			}
 		}
+	}
+
+	private boolean taskNumberIsCorrect(int taskIndex, int listIndex) {
+		return (taskIndex == listIndex);
 	}
 
 	// return a string representation of the Task

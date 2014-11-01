@@ -69,7 +69,7 @@ public class Add extends CommandFactory {
     }
 
     private void setFeedbackSuccess(ModelTask temp) {
-        CommandExecutor.setUserFeedBack(String.format("\"%s\" %s", temp.getEvent(), FeedbackMessages.SUCCESS_ADDING_MESSAGE));
+        CommandExecutor.setUserFeedBack(String.format("\"%s\"%s", temp.getEvent(), FeedbackMessages.SUCCESS_ADDING_MESSAGE));
         CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
     }
 

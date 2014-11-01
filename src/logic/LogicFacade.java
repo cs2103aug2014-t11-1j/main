@@ -34,10 +34,10 @@ public class LogicFacade {
 		try {
 			storage = new Storage("text.txt");
 			taskList = getOriginalListFromFile();
-			executor = new CommandExecutor(taskList,storage);
+			executor = new CommandExecutor(taskList, storage);
 			searchedList = FXCollections.observableArrayList();
 		} catch (Exception e) {
-			MyLogger.log(Level.SEVERE,"cannot initialize logicFacade class");
+			MyLogger.log(Level.SEVERE, "cannot initialize logicFacade class");
 			System.out.println("cannot initialize logicFacade class");
 		}
 	}
@@ -47,10 +47,10 @@ public class LogicFacade {
 		return logicFacade;
 	}
 
-	public ObservableList<ModelTask> getOriginalListFromFile(){
+	public ObservableList<ModelTask> getOriginalListFromFile() {
 		return storage.getListFromFile();
 	}
-	
+
 	public String getUserFeedBack() throws Exception {
 		String feedBack = executor.getUserFeedBack();
 		return feedBack;
@@ -71,20 +71,20 @@ public class LogicFacade {
 		searchedList = executor.getSearchedList();
 		return searchedList;
 	}
-	
-	public Storage getStorage(){
+
+	public Storage getStorage() {
 		return storage;
 	}
 
-        public ArrayList<TentativeTask> getTentativeTasks(){
-            return CommandFactory.tentativeTasks;
-        }
-        
-        public ArrayList<TimePeriod> getGlobalBlockedTimePeriods(){
-            return CommandFactory.globalBlockedTimePeriods;
-        }
-        
-        public ObservableList<String> getTentativeTasksObservableList(){
-            return CommandFactory.tentativeTasksObservableList;
-        }
+	public ArrayList<TentativeTask> getTentativeTasks() {
+		return CommandFactory.tentativeTasks;
+	}
+
+	public ArrayList<TimePeriod> getGlobalBlockedTimePeriods() {
+		return CommandFactory.globalBlockedTimePeriods;
+	}
+
+	public ObservableList<String> getTentativeTasksObservableList() {
+		return CommandFactory.tentativeTasksObservableList;
+	}
 }

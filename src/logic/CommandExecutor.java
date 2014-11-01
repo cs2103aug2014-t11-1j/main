@@ -42,8 +42,8 @@ public class CommandExecutor {
 	protected static void setUserFeedBack(String feedBack) {
 		CommandExecutor.userFeedBack = feedBack;
 	}
-	
-	protected static void setGuiFeedBack(int feedBack){
+
+	protected static void setGuiFeedBack(int feedBack) {
 		CommandExecutor.guiFeedBack = feedBack;
 	}
 
@@ -52,7 +52,7 @@ public class CommandExecutor {
 		try {
 			storage.save(taskList);
 		} catch (IOException e) {
-			MyLogger.log(Level.WARNING,"cannot save to text file");
+			MyLogger.log(Level.WARNING, "cannot save to text file");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -80,8 +80,8 @@ public class CommandExecutor {
 	public String getUserFeedBack() {
 		return userFeedBack;
 	}
-	
-	public int getGuiFeedBack(){
+
+	public int getGuiFeedBack() {
 		return guiFeedBack;
 	}
 
@@ -106,34 +106,34 @@ public class CommandExecutor {
 				boolean isAdded = false;
 				cmdf = new Add(actualCommandDescription, false);
 				isAdded = cmdf.isDone();
-				
+
 				break;
-                            
-                        case ADDURGENT:
-                                boolean isAddedUrgent = false;
+
+			case ADDURGENT:
+				boolean isAddedUrgent = false;
 				cmdf = new Add(actualCommandDescription, true);
 				isAddedUrgent = cmdf.isDone();
-				
-				break; 
+
+				break;
 
 			case DELETE:
 				boolean isDeleted = false;
 				cmdf = new Delete(actualCommandDescription);
 				isDeleted = cmdf.isDone();
-                                
+
 				break;
 
 			case CLEAR:
 				boolean isCleared = false;
 				cmdf = new Clear(actualCommandDescription);
 				isCleared = cmdf.isDone();
-				
+
 				break;
 
 			case DISPLAY:
 				boolean isDisplayed = false;
-                                cmdf = new Display(actualCommandDescription);
-                                isDisplayed = cmdf.isDone();
+				cmdf = new Display(actualCommandDescription);
+				isDisplayed = cmdf.isDone();
 
 				break;
 
@@ -141,7 +141,7 @@ public class CommandExecutor {
 				boolean isUndone = false;
 				cmdf = new Undo();
 				isUndone = cmdf.isDone();
-				
+
 				break;
 
 			case REDO:
@@ -149,7 +149,7 @@ public class CommandExecutor {
 
 				cmdf = new Redo();
 				isRedone = cmdf.isDone();
-				
+
 				break;
 
 			case EDIT:
@@ -160,21 +160,21 @@ public class CommandExecutor {
 				boolean isEdited = false;
 				cmdf = new Edit(actualCommandDescription);
 				isEdited = cmdf.isDone();
-				
+
 				break;
 
 			case MOVE:
 				boolean isMoved = false;
 				cmdf = new Move(actualCommandDescription);
 				isMoved = cmdf.isDone();
-				
+
 				break;
 
 			case SORT:
 				boolean isSorted = false;
-                                cmdf = new Sort(actualCommandDescription);
+				cmdf = new Sort(actualCommandDescription);
 				isSorted = cmdf.isDone();
-                                
+
 				break;
 
 			case SEARCH:
@@ -191,31 +191,31 @@ public class CommandExecutor {
 			case MARK_DONE:
 				cmdf = new MarkDone(actualCommandDescription);
 				boolean isMarkedDone = cmdf.isDone();
-				
-				break;
-                        case MARK_UNDONE:
-                                cmdf = new MarkUndone(actualCommandDescription);
-                                boolean isUnmarkedDone = cmdf.isDone();
 
-                                break;
-                        
-                        case MARK_URGENT:
+				break;
+			case MARK_UNDONE:
+				cmdf = new MarkUndone(actualCommandDescription);
+				boolean isUnmarkedDone = cmdf.isDone();
+
+				break;
+
+			case MARK_URGENT:
 				cmdf = new MarkUrgent(actualCommandDescription);
 				boolean isMarkedUrgent = cmdf.isDone();
-				
-				break;
-                        case MARK_NOT_URGENT:
-                                cmdf = new MarkNotUrgent(actualCommandDescription);
-                                boolean isUnmarkedUrgent = cmdf.isDone();
 
-                                break;
-                            
-                        case TENTATIVE:
-                                cmdf = new BlockTentative(actualCommandDescription);
-                                boolean isTentativeBlocked = cmdf.isDone();
-                            
-                                break;
-                        
+				break;
+			case MARK_NOT_URGENT:
+				cmdf = new MarkNotUrgent(actualCommandDescription);
+				boolean isUnmarkedUrgent = cmdf.isDone();
+
+				break;
+
+			case TENTATIVE:
+				cmdf = new BlockTentative(actualCommandDescription);
+				boolean isTentativeBlocked = cmdf.isDone();
+
+				break;
+
 			case HELP:
 				/*
 				 * this part need to consult Krystal because this cannot be
@@ -242,7 +242,7 @@ public class CommandExecutor {
 			}
 		} catch (NumberFormatException e) {
 			setUserFeedBack(FeedbackMessages.ERROR_ARGUMENT_MESSAGE);
-			MyLogger.log(Level.WARNING,FeedbackMessages.ERROR_ARGUMENT_MESSAGE);
+			MyLogger.log(Level.WARNING, FeedbackMessages.ERROR_ARGUMENT_MESSAGE);
 			System.out.println(userFeedBack);
 		}
 
