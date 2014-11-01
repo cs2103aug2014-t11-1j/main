@@ -26,9 +26,9 @@ public class InputParser {
 	/**
 	 * String Dictionaries
 	 */
-	private final String[] DICTIONARY_KEYWORDS_DEADLINE = { "BY", "BEFORE", "ON" };
-	private final String[] DICTIONARY_KEYWORDS_STARTTIME = { "AT", "AFTER", "FROM"};
-	private final String[] DICTIONARY_KEYWORDS_ENDTIME = { "TO" , "-" };
+	private final String[] DICTIONARY_KEYWORDS_DEADLINE = { "BY", "BEFORE"};
+	private final String[] DICTIONARY_KEYWORDS_STARTTIME = { "AT", "AFTER", "FROM", "ON"};
+	private final String[] DICTIONARY_KEYWORDS_ENDTIME = { "TO" , "-" , "TIL"};
 	private final String[] DICTIONARY_KEYWORDS_TODAY = { "TODAY", "TDY" };
 	//	private final String[] DICTIONARY_KEYWORDS_DASH = { "-", "~" };
 
