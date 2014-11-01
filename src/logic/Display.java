@@ -5,6 +5,9 @@ import static logic.CommandFactory.list;
 import com.ModelTask;
 
 /**
+ * Logic for Display command.
+ *
+ * Searches and displays tasks of input type.
  *
  * @author Jireh
  */
@@ -33,11 +36,11 @@ public class Display extends CommandFactory {
 
     private boolean determineDisplay(String input) {
         if (input.equalsIgnoreCase("DONE")) {
-            displayDone();          
+            displayDone();
         } else if (input.equalsIgnoreCase("URGENT")) {
             displayUrgent();
         } else {
-            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_DISPLAY_MESSAGE);
+            setFeedbackError();
             return false;
         }
         return true;
@@ -68,5 +71,9 @@ public class Display extends CommandFactory {
             CommandExecutor.setGuiFeedBack(FeedbackMessages.SWITCH_TO_TEMP);
             isDone = true;
         }
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_DISPLAY_MESSAGE);
     }
 }

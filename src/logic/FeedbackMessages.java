@@ -50,4 +50,5 @@ public class FeedbackMessages {
     public static final String ERROR_DISPLAY_MESSAGE = "No such display type";
     public static final String SUCCESS_TENTATIVE_MESSAGE = "Tentative task blocked";
     public static final String ERROR_TENTATIVE_MESSAGE = "Cannot block tentative task";
+    public static final String SUCCESS_CLEARNORMAL_MESSAGE = "Normal tasks cleared";
 }

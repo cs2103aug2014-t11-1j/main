@@ -7,7 +7,11 @@ import com.ModelTask;
 import com.util.MyLogger;
 
 /**
- *
+ * Logic for Delete command.
+ * 
+ * Deletes task at input index, or searches for task with input string, deletes 
+ * task if only 1 is found, otherwise displays all tasks that are found.
+ * 
  * @author Jireh
  */
 public class Delete extends CommandFactory {
