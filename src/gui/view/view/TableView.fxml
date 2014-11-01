@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="264.0" prefWidth="580.0" styleClass="backgroundClear" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.TableController">
+   <children>
+      <TableView fx:id="taskTable" prefHeight="264.0" prefWidth="580.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columns>
+            <TableColumn fx:id="urgentColumn" prefWidth="30.0" />
+          <TableColumn fx:id="numColumn" editable="false" maxWidth="71.0" minWidth="30.0" prefWidth="30.0" sortType="DESCENDING" text="#" />
+          <TableColumn fx:id="taskColumn" editable="false" maxWidth="500.0" minWidth="200.0" prefWidth="290.0" text="Task" />
+            <TableColumn fx:id="dateColumn" editable="false" maxWidth="200.0" minWidth="50.0" prefWidth="115.0" resizable="false" text="Date" />
+            <TableColumn fx:id="timeColumn" editable="false" maxWidth="200.0" prefWidth="115.0" text="Time" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
