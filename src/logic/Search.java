@@ -3,6 +3,10 @@ package logic;
 import com.ModelTask;
 
 /**
+ * Logic for Search command.
+ *
+ * Searches for tasks containing input string and adds them to a list of search
+ * results.
  *
  * @author Jireh
  */
@@ -18,18 +22,14 @@ public class Search extends CommandFactory {
 
     @Override
     protected void execute(String input) {
+        searchListForHits(input);
 
-        for (ModelTask task : list) {
-            if (task.getEvent().contains(input)) {
-                tempList.add(task);
-            }
-        }
         if (tempList.isEmpty()) {
-            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_SEARCH_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            setFeedbackError();
+            setGuiFeedbackNormal();
         } else {
-            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_SEARCH_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.SWITCH_TO_TEMP);
+            setFeedbackSuccess();
+            setGuiFeedbackSwitchToTemp();
             isDone = true;
         }
     }
@@ -38,4 +38,33 @@ public class Search extends CommandFactory {
     protected boolean isDone() {
         return isDone;
     }
+
+    private void searchListForHits(String input) {
+        for (ModelTask task : list) {
+            if (task.getEvent().contains(input)) {
+                addFoundTasksToTempList(task);
+            }
+        }
+    }
+
+    private void addFoundTasksToTempList(ModelTask task) {
+        tempList.add(task);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_SEARCH_MESSAGE);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_SEARCH_MESSAGE);
+    }
+
+    private void setGuiFeedbackSwitchToTemp() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.SWITCH_TO_TEMP);
+    }
+
 }

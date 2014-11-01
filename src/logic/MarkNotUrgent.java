@@ -3,12 +3,19 @@ package logic;
 import static logic.CommandFactory.updateUndoAndRedoStacks;
 
 import com.ModelTask;
+import com.util.MyLogger;
+import java.util.logging.Level;
 
 /**
+ * Logic for MarkNotUrgent command.
+ *
+ * Marks the task at input index as not urgent.
  *
  * @author Jireh
  */
 public class MarkNotUrgent extends CommandFactory {
+
+    private static final int INVALID_INDEX = -1;
 
     private boolean isDone;
 
@@ -21,23 +28,14 @@ public class MarkNotUrgent extends CommandFactory {
     @Override
     protected void execute(String input) {
         int index;
-        try {
-            index = Integer.parseInt(input) - 1;
-        } catch (NumberFormatException ex) {
-            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKNOTURGENT_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
-            return;
-        }
+        index = getIndex(input);
 
         if (isValidLineNumber(index)) {
-            ModelTask task = list.get(index);
-            task.setIsUrgent(false);
-            isDone = true;
-            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_MARKNOTURGENT_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            markTaskAsUrgent(index);
         } else {
-            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKNOTURGENT_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            setFeedbackError();
+            logError();
+            setGuiFeedbackNormal();
         }
     }
 
@@ -45,4 +43,37 @@ public class MarkNotUrgent extends CommandFactory {
     protected boolean isDone() {
         return isDone;
     }
+
+    private void markTaskAsUrgent(int index) {
+        ModelTask task = list.get(index);
+        task.setIsUrgent(false);
+        isDone = true;
+        setFeedbackSuccess();
+        setGuiFeedbackNormal();
+    }
+
+    private int getIndex(String input) {
+        try {
+            return Integer.parseInt(input) - 1;
+        } catch (NumberFormatException ex) {
+            return INVALID_INDEX;
+        }
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_MARKNOTURGENT_MESSAGE);
+    }
+
+    private void logError() {
+        MyLogger.log(Level.INFO, FeedbackMessages.ERROR_MARKNOTURGENT_MESSAGE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKNOTURGENT_MESSAGE);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
 }

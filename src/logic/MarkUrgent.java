@@ -3,12 +3,19 @@ package logic;
 import static logic.CommandFactory.updateUndoAndRedoStacks;
 
 import com.ModelTask;
+import com.util.MyLogger;
+import java.util.logging.Level;
 
 /**
+ * Logic for MarkUrgent command.
+ *
+ * Marks the task at input index as urgent.
  *
  * @author Jireh
  */
 public class MarkUrgent extends CommandFactory {
+
+    private static final int INVALID_INDEX = -1;
 
     private boolean isDone;
 
@@ -21,24 +28,48 @@ public class MarkUrgent extends CommandFactory {
     @Override
     protected void execute(String input) {
         int index;
-        try {
-            index = Integer.parseInt(input) - 1;
-        } catch (NumberFormatException ex) {
-            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKURGENT_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
-            return;
-        }
+        index = getIndex(input);
 
         if (isValidLineNumber(index)) {
-            ModelTask task = list.get(index);
-            task.setIsUrgent(true);
-            isDone = true;
-            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_MARKURGENT_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            markTaskAsUrgent(index);
         } else {
-            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKURGENT_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            setFeedbackError();
+            logError();
+            setGuiFeedbackNormal();
         }
+    }
+
+    private int getIndex(String input) {
+        try {
+            return Integer.parseInt(input) - 1;
+        } catch (NumberFormatException ex) {
+            return INVALID_INDEX;
+        }
+
+    }
+
+    private void markTaskAsUrgent(int index) {
+        ModelTask task = list.get(index);
+        task.setIsUrgent(true);
+        isDone = true;
+        setFeedbackSuccess();
+        setGuiFeedbackNormal();
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_MARKURGENT_MESSAGE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKURGENT_MESSAGE);
+    }
+
+    private void logError() {
+        MyLogger.log(Level.INFO, FeedbackMessages.ERROR_MARKURGENT_MESSAGE);
     }
 
     @Override

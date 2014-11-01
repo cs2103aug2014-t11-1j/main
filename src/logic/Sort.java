@@ -1,9 +1,14 @@
 package logic;
 
+import com.util.MyLogger;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.Level;
 
 /**
+ * Logic for Sort command.
+ *
+ * Sorts tasks according to the type input.
  *
  * @author Jireh
  */
@@ -29,11 +34,12 @@ public class Sort extends CommandFactory {
             cmd = getSortCommands(input);
             performSort(cmd);
             isDone = true;
-            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_SORTED_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            setFeedbackSuccess();
+            setGuiFeedbackNormal();
         } catch (IllegalArgumentException ex) {
-            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_SORTED_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            setFeedbackError();
+            logError();
+            setGuiFeedbackNormal();
             return;
         }
     }
@@ -43,11 +49,8 @@ public class Sort extends CommandFactory {
         return isDone;
     }
 
-    private static SortCommands getSortCommands(String input) {
-        ArrayList<String> tempStrings = new ArrayList<String>();
-        for (String tempString : input.split(" ")) {
-            tempStrings.add(tempString.toLowerCase());
-        }
+    private SortCommands getSortCommands(String input) {
+        ArrayList<String> tempStrings = getSortCommandString(input);
 
         if (tempStrings.contains("alpha")) {
             return SortCommands.ALPHA;
@@ -60,22 +63,55 @@ public class Sort extends CommandFactory {
         }
     }
 
-    private static void performSort(SortCommands cmd) {
+    private void performSort(SortCommands cmd) {
         switch (cmd) {
             case ALPHA:
-                Collections.sort(CommandFactory.list.getList(), new ModelTaskAlphaComparator());
+                sortTasksAlphabetically();
                 break;
             case DATE:
-                //implement date sort
-                //there is no deadline in ModelTask
-                Collections.sort(CommandFactory.list.getList(), new ModelTaskDateComparator());
+                sortTasksByDate();
                 break;
             case NUM:
-                Collections.sort(CommandFactory.list.getList(), new ModelTaskNumComparator());
+                sortTasksByPositionNumber();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid");
         }
     }
 
+    private void sortTasksByPositionNumber() {
+        Collections.sort(CommandFactory.list.getList(), new ModelTaskNumComparator());
+    }
+
+    private void sortTasksByDate() {
+        Collections.sort(CommandFactory.list.getList(), new ModelTaskDateComparator());
+    }
+
+    private void sortTasksAlphabetically() {
+        Collections.sort(CommandFactory.list.getList(), new ModelTaskAlphaComparator());
+    }
+
+    private ArrayList<String> getSortCommandString(String input) {
+        ArrayList<String> tempStrings = new ArrayList<String>();
+        for (String tempString : input.split(" ")) {
+            tempStrings.add(tempString.toLowerCase());
+        }
+        return tempStrings;
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_SORTED_MESSAGE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_SORTED_MESSAGE);
+    }
+
+    private void logError() {
+        MyLogger.log(Level.INFO, FeedbackMessages.ERROR_SORTED_MESSAGE);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
 }

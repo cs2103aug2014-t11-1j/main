@@ -1,8 +1,9 @@
 package logic;
 
 /**
- * @author Zhang Yongkai this class declares the error messages which can be
- * used by other classes.
+ * Contains the error messages that are used by classes in this package.
+ * 
+ * @author Zhang Yongkai
  *
  */
 public class FeedbackMessages {

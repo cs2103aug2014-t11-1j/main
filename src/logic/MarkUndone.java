@@ -3,12 +3,19 @@ package logic;
 import static logic.CommandFactory.isValidLineNumber;
 
 import com.ModelTask;
+import com.util.MyLogger;
+import java.util.logging.Level;
 
 /**
+ * Logic for MarkUndone command.
+ *
+ * Marks the task at input index as not done.
  *
  * @author Jireh
  */
 public class MarkUndone extends CommandFactory {
+
+    private static final int INVALID_INDEX = -1;
 
     private boolean isDone;
 
@@ -21,24 +28,47 @@ public class MarkUndone extends CommandFactory {
     @Override
     protected void execute(String input) {
         int index;
-        try {
-            index = Integer.parseInt(input) - 1;
-        } catch (NumberFormatException ex) {
-            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKUNDONE_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
-            return;
-        }
+        index = getIndex(input);
 
         if (isValidLineNumber(index)) {
-            ModelTask task = list.get(index);
-            task.setIsDone(false);
-            isDone = true;
-            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_MARKUNDONE_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            markTaskAsUndone(index);
         } else {
-            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKUNDONE_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            setFeedbackError();
+            logError();
+            setGuiFeedbackNormal();
         }
+    }
+
+    private int getIndex(String input) {
+        try {
+            return Integer.parseInt(input) - 1;
+        } catch (NumberFormatException ex) {
+            return INVALID_INDEX;
+        }
+    }
+
+    private void markTaskAsUndone(int index) {
+        ModelTask task = list.get(index);
+        task.setIsDone(false);
+        isDone = true;
+        setFeedbackSuccess();
+        setGuiFeedbackNormal();
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_MARKUNDONE_MESSAGE);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void logError() {
+        MyLogger.log(Level.INFO, FeedbackMessages.ERROR_MARKUNDONE_MESSAGE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKUNDONE_MESSAGE);
     }
 
     @Override

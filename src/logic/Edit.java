@@ -9,7 +9,10 @@ import com.Task;
 import com.util.MyLogger;
 
 /**
- *
+ * Logic for Edit command.
+ * 
+ * Edits task at input index.
+ * 
  * @author Jireh
  */
 public class Edit extends CommandFactory {
@@ -28,21 +31,13 @@ public class Edit extends CommandFactory {
         String[] splitStrings;
         int index;
         try {
-            splitStrings = formatString(input);
-            index = getIndex(splitStrings);
-            Task newTask = getNewTask(splitStrings);
-            ModelTask temp = tc.convert(pf.getTask(input), index + 1);
-            list.remove(index);
-            list.add(temp, index);
-
-            isDone = true;
-            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_EDIT_MESSAGE);
-            MyLogger.log(Level.INFO,FeedbackMessages.SUCCESS_EDIT_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            editTask(input);
+            setFeedbackSuccess();
+            setGuiFeedbackNormal();
         } catch (Exception ex) {
-            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_EDIT_MESSAGE);
-            MyLogger.log(Level.WARNING,FeedbackMessages.ERROR_EDIT_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            setFeedbackError();
+            logError();
+            setGuiFeedbackNormal();
             return;
         }
 
@@ -55,8 +50,8 @@ public class Edit extends CommandFactory {
 
     private static String[] formatString(String input) {
         if (input == null || input.isEmpty()) {
-            CommandExecutor.setUserFeedBack("Invalid index!");
-            MyLogger.log(Level.WARNING,"Invalid index!");
+            setFeedbackInvalidIndex();
+            logInvalidIndex();
             throw new IllegalArgumentException("Invalid index!");
         } else {
             return input.trim().split("\\s+", 2);
@@ -67,16 +62,56 @@ public class Edit extends CommandFactory {
         int index = Integer.parseInt(splitStrings[0]) - 1;
 
         if (!isValidLineNumber(index)) {
-            CommandExecutor.setUserFeedBack("Invalid index!");
-            MyLogger.log(Level.WARNING,"Invalid index!");
+            setFeedbackInvalidIndex();
+            logInvalidIndex();
             throw new IllegalArgumentException("Invalid index!");
         } else {
             return index;
         }
     }
 
-    private static Task getNewTask(String[] splitStrings) {
+    private static void logInvalidIndex() {
+        MyLogger.log(Level.WARNING, "Invalid index!");
+    }
+
+    private static void setFeedbackInvalidIndex() {
+        CommandExecutor.setUserFeedBack("Invalid index!");
+    }
+
+    private static Task getNewTaskFromParser(String[] splitStrings) {
         return pf.getTask(splitStrings[1]);
     }
 
+    private void logError() {
+        MyLogger.log(Level.WARNING, FeedbackMessages.ERROR_EDIT_MESSAGE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_EDIT_MESSAGE);
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_EDIT_MESSAGE);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void editTask(String input) {
+        String[] splitStrings;
+        int index;
+        splitStrings = formatString(input);
+        index = getIndex(splitStrings);
+        Task newTask = getNewTaskFromParser(splitStrings);
+        ModelTask temp = convertTaskToModelTask(input, index);
+        list.remove(index);
+        list.add(temp, index);
+        isDone = true;
+    }
+
+    private ModelTask convertTaskToModelTask(String input, int index) {
+        ModelTask temp = tc.convert(pf.getTask(input), index + 1);
+        return temp;
+    }
 }
