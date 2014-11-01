@@ -43,15 +43,15 @@
 	      	<fx:include fx:id="todayView" source="TodayView.fxml" />
 	      </children>
       </AnchorPane>
-      <AnchorPane fx:id="helperAnchor" layoutX="105.0" layoutY="72.0" prefHeight="272.0" prefWidth="520.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="72.0">
-	      <children>
-	      	<fx:include fx:id="helperView" source="HelperView.fxml" />
-	      </children>
-      </AnchorPane>
       <AnchorPane fx:id="tableAnchor" layoutX="38.0" layoutY="73.0" prefHeight="264.0" prefWidth="580.0" AnchorPane.bottomAnchor="82.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="73.0">
          <children>
          	<fx:include fx:id="tableView" source="TableView.fxml" />
          </children>
+      </AnchorPane>
+            <AnchorPane fx:id="helperAnchor" layoutX="105.0" layoutY="72.0" prefHeight="272.0" prefWidth="520.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="72.0">
+	      <children>
+	      	<fx:include fx:id="helperView" source="HelperView.fxml" />
+	      </children>
       </AnchorPane>
       <Button id="minimiseButton" layoutX="588.0" mnemonicParsing="false" onAction="#handleMinimise" text="_" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="0.0" />
       <Button id="exitButton" layoutX="615.0" mnemonicParsing="false" onAction="#handleExit" prefHeight="29.0" prefWidth="30.0" text="X" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0" />
