@@ -2,6 +2,7 @@ package logic;
 
 import com.ModelTask;
 import com.util.MyLogger;
+import java.util.Collections;
 import java.util.logging.Level;
 
 /**
@@ -27,6 +28,8 @@ public class MarkDone extends CommandFactory {
     protected void execute(String input) {
         int index;
         index = getIndex(input);
+        
+        sortTasksByPositionNumber();
 
         if (isValidLineNumber(index)) {
             markTaskAsDone(index);
@@ -72,5 +75,9 @@ public class MarkDone extends CommandFactory {
         } catch (NumberFormatException ex) {
             return INVALID_INDEX;
         }
+    }
+
+    private void sortTasksByPositionNumber() {
+        Collections.sort(CommandFactory.list.getList(), new ModelTaskNumComparator());
     }
 }

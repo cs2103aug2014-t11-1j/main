@@ -4,6 +4,7 @@ import static logic.CommandFactory.isValidLineNumber;
 
 import com.ModelTask;
 import com.util.MyLogger;
+import java.util.Collections;
 import java.util.logging.Level;
 
 /**
@@ -30,6 +31,8 @@ public class MarkUndone extends CommandFactory {
         int index;
         index = getIndex(input);
 
+        sortTasksByPositionNumber();
+
         if (isValidLineNumber(index)) {
             markTaskAsUndone(index);
         } else {
@@ -37,6 +40,11 @@ public class MarkUndone extends CommandFactory {
             logError();
             setGuiFeedbackNormal();
         }
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone;
     }
 
     private int getIndex(String input) {
@@ -71,9 +79,7 @@ public class MarkUndone extends CommandFactory {
         CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKUNDONE_MESSAGE);
     }
 
-    @Override
-    protected boolean isDone() {
-        return isDone;
+    private void sortTasksByPositionNumber() {
+        Collections.sort(CommandFactory.list.getList(), new ModelTaskNumComparator());
     }
-
 }
