@@ -65,6 +65,14 @@ public class TimeParser {
 				}
 			}
 			
+			if(tokens[i].matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")){
+				if(checker.isValidMilitaryTimeFormat(tokens[i])){
+					time = tokens[i];
+					input = input.replaceFirst(time, "").trim();
+					time = ts.formatTime(FORMAT_MILITARY + time);
+				}
+
+			}
 
 //			if(tokens[i].replaceFirst(STRING_COLON, "").length() == 4){
 //				if(checker.isValidMilitaryTimeFormat(tokens[i])){
@@ -126,13 +134,21 @@ public class TimeParser {
 				}
 			}
 			
-			if(tokens[i+1].replaceFirst(STRING_COLON, "").length() == 4){
+			if(tokens[i+1].matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")){
 				if(checker.isValidMilitaryTimeFormat(tokens[i+1])){
 					time = tokens[i+1];
 					input = input.replaceFirst(tokens[i] + STRING_SPACE + time, "").trim();
 					time = ts.formatTime(FORMAT_MILITARY + time);
 				}
 			}
+			
+//			if(tokens[i+1].replaceFirst(STRING_COLON, "").length() == 4){
+//				if(checker.isValidMilitaryTimeFormat(tokens[i+1])){
+//					time = tokens[i+1];
+//					input = input.replaceFirst(tokens[i] + STRING_SPACE + time, "").trim();
+//					time = ts.formatTime(FORMAT_MILITARY + time);
+//				}
+//			}
 		}
 		
 		return input;

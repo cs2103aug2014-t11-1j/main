@@ -29,6 +29,7 @@ public class TimeFormatter {
 	
 	private static final String STRING_DASH = "-";
 	private static final String STRING_TO = "to";
+	private static final String STRING_COLON = ":";
 	
 	
 	public TimeFormatter(){
@@ -97,7 +98,14 @@ public class TimeFormatter {
 	}
 
 	public String convertMTformat(String time) {
-		return time;
+
+		String[] timeArray = time.split(STRING_COLON);
+		
+		if(timeArray[0].length() < 2){
+			time = "0" + time;
+		}
+		
+		return time.replace(STRING_COLON, "");
 	}
 	
 	private boolean dictionaryContains(String[] dictionary, String keyword) {
