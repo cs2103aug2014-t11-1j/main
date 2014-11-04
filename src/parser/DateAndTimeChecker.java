@@ -33,9 +33,9 @@ public class DateAndTimeChecker {
 	 */
 	public boolean isValidDefaultTimeFormat(String string) {
 		
-		if(string.length() > 6){
-			return false;
-		}
+//		if(string.length() > 6){
+//			return false;
+//		}
 		
 		if(!string.matches(DEFAULT_TIME_REGEX)){
 			return false;
