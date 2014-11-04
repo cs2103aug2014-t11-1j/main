@@ -101,16 +101,16 @@ public class TaskConverter {
 		if(date == null){
 			System.out.println("getTime, startDate is null");
 		}
-		int time = 0;
+		String time;
 		Calendar cal = Calendar.getInstance();
 		
 		if(whichTime == START_TIME){
 		
-			time = Integer.parseInt(task.getStartTime());
+			time = task.getStartTime();
 		
 		}
 		else if(whichTime == END_TIME){
-			time = Integer.parseInt(task.getEndTime());
+			time = task.getEndTime();
 		}
 		else{
 			//NO_TIME
@@ -119,8 +119,22 @@ public class TaskConverter {
 		}
 		
 		cal.setTime(date);
-		cal.set(Calendar.HOUR_OF_DAY,time/100);
-		cal.set(Calendar.MINUTE, time%100);
+		int hour;
+		int min;
+		
+		if(time.contains(":")){
+			hour = Integer.parseInt(time.substring(0, time.indexOf(':')));
+			min = Integer.parseInt(time.substring(time.indexOf(':') + 1));
+		}else{
+			int temp;
+			temp = Integer.parseInt(time);
+			hour = temp/100;
+			min = temp%100;
+			
+		}
+		
+		cal.set(Calendar.HOUR_OF_DAY, hour);
+		cal.set(Calendar.MINUTE, min);
 		return cal.getTime();
 	}
 
