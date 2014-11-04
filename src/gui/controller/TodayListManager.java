@@ -34,14 +34,15 @@ public class TodayListManager {
 
 		todayList.sort(new ModelTaskStartDateComparator());
 		if(todayList.size() > 5){
-			for(int i = 5; i < todayList.size(); i++){
+			int num = todayList.size() - 5;
+			for(int i = 0; i < num; i++){
 				todayList.remove(5);
 			}
 		}
 		return todayList;
 	}
 	
-	protected void resetDate(){
+	public void resetDate(){
 		setYesterday();
 		setTomorrow();
 	}
