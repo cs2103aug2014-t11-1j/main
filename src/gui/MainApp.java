@@ -1,9 +1,10 @@
 package gui;
 
 import java.io.IOException;
-import gui.controller.PhantomController;
+
 import gui.controller.PreferenceManager;
 import gui.controller.Reminder;
+import gui.controller.view.PhantomController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -94,7 +95,7 @@ public class MainApp extends Application {
 			// Load overallView.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class
-					.getResource("view/OverallView.fxml"));
+					.getResource("controller/view/OverallView.fxml"));
 			overallView = (AnchorPane) loader.load();
 			System.out.println("overall view loaded");
 

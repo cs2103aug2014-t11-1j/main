@@ -13,12 +13,12 @@ public class TodayListManager {
 	Date yesterday;
 	Date tomorrow;
 
-	TodayListManager(){
+	public TodayListManager(){
 		setYesterday();
 		setTomorrow();
 	}
 
-	protected ObservableList<ModelTask> getTodayList(
+	public ObservableList<ModelTask> getTodayList(
 			ObservableList<ModelTask> allList){
 
 		todayList = FXCollections.observableArrayList();
