@@ -17,7 +17,7 @@ package gui.controller;
  */
 
 import gui.controller.view.PhantomController;
-import storage.ModelTask;
+import com.ModelTask;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;

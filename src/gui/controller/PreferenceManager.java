@@ -8,14 +8,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.Scanner;
 import java.util.logging.Level;
 
-import com.MyLogger;
+import com.util.MyLogger;
 
-import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -74,7 +70,7 @@ public class PreferenceManager {
 		}
 		
 		try{
-			themeUrl = "css/" + cssFileName +".css";
+			themeUrl = "main/Resources/css/" + cssFileName +".css";
 
 			overallView.getStylesheets().clear();
 			overallView.getStylesheets().add(themeUrl);
@@ -117,7 +113,7 @@ public class PreferenceManager {
 		}
 
 		try{
-			themeUrl = "css/" + cssFileName +".css";
+			themeUrl = "main/Resources/css/" + cssFileName +".css";
 
 			overallView.getStylesheets().clear();
 			overallView.getStylesheets().add(themeUrl);
