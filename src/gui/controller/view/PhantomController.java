@@ -106,8 +106,8 @@ public class PhantomController {
 
 	private String themeUrl;
 
-	final KeyCombination keyCombShiftRight = KeyCodeCombination.valueOf("Shift+RIGHT");
-	final KeyCombination keyCombShiftLeft = KeyCodeCombination.valueOf("Shift+LEFT");
+	final KeyCombination keyCombShiftRight = KeyCodeCombination.valueOf("Ctrl+RIGHT");
+	final KeyCombination keyCombShiftLeft = KeyCodeCombination.valueOf("Ctrl+LEFT");
 
 	private int viewIndex;
 
