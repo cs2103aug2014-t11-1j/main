@@ -91,6 +91,22 @@
     -fx-background-color: derive(-fx-base, 50%);
 }
 
+.table-row-cell:selected {
+    -fx-background-color:  derive(-fx-base, 80%);
+    -fx-background-insets: 0, 1, 2;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view:focused .table-row-cell:selected {
+    -fx-background-color:  derive(-fx-base, 80%);
+    -fx-background-insets: 0, 1, 2;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-row-cell:selected .text {
+    -fx-fill: white ;
+}
+
 .menu-bar {
     -fx-background-color: transparent;
 }
