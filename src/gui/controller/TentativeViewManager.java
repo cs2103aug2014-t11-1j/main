@@ -1,7 +1,7 @@
 package gui.controller;
 
-import com.ModelTask;
-
+import gui.controller.view.TimelineViewController;
+import storage.ModelTask;
 import javafx.collections.ObservableList;
 
 public class TentativeViewManager {
@@ -26,7 +26,7 @@ public class TentativeViewManager {
 		for(ModelTask task:allList){
 			if(hasTimePeriod(task)){
 				System.out.println("task: " + task.getPosition());
-				controller.addConfirmedPeriod(task.getStartTime(), task.getEndTime());
+				controller.addPeriod(task.getStartTime(), task.getEndTime(), 1);
 			}
 		}
 	}

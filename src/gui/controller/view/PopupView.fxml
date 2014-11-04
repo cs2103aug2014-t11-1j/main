@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="backgroundPopup" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.view.PopupController">
+   <children>
+      <Label fx:id="text" layoutX="50.0" layoutY="90.0" text="This is a popup" />
+      <Button id="exitButtonPopup" layoutX="169.0" mnemonicParsing="false" onAction="#handleExit" text="X" />
+   </children>
+</AnchorPane>

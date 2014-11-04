@@ -1,5 +1,7 @@
 package gui.controller;
 
+import gui.controller.view.TimelineViewController;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -60,12 +62,16 @@ public class TimelineViewManager {
 	}
 	
 	public void updateTentative(){
+		//set all to green
+		
+		//set normal tasks
 		for(ModelTask task:allList){
 			if(isThisWeek(task) && hasTimePeriod(task)){
-				System.out.println("task: " + task.getEvent());
-				controller.addConfirmedPeriod(task.getStartTime(), task.getEndTime());
+				controller.addPeriod(task.getStartTime(), task.getEndTime(), TimelineViewController.COLOUR_ORANGE);
 			}
 		}
+	
+		//set tentative tasks
 	}
 
 	private boolean isThisWeek(ModelTask task) {

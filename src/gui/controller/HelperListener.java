@@ -1,5 +1,6 @@
 package gui.controller;
 
+import gui.controller.view.HelperViewController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 

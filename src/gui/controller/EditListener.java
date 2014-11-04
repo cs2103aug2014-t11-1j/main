@@ -16,8 +16,8 @@ package gui.controller;
  *
  */
 
-import com.ModelTask;
-
+import gui.controller.view.PhantomController;
+import storage.ModelTask;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -52,7 +52,7 @@ public class EditListener implements ChangeListener<String> {
 					.setText("edit tasknumber taskdecription startdate enddate starttime endtime");
 		}
 
-		if (containsTwoSpace(newValue) && !PhantomController.hasOccured) {
+		if (containsTwoSpace(newValue) && !PhantomController.isHasOccured()) {
 			String[] subStrings = newValue.trim().split("\\s+");
 			commandLine.setText(newValue
 					+ getTaskDescription(Integer.parseInt(subStrings[1])));
@@ -63,6 +63,8 @@ public class EditListener implements ChangeListener<String> {
 	}
 
 	private boolean containsTwoSpace(String input) {
+		// int spaces = input.length() - input.replace(" ", "").length();
+
 		if ((input != null) && ((input.replaceAll("\\s+", "")) != "")) {
 
 			if (input.length() > 0
@@ -96,7 +98,7 @@ public class EditListener implements ChangeListener<String> {
 	 */
 
 	private String getTaskDescription(int position) {
-		PhantomController.hasOccured = true;
+		PhantomController.setHasOccured(true);
 		ModelTask currTask = new ModelTask();
 		Boolean positionIsFound = false;
 		String feedBack = "";

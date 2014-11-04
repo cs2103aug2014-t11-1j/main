@@ -11,6 +11,7 @@ package gui.controller;
 import java.io.IOException;
 
 import gui.MainApp;
+import gui.controller.view.TutorialViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 

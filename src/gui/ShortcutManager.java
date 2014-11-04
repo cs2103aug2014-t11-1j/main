@@ -1,6 +1,6 @@
 package gui;
 
-import gui.controller.PhantomController;
+import gui.controller.view.PhantomController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
