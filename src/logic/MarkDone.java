@@ -1,12 +1,20 @@
 package logic;
 
-import storage.ModelTask;
+import com.ModelTask;
+import com.util.MyLogger;
+import java.util.Collections;
+import java.util.logging.Level;
 
 /**
+ * Logic for MarkDone command.
+ *
+ * Marks the task at input index as done.
  *
  * @author Jireh
  */
 public class MarkDone extends CommandFactory {
+
+    private static final int INVALID_INDEX = -1;
 
     private boolean isDone;
 
@@ -19,28 +27,57 @@ public class MarkDone extends CommandFactory {
     @Override
     protected void execute(String input) {
         int index;
-        try {
-            index = Integer.parseInt(input) - 1;
-        } catch (NumberFormatException ex) {
-            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKDONE_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
-            return;
-        }
+        index = getIndex(input);
+        
+        sortTasksByPositionNumber();
 
         if (isValidLineNumber(index)) {
-            ModelTask task = list.get(index);
-            task.setIsDone(true);
-            isDone = true;
-            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_MARKDONE_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            markTaskAsDone(index);
         } else {
-            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKDONE_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            setFeedbackError();
+            logError();
+            setGuiFeedbackNormal();
         }
     }
 
     @Override
     protected boolean isDone() {
         return isDone;
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_MARKDONE_MESSAGE);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void logError() {
+        MyLogger.log(Level.INFO, FeedbackMessages.ERROR_MARKDONE_MESSAGE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKDONE_MESSAGE);
+    }
+
+    private void markTaskAsDone(int index) {
+        ModelTask task = list.get(index);
+        task.setIsDone(true);
+        isDone = true;
+        setFeedbackSuccess();
+        setGuiFeedbackNormal();
+    }
+
+    private int getIndex(String input) {
+        try {
+            return Integer.parseInt(input) - 1;
+        } catch (NumberFormatException ex) {
+            return INVALID_INDEX;
+        }
+    }
+
+    private void sortTasksByPositionNumber() {
+        Collections.sort(CommandFactory.list.getList(), new ModelTaskNumComparator());
     }
 }

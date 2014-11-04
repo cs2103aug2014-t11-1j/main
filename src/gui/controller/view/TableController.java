@@ -1,5 +1,8 @@
 package gui.controller.view;
 
+import com.EventAndDone;
+import com.ModelTask;
+
 import gui.ResourceLoader;
 import gui.controller.DateStringComparator;
 import gui.controller.NumStringComparator;
@@ -17,8 +20,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Callback;
-import storage.EventAndDone;
-import storage.ModelTask;
 
 public class TableController{
 	@FXML

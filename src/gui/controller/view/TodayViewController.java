@@ -2,9 +2,9 @@ package gui.controller.view;
 
 import java.util.logging.Level;
 
-import com.MyLogger;
+import com.ModelTask;
+import com.util.MyLogger;
 
-import storage.ModelTask;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

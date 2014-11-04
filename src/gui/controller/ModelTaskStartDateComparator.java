@@ -3,7 +3,7 @@ package gui.controller;
 import java.util.Comparator;
 import java.util.Date;
 
-import storage.ModelTask;
+import com.ModelTask;
 
 public class ModelTaskStartDateComparator implements
 		Comparator<ModelTask> {

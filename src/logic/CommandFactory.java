@@ -2,15 +2,16 @@ package logic;
 
 import java.util.ArrayList;
 
+import com.ModelTask;
+import com.TaskConverter;
+import com.TaskList;
+import com.TentativeTask;
+import com.TimePeriod;
+import com.UndoRedoStack;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import parser.ParserFacade;
-import storage.ModelTask;
-import storage.TaskConverter;
-import storage.TaskList;
-import storage.TentativeTask;
-import storage.TimePeriod;
-import storage.UndoRedoStack;
 
 /**
  *

@@ -1,7 +1,7 @@
 package storage;
 
 /** 
- * @author: zhang yongkai
+ * @author: Zhang Yongkai
  * this storage will load from txt file or write to text file
  * this is a singleton class
  */
@@ -15,7 +15,10 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.logging.Level;
 
-import com.MyLogger;
+import com.ModelTask;
+import com.Task;
+import com.TaskConverter;
+import com.util.MyLogger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

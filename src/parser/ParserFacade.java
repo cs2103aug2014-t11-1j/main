@@ -1,7 +1,7 @@
 package parser;
 
-import storage.Task;
-import storage.TentativeTask;
+import com.Task;
+import com.TentativeTask;
 
 /**
  * This class is the facade class for the

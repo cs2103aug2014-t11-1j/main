@@ -1,17 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package logic;
+
+import com.ModelTask;
+import com.util.MyLogger;
+import java.util.logging.Level;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import storage.ModelTask;
 
 /**
+ * Logic for Redo Command.
  *
- * @author Jireh
+ * @author Jiashun, Jireh
  */
 public class Redo extends CommandFactory {
 
@@ -25,16 +24,13 @@ public class Redo extends CommandFactory {
     @Override
     protected void execute(String input) {
         if (redoStack.getStack().isEmpty()) {
-            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_REDONE_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            setFeedbackError();
+            logError();
+            setGuiFeedbackNormal();
         } else {
-            list.setList(redoStack.pop());
-            ObservableList<ModelTask> temp = FXCollections.observableArrayList();
-            copyList(list.getList(), temp);
-            undoStack.push(temp);
-            isDone = true;
-            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_REDONE_MESSAGE);
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.UPDATE_ALL_LIST);
+            redo();
+            setFeedbackSuccess();
+            setGuiFeedbackUpdateAllList();
         }
     }
 
@@ -43,4 +39,39 @@ public class Redo extends CommandFactory {
         return isDone;
     }
 
+    private void redo() {
+        setListInRedoStackAsCurrentList();
+        copyCurrentListIntoUndoStack();
+        isDone = true;
+    }
+
+    private void setListInRedoStackAsCurrentList() {
+        list.setList(redoStack.pop());
+    }
+
+    private void copyCurrentListIntoUndoStack() {
+        ObservableList<ModelTask> temp = FXCollections.observableArrayList();
+        copyList(list.getList(), temp);
+        undoStack.push(temp);
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_REDONE_MESSAGE);
+    }
+
+    private void setGuiFeedbackUpdateAllList() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.UPDATE_ALL_LIST);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_REDONE_MESSAGE);
+    }
+
+    private void logError() {
+        MyLogger.log(Level.INFO, FeedbackMessages.ERROR_REDONE_MESSAGE);
+    }
 }

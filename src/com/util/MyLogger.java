@@ -1,7 +1,7 @@
-package com;
+package com.util;
 
 /**
- * @author zhang
+ * @author Zhang Yongkai
  * this class is meant for logging. It is a static class so every class will log using this logger
  * There is therefore no need to create object for this class anywhere. 
  * to use it, just need to call it as a static class like:
@@ -48,10 +48,10 @@ public class MyLogger {
 		return logger;
 	}
 
-	public static void log(Level level, String msg){
+	public static void log(Level level, String msg) {
 		getLogger().log(level, msg);
 		// System.out.println(msg);
-		 //fileHandler.close();
+		// fileHandler.close();
 	}
 
 	public static void closeLogger() {

@@ -1,4 +1,4 @@
-package storage;
+package com;
 
 public class TaskConverterTest {
 	public static void main(String[] args){

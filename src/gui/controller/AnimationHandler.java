@@ -56,11 +56,11 @@ public class AnimationHandler {
 	TranslateTransition slideInTentative;
 	TranslateTransition slideOutTentative;
 
-	private static final int NUMBER_OF_VIEWS = 4;
+	private static final int NUMBER_OF_VIEWS = 3;
 	private static final int TODAY_INDEX = 0;
 	private static final int TABLE_INDEX = 1;
-	private static final int TENTATIVE_INDEX = 2;
-	private static final int TIMELINE_INDEX = 3;
+	private static final int TIMELINE_INDEX = 2;
+	private static final int TENTATIVE_INDEX = 3;
 	private static Integer viewIndex;
 
 	private static AnimationHandler ah = new AnimationHandler();
@@ -358,9 +358,9 @@ public class AnimationHandler {
 		case TABLE_INDEX :
 			showTableView();
 			break;
-		case TENTATIVE_INDEX :
-			showTentativeView();
-			break;
+//		case TENTATIVE_INDEX :
+//			showTentativeView();
+//			break;
 		case TIMELINE_INDEX :
 			showTimelineView();
 			break;			

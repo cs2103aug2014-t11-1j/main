@@ -1,17 +1,15 @@
 package logic;
 
-/**
- * @author: zhang yongkai
- * 
- * this class compares 2 date object. if one of the date is null, the one that is not null is bigger.
- */
-
-
 import java.util.Comparator;
 import java.util.Date;
+import com.ModelTask;
 
-import storage.ModelTask;
-
+/**
+ * This class compares 2 date object. if one of the date is null, the one that
+ * is not null is bigger.
+ *
+ * @author: Zhang Yongkai
+ */
 public class ModelTaskDateComparator implements Comparator<ModelTask> {
 
 	private static final int SMALLER = -100;

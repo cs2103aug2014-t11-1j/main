@@ -4,8 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.Task;
+
 import parser.ParserFacade;
-import storage.Task;
 
 public class TestParserFacade {
 

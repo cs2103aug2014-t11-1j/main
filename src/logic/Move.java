@@ -1,6 +1,6 @@
 package logic;
 
-import storage.ModelTask;
+import com.ModelTask;
 
 /**
  * Takes in String input containing 2 integers in the format "%d %d", where the
@@ -30,32 +30,50 @@ public class Move extends CommandFactory {
             int position = getIndex(splitStrings, INDEX_POSITION);
 
             if (isValidLineNumber(index) && isValidLineNumber(position) && index != position) {
-                ModelTask temp = list.get(index);
-
-                list.remove(index);
-                list.add(temp, position);
-
-                for (int i = 0; i < list.getListSize(); i++) {
-                    list.get(i).setPosition(i + 1);
-                }
-
-                isDone = true;
-                CommandExecutor.setUserFeedBack(String.format("Task %d has been moved to no. %d.", index + 1, position + 1));
-                CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+                moveTask(index, position);
             } else {
-                CommandExecutor.setUserFeedBack("Please enter 2 valid numbers.");
-                CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+                setFeedbackInvalidIndex();
+                setGuiFeedbackNormal();
             }
         } catch (IllegalArgumentException ex) {
-            CommandExecutor.setUserFeedBack("Please enter 2 valid numbers.");
-            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            setFeedbackInvalidIndex();
+            setGuiFeedbackNormal();
         }
-
     }
 
     @Override
     protected boolean isDone() {
         return isDone;
+    }
+
+    private void moveTask(int index, int position) {
+        ModelTask temp = list.get(index);
+
+        list.remove(index);
+        list.add(temp, position);
+        setPositionOfTasks();
+
+        isDone = true;
+        setFeedbackSuccess(index, position);
+        setGuiFeedbackNormal();
+    }
+
+    private void setFeedbackSuccess(int index, int position) {
+        CommandExecutor.setUserFeedBack(String.format("Task %d has been moved to no. %d.", index + 1, position + 1));
+    }
+
+    private void setFeedbackInvalidIndex() {
+        CommandExecutor.setUserFeedBack("Please enter 2 valid numbers");
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void setPositionOfTasks() {
+        for (int i = 0; i < list.getListSize(); i++) {
+            list.get(i).setPosition(i + 1);
+        }
     }
 
     private static String[] formatString(String input) {

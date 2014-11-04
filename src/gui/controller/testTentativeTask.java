@@ -2,7 +2,8 @@ package gui.controller;
 
 import java.util.ArrayList;
 
-import storage.TentativeNode;
+import com.TentativeNode;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.TreeItem;

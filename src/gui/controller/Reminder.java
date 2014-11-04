@@ -1,7 +1,7 @@
 package gui.controller;
 
 /**
- * @author zhang
+ * @author Zhang Yongkai
  * this class is used to display popup reminder for events which have a start date. 
  * it should show a display pop up at the bottom right of the screen 5 min before the event start.
  */
@@ -20,16 +20,15 @@ import javafx.util.Duration;
 
 import org.controlsfx.control.Notifications;
 
-import storage.ModelTask;
+import com.ModelTask;
 
 public class Reminder {
 
 	private static Reminder reminder = new Reminder();
 	private LogicFacade logicFacade = LogicFacade.getInstance();
-	ObservableList<ModelTask> taskList = FXCollections.observableArrayList();
 	private String oldTime = "";
 	private String newTime = "";
-
+	ObservableList<ModelTask> taskList = FXCollections.observableArrayList();
 	SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	SimpleDateFormat timeFormatter = new SimpleDateFormat("HHmm");
 
@@ -69,7 +68,6 @@ public class Reminder {
 
 				if (dateFormatter.format(eventDate).equals(
 						dateFormatter.format(currentDateTime))) {
-
 					todayDate.add(Calendar.MINUTE, 5);
 					Date timeToStartReminder = todayDate.getTime();
 					if (timeFormatter.format(eventTime).equals(
@@ -85,22 +83,17 @@ public class Reminder {
 									.text(eventDescription)
 									.hideAfter(Duration.seconds(8))
 									.showWarning();
-
 							play();
 							oldTime = newTime;
 						}
-
 					}
-
 				}
 
 			} catch (Exception ex) {
 				System.out.println("holy cow, error!!!!");
 				ex.printStackTrace();
 			}
-
 		}
-
 	}
 
 	private String getNewTime() {
