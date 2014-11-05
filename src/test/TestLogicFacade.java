@@ -39,6 +39,7 @@ public class TestLogicFacade {
 		logic.executeCommand("clear");
 	}
 
+
 	@Test
 	public void testBasic() throws Exception {
 
@@ -227,7 +228,65 @@ public class TestLogicFacade {
 		testListSize(2);
 		logic.executeCommand("clear");
 	}
+	
 
+	@Test
+	public void testUndoRedo() throws Exception {
+		//undo and redo for adding one task
+		logic.executeCommand("add go to school");
+		testLogicFeedBack("Action undone", "undo");
+		testListSize(0);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "",
+				"null", "null", "null", "null", "false", "false"), 0);
+		testLogicFeedBack("Action redone", "redo");
+		testListSize(1);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to school",
+				"null", "null", "null", "null", "false", "false"), 1);
+
+		logic.executeCommand("clear");
+	}
+	
+	@Test
+	public void testMarkDone() throws Exception {
+		//mark the first task as done
+		logic.executeCommand("add go to school");
+		testLogicFeedBack("Task done", "did 1");
+		testListSize(1);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to school",
+				"null", "null", "null", "null", "true", "false"), 1);
+
+		logic.executeCommand("clear");
+	}
+	@Test
+	public void testUnMarkDone() throws Exception {
+		//unmark the first task as done
+		logic.executeCommand("add go to school");
+		testLogicFeedBack("Task done", "did 1");
+		testListSize(1);
+		testLogicFeedBack("Task undone", "undid 1");
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to school",
+				"null", "null", "null", "null", "false", "false"), 1);
+
+		logic.executeCommand("clear");
+	}
+	@Test
+	public void testSimpleSearch() throws Exception {
+		//search when nothing is found
+		logic.executeCommand("add apple");
+		logic.executeCommand("add pear");
+		logic.executeCommand("add pineapple");
+		testLogicFeedBack("Search unsuccessful", "search 1");
+		
+		//search is found
+		logic.executeCommand("add apple");
+		testSearchOutput(String.format(TASKSTRINGFORMAT, "apple",
+				"null", "null", "null", "null", "false", "false"), 1);
+		testSearchOutput(String.format(TASKSTRINGFORMAT, "pineapple",
+				"null", "null", "null", "null", "false", "false"), 3);
+
+		logic.executeCommand("clear");
+	}
+	
 	@Test
 	public void testEdit() throws Exception {
 		logic.executeCommand("add go to school");
@@ -298,6 +357,19 @@ public class TestLogicFacade {
 		}
 	}
 
+	// checking whether the task is correct after every operation
+	private void testSearchOutput(String expected, int taskNumber) {
+		if (taskNumber > 0) {
+			ObservableList<ModelTask> allList = logic.getSearchedList();
+			for (int i = 0; i < allList.size(); i++) {
+				ModelTask currTask = allList.get(i);
+				if (taskNumberIsCorrect(taskNumber, currTask.getPosition())) {
+					assertEquals(expected, TaskStringRepresentation(currTask));
+				}
+			}
+		}
+	}
+	
 	private boolean taskNumberIsCorrect(int taskIndex, int listIndex) {
 		return (taskIndex == listIndex);
 	}
