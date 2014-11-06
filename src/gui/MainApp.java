@@ -53,42 +53,8 @@ public class MainApp extends Application {
 		Platform.setImplicitExit(false);
 		sm.setHotKeys(primaryStage);
 
-		// initRootLayout();
 		showPhantomOverallView();
 	}
-
-	// public void initRootLayout() {
-	// try {
-	// FXMLLoader loader = new FXMLLoader();
-	// loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
-	// rootLayout = (BorderPane) loader.load();
-	//
-	// Scene scene = new Scene(rootLayout);
-	// primaryStage.setScene(scene);
-	// primaryStage.show();
-	//
-	// rootLayout.setOnMousePressed(new EventHandler<MouseEvent>() {
-	// @Override
-	// public void handle(MouseEvent event) {
-	// xOffset = event.getSceneX();
-	// yOffset = event.getSceneY();
-	// }
-	// });
-	// rootLayout.setOnMouseDragged(new EventHandler<MouseEvent>() {
-	// @Override
-	// public void handle(MouseEvent event) {
-	// primaryStage.setX(event.getScreenX() - xOffset);
-	// primaryStage.setY(event.getScreenY() - yOffset);
-	// }
-	// });
-	//
-	// this.primaryStage.getIcons().add(new
-	// Image("file:Resources/images/ghost.png"));
-	//
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// }
 
 	public void showPhantomOverallView() {
 		try {
@@ -103,9 +69,6 @@ public class MainApp extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.show();
-
-			// rootLayout.setCenter(overallView);
-			
 
 			PhantomController controller = loader.getController();
 			controller.setPrimaryStage(primaryStage);

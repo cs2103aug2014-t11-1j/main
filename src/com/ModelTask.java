@@ -20,7 +20,7 @@ public class ModelTask {
 	final static SimpleDateFormat startDateOneMonthFormatter = new SimpleDateFormat("d ");
 	final static SimpleDateFormat startDateTwoMonthFormatter = new SimpleDateFormat("d MMM");
 	final static SimpleDateFormat endDateFormatter = new SimpleDateFormat("- d MMM");
-	final static SimpleDateFormat timeFormatter = new SimpleDateFormat("HHmm");
+	final static SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
 	
 	final static boolean isTentative = false;
 

@@ -1,7 +1,7 @@
 package gui.controller;
 
 import gui.controller.view.TimelineViewController;
-import storage.ModelTask;
+import com.ModelTask;
 import javafx.collections.ObservableList;
 
 public class TentativeViewManager {
