@@ -8,9 +8,9 @@ import com.util.MyLogger;
 /**
  * Logic for Add command.
  * Adds tasks to the list of tasks in CommandFactory.
- *
- * @author Jireh
  */
+
+//@author A0111370Y
 public class Add extends CommandFactory {
 
     private boolean isDone;

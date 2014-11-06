@@ -11,9 +11,9 @@ import com.util.MyLogger;
  * 
  * Deletes task at input index, or searches for task with input string, deletes 
  * task if only 1 is found, otherwise displays all tasks that are found.
- * 
- * @author Jireh
  */
+
+//@author A0111370Y
 public class Delete extends CommandFactory {
 
 	private boolean isDone;

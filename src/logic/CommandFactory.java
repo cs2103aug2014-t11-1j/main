@@ -14,9 +14,10 @@ import javafx.collections.ObservableList;
 import parser.ParserFacade;
 
 /**
- *
- * @author Jireh
+ * This is the abstract class which all the commands inherit from.
  */
+
+//@author A0111370Y
 public abstract class CommandFactory {
 
     protected static ParserFacade pf = ParserFacade.getInstance();

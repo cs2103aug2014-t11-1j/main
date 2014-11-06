@@ -6,9 +6,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- *
- * @author Jireh
+ * Logic for Undo command.
  */
+
+//@author A0111370Y
 public class Undo extends CommandFactory {
 
     private boolean isDone;

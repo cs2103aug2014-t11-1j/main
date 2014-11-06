@@ -9,9 +9,9 @@ import javafx.collections.ObservableList;
 
 /**
  * Logic for Redo Command.
- *
- * @author Jiashun, Jireh
  */
+
+//@author A0111370Y
 public class Redo extends CommandFactory {
 
     private boolean isDone;

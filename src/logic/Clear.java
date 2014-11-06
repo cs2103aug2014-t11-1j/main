@@ -10,10 +10,9 @@ import com.util.MyLogger;
  * Logic for Clear command.
  * 
  * Clears the list depending on the input command.
- *
- *
- * @author Jireh
  */
+
+//@author A0111370Y
 public class Clear extends CommandFactory {
 
     private boolean isDone;
