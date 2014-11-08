@@ -1,3 +1,4 @@
+//@author A0111370Y
 package logic;
 
 import static logic.CommandFactory.tc;
@@ -10,14 +11,12 @@ import com.util.MyLogger;
 
 /**
  * Logic for Edit command.
- * 
+ *
  * Edits task at input index.
  */
-
-//@author A0111370Y
 public class Edit extends CommandFactory {
 
-    private boolean isDone;
+    private boolean isDone_;
 
     //Constructor
     protected Edit(String input) {
@@ -45,7 +44,7 @@ public class Edit extends CommandFactory {
 
     @Override
     protected boolean isDone() {
-        return isDone;
+        return isDone_;
     }
 
     private static String[] formatString(String input) {
@@ -107,7 +106,7 @@ public class Edit extends CommandFactory {
         ModelTask temp = convertTaskToModelTask(input, index);
         list.remove(index);
         list.add(temp, index);
-        isDone = true;
+        isDone_ = true;
     }
 
     private ModelTask convertTaskToModelTask(String input, int index) {

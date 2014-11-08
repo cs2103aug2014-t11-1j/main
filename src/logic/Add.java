@@ -1,3 +1,4 @@
+//@author A0111370Y
 package logic;
 
 import java.util.logging.Level;
@@ -9,12 +10,10 @@ import com.util.MyLogger;
  * Logic for Add command.
  * Adds tasks to the list of tasks in CommandFactory.
  */
-
-//@author A0111370Y
 public class Add extends CommandFactory {
 
-    private boolean isDone;
-    private boolean isUrgent;
+    private boolean isDone_;
+    private boolean isUrgent_;
 
     /**
      * Constructor
@@ -40,7 +39,7 @@ public class Add extends CommandFactory {
 
     @Override
     protected boolean isDone() {
-        return isDone;
+        return isDone_;
     }
 
     private static String formatString(String input) {
@@ -52,15 +51,15 @@ public class Add extends CommandFactory {
     }
 
     private void isAddingUrgent(boolean isUrgent) {
-        this.isUrgent = isUrgent;
+        this.isUrgent_ = isUrgent;
     }
 
     private ModelTask addTask(String input) {
         input = formatString(input);
         ModelTask temp = getTaskFromParser(input);
-        temp.setIsUrgent(isUrgent);
+        temp.setIsUrgent(isUrgent_);
         list.add(temp);
-        isDone = true;
+        isDone_ = true;
         return temp;
     }
 

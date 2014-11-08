@@ -1,3 +1,4 @@
+//@author A0111370Y
 package logic;
 
 import com.ModelTask;
@@ -10,11 +11,9 @@ import javafx.collections.ObservableList;
 /**
  * Logic for Redo Command.
  */
-
-//@author A0111370Y
 public class Redo extends CommandFactory {
 
-    private boolean isDone;
+    private boolean isDone_;
 
     protected Redo() {
         execute(null);
@@ -36,13 +35,13 @@ public class Redo extends CommandFactory {
 
     @Override
     protected boolean isDone() {
-        return isDone;
+        return isDone_;
     }
 
     private void redo() {
         setListInRedoStackAsCurrentList();
         copyCurrentListIntoUndoStack();
-        isDone = true;
+        isDone_ = true;
     }
 
     private void setListInRedoStackAsCurrentList() {

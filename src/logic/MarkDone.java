@@ -3,7 +3,6 @@ package logic;
 
 import com.ModelTask;
 import com.util.MyLogger;
-import java.util.Collections;
 import java.util.logging.Level;
 
 /**
@@ -15,7 +14,7 @@ public class MarkDone extends CommandFactory {
 
     private static final int INVALID_INDEX = -1;
 
-    private boolean isDone;
+    private boolean isDone_;
 
     protected MarkDone(String input) {
         execute(input);
@@ -39,7 +38,7 @@ public class MarkDone extends CommandFactory {
 
     @Override
     protected boolean isDone() {
-        return isDone;
+        return isDone_;
     }
 
     private void setFeedbackSuccess() {
@@ -73,7 +72,7 @@ public class MarkDone extends CommandFactory {
         task.setIsDone(true);
         list.remove(i);
         list.add(task, i);
-        isDone = true;
+        isDone_ = true;
         setFeedbackSuccess();
         setGuiFeedbackNormal();
     }

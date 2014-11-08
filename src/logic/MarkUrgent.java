@@ -5,7 +5,6 @@ import static logic.CommandFactory.updateUndoAndRedoStacks;
 
 import com.ModelTask;
 import com.util.MyLogger;
-import java.util.Collections;
 import java.util.logging.Level;
 
 /**
@@ -17,7 +16,7 @@ public class MarkUrgent extends CommandFactory {
 
     private static final int INVALID_INDEX = -1;
 
-    private boolean isDone;
+    private boolean isDone_;
 
     protected MarkUrgent(String input) {
         execute(input);
@@ -41,7 +40,7 @@ public class MarkUrgent extends CommandFactory {
 
     @Override
     protected boolean isDone() {
-        return isDone;
+        return isDone_;
     }
 
     private int getIndex(String input) {
@@ -68,7 +67,7 @@ public class MarkUrgent extends CommandFactory {
         task.setIsUrgent(true);
         list.remove(i);
         list.add(task, i);
-        isDone = true;
+        isDone_ = true;
         setFeedbackSuccess();
         setGuiFeedbackNormal();
     }

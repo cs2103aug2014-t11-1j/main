@@ -1,3 +1,4 @@
+//@author A0111370Y
 package logic;
 
 import java.util.Comparator;
@@ -7,8 +8,6 @@ import com.ModelTask;
 /**
  * Comparator to allow comparing tasks alphabetically by their event names.
  */
-
-//@author A0111370Y
 public class ModelTaskAlphaComparator implements Comparator<ModelTask> {
 
     @Override

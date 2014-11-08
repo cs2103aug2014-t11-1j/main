@@ -1,50 +1,48 @@
 //@author A0111370Y
-
 package com;
 
 import java.util.Stack;
 import javafx.collections.ObservableList;
 
-
 public class UndoRedoStack {
 
-    private Stack<ObservableList<ModelTask>> stack;
+    private Stack<ObservableList<ModelTask>> stack_;
 
     public UndoRedoStack() {
-        stack = new Stack<ObservableList<ModelTask>>();
+        stack_ = new Stack<ObservableList<ModelTask>>();
     }
 
     /**
      * Accessors
      */
     public Stack<ObservableList<ModelTask>> getStack() {
-        return stack;
+        return stack_;
     }
-    
-    public int getSize(){
-        return stack.size();
+
+    public int getSize() {
+        return stack_.size();
     }
 
     /**
      * Mutators
      */
     public void setStack(Stack<ObservableList<ModelTask>> stack) {
-        this.stack = stack;
+        this.stack_ = stack;
     }
 
     public void push(ObservableList<ModelTask> list) {
-        stack.push(list);
+        stack_.push(list);
     }
 
     public ObservableList<ModelTask> pop() {
-        return stack.pop();
+        return stack_.pop();
     }
 
     public ObservableList<ModelTask> peek() {
-        return stack.peek();
+        return stack_.peek();
     }
 
     public void clear() {
-        stack.clear();
+        stack_.clear();
     }
 }

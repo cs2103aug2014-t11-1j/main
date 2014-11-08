@@ -1,11 +1,9 @@
 //@author A0111370Y
 package logic;
 
-import static logic.CommandFactory.isValidLineNumber;
 
 import com.ModelTask;
 import com.util.MyLogger;
-import java.util.Collections;
 import java.util.logging.Level;
 
 /**
@@ -17,7 +15,7 @@ public class MarkUndone extends CommandFactory {
 
     private static final int INVALID_INDEX = -1;
 
-    private boolean isDone;
+    private boolean isDone_;
 
     protected MarkUndone(String input) {
         execute(input);
@@ -41,7 +39,7 @@ public class MarkUndone extends CommandFactory {
 
     @Override
     protected boolean isDone() {
-        return isDone;
+        return isDone_;
     }
 
     private int getIndex(String input) {
@@ -67,7 +65,7 @@ public class MarkUndone extends CommandFactory {
         task.setIsDone(false);
         list.remove(i);
         list.add(task, i);
-        isDone = true;
+        isDone_ = true;
         setFeedbackSuccess();
         setGuiFeedbackNormal();
     }
