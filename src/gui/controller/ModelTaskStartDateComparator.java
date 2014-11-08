@@ -1,5 +1,10 @@
 package gui.controller;
-
+/**
+ * @author A0116018R
+ * 
+ * This is a comparator for modelTask.
+ * It compares based on startDates.
+ */
 import java.util.Comparator;
 import java.util.Date;
 
