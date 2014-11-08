@@ -60,7 +60,7 @@ public class TimeStandardizer {
 			System.out.print("Error");
 			break;
 		default :
-			throw new Error("TELL USER TO MAKE A SANDWICH FOR ME");
+			assert true;
 		}
 
 
