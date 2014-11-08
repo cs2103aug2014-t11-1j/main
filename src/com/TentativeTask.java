@@ -3,7 +3,7 @@ package com;
 import java.util.ArrayList;
 
 /**
- *
+ *unused: not fully developed
  * @author Jireh and Krystal
  */
 public class TentativeTask {
