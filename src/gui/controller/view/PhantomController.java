@@ -1,50 +1,53 @@
 package gui.controller.view;
 
-import gui.MainApp;
+/**
+ * @author A0116018R
+ * 
+ * This class is the controller for OverallView.
+ * This class also contains the Parents of the other views
+ * and their controllers. 
+ * This class will interpret user events and send and receive input
+ * from logic.
+ */
+
+import gui.TrayApplication;
 import gui.controller.AnimationHandler;
 import gui.controller.CommandLineUtility;
 import gui.controller.EditListener;
 import gui.controller.HelperListener;
 import gui.controller.PhantomClock;
-import gui.controller.PopupController;
 import gui.controller.PreferenceManager;
-import gui.controller.TimelineViewManager;
 import gui.controller.TodayListManager;
-import gui.controller.TutorialLoader;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.logging.Level;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import logic.FeedbackMessages;
 import logic.LogicFacade;
-import com.ModelTask;
 
+import com.ModelTask;
 import com.util.MyLogger;
 
 public class PhantomController {
+	private static final String DELETE_PROMPT = "delete ";
+
+	private static final String EMPTY_STRING = "";
+
 	private static boolean hasOccured = false;
 
-	private Stage primaryStage;
-	private AnchorPane overallView;
+	private Stage primaryStage_;
+	private AnchorPane overallView_;
 
 	@FXML
 	private Label tfOutput;
@@ -73,62 +76,102 @@ public class PhantomController {
 	private AnchorPane helperAnchor;
 
 	@FXML
-	private Parent timelineView;
-	@FXML
-	private TimelineViewController timelineViewController;
-	@FXML
-	private AnchorPane timelineAnchor;
-
-	@FXML
-	private Parent tentativeView;
-	@FXML
-	private TentativeViewController tentativeViewController;
-	@FXML
-	private AnchorPane tentativeAnchor;
-
-	@FXML
 	private Label timeLabel;
 
-	@FXML
-	private Menu themeMenu;
-
-	private LogicFacade logicFacade;
+	private LogicFacade logicFacade_;
 	// for testing purposes
 	// private LogicFacadeDummy logicFacade;
 
-	private AnimationHandler ah;
-	private CommandLineUtility clu;
-	private TodayListManager tlm;
-	private PreferenceManager pm;
-	private TimelineViewManager tvm;
+	private AnimationHandler ah_;
+	private CommandLineUtility clu_;
+	private TodayListManager tlm_;
+	private PreferenceManager pm_;
+	private TrayApplication ta_;
 	
-	private HelperListener helperListener;
-
-	private String themeUrl;
-
+	private HelperListener helperListener_;
+	
+	//@author A0116211B
 	final KeyCombination keyCombShiftRight = KeyCodeCombination.valueOf("Shift+RIGHT");
 	final KeyCombination keyCombShiftLeft = KeyCodeCombination.valueOf("Shift+LEFT");
 
-	private int viewIndex;
-
+	//@author A011601R
 	//constructor
 	public PhantomController() {
-		System.out.println("phantom constructor");
-		MyLogger.log(Level.INFO,"phantom constructor");
-		logicFacade = LogicFacade.getInstance();
+		logicFacade_ = LogicFacade.getInstance();
 
 		// for testing purposes
-		// logicFacade = new LogicFacadeDummy();
+		// logicFacade_ = new LogicFacadeDummy();
 	}
-
+	
+	//public methods
 	public void setPrimaryStage(Stage stage) {
-		this.primaryStage = stage;
+		primaryStage_ = stage;
 	}
 
 	public void setOverallView(AnchorPane overallView) {
-		this.overallView = overallView;
+		overallView_ = overallView;
+	}
+	
+	//@author A0116211B
+	public void initPrefManager() {
+		pm_ = PreferenceManager.getInstance();
+		pm_.initViews(overallView_);
+	}
+	
+	//@author A0116018R
+	/**
+	 * Refactored this snippet of code
+	 * from handleKeyPressed method for
+	 * external use. - smallson
+	 */
+	public void executeCommand(String input) {
+		int guiFeedBack = FeedbackMessages.NORMAL_STATE;
+		String userFeedBack = EMPTY_STRING;
+		
+		try {
+			guiFeedBack = logicFacade_.executeCommand(input);
+			userFeedBack = logicFacade_.getUserFeedBack();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		if(guiFeedBack == FeedbackMessages.UPDATE_ALL_LIST){
+			setAllView(logicFacade_.getAllList());
+		}
+		if(guiFeedBack == FeedbackMessages.SWITCH_TO_TEMP){
+			switchToSearch(logicFacade_.getSearchedList());
+			ah_.showTableView();
+		}
+		if(guiFeedBack == FeedbackMessages.SWITCH_TO_TEMP_DELETE){
+			switchToSearch(logicFacade_.getSearchedList());
+			ah_.showTableView();
+			commandLine.setText(DELETE_PROMPT);
+			commandLine.end();
+		}
+		updateTodayView();
+		tfOutput.setText(userFeedBack);
+		ah_.fadeLabel(tfOutput);
+		tfOutput.setText(EMPTY_STRING);
+	}
+	
+	public static boolean isHasOccured() {
+		return hasOccured;
 	}
 
+	public static void setHasOccured(boolean hasOccured) {
+		PhantomController.hasOccured = hasOccured;
+	}
+	
+	//@author A0116211B
+	public void animateRight(){
+		ah_.animateRight();
+	}
+
+	public void animateLeft(){
+		ah_.animateLeft();
+	}
+	
+	//@author A0116018R
 	//Initialisation
 	@FXML
 	private void initialize() {
@@ -137,23 +180,21 @@ public class PhantomController {
 	}
 
 	private void initAll() {
-		tableViewController.setAllView(logicFacade.getAllList());
+		initTableView();
 		initTodayList();
 		initClock();
 		initAnimation();
 		initCommandLineUtility();
-		initTimeline();
-		helperListener = new HelperListener(helperViewController);
-		commandLine.textProperty().addListener(helperListener);
+		initHelper();
+		ta_ = TrayApplication.getInstance();	
 	}
 
-	public void initPrefManager() {
-		pm = PreferenceManager.getInstance();
-		pm.initViews(overallView);
+	private void initTableView() {
+		tableViewController.setAllView(logicFacade_.getAllList());
 	}
 
 	private void initTodayList() {
-		tlm = new TodayListManager();
+		tlm_ = new TodayListManager();
 		updateTodayView();
 	}
 
@@ -163,22 +204,21 @@ public class PhantomController {
 	}
 
 	private void initAnimation() {
-		ah = AnimationHandler.getInstance();
-		ah.initialize(tableAnchor, todayAnchor, helperAnchor, timelineAnchor, tentativeAnchor);
+		ah_ = AnimationHandler.getInstance();
+		ah_.initialize(tableAnchor, todayAnchor, helperAnchor);
 	}
 
 	private void initCommandLineUtility() {
-		clu = CommandLineUtility.getInstance();
-		clu.initialize(commandLine);
+		clu_ = CommandLineUtility.getInstance();
+		clu_.initialize(commandLine);
+	}
+	
+	private void initHelper() {
+		helperListener_ = new HelperListener(helperViewController);
+		commandLine.textProperty().addListener(helperListener_);
 	}
 
-	private void initTimeline() {
-		tvm = new TimelineViewManager();
-		tvm.setTimelineViewController(timelineViewController);
-		updateTimelineView();
-	}
-
-	//FXML event handling
+	//private FXML event handling
 	@FXML
 	private void handleExit() {
 		System.exit(0);
@@ -186,12 +226,13 @@ public class PhantomController {
 
 	@FXML
 	private void handleMinimise() {
-		primaryStage.setIconified(true);
+		primaryStage_.close();
+		ta_.showProgramIsMinimizedMsg();
 	}
 
 	@FXML
 	private void handleKeyPressed(KeyEvent e) {
-
+		
 		EditListener editListener = new EditListener(commandLine);
 		commandLine.textProperty().addListener(editListener);
 
@@ -215,13 +256,9 @@ public class PhantomController {
 			}
 			
 			if (input.equalsIgnoreCase("showall")) {
-				ah.showTableView();
+				ah_.showTableView();
 			} else if (input.equalsIgnoreCase("showtoday")) {
-				ah.showTodayView();
-			}else if(input.equalsIgnoreCase("showtentative")){
-				ah.showTimelineView();
-			}else if(input.equalsIgnoreCase("i love big butts")){
-				play();
+				ah_.showTodayView();
 			} else if (input.equalsIgnoreCase("blue theme")) {
 				changeCss("BlueTheme");
 			} else if (input.equalsIgnoreCase("dark theme")) {
@@ -252,99 +289,38 @@ public class PhantomController {
 				changeCss("SnakeTheme");
 			} else if (input.equalsIgnoreCase("ghosts theme")) {
 				changeCss("GhostsTheme");
-			} else if (input.equalsIgnoreCase("popup")) {
-				showPopup();
-			}else if(input.equalsIgnoreCase("tutorial")){
-				new TutorialLoader(overallView, themeUrl);
-			}
-			else{
+			} else{
 				executeCommand(input);
 
 				updateTodayView();
-				updateTimelineView();
-				clu.forwardToPrevious();
-				clu.pushInput(input);
-				ah.removeHelper();
+				clu_.forwardToPrevious();
+				clu_.pushInput(input);
+				ah_.removeHelper();
 			}
 
 		} else if (e.getCode() == KeyCode.UP) {
-			clu.displayPreviousInput();
+			clu_.displayPreviousInput();
 		} else if (e.getCode() == KeyCode.DOWN) {
-			clu.displayForwardInput();
+			clu_.displayForwardInput();
 		} else if(e.getCode() == KeyCode.PAGE_DOWN){
-			if (ah.getIsFocusTable() 
-					&& commandLine.getText().equals("")) {
+			if (ah_.getIsFocusTable() 
+					&& commandLine.getText().equals(EMPTY_STRING)) {
 				tableViewController.scrollToNext();
 			}
 	
 		}else if(e.getCode() == KeyCode.PAGE_UP){
-			if (ah.getIsFocusTable() 
-					&& commandLine.getText().equals("")) {
+			if (ah_.getIsFocusTable() 
+					&& commandLine.getText().equals(EMPTY_STRING)) {
 				tableViewController.scrollToBack();
 			}
 		}
 	}
 
-
-	/**
-	 * Refactored this snippet of code
-	 * from handleKeyPressed method for
-	 * external use. - smallson
-	 */
-	public void executeCommand(String input) {
-		int guiFeedBack = FeedbackMessages.NORMAL_STATE;
-		String userFeedBack = "";
-		
-		try {
-			guiFeedBack = logicFacade.executeCommand(input);
-			userFeedBack = logicFacade.getUserFeedBack();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-
-		if(guiFeedBack == FeedbackMessages.UPDATE_ALL_LIST){
-			setAllView(logicFacade.getAllList());
-		}
-		if(guiFeedBack == FeedbackMessages.SWITCH_TO_TEMP){
-			switchToSearch(logicFacade.getSearchedList());
-			ah.showTableView();
-		}
-		if(guiFeedBack == FeedbackMessages.SWITCH_TO_TEMP_DELETE){
-			switchToSearch(logicFacade.getSearchedList());
-			ah.showTableView();
-			commandLine.setText("delete ");
-			commandLine.end();
-		}
-		updateTodayView();
-		updateTimelineView();
-		tfOutput.setText(userFeedBack);
-		ah.fadeLabel(tfOutput);
-	}
-	
-	public static boolean isHasOccured() {
-		return hasOccured;
-	}
-
-	public static void setHasOccured(boolean hasOccured) {
-		PhantomController.hasOccured = hasOccured;
-	}
-
 	//private methods
 	private void updateTodayView() {
-		ObservableList<ModelTask> allList = logicFacade.getAllList();
-		ObservableList<ModelTask> todayList = tlm.getTodayList(allList);
+		ObservableList<ModelTask> allList = logicFacade_.getAllList();
+		ObservableList<ModelTask> todayList = tlm_.getTodayList(allList);
 		todayViewController.setTodayView(todayList);
-	}
-
-	private void updateTimelineView() {
-		tvm.setAllList(logicFacade.getAllList());
-	}
-
-	private void play() {
-		final URL resource = getClass().getResource("a.mp3");
-		final Media media = new Media(resource.toString());
-		final MediaPlayer mediaPlayer = new MediaPlayer(media);
-		mediaPlayer.play();
 	}
 
 	private void switchToSearch(ObservableList<ModelTask> list) {
@@ -360,52 +336,79 @@ public class PhantomController {
 	}
 
 	private void changeCss(String cssFileName) {
-		pm.setCss(cssFileName);
+		pm_.setCss(cssFileName);
 		
 		try {
-			pm.saveCSSPref(cssFileName);
+			pm_.saveCSSPref(cssFileName);
 		} catch (IOException e) {
 			e.printStackTrace();
 			MyLogger.log(Level.WARNING, "preference not saved");
 		}
 	}
+	
+// not fully developed features
+//	@FXML
+//	private Parent timelineView;
+//	@FXML
+//	private TimelineViewController timelineViewController;
+//	@FXML
+//	private AnchorPane timelineAnchor;
+//
+//	@FXML
+//	private Parent tentativeView;
+//	@FXML
+//	private TentativeViewController tentativeViewController;
+//	@FXML
+//	private AnchorPane tentativeAnchor;
+	
+//	private TimelineViewManager tvm;
+	
 
-	private void showPopup() {
-		try {
-
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/PopupView.fxml"));
-			AnchorPane page = (AnchorPane) loader.load();
-			page.getStylesheets().clear();
-			page.getStylesheets().add(themeUrl);
-
-			Stage popupStage = new Stage();
-			popupStage.setTitle("Popup");
-			popupStage.initModality(Modality.WINDOW_MODAL);
-			popupStage.initStyle(StageStyle.TRANSPARENT);
-			popupStage.initOwner(primaryStage);
-
-			Scene scene = new Scene(page);
-			popupStage.setScene(scene);
-
-			PopupController controller = loader.getController();
-			controller.setPopupStage(popupStage);
-
-			popupStage.showAndWait();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public void animateRight(){
-		ah.animateRight();
-	}
-
-	public void animateLeft(){
-		ah.animateLeft();
-	}
-
+//	private void initTimeline() {
+//		tvm = new TimelineViewManager();
+//		tvm.setTimelineViewController(timelineViewController);
+//		updateTimelineView();
+//	}
+	
+//	private void updateTimelineView() {
+//	tvm.setAllList(logicFacade.getAllList());
+//}
+	
+//	private void showPopup() {
+//	try {
+//
+//		FXMLLoader loader = new FXMLLoader();
+//		loader.setLocation(MainApp.class.getResource("controller/view/PopupView.fxml"));
+//		AnchorPane page = (AnchorPane) loader.load();
+//		
+//		String themeUrl = pm.getThemeUrl();
+//		page.getStylesheets().clear();
+//		page.getStylesheets().add(themeUrl);
+//
+//		Stage popupStage = new Stage();
+//		popupStage.setTitle("Popup");
+//		popupStage.initModality(Modality.WINDOW_MODAL);
+//		popupStage.initStyle(StageStyle.TRANSPARENT);
+//		popupStage.initOwner(primaryStage);
+//
+//		Scene scene = new Scene(page);
+//		popupStage.setScene(scene);
+//
+//		PopupController controller = loader.getController();
+//		controller.setPopupStage(popupStage);
+//
+//		popupStage.showAndWait();
+//	} catch (IOException e) {
+//		e.printStackTrace();
+//	}
+//}
+//	@author A0116211B
+//	private void play() {
+//		final URL resource = getClass().getResource("a.mp3");
+//		final Media media = new Media(resource.toString());
+//		final MediaPlayer mediaPlayer = new MediaPlayer(media);
+//		mediaPlayer.play();
+//	}
 
 	/*
 	 * unused classes for initial testing with command buttons in gui

@@ -80,7 +80,11 @@ public class PreferenceManager {
 			MyLogger.log(Level.WARNING,"error setting theme");
 		}
 	}
-
+	
+	public String getThemeUrl(){
+		return themeUrl;
+	}
+	
 	private void initialize(String prefFileName2) {
 		prefFile = new File(prefFileName);
 		try {

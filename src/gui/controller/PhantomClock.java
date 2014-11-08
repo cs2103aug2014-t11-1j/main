@@ -20,13 +20,13 @@ import javafx.util.Duration;
 public class PhantomClock {
 	
 
-	private static PhantomClock pc = new PhantomClock();
+	private static PhantomClock pc_ = new PhantomClock();
 
 	private PhantomClock(){
 	}
 
 	public static PhantomClock getInstance(){
-		return pc;
+		return pc_;
 	}
 	
 	public void setClock(Label timeLabel){

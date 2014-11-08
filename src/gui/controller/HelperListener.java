@@ -1,5 +1,12 @@
 package gui.controller;
-
+/**
+ * This class is a listener for changes in the 
+ * commandLine_ textfield.
+ * 
+ * It will listen for specific changes  
+ * to decide when to animate the helper view.
+ * @author A0116211B
+ */
 import gui.controller.view.HelperViewController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

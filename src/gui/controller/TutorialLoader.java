@@ -1,11 +1,12 @@
 package gui.controller;
 
 /**
+ * @author A0116018R
+ * 
+ * Unused: not fully developed.
  * This class is used to load the tutorialView into the AnchorPane given.
  * Note: should only be called by PhantomController.
  * Note: the current themeUrl should be inserted as well
- * 
- * Author: Krystal
  */
 
 import java.io.IOException;
@@ -17,23 +18,23 @@ import javafx.scene.layout.AnchorPane;
 
 
 public class TutorialLoader {
-	AnchorPane tutorialView;
-	AnchorPane overallView;
+	AnchorPane tutorialView_;
+	AnchorPane overallView_;
 	
 	public TutorialLoader(AnchorPane overallView, String themeUrl){
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/TutorialView.fxml"));
-			tutorialView = (AnchorPane) loader.load();
+			tutorialView_ = (AnchorPane) loader.load();
 			
-			this.overallView = overallView;
-			overallView.getChildren().add(tutorialView);
+			overallView_ = overallView;
+			overallView.getChildren().add(tutorialView_);
 			
-			tutorialView.getStylesheets().clear();
-			tutorialView.getStylesheets().add(themeUrl);
+			tutorialView_.getStylesheets().clear();
+			tutorialView_.getStylesheets().add(themeUrl);
 			
 			TutorialViewController controller = loader.getController();
-			controller.setTutorialView(tutorialView);
+			controller.setTutorialView(tutorialView_);
 			controller.setOverallView(overallView);
 			
 		} catch (IOException e) {
@@ -42,6 +43,6 @@ public class TutorialLoader {
 	}
 
 	public void close() {
-		overallView.getChildren().remove(tutorialView);
+		overallView_.getChildren().remove(tutorialView_);
 	}
 }

@@ -1,5 +1,16 @@
 package gui.controller.view;
-
+/**
+ * @author A0116018R
+ * Unused: not fully developed
+ * 
+ * This class is the controller for the timelineView
+ *	Normal timeslots are green.
+ * Other timeslots can be set to red or orange.
+ * 
+ * The timings will be rounded to the nearest half-hour
+ * 
+ * colours can be accessed publicly.
+ */
 import java.util.Calendar;
 import java.util.Date;
 
@@ -45,7 +56,15 @@ public class TimelineViewController {
 	public TimelineViewController(){
 
 	}
-
+	
+	/**
+	 * Adds a period over the timeperiod between the two given dates.
+	 * The colour should be the static colour given in timeline view controller.
+	 * By default, a wrong input will set the colour to transparent.
+	 * @param startTime
+	 * @param endTime
+	 * @param colour
+	 */
 	public void addPeriod(Date startTime, Date endTime, int colour){
 
 		int startDay = getDay(startTime);
@@ -62,11 +81,11 @@ public class TimelineViewController {
 			numCol = getTotalColOneDay(startCol, endTime, period);
 			setPeriod(dayToAdd, period, startCol, numCol, colour);
 		}else{
-			//getEndTime of first day
+			//TODO:getEndTime of first day
 			numCol = getTotalColOneDay(startCol, endTime, period);
 			setPeriod(dayToAdd, period, startCol, numCol, colour);
 			
-			//setMiddleDays
+			//TODO:setMiddleDays
 			
 			dayToAdd = getGridPane(endDay);
 			numCol = getTotalColOneDay(FIRST_COL, endTime, period);
@@ -152,45 +171,6 @@ public class TimelineViewController {
 		return numCol;
 	}
 
-	//	private int getTotalColMultiDays(int startCol, int startPeriod, int startDay, int endDay, Date endTime) {
-	//		//sun = 1, sat = 7
-	//		int endHour = getHour(endTime);
-	//		int endMin = getRoundedMin(endTime);
-	//		int endPeriod = findPeriod(endTime);
-	//		int endCol = getStartCol(endTime);
-	//		int numCol;
-	//		
-	//		if(endHour > MAX_HOUR_PERIOD){
-	//			endHour -= MAX_HOUR_PERIOD;
-	//		}
-	//		
-	//		numCol = MAX_HOUR - startCol;
-	//		
-	//		if(startPeriod == Calendar.AM){
-	//			numCol += MAX_HOUR;
-	//		}
-	//		
-	//		numCol = MAX_HOUR - endCol;
-	//		
-	//		if(endPeriod == Calendar.PM){
-	//			numCol += MAX_HOUR;
-	//		}
-	//		
-	//		
-	//		
-	//		if(endPeriod != startPeriod){
-	//			numCol += MAX_HOUR;
-	//		}
-	//		
-	//		if(endMin == HALF_HOUR){
-	//			numCol ++;
-	//		}
-	//		else if(endMin == FULL_HOUR){
-	//			numCol += 2;
-	//		}
-	//		return numCol;
-	//	}
-	//	
 	private int getDay(Date startTime) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(startTime);

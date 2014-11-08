@@ -1,5 +1,10 @@
 package gui.controller;
-
+/**
+ * This is a dummy class used for isolated testing 
+ * of the GUI.
+ * 
+ * @author A0116018R
+ */
 import java.util.Date;
 
 import com.ModelTask;
@@ -9,17 +14,17 @@ import javafx.collections.ObservableList;
 
 public class LogicFacadeDummy {
 
-	private ObservableList<ModelTask> taskList;
-	private ObservableList<ModelTask> searchedList;
+	private ObservableList<ModelTask> taskList_;
+	private ObservableList<ModelTask> searchedList_;
 	
 	public LogicFacadeDummy(){
-		taskList = FXCollections.observableArrayList();
-		searchedList = FXCollections.observableArrayList();
+		taskList_ = FXCollections.observableArrayList();
+		searchedList_ = FXCollections.observableArrayList();
 	}
 	
 	public ObservableList<ModelTask> getAllList(){
-		taskList.add(new ModelTask("task", new Date(), null, new Date(), null, 1, true, true));
-		return taskList;
+		taskList_.add(new ModelTask("task", new Date(), null, new Date(), null, 1, true, true));
+		return taskList_;
 	}
 	
 	public void getFeedback(String input){
@@ -27,12 +32,11 @@ public class LogicFacadeDummy {
 	}
 
 	public String getFeedBack(String input) {
-		// TODO Auto-generated method stub
-		return "facade lol";
+		return "USER FEEDBACK";
 	}
 
 	public ObservableList<ModelTask> getSearchedList() {
-		searchedList.add(new ModelTask("task", new Date(), null, new Date(), null, 1, true, true));
-		return searchedList;
+		searchedList_.add(new ModelTask("task", new Date(), null, new Date(), null, 1, true, true));
+		return searchedList_;
 	}
 }

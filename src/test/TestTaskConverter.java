@@ -1,7 +1,9 @@
 package test;
 /**
+ * @author A0116018R
+ * 
  * This is the unit testing for TaskConverter class
- * This will test the 
+ * This will test the various formats for tasks that might come from the Parser
  */
 import static org.junit.Assert.*;
 

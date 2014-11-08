@@ -29,16 +29,6 @@
             <Label fx:id="timeLabel" prefHeight="20.0" prefWidth="89.0" styleClass="label-bright" text="Time" />
          </children>
       </HBox>
-      <AnchorPane fx:id="timelineAnchor" layoutX="10.0" layoutY="53.0" prefHeight="284.0" prefWidth="610.0">
-			<children>
-				<fx:include fx:id="timelineView" source="TimelineView.fxml" />
-			</children>      
-      </AnchorPane>
-       <AnchorPane fx:id="tentativeAnchor" layoutX="38.0" layoutY="81.0" prefHeight="264.0" prefWidth="580.0">
-      	<children>
-      		<fx:include fx:id="tentativeView" source="TentativeView.fxml" />
-      	</children>
-      </AnchorPane>
       <AnchorPane fx:id="todayAnchor" layoutX="105.0" layoutY="72.0" prefHeight="272.0" prefWidth="520.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="72.0">
 	      <children>
 	      	<fx:include fx:id="todayView" source="TodayView.fxml" />
@@ -61,11 +51,6 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
         </menus>

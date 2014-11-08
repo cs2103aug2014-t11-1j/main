@@ -1,4 +1,19 @@
 package gui.controller;
+/**
+ * Depreciated class; table doesn't allow visual sorting
+ * by clicking anymore
+ * 
+ * Comparator to compare the dateStrings in table
+ * the dates are in strings with the below formats:
+ * One day:
+ * EEE, MMM d
+ * Two days in the same month:
+ * d - d MMM
+ * Two days in different months:
+ * d MMM - d MMM
+ * 
+ * @author A0116018R
+ */
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -8,9 +23,9 @@ import java.util.regex.Pattern;
 
 public class DateStringComparator implements Comparator<String>{
 
-	static private SimpleDateFormat oneDateGetter = new SimpleDateFormat("EEE, MMM d");
-	static private SimpleDateFormat twoDateGetter = new SimpleDateFormat("d MMM");
-	static private Pattern oneMonthPattern = Pattern.compile("\\d{1,2}\\p{Blank}-\\p{Blank}\\d{1,2}\\p{Blank}\\w*");
+	static private SimpleDateFormat ONE_DATE_GETTER = new SimpleDateFormat("EEE, MMM d");
+	static private SimpleDateFormat TWO_DATE_GETTER = new SimpleDateFormat("d MMM");
+	static private Pattern ONE_MONTH_PATTERN = Pattern.compile("\\d{1,2}\\p{Blank}-\\p{Blank}\\d{1,2}\\p{Blank}\\w*");
 
 	@Override
 	public int compare(String str1, String str2) {
@@ -36,11 +51,11 @@ public class DateStringComparator implements Comparator<String>{
 			else{
 				str1 = cutOutTwoMonthDate(str1);
 			}
-			date1 = twoDateGetter.parse(str1, new ParsePosition(0));
+			date1 = TWO_DATE_GETTER.parse(str1, new ParsePosition(0));
 		}
 		else{
 			System.out.println("one date");
-			date1 = oneDateGetter.parse(str1, new ParsePosition(0));
+			date1 = ONE_DATE_GETTER.parse(str1, new ParsePosition(0));
 		}
 		
 		if(isTwoDates(str2)){
@@ -50,10 +65,10 @@ public class DateStringComparator implements Comparator<String>{
 			else{
 				str2 = cutOutTwoMonthDate(str2);
 			}
-			date2 = twoDateGetter.parse(str2, new ParsePosition(0));
+			date2 = TWO_DATE_GETTER.parse(str2, new ParsePosition(0));
 		}
 		else{
-			date2 = oneDateGetter.parse(str2, new ParsePosition(0));
+			date2 = ONE_DATE_GETTER.parse(str2, new ParsePosition(0));
 		}
 		
 		//compare the parsed dates
@@ -74,7 +89,7 @@ public class DateStringComparator implements Comparator<String>{
 
 	//d - d MMM
 	private boolean isOneMonth(String str) {
-		return oneMonthPattern.matcher(str).matches();
+		return ONE_MONTH_PATTERN.matcher(str).matches();
 	}
 
 	//d - d MMM

@@ -1,5 +1,12 @@
 package gui;
 
+/**
+ *  @author A0116018R
+ * The MainApp loads and initialises the application
+ * including the main overallView and PhantomController
+ * on startup.
+ *  
+ */
 import java.io.IOException;
 
 import gui.controller.PreferenceManager;
@@ -27,54 +34,55 @@ import javafx.util.Duration;
 
 public class MainApp extends Application {
 
-	private Stage primaryStage;
-	private AnchorPane overallView;
-	private TrayApplication ta;
-	private ShortcutManager sm;
-	// private BorderPane rootLayout;
+	private Stage primaryStage_;
+	private AnchorPane overallView_;
+	private TrayApplication ta_;
+	private ShortcutManager sm_;
 
-	private double xOffset = 0;
-	private double yOffset = 0;
+	private double xOffset_ = 0;
+	private double yOffset_ = 0;
 
 	@Override
 	public void start(Stage primaryStage) {
-		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Phantom");
-		this.primaryStage.centerOnScreen();
-		this.primaryStage.initStyle(StageStyle.TRANSPARENT);
-
-		ta = TrayApplication.getInstance();
+		this.primaryStage_ = primaryStage;
+		this.primaryStage_.setTitle("Phantom");
+		this.primaryStage_.centerOnScreen();
+		this.primaryStage_.initStyle(StageStyle.TRANSPARENT);
+		
+		//@author A0116211B
+		ta_ = TrayApplication.getInstance();
 		try {
-			ta.createTrayIcon(primaryStage);
+			ta_.createTrayIcon(primaryStage);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		sm = ShortcutManager.getInstance();
+		sm_ = ShortcutManager.getInstance();
 		Platform.setImplicitExit(false);
-		sm.setHotKeys(primaryStage);
-
+		sm_.setHotKeys(primaryStage);
+		
+		//@author A0116018R
 		showPhantomOverallView();
 	}
-
+	
 	public void showPhantomOverallView() {
 		try {
 			// Load overallView.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class
 					.getResource("controller/view/OverallView.fxml"));
-			overallView = (AnchorPane) loader.load();
-			System.out.println("overall view loaded");
+			overallView_ = (AnchorPane) loader.load();
 
-			Scene scene = new Scene(overallView);
-			primaryStage.setScene(scene);
-			primaryStage.setResizable(false);
-			primaryStage.show();
+			Scene scene = new Scene(overallView_);
+			primaryStage_.setScene(scene);
+			primaryStage_.setResizable(false);
+			primaryStage_.show();
 
 			PhantomController controller = loader.getController();
-			controller.setPrimaryStage(primaryStage);
-			controller.setOverallView(overallView);
+			controller.setPrimaryStage(primaryStage_);
+			controller.setOverallView(overallView_);
 			controller.initPrefManager();
 			
+			//@author A0116211B
 			/**
 			 * This snippet of code allows 
 			 * the user to remotely execute undo
@@ -123,37 +131,43 @@ public class MainApp extends Application {
 					}
 				}
 			});
-
-			overallView.setOnMousePressed(new EventHandler<MouseEvent>() {
+			
+			/**
+			 * @author A0116018R
+			 * This allows Phantom to be draggable.
+			 */
+			overallView_.setOnMousePressed(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					xOffset = event.getSceneX();
-					yOffset = event.getSceneY();
+					xOffset_ = event.getSceneX();
+					yOffset_ = event.getSceneY();
 				}
 			});
-			overallView.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			overallView_.setOnMouseDragged(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					primaryStage.setX(event.getScreenX() - xOffset);
-					primaryStage.setY(event.getScreenY() - yOffset);
+					primaryStage_.setX(event.getScreenX() - xOffset_);
+					primaryStage_.setY(event.getScreenY() - yOffset_);
 				}
 			});
 
-			overallView.addEventHandler(KeyEvent.KEY_PRESSED,
+			overallView_.addEventHandler(KeyEvent.KEY_PRESSED,
 					new EventHandler<KeyEvent>() {
 
 						@Override
 						public void handle(KeyEvent t) {
 							if (t.getCode() == KeyCode.ESCAPE) {
-								primaryStage.close();
+								primaryStage_.close();
 							}
 						}
 					});
-
+			
+			//@author A0110567L
 			//loading the reminder service. reminder will be activated 5 min before the task starttime
 			TimeService timeService = TimeService.getInstance();
 			timeService.startReminderService();
-						
+		
+			//@author A0116018R
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
