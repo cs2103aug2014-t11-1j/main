@@ -1,3 +1,4 @@
+//@author A0111370Y
 package logic;
 
 import static logic.CommandFactory.updateUndoAndRedoStacks;
@@ -12,8 +13,6 @@ import java.util.logging.Level;
  *
  * Marks the task at input index as urgent.
  */
-
-//@author A0111370Y
 public class MarkUrgent extends CommandFactory {
 
     private static final int INVALID_INDEX = -1;
@@ -31,9 +30,7 @@ public class MarkUrgent extends CommandFactory {
         int index;
         index = getIndex(input);
 
-        sortTasksByPositionNumber();
-
-        if (isValidLineNumber(index)) {
+        if (isValidIndex(index)) {
             markTaskAsUrgent(index);
         } else {
             setFeedbackError();
@@ -49,7 +46,7 @@ public class MarkUrgent extends CommandFactory {
 
     private int getIndex(String input) {
         try {
-            return Integer.parseInt(input) - 1;
+            return Integer.parseInt(input);
         } catch (NumberFormatException ex) {
             return INVALID_INDEX;
         }
@@ -57,10 +54,20 @@ public class MarkUrgent extends CommandFactory {
     }
 
     private void markTaskAsUrgent(int index) {
-        ModelTask task = list.get(index);
+        ModelTask task = null;
+        int i = 0;
+
+        for (; i < list.getListSize(); i++) {
+            ModelTask temp = list.get(i);
+            if (temp.getPosition() == index) {
+                task = temp;
+                break;
+            }
+        }
+
         task.setIsUrgent(true);
-        list.remove(index);
-        list.add(task, index);
+        list.remove(i);
+        list.add(task, i);
         isDone = true;
         setFeedbackSuccess();
         setGuiFeedbackNormal();
@@ -82,8 +89,7 @@ public class MarkUrgent extends CommandFactory {
         MyLogger.log(Level.INFO, FeedbackMessages.ERROR_MARKURGENT_MESSAGE);
     }
 
-    private void sortTasksByPositionNumber() {
-        Collections.sort(CommandFactory.list.getList(), new ModelTaskNumComparator());
+    private boolean isValidIndex(int index) {
+        return index <= list.getListSize() && index > 0;
     }
-
 }

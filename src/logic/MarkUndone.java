@@ -1,3 +1,4 @@
+//@author A0111370Y
 package logic;
 
 import static logic.CommandFactory.isValidLineNumber;
@@ -12,8 +13,6 @@ import java.util.logging.Level;
  *
  * Marks the task at input index as not done.
  */
-
-//@author A0111370Y
 public class MarkUndone extends CommandFactory {
 
     private static final int INVALID_INDEX = -1;
@@ -31,9 +30,7 @@ public class MarkUndone extends CommandFactory {
         int index;
         index = getIndex(input);
 
-        sortTasksByPositionNumber();
-
-        if (isValidLineNumber(index)) {
+        if (isValidIndex(index)) {
             markTaskAsUndone(index);
         } else {
             setFeedbackError();
@@ -49,17 +46,27 @@ public class MarkUndone extends CommandFactory {
 
     private int getIndex(String input) {
         try {
-            return Integer.parseInt(input) - 1;
+            return Integer.parseInt(input);
         } catch (NumberFormatException ex) {
             return INVALID_INDEX;
         }
     }
 
     private void markTaskAsUndone(int index) {
-        ModelTask task = list.get(index);
+        ModelTask task = null;
+        int i = 0;
+
+        for (; i < list.getListSize(); i++) {
+            ModelTask temp = list.get(i);
+            if (temp.getPosition() == index) {
+                task = temp;
+                break;
+            }
+        }
+
         task.setIsDone(false);
-        list.remove(index);
-        list.add(task, index);
+        list.remove(i);
+        list.add(task, i);
         isDone = true;
         setFeedbackSuccess();
         setGuiFeedbackNormal();
@@ -81,7 +88,7 @@ public class MarkUndone extends CommandFactory {
         CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKUNDONE_MESSAGE);
     }
 
-    private void sortTasksByPositionNumber() {
-        Collections.sort(CommandFactory.list.getList(), new ModelTaskNumComparator());
+    private boolean isValidIndex(int index) {
+        return index <= list.getListSize() && index > 0;
     }
 }
