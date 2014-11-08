@@ -70,7 +70,7 @@ public class TestLogicFacade {
 				"add do homework by 11/11/2014");
 		testListSize(1);
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "do homework",
-				"11/11/2014", "null", "2359", "null", "false", "false"), 1);
+				"11/11/2014", "null", "23:59", "null", "false", "false"), 1);
 		logic.executeCommand("clear");
 	}
 
@@ -95,7 +95,7 @@ public class TestLogicFacade {
 				"add watch ipman with girlfriend on 11/11/2014 at 8am");
 		testListSize(1);
 		testLogicOutput(String.format(TASKSTRINGFORMAT,
-				"watch ipman with girlfriend", "11/11/2014", "null", "0800",
+				"watch ipman with girlfriend", "11/11/2014", "null", "08:00",
 				"null", "false", "false"), 1);
 		logic.executeCommand("clear");
 	}
@@ -108,8 +108,8 @@ public class TestLogicFacade {
 						+ " from 8am to 9am");
 		testListSize(1);
 		testLogicOutput(String.format(TASKSTRINGFORMAT,
-				"practice kungfu fighting", "12/11/2014", "13/11/2014", "0800",
-				"0900", "false", "false"), 1);
+				"practice kungfu fighting", "12/11/2014", "13/11/2014", "08:00",
+				"09:00", "false", "false"), 1);
 
 		logic.executeCommand("clear");
 	}
