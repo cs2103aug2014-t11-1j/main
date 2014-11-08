@@ -47,4 +47,5 @@ public class FeedbackMessages {
 	public static final String SUCCESS_TENTATIVE_MESSAGE = "Tentative task blocked";
 	public static final String ERROR_TENTATIVE_MESSAGE = "Cannot block tentative task";
 	public static final String SUCCESS_CLEARNORMAL_MESSAGE = "Normal tasks cleared";
+	public static final String ERROR_SAVING_MESSAGE = "cannot save to text file";
 }

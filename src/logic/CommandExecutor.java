@@ -1,21 +1,17 @@
 package logic;
-
 import java.io.IOException;
 import java.util.logging.Level;
-
 import com.ModelTask;
 import com.util.MyLogger;
-
-/**
- * @author Zhang Yongkai
- *
- * CommandExecutor will pass pass the command action and actual task description
- * to Command class for actual processing.
- */
-
 import storage.Storage;
 import javafx.collections.ObservableList;
 import parser.ParserFacade;
+
+//@author A0110567L
+/**
+ * CommandExecutor will pass pass the command action and actual task description
+ * to Command class for actual processing.
+ */
 
 public class CommandExecutor {
 
@@ -52,8 +48,7 @@ public class CommandExecutor {
 		try {
 			storage.save(taskList);
 		} catch (IOException e) {
-			MyLogger.log(Level.WARNING, "cannot save to text file");
-			// TODO Auto-generated catch block
+			MyLogger.log(Level.WARNING, FeedbackMessages.ERROR_SAVING_MESSAGE);
 			e.printStackTrace();
 		}
 	}
@@ -63,7 +58,7 @@ public class CommandExecutor {
 		try {
 			storage.save(taskList);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			MyLogger.log(Level.WARNING, FeedbackMessages.ERROR_SAVING_MESSAGE);
 			e.printStackTrace();
 		}
 	}
@@ -103,6 +98,7 @@ public class CommandExecutor {
 			switch (commandType) {
 
 			case ADD:
+				@SuppressWarnings("unused")
 				boolean isAdded = false;
 				cmdf = new Add(actualCommandDescription, false);
 				isAdded = cmdf.isDone();
@@ -110,6 +106,7 @@ public class CommandExecutor {
 				break;
 
 			case ADDURGENT:
+				@SuppressWarnings("unused")
 				boolean isAddedUrgent = false;
 				cmdf = new Add(actualCommandDescription, true);
 				isAddedUrgent = cmdf.isDone();
@@ -117,6 +114,7 @@ public class CommandExecutor {
 				break;
 
 			case DELETE:
+				@SuppressWarnings("unused")
 				boolean isDeleted = false;
 				cmdf = new Delete(actualCommandDescription);
 				isDeleted = cmdf.isDone();
@@ -124,6 +122,7 @@ public class CommandExecutor {
 				break;
 
 			case CLEAR:
+				@SuppressWarnings("unused")
 				boolean isCleared = false;
 				cmdf = new Clear(actualCommandDescription);
 				isCleared = cmdf.isDone();
@@ -131,6 +130,7 @@ public class CommandExecutor {
 				break;
 
 			case DISPLAY:
+				@SuppressWarnings("unused")
 				boolean isDisplayed = false;
 				cmdf = new Display(actualCommandDescription);
 				isDisplayed = cmdf.isDone();
@@ -138,6 +138,7 @@ public class CommandExecutor {
 				break;
 
 			case UNDO:
+				@SuppressWarnings("unused")
 				boolean isUndone = false;
 				cmdf = new Undo();
 				isUndone = cmdf.isDone();
@@ -145,6 +146,7 @@ public class CommandExecutor {
 				break;
 
 			case REDO:
+				@SuppressWarnings("unused")
 				boolean isRedone = false;
 
 				cmdf = new Redo();
@@ -153,10 +155,7 @@ public class CommandExecutor {
 				break;
 
 			case EDIT:
-				/*
-				 * This method takes in command in following format: edit
-				 * numToDelete newTaskDescription
-				 */
+				@SuppressWarnings("unused")
 				boolean isEdited = false;
 				cmdf = new Edit(actualCommandDescription);
 				isEdited = cmdf.isDone();
@@ -164,6 +163,7 @@ public class CommandExecutor {
 				break;
 
 			case MOVE:
+				@SuppressWarnings("unused")
 				boolean isMoved = false;
 				cmdf = new Move(actualCommandDescription);
 				isMoved = cmdf.isDone();
@@ -171,6 +171,7 @@ public class CommandExecutor {
 				break;
 
 			case SORT:
+				@SuppressWarnings("unused")
 				boolean isSorted = false;
 				cmdf = new Sort(actualCommandDescription);
 				isSorted = cmdf.isDone();
@@ -179,53 +180,45 @@ public class CommandExecutor {
 
 			case SEARCH:
 
-				/**
-				 * This can be changed as you want the display to be different.
-				 * Search can return a string for displayString. If so, it can
-				 * be more like what display looks like
-				 */
 				cmdf = new Search(actualCommandDescription);
 
 				break;
 
 			case MARK_DONE:
 				cmdf = new MarkDone(actualCommandDescription);
+				@SuppressWarnings("unused")
 				boolean isMarkedDone = cmdf.isDone();
 
 				break;
 			case MARK_UNDONE:
 				cmdf = new MarkUndone(actualCommandDescription);
+				@SuppressWarnings("unused")
 				boolean isUnmarkedDone = cmdf.isDone();
 
 				break;
 
 			case MARK_URGENT:
 				cmdf = new MarkUrgent(actualCommandDescription);
+				@SuppressWarnings("unused")
 				boolean isMarkedUrgent = cmdf.isDone();
 
 				break;
 			case MARK_NOT_URGENT:
 				cmdf = new MarkNotUrgent(actualCommandDescription);
+				@SuppressWarnings("unused")
 				boolean isUnmarkedUrgent = cmdf.isDone();
 
 				break;
 
 			case TENTATIVE:
 				cmdf = new BlockTentative(actualCommandDescription);
+				@SuppressWarnings("unused")
 				boolean isTentativeBlocked = cmdf.isDone();
 
 				break;
 
 			case HELP:
-				/*
-				 * this part need to consult Krystal because this cannot be
-				 * passed back as a Tasklist
-				 * 
-				 * displayString =
-				 * "add <task>  [DEADLINE]  [START TIME]  [END TIME]" + "\n" +
-				 * "delete <line number>" + "\n" + "clear" + "\n" + "exit";
-				 * feedBack = "";
-				 */
+				//unimplemented
 				break;
 
 			case INVALID:
