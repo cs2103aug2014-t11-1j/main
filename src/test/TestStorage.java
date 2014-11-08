@@ -21,7 +21,8 @@ public class TestStorage {
 	private Storage storage;
 	private CommandExecutor executor;
 	private ObservableList<ModelTask> taskList;
-
+	private String display = "";
+	
 	@Before
 	public void setUp() {
 		try {
@@ -35,22 +36,26 @@ public class TestStorage {
 	}
 
 	@Test
-	public void test() {
+	public void testStorageInitialization() {
 		// display initial storage
-		String display = "";
 		for (int i = 0; i < taskList.size(); i++) {
 			display = taskList.get(i).toString();
 		}
-		oneTest("testing original file content when loading", "", display);
-
+		testOutput("testing original file content when loading", "", display);
+	}
+	
+	@Test
+	public void testStorage() {
 		// testing adding and display what has been added to text file
 		executor.executeCommand("add tasknumber1");
+		executor.executeCommand("add tasknumber2 on 12/12/2014");
 		taskList = executor.getAllList();
 		for (int i = 0; i < taskList.size(); i++) {
 			display += taskList.get(i).toString() + "\n";
 		}
-		oneTest("testing adding a task and displaying it",
-				"tasknumber1;null;null;null;null;null;false;false\n", display);
+		testOutput("testing adding a task and displaying it",
+				"tasknumber1;null;null;null;null;null;false;false\n"
+				+ "tasknumber2;12/12/2014;null;null;null;12/12/2014;false;false\n", display);
 
 	}
 
@@ -59,7 +64,7 @@ public class TestStorage {
 		executor.executeCommand("clear");
 	}
 
-	private void oneTest(String description, String expected, String actual) {
+	private void testOutput(String description, String expected, String actual) {
 		assertEquals(description, expected, actual);
 	}
 
