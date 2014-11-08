@@ -58,6 +58,8 @@ public class MarkUndone extends CommandFactory {
     private void markTaskAsUndone(int index) {
         ModelTask task = list.get(index);
         task.setIsDone(false);
+        list.remove(index);
+        list.add(task, index);
         isDone = true;
         setFeedbackSuccess();
         setGuiFeedbackNormal();

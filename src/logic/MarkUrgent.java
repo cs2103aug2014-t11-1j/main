@@ -59,6 +59,8 @@ public class MarkUrgent extends CommandFactory {
     private void markTaskAsUrgent(int index) {
         ModelTask task = list.get(index);
         task.setIsUrgent(true);
+        list.remove(index);
+        list.add(task, index);
         isDone = true;
         setFeedbackSuccess();
         setGuiFeedbackNormal();

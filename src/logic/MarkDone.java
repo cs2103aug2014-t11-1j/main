@@ -64,6 +64,8 @@ public class MarkDone extends CommandFactory {
     private void markTaskAsDone(int index) {
         ModelTask task = list.get(index);
         task.setIsDone(true);
+        list.remove(index);
+        list.add(task, index);
         isDone = true;
         setFeedbackSuccess();
         setGuiFeedbackNormal();
