@@ -1,9 +1,5 @@
 package com.util;
 
-/**
- * this class is meant for logging. It is a static class so every class will log using this logger
- * eg: MyLogger.log(Level level, String msg);
- */
 
 import java.io.IOException;
 import java.util.logging.FileHandler;
@@ -14,6 +10,11 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 //@author A0110567L
+/**
+ * this class is meant for logging. It is a static class so every class will log using this logger
+ * eg: MyLogger.log(Level level, String msg);
+ */
+
 public class MyLogger {
 	public static Logger logger;
 	private static Handler fileHandler;

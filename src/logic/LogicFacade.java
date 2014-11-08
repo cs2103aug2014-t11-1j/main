@@ -20,18 +20,18 @@ import storage.Storage;
 public class LogicFacade {
 
 	private static LogicFacade logicFacade = new LogicFacade();
-	private CommandExecutor executor;
-	private ObservableList<ModelTask> taskList;
-	private ObservableList<ModelTask> searchedList;
-	private Storage storage;
+	private CommandExecutor executor_;
+	private ObservableList<ModelTask> taskList_;
+	private ObservableList<ModelTask> searchedList_;
+	private Storage storage_;
 
 	// constructor
 	private LogicFacade() {
 		try {
-			storage = new Storage("phantomStorage.txt");
-			taskList = getOriginalListFromFile();
-			executor = new CommandExecutor(taskList, storage);
-			searchedList = FXCollections.observableArrayList();
+			storage_ = new Storage("phantomStorage.txt");
+			taskList_ = getOriginalListFromFile();
+			executor_ = new CommandExecutor(taskList_, storage_);
+			searchedList_ = FXCollections.observableArrayList();
 		} catch (Exception e) {
 			MyLogger.log(Level.SEVERE, "cannot initialize logicFacade class");
 			System.out.println("cannot initialize logicFacade class");
@@ -44,32 +44,32 @@ public class LogicFacade {
 	}
 
 	public ObservableList<ModelTask> getOriginalListFromFile() {
-		return storage.getListFromFile();
+		return storage_.getListFromFile();
 	}
 
 	public String getUserFeedBack() throws Exception {
-		String feedBack = executor.getUserFeedBack();
+		String feedBack = executor_.getUserFeedBack();
 		return feedBack;
 	}
 
 	public int executeCommand(String inputFromGui) throws Exception {
-		executor.executeCommand(inputFromGui);
-		int feedBack = executor.getGuiFeedBack();
+		executor_.executeCommand(inputFromGui);
+		int feedBack = executor_.getGuiFeedBack();
 		return feedBack;
 	}
 
 	public ObservableList<ModelTask> getAllList() {
-		taskList = executor.getAllList();
-		return taskList;
+		taskList_ = executor_.getAllList();
+		return taskList_;
 	}
 
 	public ObservableList<ModelTask> getSearchedList() {
-		searchedList = executor.getSearchedList();
-		return searchedList;
+		searchedList_ = executor_.getSearchedList();
+		return searchedList_;
 	}
 
 	public Storage getStorage() {
-		return storage;
+		return storage_;
 	}
 
 	public ArrayList<TentativeTask> getTentativeTasks() {

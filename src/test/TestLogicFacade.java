@@ -20,13 +20,13 @@ public class TestLogicFacade {
 			+ "start time: " + "%4$s" + "\n" + "end time: " + "%5$s" + "\n"
 			+ "is done: " + "%6$s" + "\n" + "is urgent: " + "%7$s" + "\n";
 
-	private LogicFacade logic;
+	private LogicFacade logic_;
 
 	@Before
 	public void initialize() throws Exception {
-		logic = LogicFacade.getInstance();
-		// clear the list in the logic before testing
-		logic.executeCommand("clear");
+		logic_ = LogicFacade.getInstance();
+		// clear the list in the logic_ before testing
+		logic_.executeCommand("clear");
 	}
 
 	@Test
@@ -40,15 +40,15 @@ public class TestLogicFacade {
 	@Test
 	public void testClear() throws Exception {
 		// clear list when the task has 2 tasks
-		logic.executeCommand("add task1");
-		logic.executeCommand("add task2");
+		logic_.executeCommand("add task1");
+		logic_.executeCommand("add task2");
 		testLogicFeedBack("List cleared", "clear");
 		testListSize(0);
 		// boundary case: clear task when list is empty
 		testLogicFeedBack("List cleared", "clear");
 		testListSize(0);
 
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 	@Test
@@ -59,7 +59,7 @@ public class TestLogicFacade {
 		testListSize(1);
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to school", "null",
 				"null", "null", "null", "false", "false"), 1);
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public class TestLogicFacade {
 		testListSize(1);
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "do homework",
 				"11/11/2014", "null", "23:59", "null", "false", "false"), 1);
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 	@Test
@@ -84,7 +84,7 @@ public class TestLogicFacade {
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to zoo",
 				"11/11/2014", "12/12/2014", "null", "null", "false", "false"),
 				1);
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 	@Test
@@ -97,7 +97,7 @@ public class TestLogicFacade {
 		testLogicOutput(String.format(TASKSTRINGFORMAT,
 				"watch ipman with girlfriend", "11/11/2014", "null", "08:00",
 				"null", "false", "false"), 1);
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 	@Test
@@ -111,7 +111,7 @@ public class TestLogicFacade {
 				"practice kungfu fighting", "12/11/2014", "13/11/2014", "08:00",
 				"09:00", "false", "false"), 1);
 
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 	@Test
@@ -152,23 +152,23 @@ public class TestLogicFacade {
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "k", "null", "null",
 				"null", "null", "false", "false"), 11);
 
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 	@Test
 	public void testSortAlphabetically() throws Exception {
 		// bondary case: tasks start with capital or small letter and numbers
-		logic.executeCommand("add zelDa");
-		logic.executeCommand("add apple");
-		logic.executeCommand("add G-Dragon");
-		logic.executeCommand("add Apple");
-		logic.executeCommand("add bear");
-		logic.executeCommand("add Boss");
-		logic.executeCommand("add xxx");
-		logic.executeCommand("add 12233");
-		logic.executeCommand("add 230");
+		logic_.executeCommand("add zelDa");
+		logic_.executeCommand("add apple");
+		logic_.executeCommand("add G-Dragon");
+		logic_.executeCommand("add Apple");
+		logic_.executeCommand("add bear");
+		logic_.executeCommand("add Boss");
+		logic_.executeCommand("add xxx");
+		logic_.executeCommand("add 12233");
+		logic_.executeCommand("add 230");
 		testListSize(9);
-		logic.executeCommand("sort alpha");
+		logic_.executeCommand("sort alpha");
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "12233", "null",
 				"null", "null", "null", "false", "false"), 8);
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "230", "null", "null",
@@ -187,7 +187,7 @@ public class TestLogicFacade {
 				"null", "null", "false", "false"), 7);
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "zelDa", "null",
 				"null", "null", "null", "false", "false"), 1);
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 	@Test
@@ -195,13 +195,13 @@ public class TestLogicFacade {
 
 		testLogicFeedBack("\"task1\" added", "add! task1");
 		testListSize(1);
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 	@Test
 	public void testDelete() throws Exception {
 		// testing delete when list contains 1 task
-		logic.executeCommand("add go to school");
+		logic_.executeCommand("add go to school");
 		testLogicFeedBack("Delete successful", "delete 1");
 		testListSize(0);
 
@@ -211,17 +211,17 @@ public class TestLogicFacade {
 
 		// boundary case: testing delete an item that is not found in the list
 		// sample case eg: delete task 3 when the list only has 2 tasks
-		logic.executeCommand("add task1");
-		logic.executeCommand("add task2");
+		logic_.executeCommand("add task1");
+		logic_.executeCommand("add task2");
 		testLogicFeedBack("Delete unsuccessful", "delete 3");
 		testListSize(2);
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 	@Test
 	public void testUndoRedo() throws Exception {
 		// undo and redo for adding one task
-		logic.executeCommand("add go to school");
+		logic_.executeCommand("add go to school");
 		testLogicFeedBack("Action undone", "undo");
 		testListSize(0);
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "", "null", "null",
@@ -231,55 +231,55 @@ public class TestLogicFacade {
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to school", "null",
 				"null", "null", "null", "false", "false"), 1);
 
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 	@Test
 	public void testMarkDone() throws Exception {
 		// mark the first task as done
-		logic.executeCommand("add go to school");
+		logic_.executeCommand("add go to school");
 		testLogicFeedBack("Task done", "did 1");
 		testListSize(1);
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to school", "null",
 				"null", "null", "null", "true", "false"), 1);
 
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 	@Test
 	public void testUnMarkDone() throws Exception {
 		// unmark the first task as done
-		logic.executeCommand("add go to school");
+		logic_.executeCommand("add go to school");
 		testLogicFeedBack("Task done", "did 1");
 		testListSize(1);
 		testLogicFeedBack("Task undone", "undid 1");
 		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to school", "null",
 				"null", "null", "null", "false", "false"), 1);
 
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 	@Test
 	public void testSimpleSearch() throws Exception {
 		// search when nothing is found
-		logic.executeCommand("add apple");
-		logic.executeCommand("add pear");
-		logic.executeCommand("add pineapple");
+		logic_.executeCommand("add apple");
+		logic_.executeCommand("add pear");
+		logic_.executeCommand("add pineapple");
 		testLogicFeedBack("Search unsuccessful", "search 1");
 
 		// search is found
-		logic.executeCommand("add apple");
+		logic_.executeCommand("add apple");
 		testSearchOutput(String.format(TASKSTRINGFORMAT, "apple", "null",
 				"null", "null", "null", "false", "false"), 1);
 		testSearchOutput(String.format(TASKSTRINGFORMAT, "pineapple", "null",
 				"null", "null", "null", "false", "false"), 3);
 
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 	@Test
 	public void testEdit() throws Exception {
-		logic.executeCommand("add go to school");
+		logic_.executeCommand("add go to school");
 		// edit tasks without dates and times
 		testLogicFeedBack("Task edited", "edit 1 do not go to school");
 		testListSize(1);
@@ -289,7 +289,7 @@ public class TestLogicFacade {
 		// edit tasks with one date
 		// boundary case: edit the date from dd/mm/yyyy format to dd MMM YYYY
 		// format
-		logic.executeCommand("add Ironman is destroying the city on 17/12/2015");
+		logic_.executeCommand("add Ironman is destroying the city on 17/12/2015");
 		testLogicFeedBack("Task edited",
 				"edit 2 Ironman is destroying the city on 18 dec 2015");
 		testListSize(2);
@@ -312,7 +312,7 @@ public class TestLogicFacade {
 		testLogicOutput(String.format(TASKSTRINGFORMAT,
 				"Ironman is destroying the city", "null", "null", "null",
 				"null", "false", "false"), 2);
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 
 	}
 
@@ -323,21 +323,21 @@ public class TestLogicFacade {
 	// checking whether the feedback message is correct
 	public void testLogicFeedBack(String expected, String userInput)
 			throws Exception {
-		logic.executeCommand(userInput);
-		assertEquals(expected, logic.getUserFeedBack());
+		logic_.executeCommand(userInput);
+		assertEquals(expected, logic_.getUserFeedBack());
 	}
 
 	// checking whether the size of the list is correct after performing various
 	// operations
 	public void testListSize(int expectedSize) {
-		ObservableList<ModelTask> result = logic.getAllList();
+		ObservableList<ModelTask> result = logic_.getAllList();
 		assertEquals(expectedSize, result.size());
 	}
 
 	// checking whether the task is correct after every operation
 	private void testLogicOutput(String expected, int taskNumber) {
 		if (taskNumber > 0) {
-			ObservableList<ModelTask> allList = logic.getAllList();
+			ObservableList<ModelTask> allList = logic_.getAllList();
 			for (int i = 0; i < allList.size(); i++) {
 				ModelTask currTask = allList.get(i);
 				if (taskNumberIsCorrect(taskNumber, currTask.getPosition())) {
@@ -350,7 +350,7 @@ public class TestLogicFacade {
 	// checking whether the task is correct after every operation
 	private void testSearchOutput(String expected, int taskNumber) {
 		if (taskNumber > 0) {
-			ObservableList<ModelTask> allList = logic.getSearchedList();
+			ObservableList<ModelTask> allList = logic_.getSearchedList();
 			for (int i = 0; i < allList.size(); i++) {
 				ModelTask currTask = allList.get(i);
 				if (taskNumberIsCorrect(taskNumber, currTask.getPosition())) {
@@ -374,7 +374,7 @@ public class TestLogicFacade {
 
 	@After
 	public void tearDown() throws Exception {
-		logic.executeCommand("clear");
+		logic_.executeCommand("clear");
 	}
 
 }

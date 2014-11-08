@@ -17,18 +17,18 @@ import parser.ParserFacade;
  */
 public class TestModelTaskToString {
 
-	TaskConverter taskConverter;
-	ParserFacade pf = ParserFacade.getInstance();
+	private TaskConverter taskConverter_;
+	private ParserFacade pf_ = ParserFacade.getInstance();
 
 	@Before
 	public void setUp() {
-		taskConverter = TaskConverter.getInstance();
+		taskConverter_ = TaskConverter.getInstance();
 	}
 
 	@Test
 	public void test() {
 		// testing converting to a string from a modelTask object
-		ModelTask newTask = taskConverter.convert(pf.getTask("add "
+		ModelTask newTask = taskConverter_.convert(pf_.getTask("add "
 				+ "this is crazy"), 1);
 		testTaskOutputString("testing task conversion",
 				"this is crazy;null;null;null;null;null;false;false",
@@ -36,7 +36,7 @@ public class TestModelTaskToString {
 
 		// testing task with one date
 		// using formate dd/mm/yyyy
-		ModelTask newTask2 = taskConverter.convert(pf.getTask("add "
+		ModelTask newTask2 = taskConverter_.convert(pf_.getTask("add "
 				+ "go to school on 13/12/2014"), 1);
 		testTaskOutputString(
 				"testing task conversion",

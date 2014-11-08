@@ -14,11 +14,10 @@ import parser.ParserFacade;
  */
 
 public class CommandExecutor {
-
+	private String commandWord_;
+	private String actualCommandDescription_;
 	private static CommandFactory cmdf;
 	private static ParserFacade pf;
-	private String commandWord;
-	private String actualCommandDescription;
 	private static String userFeedBack;
 	private static int guiFeedBack;
 	private static ObservableList<ModelTask> taskList;
@@ -65,11 +64,11 @@ public class CommandExecutor {
 
 	// accessors
 	public String getCommandWord() {
-		return commandWord;
+		return commandWord_;
 	}
 
 	public String getActualCommandDescription() {
-		return actualCommandDescription;
+		return actualCommandDescription_;
 	}
 
 	public String getUserFeedBack() {

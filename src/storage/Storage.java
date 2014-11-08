@@ -20,8 +20,8 @@ import javafx.collections.ObservableList;
  * this storage will load from phantomStorage.txt file or write to text file
  */
 public class Storage {
-	private ObservableList<ModelTask> list;
-	private File inputFile;
+	private ObservableList<ModelTask> list_;
+	private File inputFile_;
 
 	// constructor
 	public Storage(String inputFileName) throws IOException {
@@ -33,8 +33,8 @@ public class Storage {
 
 	private void initialize(String inputFileName) throws IOException {
 
-		inputFile = new File(inputFileName);
-		inputFile.createNewFile();
+		inputFile_ = new File(inputFileName);
+		inputFile_.createNewFile();
 		initializeObservableList();
 
 	}
@@ -42,8 +42,8 @@ public class Storage {
 	// writes existing contents of file to observableList if any
 	private void initializeObservableList() throws FileNotFoundException {
 
-		list = FXCollections.observableArrayList();
-		Scanner sc = new Scanner(inputFile);
+		list_ = FXCollections.observableArrayList();
+		Scanner sc = new Scanner(inputFile_);
 		copyContentsOfTextFile(sc);
 		sc.close();
 	}
@@ -54,19 +54,19 @@ public class Storage {
 		while (sc.hasNext()) {
 			String str = sc.nextLine();
 			Task newTask = new Task(str, true);
-			list.add(taskConverter.convert(newTask, index));
+			list_.add(taskConverter.convert(newTask, index));
 			index++;
 		}
 	}
 
 	public ObservableList<ModelTask> getListFromFile() {
-		return list;
+		return list_;
 	}
 
 	// writes contents of observableList to text file
 	public void save(ObservableList<ModelTask> list) throws IOException {
 
-		FileWriter fileWriter = new FileWriter(inputFile, false);
+		FileWriter fileWriter = new FileWriter(inputFile_, false);
 		BufferedWriter buffer = new BufferedWriter(fileWriter);
 		PrintWriter printWriter = new PrintWriter(buffer);
 		for (int i = 0; i < list.size(); i++) {

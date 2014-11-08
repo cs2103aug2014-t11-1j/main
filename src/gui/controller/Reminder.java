@@ -24,12 +24,12 @@ public class Reminder {
 	private final String REMINDER_MESSAGE = "Reminder: Task is due in 5 minutes!";
 	private final String REMINDER_ERROR = "Error!!!";
 	private static Reminder reminder = new Reminder();
-	private LogicFacade logicFacade = LogicFacade.getInstance();
-	private String oldTime = "";
-	private String newTime = "";
-	ObservableList<ModelTask> taskList = FXCollections.observableArrayList();
-	SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-	SimpleDateFormat timeFormatter = new SimpleDateFormat("HHmm");
+	private LogicFacade logicFacade_ = LogicFacade.getInstance();
+	private String oldTime_ = "";
+	private String newTime_ = "";
+	private ObservableList<ModelTask> taskList_ = FXCollections.observableArrayList();
+	private SimpleDateFormat dateFormatter_ = new SimpleDateFormat("dd/MM/yyyy");
+	private SimpleDateFormat timeFormatter_ = new SimpleDateFormat("HHmm");
 
 	private Reminder() {
 	}
@@ -39,16 +39,16 @@ public class Reminder {
 	}
 
 	public void startReminder() {
-		newTime = getNewTime();
-		taskList = logicFacade.getAllList();
+		newTime_ = getNewTime();
+		taskList_ = logicFacade_.getAllList();
 		Date eventDate = new Date(), eventTime = new Date();
 		int indexOfTask;
-		for (indexOfTask = 0; indexOfTask < taskList.size(); indexOfTask++) {
-			if (taskList.get(indexOfTask).getStartDate() != null) {
-				eventDate = taskList.get(indexOfTask).getStartDate();
+		for (indexOfTask = 0; indexOfTask < taskList_.size(); indexOfTask++) {
+			if (taskList_.get(indexOfTask).getStartDate() != null) {
+				eventDate = taskList_.get(indexOfTask).getStartDate();
 			}
-			if (taskList.get(indexOfTask).getStartTime() != null) {
-				eventTime = taskList.get(indexOfTask).getStartTime();
+			if (taskList_.get(indexOfTask).getStartTime() != null) {
+				eventTime = taskList_.get(indexOfTask).getStartTime();
 			}
 
 			try {
@@ -62,22 +62,22 @@ public class Reminder {
 				 * to 5 min before the task is activated
 				 */
 
-				if (dateFormatter.format(eventDate).equals(
-						dateFormatter.format(currentDateTime))) {
+				if (dateFormatter_.format(eventDate).equals(
+						dateFormatter_.format(currentDateTime))) {
 					todayDate.add(Calendar.MINUTE, 5);
 					Date timeToStartReminder = todayDate.getTime();
-					if (timeFormatter.format(eventTime).equals(
-							timeFormatter.format(timeToStartReminder))) {
+					if (timeFormatter_.format(eventTime).equals(
+							timeFormatter_.format(timeToStartReminder))) {
 						// ensure reminder only activate one time each minte
-						if (!oldTime.equals(newTime)) {
-							String eventDescription = taskList.get(indexOfTask)
+						if (!oldTime_.equals(newTime_)) {
+							String eventDescription = taskList_.get(indexOfTask)
 									.getEvent();
 							Notifications.create().title(REMINDER_MESSAGE)
 									.text(eventDescription)
 									.hideAfter(Duration.seconds(8))
 									.showWarning();
 							play();
-							oldTime = newTime;
+							oldTime_ = newTime_;
 						}
 					}
 				}
@@ -91,7 +91,7 @@ public class Reminder {
 
 	private String getNewTime() {
 		Calendar c = Calendar.getInstance();
-		return timeFormatter.format(c.getTime());
+		return timeFormatter_.format(c.getTime());
 	}
 
 	// play a reminder sound when reminder is activated

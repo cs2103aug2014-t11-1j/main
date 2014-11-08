@@ -11,82 +11,82 @@ import org.junit.Test;
 
 public class TestLogicAction {
 
-	String commandWord = "";
-	Action action;
-	CommandType commandType;
+	
+	private Action action_;
+	private CommandType commandType_;
 
 	@Test
 	public void test() {
 
 		// testing add
-		action = new Action("add");
+		action_ = new Action("add");
 		setCommandType(CommandType.ADD);
-		execute(commandType, action.getCommandType());
+		execute(commandType_, action_.getCommandType());
 
 		// testing display
-		action = new Action("display");
+		action_ = new Action("display");
 		setCommandType(CommandType.DISPLAY);
-		execute(commandType, action.getCommandType());
+		execute(commandType_, action_.getCommandType());
 
 		// testing delete
-		action = new Action("delete");
+		action_ = new Action("delete");
 		setCommandType(CommandType.DELETE);
-		execute(commandType, action.getCommandType());
+		execute(commandType_, action_.getCommandType());
 
 		// testing clear
-		action = new Action("clear");
+		action_ = new Action("clear");
 		setCommandType(CommandType.CLEAR);
-		execute(commandType, action.getCommandType());
+		execute(commandType_, action_.getCommandType());
 
 		// testing undo
-		action = new Action("undo");
+		action_ = new Action("undo");
 		setCommandType(CommandType.UNDO);
-		execute(commandType, action.getCommandType());
+		execute(commandType_, action_.getCommandType());
 
 		// testing redo
-		action = new Action("redo");
+		action_ = new Action("redo");
 		setCommandType(CommandType.REDO);
-		execute(commandType, action.getCommandType());
+		execute(commandType_, action_.getCommandType());
 
 		// testing edit
-		action = new Action("edit");
+		action_ = new Action("edit");
 		setCommandType(CommandType.EDIT);
-		execute(commandType, action.getCommandType());
+		execute(commandType_, action_.getCommandType());
 
 		// testing sort
-		action = new Action("sort");
+		action_ = new Action("sort");
 		setCommandType(CommandType.SORT);
-		execute(commandType, action.getCommandType());
+		execute(commandType_, action_.getCommandType());
 
 		// testing move
-		action = new Action("move");
+		action_ = new Action("move");
 		setCommandType(CommandType.MOVE);
-		execute(commandType, action.getCommandType());
+		execute(commandType_, action_.getCommandType());
 
 		// testing search
-		action = new Action("search");
+		action_ = new Action("search");
 		setCommandType(CommandType.SEARCH);
-		execute(commandType, action.getCommandType());
+		execute(commandType_, action_.getCommandType());
 
 		// testing mark_done
-		action = new Action("did");
+		action_ = new Action("did");
 		setCommandType(CommandType.MARK_DONE);
-		execute(commandType, action.getCommandType());
+		execute(commandType_, action_.getCommandType());
 
 		// testing help
-		action = new Action("help");
+		action_ = new Action("help");
 		setCommandType(CommandType.HELP);
-		execute(commandType, action.getCommandType());
+		execute(commandType_, action_.getCommandType());
 
 		// testing invalid
-		action = new Action("invalid");
+		action_ = new Action("invalid");
 		setCommandType(CommandType.INVALID);
-		execute(commandType, action.getCommandType());
+		execute(commandType_, action_.getCommandType());
 
 		// testing exit
-		action = new Action("exit");
+		action_ = new Action("exit");
 		setCommandType(CommandType.EXIT);
-		execute(commandType, action.getCommandType());
+		execute(commandType_, action_.getCommandType());
 
 	}
 
@@ -95,7 +95,7 @@ public class TestLogicAction {
 	}
 
 	private void setCommandType(CommandType type) {
-		commandType = type;
+		commandType_ = type;
 	}
 
 }

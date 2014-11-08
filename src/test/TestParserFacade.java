@@ -51,4 +51,7 @@ public class TestParserFacade {
 				task.isDone(), task.isUrgent());
 	}
 
+	private String commandWord_;
+	private String actualCommandDescription_;
+
 }

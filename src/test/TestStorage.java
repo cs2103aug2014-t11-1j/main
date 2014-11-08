@@ -18,50 +18,50 @@ import storage.Storage;
  */
 public class TestStorage {
 
-	private Storage storage;
-	private CommandExecutor executor;
-	private ObservableList<ModelTask> taskList;
-	private String display = "";
+	private Storage storage_;
+	private CommandExecutor executor_;
+	private ObservableList<ModelTask> taskList_;
+	private String display_ = "";
 	
 	@Before
 	public void setUp() {
 		try {
-			storage = new Storage("test.txt");
+			storage_ = new Storage("test.txt");
 		} catch (IOException e) {
 			System.out.println("this is not possible haha");
 		}
 
-		taskList = storage.getListFromFile();
-		executor = new CommandExecutor(taskList, storage);
+		taskList_ = storage_.getListFromFile();
+		executor_ = new CommandExecutor(taskList_, storage_);
 	}
 
 	@Test
 	public void testStorageInitialization() {
 		// display initial storage
-		for (int i = 0; i < taskList.size(); i++) {
-			display = taskList.get(i).toString();
+		for (int i = 0; i < taskList_.size(); i++) {
+			display_ = taskList_.get(i).toString();
 		}
-		testOutput("testing original file content when loading", "", display);
+		testOutput("testing original file content when loading", "", display_);
 	}
 	
 	@Test
 	public void testStorage() {
 		// testing adding and display what has been added to text file
-		executor.executeCommand("add tasknumber1");
-		executor.executeCommand("add tasknumber2 on 12/12/2014");
-		taskList = executor.getAllList();
-		for (int i = 0; i < taskList.size(); i++) {
-			display += taskList.get(i).toString() + "\n";
+		executor_.executeCommand("add tasknumber1");
+		executor_.executeCommand("add tasknumber2 on 12/12/2014");
+		taskList_ = executor_.getAllList();
+		for (int i = 0; i < taskList_.size(); i++) {
+			display_ += taskList_.get(i).toString() + "\n";
 		}
 		testOutput("testing adding a task and displaying it",
 				"tasknumber1;null;null;null;null;null;false;false\n"
-				+ "tasknumber2;12/12/2014;null;null;null;12/12/2014;false;false\n", display);
+				+ "tasknumber2;12/12/2014;null;null;null;12/12/2014;false;false\n", display_);
 
 	}
 
 	@After
 	public void tearDown() {
-		executor.executeCommand("clear");
+		executor_.executeCommand("clear");
 	}
 
 	private void testOutput(String description, String expected, String actual) {

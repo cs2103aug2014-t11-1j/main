@@ -22,14 +22,14 @@ import logic.LogicFacade;
 
 public class EditListener implements ChangeListener<String> {
 
-	private TextField commandLine;
-	private LogicFacade logicFacade;
-	private ObservableList<ModelTask> list;
+	private TextField commandLine_;
+	private LogicFacade logicFacade_;
+	private ObservableList<ModelTask> list_;
 
 	public EditListener(TextField commandLine) {
-		this.logicFacade = LogicFacade.getInstance();
-		this.list = logicFacade.getAllList();
-		this.commandLine = commandLine;
+		logicFacade_ = LogicFacade.getInstance();
+		list_ = logicFacade_.getAllList();
+		commandLine_ = commandLine;
 	}
 
 	@Override
@@ -37,22 +37,22 @@ public class EditListener implements ChangeListener<String> {
 			String oldValue, String newValue) {
 
 		if (newValue.trim().equalsIgnoreCase("add?")) {
-			commandLine
+			commandLine_
 					.setText("add taskdecription startdate enddate starttime endtime");
 		}
 
 		if (newValue.trim().equalsIgnoreCase("edit?")) {
-			commandLine
+			commandLine_
 					.setText("edit tasknumber taskdecription startdate enddate starttime endtime");
 		}
 
 		if (containsTwoSpace(newValue) && !PhantomController.isHasOccured()) {
 			String[] subStrings = newValue.trim().split("\\s+");
-			commandLine.setText(newValue
+			commandLine_.setText(newValue
 					+ getTaskDescription(Integer.parseInt(subStrings[1])));
 		}
 
-		list = logicFacade.getAllList();
+		list_ = logicFacade_.getAllList();
 	}
 
 	private boolean containsTwoSpace(String input) {
@@ -87,9 +87,9 @@ public class EditListener implements ChangeListener<String> {
 		ModelTask currTask = new ModelTask();
 		Boolean positionIsFound = false;
 		String feedBack = "";
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getPosition() == position) {
-				currTask = list.get(i);
+		for (int i = 0; i < list_.size(); i++) {
+			if (list_.get(i).getPosition() == position) {
+				currTask = list_.get(i);
 				positionIsFound = true;
 			}
 		}
