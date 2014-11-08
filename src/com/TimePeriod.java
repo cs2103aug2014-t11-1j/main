@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
+ * @author A0116018E
  * This class stores a time period set using String.
  * Date string format is dd/mm/yyyy.
  * Time string format is hhmm, 24 hour clock.
@@ -16,8 +17,6 @@ import java.util.Date;
  * There must be a start date, start time and end time in every timePeriod.
  * 
  * Supports the toString method.
- * 
- * @author Krystal
  */
 public class TimePeriod {
 

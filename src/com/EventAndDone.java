@@ -1,5 +1,10 @@
 package com;
-
+/**
+ * @author A0116018R
+ * 
+ *	This class wraps a String event and a boolean isDone.
+ *	For use in ModelTask.
+ */
 public class EventAndDone {
 	
 	private String event;
@@ -16,7 +21,6 @@ public class EventAndDone {
 	
 	public void setIsDone(boolean isDone){
 		this.isDone = isDone;
-		System.out.println("event class isDone");
 	}
 	
 	public String getEvent(){

@@ -1,5 +1,11 @@
 package gui.controller.view;
-
+/**
+ * @author A0116018R
+ * Unused: not fully developed.
+ * 
+ * This class is the controller for tentativeView.
+ * It sets the tentative tasks and dates in the view.
+ */
 import gui.controller.testTentativeTask;
 import com.TentativeNode;
 import javafx.fxml.FXML;
@@ -20,23 +26,25 @@ public class TentativeViewController {
 	@FXML
 	TreeTableColumn<TentativeNode, String> tentativeColumn;
 
-	TreeItem<TentativeNode> root;
-	ObservableList<testTentativeTask> tentativeList;
+	TreeItem<TentativeNode> root_;
+	
+	//for isolated testing purposes
+	ObservableList<testTentativeTask> tentativeList_;
 	@FXML
 	private void initialize() {
-		tentativeList = FXCollections.observableArrayList();
-		tentativeList.add(new testTentativeTask("test", "date1", "date2", 1));
-		tentativeList.add(new testTentativeTask("test2", "date1", "date2", 2));
+		tentativeList_ = FXCollections.observableArrayList();
+		tentativeList_.add(new testTentativeTask("test", "date1", "date2", 1));
+		tentativeList_.add(new testTentativeTask("test2", "date1", "date2", 2));
 		
-		root = new TreeItem<>(new TentativeNode(null,null));
-		root.setExpanded(true);
+		root_ = new TreeItem<>(new TentativeNode(null,null));
+		root_.setExpanded(true);
 		
-		for(testTentativeTask task : tentativeList){
-			root.getChildren().add(task.getTentativeNode());
+		for(testTentativeTask task : tentativeList_){
+			root_.getChildren().add(task.getTentativeNode());
 		}
 		
 		treeTableView.setShowRoot(false);
-	    treeTableView.setRoot(root);
+	    treeTableView.setRoot(root_);
 	    treeTableView.setTreeColumn(tentativeColumn);
 	    
 		numColumn.setCellValueFactory(

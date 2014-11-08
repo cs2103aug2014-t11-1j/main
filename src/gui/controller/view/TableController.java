@@ -1,14 +1,19 @@
 package gui.controller.view;
-
-import com.EventAndDone;
-import com.ModelTask;
-
+/**
+ * @author A0116018R
+ * 
+ * This is the controller for TableView
+ * Handling of table selection and scrolling 
+ * is done here. 
+ */
 import gui.ResourceLoader;
-import gui.controller.DateStringComparator;
-import gui.controller.NumStringComparator;
+
+import java.util.logging.Level;
+
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -18,10 +23,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.util.Callback;
 
+import com.EventAndDone;
+import com.ModelTask;
+import com.util.MyLogger;
+
 public class TableController{
+	private static final String EMPTY_STRING = "";
 	@FXML
 	private TableView<ModelTask> taskTable;
 	@FXML
@@ -35,39 +44,36 @@ public class TableController{
 	@FXML
 	private TableColumn<ModelTask, Boolean> urgentColumn;
 
-	private boolean isSearched;
+	private boolean isSearched_;
 
-	@FXML
-	private ObservableList<ModelTask> taskList;
+	private ObservableList<ModelTask> taskList_;
 
-	@FXML
-	private ObservableList<ModelTask> searchedList;
+	private ObservableList<ModelTask> searchedList_;
 
-	private int viewIndex;
+	private int viewIndex_;
 
 	private static int INITIAL_VIEW_INDEX = 0;
 	private static int NEXT_NUMBER_OF_ROWS = 8;
 
 	public TableController(){
-		System.out.println("table constructor");
 	}
 
 	@FXML
 	private void initialize() {
-		System.out.println("table initilising");
 		numColumn.setCellValueFactory(cellData -> cellData.getValue().getPositionStringProperty());
 		taskColumn.setCellValueFactory(cellData -> cellData.getValue().getEventAndDoneProperty());
 		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDateStringProperty());
 		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTimeStringProperty());
 		urgentColumn.setCellValueFactory(cellData -> cellData.getValue().getIsUrgentBooleanProperty());
-
+		
+		//special cell factories for these columns
 		taskColumn.setCellFactory(new Callback<TableColumn<ModelTask, EventAndDone>, TableCell<ModelTask, EventAndDone>>(){
 			@Override
 			public TableCell<ModelTask, EventAndDone> call(TableColumn<ModelTask, EventAndDone> param){
 				return new TableCell<ModelTask, EventAndDone>(){      
 					Text text;
 					{
-						text = new Text("");
+						text = new Text(EMPTY_STRING);
 						setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 						setGraphic(text);
 						text.setFill(Color.WHITE);
@@ -85,7 +91,7 @@ public class TableController{
 							text.setStrikethrough(false);                          
 						}
 						else{
-							text.setText("");
+							text.setText(EMPTY_STRING);
 						}
 					}
 				};
@@ -99,9 +105,9 @@ public class TableController{
 					ImageView imageview;
 					{
 						imageview = new ImageView(); 
-						imageview.setFitHeight(15);
-						imageview.setFitWidth(15);
-
+						imageview.setPreserveRatio(true);
+						imageview.setFitWidth(17);
+						
 						setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 						setGraphic(imageview);
 					}
@@ -112,6 +118,7 @@ public class TableController{
 						if (!empty && isUrgent!=null && isUrgent.booleanValue()) {
 							Image image = new Image(ResourceLoader.load("star.png"));
 							imageview.setImage(image);
+							setAlignment(Pos.CENTER);
 						}
 						else {
 							imageview.setImage(null);
@@ -120,33 +127,34 @@ public class TableController{
 				};
 			}
 		});
+		
+		
+		taskTable.setPlaceholder(new Label(EMPTY_STRING));
 
-		taskTable.setPlaceholder(new Label(""));
+		isSearched_ = false;
 
-		isSearched = false;
-
-		viewIndex = INITIAL_VIEW_INDEX;
+		viewIndex_ = INITIAL_VIEW_INDEX;
 
 	}
-
+	
 	protected boolean isSearched(){
-		return isSearched;
+		return isSearched_;
 	}
-
+	
+	//methods for external classes to change list view in table
 	protected void setAllView(ObservableList<ModelTask> list){
-		taskList = list;
-		taskTable.setItems(taskList);
-		viewIndex = INITIAL_VIEW_INDEX;
-		isSearched = false;
-
-		System.out.println("setting all view");
-		taskList.addListener(new ListChangeListener<ModelTask>() {
+		taskList_ = list;
+		taskTable.setItems(taskList_);
+		viewIndex_ = INITIAL_VIEW_INDEX;
+		isSearched_ = false;
+		
+		//select last used task
+		taskList_.addListener(new ListChangeListener<ModelTask>() {
 			@Override
 			public void onChanged(
 					javafx.collections.ListChangeListener.Change<? extends ModelTask> c) {
 				while (c.next()){
 					if(c.wasAdded()){
-						System.out.println("was added");
 						if(c.getAddedSize() == 1){
 							scrollToAndSelectTask(c.getAddedSubList().get(0));
 						}
@@ -154,54 +162,64 @@ public class TableController{
 						removeSelection();
 					}
 				}
-
 			}
 		});
-	}
-
-	protected void removeSelection() {
-		taskTable.getSelectionModel().clearSelection();
+		
 	}
 
 	protected void switchToSearch(ObservableList<ModelTask> list) {
-		searchedList = list;
-		taskTable.setItems(searchedList);
-		viewIndex = INITIAL_VIEW_INDEX;
-		isSearched = true;
+		searchedList_ = list;
+		taskTable.setItems(searchedList_);
+		viewIndex_ = INITIAL_VIEW_INDEX;
+		isSearched_ = true;
 	}
 
 	protected void switchToAll() {
-		taskTable.setItems(taskList);
-		viewIndex = INITIAL_VIEW_INDEX;
-		isSearched = false;
+		taskTable.setItems(taskList_);
+		viewIndex_ = INITIAL_VIEW_INDEX;
+		isSearched_ = false;
 	}
-
+	
+	//methods for scrolling
 	protected void scrollToNext() {
-		viewIndex += NEXT_NUMBER_OF_ROWS;
-		if(viewIndex > taskList.size()){
-			viewIndex -= NEXT_NUMBER_OF_ROWS;
+		viewIndex_ += NEXT_NUMBER_OF_ROWS;
+		if(viewIndex_ > taskList_.size()){
+			viewIndex_ -= NEXT_NUMBER_OF_ROWS;
 		}
-		taskTable.scrollTo(viewIndex);		
+		taskTable.scrollTo(viewIndex_);		
 	}
 
 	protected void scrollToTop(){
-		viewIndex = INITIAL_VIEW_INDEX;
-		taskTable.scrollTo(viewIndex);
+		viewIndex_ = INITIAL_VIEW_INDEX;
+		taskTable.scrollTo(viewIndex_);
 	}
 
 	protected void scrollToBack(){
-		viewIndex -= NEXT_NUMBER_OF_ROWS;
-		if(viewIndex < INITIAL_VIEW_INDEX){
-			viewIndex = INITIAL_VIEW_INDEX;
+		viewIndex_ -= NEXT_NUMBER_OF_ROWS;
+		if(viewIndex_ < INITIAL_VIEW_INDEX){
+			viewIndex_ = INITIAL_VIEW_INDEX;
 		}
-		taskTable.scrollTo(viewIndex);
+		taskTable.scrollTo(viewIndex_);
 	}
 	
 	protected void scrollToAndSelectTask(ModelTask task){
-		int index = taskList.indexOf(task);
-		viewIndex = index;
+		int index = taskList_.indexOf(task);
+		scrollToAndSelect(index);
+	}
+	
+	protected void scrollToAndSelect(int index) {
+		viewIndex_ = index;
 		taskTable.scrollTo(index);
-		taskTable.getSelectionModel().clearAndSelect(index);
+		try{
+			taskTable.getSelectionModel().clearAndSelect(index);
+		}catch(Exception e){
+			System.out.println("error with clear and select");
+			MyLogger.log(Level.WARNING, "error with clear and select");
+		}
+	}
+
+	private void removeSelection() {
+		taskTable.getSelectionModel().clearSelection();
 	}
 
 }

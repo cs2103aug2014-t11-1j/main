@@ -72,7 +72,7 @@ public class AnimationHandler {
 		return ah;
 	}
 
-	public void initialize(AnchorPane tableAnchor, AnchorPane todayAnchor, AnchorPane helperAnchor, AnchorPane timelineAnchor, AnchorPane tentativeAnchor){
+	public void initialize(AnchorPane tableAnchor, AnchorPane todayAnchor, AnchorPane helperAnchor){
 
 		viewIndex = TODAY_INDEX;
 

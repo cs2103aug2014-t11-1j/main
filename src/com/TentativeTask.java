@@ -3,8 +3,8 @@ package com;
 import java.util.ArrayList;
 
 /**
- *
- * @author Krystal
+ *unused: not fully developed
+ * @author Jireh and Krystal
  */
 public class TentativeTask {
 

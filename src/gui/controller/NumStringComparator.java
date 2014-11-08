@@ -1,5 +1,12 @@
 package gui.controller;
-
+/**
+ * Depreciated class; table doesn't allow visual sorting
+ * by clicking anymore
+ * Comparator to compare the positions in table
+ * 
+ * The positions are String numbers eg: "1"
+ * @author A0116018R
+ */
 import java.util.Comparator;
 
 public class NumStringComparator implements Comparator<String>{

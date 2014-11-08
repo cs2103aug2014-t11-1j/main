@@ -6,17 +6,16 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
+ * @author A0116018R
+ * 
  * This class will take in a Task and position
  * and return a ModelTask
- * 
- * @author Krystal
- * 
  */
 
 public class TaskConverter {
 	
-	private static TaskConverter taskConverter = new TaskConverter();
-	private static final SimpleDateFormat dateGetter = new SimpleDateFormat("dd/MM/yyyy");
+	private static TaskConverter TASK_CONVERTER = new TaskConverter();
+	private static final SimpleDateFormat DATE_GETTER = new SimpleDateFormat("dd/MM/yyyy");
 	
 	private final static int START_DATE = 1;
 	private final static int DEADLINE_DATE = 2;
@@ -25,11 +24,11 @@ public class TaskConverter {
 	
 	private final static int NO_NULL_DATE_INPUTS = 1;
 	private final static int END_DATE_INPUT_NULL = 2;
-	private final static int BOTH_NULL = 3;
+//	private final static int BOTH_NULL = 3;
 	
 	private final static int NO_NULL_TIME_INPUTS = 0;
 	private final static int END_TIME_INPUT_NULL = 1;
-	private final static int BOTH_TIME_INPUT_NULL = 2;
+//	private final static int BOTH_TIME_INPUT_NULL = 2;
 	
 	private final static int START_TIME = 1;
 	private final static int END_TIME = 2;
@@ -39,7 +38,7 @@ public class TaskConverter {
 	}
 	
 	public static TaskConverter getInstance(){
-		return taskConverter;
+		return TASK_CONVERTER;
 	}
 	
 	public ModelTask convert(Task task, int position){
@@ -185,13 +184,13 @@ public class TaskConverter {
 	
 	private Date getDate(Task task, int whichDate){
 		if(whichDate == START_DATE){
-			return dateGetter.parse(task.getStartDate(), new ParsePosition(0));
+			return DATE_GETTER.parse(task.getStartDate(), new ParsePosition(0));
 		}
 		else if(whichDate == DEADLINE_DATE){
-			return dateGetter.parse(task.getDeadLine(), new ParsePosition(0));
+			return DATE_GETTER.parse(task.getDeadLine(), new ParsePosition(0));
 		}
 		else if(whichDate == END_DATE){
-			return dateGetter.parse(task.getEndDate(), new ParsePosition(0));
+			return DATE_GETTER.parse(task.getEndDate(), new ParsePosition(0));
 		}
 		else{
 			//whichDate == NO_DATE
