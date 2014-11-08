@@ -1,11 +1,6 @@
 package logic;
 
-/**
- * Contains the error messages that are used by classes in this package.
- * 
- * @author Zhang Yongkai
- *
- */
+//@author A0110567L
 public class FeedbackMessages {
 
 	public static final int NORMAL_STATE = 0;

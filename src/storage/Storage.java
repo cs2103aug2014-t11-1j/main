@@ -1,11 +1,5 @@
 package storage;
 
-/** 
- * @author: Zhang Yongkai
- * this storage will load from txt file or write to text file
- * this is a singleton class
- */
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,25 +8,27 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.logging.Level;
-
 import com.ModelTask;
 import com.Task;
 import com.TaskConverter;
 import com.util.MyLogger;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+//@author A0110567L
+/**
+ * this storage will load from phantomStorage.txt file or write to text file
+ */
 public class Storage {
 	private ObservableList<ModelTask> list;
 	private File inputFile;
-	
+
 	// constructor
 	public Storage(String inputFileName) throws IOException {
-		
-		MyLogger.log(Level.INFO,"initializing storage");
+
+		MyLogger.log(Level.INFO, "initializing storage");
 		initialize(inputFileName);
-		
+
 	}
 
 	private void initialize(String inputFileName) throws IOException {
@@ -40,7 +36,7 @@ public class Storage {
 		inputFile = new File(inputFileName);
 		inputFile.createNewFile();
 		initializeObservableList();
-		
+
 	}
 
 	// writes existing contents of file to observableList if any
@@ -73,7 +69,6 @@ public class Storage {
 		FileWriter fileWriter = new FileWriter(inputFile, false);
 		BufferedWriter buffer = new BufferedWriter(fileWriter);
 		PrintWriter printWriter = new PrintWriter(buffer);
-		//ModelTaskToSaveStringConverter converter = new ModelTaskToSaveStringConverter();
 		for (int i = 0; i < list.size(); i++) {
 			printWriter.println(list.get(i).toString());
 		}

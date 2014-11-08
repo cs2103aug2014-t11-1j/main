@@ -1,29 +1,28 @@
 package gui.controller;
 
-/**
- * @author Zhang Yongkai
- * this class is used to display popup reminder for events which have a start date. 
- * it should show a display pop up at the bottom right of the screen 5 min before the event start.
- */
-
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
 import logic.LogicFacade;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-
 import org.controlsfx.control.Notifications;
-
 import com.ModelTask;
 
-public class Reminder {
+//@author A0110567L
+/**
+ * this class is used to display popup reminder for events which have a start
+ * date. it should show a display pop up at the bottom right of the screen 5 min
+ * before the event start.
+ */
 
+public class Reminder {
+	private final String REMINDER_MESSAGE = "Reminder: Task is due in 5 minutes!";
+	private final String REMINDER_ERROR = "Error!!!";
 	private static Reminder reminder = new Reminder();
 	private LogicFacade logicFacade = LogicFacade.getInstance();
 	private String oldTime = "";
@@ -41,15 +40,12 @@ public class Reminder {
 
 	public void startReminder() {
 		newTime = getNewTime();
-		// testing if reminder pop up for a specific date
 		taskList = logicFacade.getAllList();
-
 		Date eventDate = new Date(), eventTime = new Date();
 		int indexOfTask;
 		for (indexOfTask = 0; indexOfTask < taskList.size(); indexOfTask++) {
 			if (taskList.get(indexOfTask).getStartDate() != null) {
 				eventDate = taskList.get(indexOfTask).getStartDate();
-				// System.out.println(eventDay);
 			}
 			if (taskList.get(indexOfTask).getStartTime() != null) {
 				eventTime = taskList.get(indexOfTask).getStartTime();
@@ -72,14 +68,11 @@ public class Reminder {
 					Date timeToStartReminder = todayDate.getTime();
 					if (timeFormatter.format(eventTime).equals(
 							timeFormatter.format(timeToStartReminder))) {
-						// ensure reminder only activate one time for within a
-						// minute
+						// ensure reminder only activate one time each minte
 						if (!oldTime.equals(newTime)) {
 							String eventDescription = taskList.get(indexOfTask)
 									.getEvent();
-							Notifications
-									.create()
-									.title("Reminder: Task is due in 5 minutes!")
+							Notifications.create().title(REMINDER_MESSAGE)
 									.text(eventDescription)
 									.hideAfter(Duration.seconds(8))
 									.showWarning();
@@ -90,7 +83,7 @@ public class Reminder {
 				}
 
 			} catch (Exception ex) {
-				System.out.println("holy cow, error!!!!");
+				System.out.println(REMINDER_ERROR);
 				ex.printStackTrace();
 			}
 		}
@@ -101,6 +94,7 @@ public class Reminder {
 		return timeFormatter.format(c.getTime());
 	}
 
+	// play a reminder sound when reminder is activated
 	private void play() {
 		final URL resource = getClass().getResource("reminder.mp3");
 		final Media media = new Media(resource.toString());

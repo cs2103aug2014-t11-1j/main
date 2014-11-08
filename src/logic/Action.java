@@ -1,10 +1,10 @@
 package logic;
 
+//@author A0110567L
 /**
- * @author Zhang Yongkai This Action class stores the information of the
- *         commandType. i.e : whether this action is ADD, DELETE, CLEAR,
- *         DISPLAY, UNDO, REDO, EDIT, SORT, MOVE, SEARCH, MARK_DONE, HELP,
- *         INVALID, EXIT
+ * This Action class stores the information of the commandType. i.e : whether
+ * this action is ADD, DELETE, CLEAR, DISPLAY, UNDO, REDO, EDIT, SORT, MOVE,
+ * SEARCH, MARK_DONE, HELP, INVALID, EXIT
  * 
  */
 

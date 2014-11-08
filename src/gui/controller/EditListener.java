@@ -1,17 +1,5 @@
 package gui.controller;
 
-/**
- * this is the editlistener for a text field in javafx
- * listener will listen to change in the input text field and display the
- * the corresponding description of the task when the task number is entered
- * for example:
- * if you type "edit 2", it will display the 2nd task in the text field itself
- * if you type "edit?" it will display what to input
- * if you type "add?" it will display what to input
- *
- * note: the edit listener only work once per "enter". 
- */
-
 import gui.controller.view.PhantomController;
 import com.ModelTask;
 import javafx.beans.value.ChangeListener;
@@ -21,6 +9,17 @@ import javafx.scene.control.TextField;
 import logic.LogicFacade;
 
 //@author A0110567L
+/**
+ * this is the editlistener for a text field in javafx listener will listen to
+ * change in the input text field and display the the corresponding description
+ * of the task when the task number is entered for example: if you type
+ * "edit 2", it will display the 2nd task in the text field itself if you type
+ * "edit?" it will display what to input if you type "add?" it will display what
+ * to input
+ *
+ * note: the edit listener only work once per "enter".
+ */
+
 public class EditListener implements ChangeListener<String> {
 
 	private TextField commandLine;
