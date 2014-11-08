@@ -9,9 +9,9 @@ import java.util.logging.Level;
  * Logic for MarkDone command.
  *
  * Marks the task at input index as done.
- *
- * @author Jireh
  */
+
+//@author A0111370Y
 public class MarkDone extends CommandFactory {
 
     private static final int INVALID_INDEX = -1;
@@ -64,6 +64,8 @@ public class MarkDone extends CommandFactory {
     private void markTaskAsDone(int index) {
         ModelTask task = list.get(index);
         task.setIsDone(true);
+        list.remove(index);
+        list.add(task, index);
         isDone = true;
         setFeedbackSuccess();
         setGuiFeedbackNormal();

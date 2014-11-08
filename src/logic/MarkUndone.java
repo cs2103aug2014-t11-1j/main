@@ -11,9 +11,9 @@ import java.util.logging.Level;
  * Logic for MarkUndone command.
  *
  * Marks the task at input index as not done.
- *
- * @author Jireh
  */
+
+//@author A0111370Y
 public class MarkUndone extends CommandFactory {
 
     private static final int INVALID_INDEX = -1;
@@ -58,6 +58,8 @@ public class MarkUndone extends CommandFactory {
     private void markTaskAsUndone(int index) {
         ModelTask task = list.get(index);
         task.setIsDone(false);
+        list.remove(index);
+        list.add(task, index);
         isDone = true;
         setFeedbackSuccess();
         setGuiFeedbackNormal();

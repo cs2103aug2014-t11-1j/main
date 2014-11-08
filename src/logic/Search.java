@@ -7,9 +7,9 @@ import com.ModelTask;
  *
  * Searches for tasks containing input string and adds them to a list of search
  * results.
- *
- * @author Jireh
  */
+
+//@author A0111370Y
 public class Search extends CommandFactory {
 
     private boolean isDone;

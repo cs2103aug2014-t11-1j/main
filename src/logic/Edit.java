@@ -12,9 +12,9 @@ import com.util.MyLogger;
  * Logic for Edit command.
  * 
  * Edits task at input index.
- * 
- * @author Jireh
  */
+
+//@author A0111370Y
 public class Edit extends CommandFactory {
 
     private boolean isDone;

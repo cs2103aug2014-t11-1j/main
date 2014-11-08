@@ -9,9 +9,9 @@ import java.util.logging.Level;
  * Logic for Sort command.
  *
  * Sorts tasks according to the type input.
- *
- * @author Jireh
  */
+
+//@author A0111370Y
 public class Sort extends CommandFactory {
 
     private boolean isDone;

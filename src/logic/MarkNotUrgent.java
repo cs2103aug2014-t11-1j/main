@@ -11,9 +11,9 @@ import java.util.logging.Level;
  * Logic for MarkNotUrgent command.
  *
  * Marks the task at input index as not urgent.
- *
- * @author Jireh
  */
+
+//@author A0111370Y
 public class MarkNotUrgent extends CommandFactory {
 
     private static final int INVALID_INDEX = -1;
@@ -50,6 +50,8 @@ public class MarkNotUrgent extends CommandFactory {
     private void markTaskAsUrgent(int index) {
         ModelTask task = list.get(index);
         task.setIsUrgent(false);
+        list.remove(index);
+        list.add(task, index);
         isDone = true;
         setFeedbackSuccess();
         setGuiFeedbackNormal();

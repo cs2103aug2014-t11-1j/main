@@ -5,10 +5,8 @@ import java.util.Date;
 import com.TentativeTask;
 import com.TimePeriod;
 
-/**
- *
- * @author Jireh
- */
+//@author A0111370Y -unused
+//no time to integrate.
 public class BlockTentative extends CommandFactory {
 
     private boolean isDone;

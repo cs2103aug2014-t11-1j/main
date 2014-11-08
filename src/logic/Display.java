@@ -8,9 +8,9 @@ import com.ModelTask;
  * Logic for Display command.
  *
  * Searches and displays tasks of input type.
- *
- * @author Jireh
  */
+
+//@author A0111370Y
 public class Display extends CommandFactory {
 
     private boolean isDone;

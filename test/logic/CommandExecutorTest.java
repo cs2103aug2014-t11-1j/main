@@ -1,7 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+//@author A0111370Y
+/**
+ * JUnit test for CommandExecutor.
  */
 package logic;
 
@@ -13,13 +12,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
-import storage.ModelTask;
+import com.ModelTask;
 import storage.Storage;
 
-/**
- *
- * @author Jireh
- */
 public class CommandExecutorTest {
 
     Storage tempStorage;
@@ -52,15 +47,15 @@ public class CommandExecutorTest {
     @Test
     public void testSetUserFeedBack() {
         System.out.println("setUserFeedBack");
-        
+
         String feedBack = "";
         CommandExecutor.setUserFeedBack(feedBack);
         assertEquals(ex.getUserFeedBack(), "");
-        
+
         feedBack = "setting test feedback";
         CommandExecutor.setUserFeedBack(feedBack);
         assertEquals(ex.getUserFeedBack(), "setting test feedback");
-        
+
         feedBack = "-123";
         CommandExecutor.setUserFeedBack(feedBack);
         assertEquals(ex.getUserFeedBack(), "-123");

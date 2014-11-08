@@ -6,9 +6,9 @@ import com.ModelTask;
  * Takes in String input containing 2 integers in the format "%d %d", where the
  * 1st integer is the task to be moved, and the 2nd integer is the position to
  * move to.
- *
- * @author Jireh
  */
+
+//@author A0111370Y
 public class Move extends CommandFactory {
 
     private static final int INDEX_TASK = 0;
