@@ -1,19 +1,15 @@
 package gui.controller;
 
 /**
- *
- * @author: Zhang Yongkai
  * this is the editlistener for a text field in javafx
- * listener will listen to change in the input textfield and display the
+ * listener will listen to change in the input text field and display the
  * the corresponding description of the task when the task number is entered
  * for example:
- * if you type "edit 2", it will display the 2nd task.
+ * if you type "edit 2", it will display the 2nd task in the text field itself
  * if you type "edit?" it will display what to input
  * if you type "add?" it will display what to input
- * 
  *
- * note: currently, it only listen to "edit num" and "add"
- *
+ * note: the edit listener only work once per "enter". 
  */
 
 import gui.controller.view.PhantomController;
@@ -22,10 +18,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextField;
-//import javafx.scene.input.KeyCode;
-//import javafx.scene.input.KeyEvent;
 import logic.LogicFacade;
 
+//@author A0110567L
 public class EditListener implements ChangeListener<String> {
 
 	private TextField commandLine;
@@ -56,15 +51,12 @@ public class EditListener implements ChangeListener<String> {
 			String[] subStrings = newValue.trim().split("\\s+");
 			commandLine.setText(newValue
 					+ getTaskDescription(Integer.parseInt(subStrings[1])));
-
 		}
 
 		list = logicFacade.getAllList();
 	}
 
 	private boolean containsTwoSpace(String input) {
-		// int spaces = input.length() - input.replace(" ", "").length();
-
 		if ((input != null) && ((input.replaceAll("\\s+", "")) != "")) {
 
 			if (input.length() > 0
@@ -88,14 +80,8 @@ public class EditListener implements ChangeListener<String> {
 		} catch (NumberFormatException e) {
 			return false;
 		}
-		// only got here if we didn't return false
 		return true;
 	}
-
-	/**
-	 * the task for now is retrieved from the allList in logic facade
-	 *
-	 */
 
 	private String getTaskDescription(int position) {
 		PhantomController.setHasOccured(true);
@@ -117,7 +103,6 @@ public class EditListener implements ChangeListener<String> {
 			String endTime = currTask.getEndTimeString();
 			String dateString = "", timeString = "";
 
-			System.out.println(startDate + endDate);
 			if (startDate == null) {
 				startDate = "";
 			}
