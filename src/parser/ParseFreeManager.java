@@ -8,6 +8,7 @@ package parser;
  * 
  * * Author: smallson
  */
+//@author A0116211B
 
 public class ParseFreeManager {
 	
@@ -20,8 +21,8 @@ public class ParseFreeManager {
 	private static final int INT_ZERO = 0;
 	private static final int INT_OFFSET = 1;
 	
-	private String parseFreeString;
-	private String parseFreeInput = "";
+	private String parseFreeString_;
+	private String parseFreeInput_ = "";
 
 	private ParseFreeManager(){
 	}
@@ -32,8 +33,8 @@ public class ParseFreeManager {
 	
 	public String getParseFreeInput(String input){
 		
-		parseFreeString = "";
-		parseFreeInput = input;
+		parseFreeString_ = "";
+		parseFreeInput_ = input;
 		
 		int startIndex = NOT_FOUND;
 		int endIndex = NOT_FOUND;
@@ -45,9 +46,9 @@ public class ParseFreeManager {
 			if(isOnlyOneQuote(startIndex,endIndex)){
 				return input;
 			} else {
-				parseFreeInput = extractParseFreeInput(input, startIndex, endIndex);
-				parseFreeString = extractParseFreeString(input, startIndex, endIndex);
-				return parseFreeInput;
+				parseFreeInput_ = extractParseFreeInput(input, startIndex, endIndex);
+				parseFreeString_ = extractParseFreeString(input, startIndex, endIndex);
+				return parseFreeInput_;
 			}			
 		}
 		
@@ -55,7 +56,7 @@ public class ParseFreeManager {
 	}
 
 	public String replaceParseFree(String input){
-		return input.replace(STRING_QUOTE + STRING_QUOTE, STRING_QUOTE + parseFreeString + STRING_QUOTE);
+		return input.replace(STRING_QUOTE + STRING_QUOTE, STRING_QUOTE + parseFreeString_ + STRING_QUOTE);
 	}
 
 	private String extractParseFreeString(String input, int start, int end) {

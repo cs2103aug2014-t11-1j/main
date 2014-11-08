@@ -1,30 +1,50 @@
 package parser;
 
+import java.util.Scanner;
+
 /**
  * This class is used to verify 
  * valid time and date formats.
+ * * Author: smallson
  */
-
-import java.util.Scanner;
-
+//@author A0116211B
 public class DateAndTimeChecker {
 	
+	/**
+	 * String constants
+	 */
+	private static final String STRING_SPACE = " ";
+	private static final String STRING_DASH = "-";
+	
+	/**
+	 * Integer constants
+	 */
+	private static final int INT_HOUR_TWELVE = 12;
+	
+	private static final int INT_MAX_HOUR= 23;
+	private static final int INT_MAX_MINUTES = 59;
+	private static final int INT_MAX_DAYS= 31;
+	
+	/**
+	 * String dictionaries
+	 */
 	private static final String[] DICTIONARY_MONTHS = {"janurary","feburary","march","april","may","june","july","august","september","october","november","december",
 		"jan","feb","mar","apr","jun","jul","aug","sept","sep","oct","nov","dec"};
 	private static final String[] DICTIONARY_SUFFIX_TIME = {"AM","PM","MN","NN"};
 	
+	/**
+	 * Regex constants
+	 */	
 	private static final String DEFAULT_TIME_REGEX = "(1[012]|[1-9])((:|.)[0-5][0-9])?(\\s)?(?i)(am|pm|mn|nn)";
+	private static final String NUMBER_REGEX = "[^0-9]+";
 	
-	private static final String STRING_SPACE = " ";
-	private static final String STRING_DASH = "-";
-	
-	private static DateAndTimeChecker checker = new DateAndTimeChecker();
+	private static DateAndTimeChecker checker_ = new DateAndTimeChecker();
 	
 	private DateAndTimeChecker(){
 	}
 	
 	protected static DateAndTimeChecker getInstance(){
-		return checker;
+		return checker_;
 	}
 	
 	
@@ -33,23 +53,24 @@ public class DateAndTimeChecker {
 	 */
 	public boolean isValidDefaultTimeFormat(String string) {
 		
-//		if(string.length() > 6){
-//			return false;
-//		}
-		
 		if(!string.matches(DEFAULT_TIME_REGEX)){
 			return false;
 		}
 		
+		return verifyDefaultTimeFormat(string);
+	}
+
+	private boolean verifyDefaultTimeFormat(String string) {
+		
 		try{
-			Scanner sc = new Scanner(string).useDelimiter("[^0-9]+");		
+			Scanner sc = new Scanner(string).useDelimiter(NUMBER_REGEX);		
 			int integer = sc.nextInt();
 			
 			if(!dictionaryContains(DICTIONARY_SUFFIX_TIME,string.substring(string.length() - 2))){
 				return false;
 			}
 
-			if(integer > 12 || integer <= 0){
+			if(integer > INT_HOUR_TWELVE || integer <= 0){
 				System.out.println("invalid time");
 				return false;
 			}
@@ -57,16 +78,15 @@ public class DateAndTimeChecker {
 			if(sc.hasNextInt()){
 				String minutes = string.substring(string.length() - 4, string.length() - 2);
 				int temp = sc.nextInt();
-				if(temp > 59 || temp < 0 || temp != Integer.parseInt(minutes)){
+				if(temp > INT_MAX_MINUTES || temp < 0 || temp != Integer.parseInt(minutes)){
 					return false;
 				}
 			}
 			
 		} catch(Exception e){
-		//	System.out.println("exception");
 			return false;
 		}
-
+		
 		return true;
 	}
 
@@ -74,6 +94,10 @@ public class DateAndTimeChecker {
 		
 		string = string.replaceAll(":", "");
 
+		return verifyMilitaryTimeFormat(string);
+	}
+
+	private boolean verifyMilitaryTimeFormat(String string) {
 		try{
 			String firstTwoDigits = string.substring(0,2);
 			String lastTwoDigits = string.substring(2);
@@ -83,13 +107,12 @@ public class DateAndTimeChecker {
 				return false;
 			}
 
-			if(Integer.parseInt(firstTwoDigits) > 23 || Integer.parseInt(lastTwoDigits) > 59){
+			if(Integer.parseInt(firstTwoDigits) > INT_MAX_HOUR || Integer.parseInt(lastTwoDigits) > INT_MAX_MINUTES){
 				System.out.println("invalid military time format");
 				return false;
 			}
 
 		}catch(Exception e){
-//			System.out.println("military time format exception");
 			return false;
 		}
 		return true;
@@ -103,27 +126,32 @@ public class DateAndTimeChecker {
 
 		String [] num = string.split("/");
 
+		return verifySlashDateFormat(num);
+	}
+
+	private boolean verifySlashDateFormat(String[] num) {
 		if(num.length < 2 || num.length > 3)
 			return false;
+		
 		try{
-			if(Integer.parseInt(num[0]) > 31 || Integer.parseInt(num[0]) <= 0){
+			if(Integer.parseInt(num[0]) > INT_MAX_DAYS || Integer.parseInt(num[0]) <= 0){
 				System.out.println("invalid day");
 				return false;
 			}
 
 		} catch (Exception e){
-			System.out.println("day exception");
+			//System.out.println("day exception");
 			return false;
 		}
 
 		try{
-			if(Integer.parseInt(num[1]) > 12 || Integer.parseInt(num[1]) <= 0){
+			if(Integer.parseInt(num[1]) > INT_HOUR_TWELVE || Integer.parseInt(num[1]) <= 0){
 				System.out.println("invalid month");
 				return false;
 			}
 
 		} catch (Exception e){
-			System.out.println("month exception");
+			//System.out.println("month exception");
 			return false;
 		}
 
@@ -135,7 +163,6 @@ public class DateAndTimeChecker {
 				}
 
 			} catch (Exception e){
-				System.out.println("year exception");
 				return false;
 			}
 		}
@@ -150,26 +177,11 @@ public class DateAndTimeChecker {
 			temp = temp.replaceAll("nd","");
 			temp = temp.replaceAll("rd","");
 			temp = temp.replaceAll("th","");
-			if(Integer.parseInt(temp) > 31 || Integer.parseInt(temp) <= 0){
+			if(Integer.parseInt(temp) > INT_MAX_DAYS || Integer.parseInt(temp) <= 0){
 				System.out.println("invalid string day");
 				return false;
 			}
 		} catch(Exception e){
-	//		System.out.println("month first string day exception");
-			return false;
-		}
-		return true;
-	}
-
-	public boolean isValidSingleStringDateFormat(String[] words, int index, int type) {
-		
-		String date = words[index].replaceAll("([^\\d-]?)(-?[\\d\\.]+)([^\\d]?)", "$1 $2 $3").replaceAll(" +", STRING_SPACE);
-		String[] dateArray = date.split(STRING_SPACE);
-		
-		if(dateArray.length > 3 || dateArray.length < 2){
-			System.out.println("valid");
-			return false;
-		}else if(Integer.parseInt(dateArray[type]) > 31 || Integer.parseInt(dateArray[type]) <= 0){
 			return false;
 		}
 		return true;
@@ -183,7 +195,7 @@ public class DateAndTimeChecker {
 			temp = temp.replaceAll("nd","");
 			temp = temp.replaceAll("rd","");
 			temp = temp.replaceAll("th","");
-			if(Integer.parseInt(temp) > 31 || Integer.parseInt(temp) <= 0){
+			if(Integer.parseInt(temp) > INT_MAX_DAYS || Integer.parseInt(temp) <= 0){
 				System.out.println("invalid string day");
 				return false;
 			}
@@ -198,13 +210,13 @@ public class DateAndTimeChecker {
 	public boolean isValidDashDateFormat(String toParse) {
 		
 		try{
-			Scanner sc = new Scanner(toParse).useDelimiter("[^0-9]+");		
+			Scanner sc = new Scanner(toParse).useDelimiter(NUMBER_REGEX);		
 			Integer firstInteger = sc.nextInt();
 			Integer secondInteger = sc.nextInt();
 			if(firstInteger >= secondInteger){
 				return false;
 			}
-			if(firstInteger > 31 || secondInteger > 31){
+			if(firstInteger > INT_MAX_DAYS || secondInteger > INT_MAX_DAYS){
 				return false;
 			}
 			String month = toParse.replace(firstInteger.toString(), "");
@@ -229,5 +241,20 @@ public class DateAndTimeChecker {
 			}
 		}
 		return isFound;
+	}
+	
+	//depreciated
+	public boolean isValidSingleStringDateFormat(String[] words, int index, int type) {
+		
+		String date = words[index].replaceAll("([^\\d-]?)(-?[\\d\\.]+)([^\\d]?)", "$1 $2 $3").replaceAll(" +", STRING_SPACE);
+		String[] dateArray = date.split(STRING_SPACE);
+		
+		if(dateArray.length > 3 || dateArray.length < 2){
+			System.out.println("valid");
+			return false;
+		}else if(Integer.parseInt(dateArray[type]) > INT_MAX_DAYS || Integer.parseInt(dateArray[type]) <= 0){
+			return false;
+		}
+		return true;
 	}
 }

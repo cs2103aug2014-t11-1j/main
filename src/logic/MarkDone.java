@@ -1,8 +1,8 @@
+//@author A0111370Y
 package logic;
 
 import com.ModelTask;
 import com.util.MyLogger;
-import java.util.Collections;
 import java.util.logging.Level;
 
 /**
@@ -10,13 +10,11 @@ import java.util.logging.Level;
  *
  * Marks the task at input index as done.
  */
-
-//@author A0111370Y
 public class MarkDone extends CommandFactory {
 
     private static final int INVALID_INDEX = -1;
 
-    private boolean isDone;
+    private boolean isDone_;
 
     protected MarkDone(String input) {
         execute(input);
@@ -28,10 +26,8 @@ public class MarkDone extends CommandFactory {
     protected void execute(String input) {
         int index;
         index = getIndex(input);
-        
-        sortTasksByPositionNumber();
 
-        if (isValidLineNumber(index)) {
+        if (isValidIndex(index)) {
             markTaskAsDone(index);
         } else {
             setFeedbackError();
@@ -42,7 +38,7 @@ public class MarkDone extends CommandFactory {
 
     @Override
     protected boolean isDone() {
-        return isDone;
+        return isDone_;
     }
 
     private void setFeedbackSuccess() {
@@ -62,24 +58,35 @@ public class MarkDone extends CommandFactory {
     }
 
     private void markTaskAsDone(int index) {
-        ModelTask task = list.get(index);
+        ModelTask task = null;
+        int i = 0;
+
+        for (; i < list.getListSize(); i++) {
+            ModelTask temp = list.get(i);
+            if (temp.getPosition() == index) {
+                task = temp;
+                break;
+            }
+        }
+
         task.setIsDone(true);
-        list.remove(index);
-        list.add(task, index);
-        isDone = true;
+        list.remove(i);
+        list.add(task, i);
+        isDone_ = true;
         setFeedbackSuccess();
         setGuiFeedbackNormal();
     }
 
     private int getIndex(String input) {
         try {
-            return Integer.parseInt(input) - 1;
+            return Integer.parseInt(input);
         } catch (NumberFormatException ex) {
             return INVALID_INDEX;
         }
     }
 
-    private void sortTasksByPositionNumber() {
-        Collections.sort(CommandFactory.list.getList(), new ModelTaskNumComparator());
+    private boolean isValidIndex(int index) {
+        return index <= list.getListSize() && index > 0;
     }
+
 }

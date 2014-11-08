@@ -1,3 +1,4 @@
+//@author A0111370Y
 package logic;
 
 import com.util.MyLogger;
@@ -10,11 +11,9 @@ import java.util.logging.Level;
  *
  * Sorts tasks according to the type input.
  */
-
-//@author A0111370Y
 public class Sort extends CommandFactory {
 
-    private boolean isDone;
+    private boolean isDone_;
 
     enum SortCommands {
 
@@ -33,7 +32,7 @@ public class Sort extends CommandFactory {
         try {
             cmd = getSortCommands(input);
             performSort(cmd);
-            isDone = true;
+            isDone_ = true;
             setFeedbackSuccess();
             setGuiFeedbackNormal();
         } catch (IllegalArgumentException ex) {
@@ -46,7 +45,7 @@ public class Sort extends CommandFactory {
 
     @Override
     protected boolean isDone() {
-        return isDone;
+        return isDone_;
     }
 
     private SortCommands getSortCommands(String input) {

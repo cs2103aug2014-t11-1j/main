@@ -7,12 +7,13 @@ package parser;
  * 
  * * Author: smallson
  */
+//@author A0116211B
 
 public class DayParser {
 	
-	private static final String[] DICTIONARY_DAYS = { "monday", "tuesday", "wednesday", "thursday", "friday","saturday", "sunday",
-		"mon", "tue","tues","wed", "thurs","fri", "sat","sun",	"tmr", "tommorrow" };
-	
+	/**
+	 * Dictionary of days
+	 */
 	private static final String[] DICTIONARY_SUNDAY = { "SUNDAY", "SUN" };
 	private static final String[] DICTIONARY_MONDAY = { "MONDAY", "MON" };
 	private static final String[] DICTIONARY_TUESDAY = { "TUESDAY", "TUE", "TUES" };
@@ -21,6 +22,9 @@ public class DayParser {
 	private static final String[] DICTIONARY_FRIDAY = { "FRIDAY", "FRI" };
 	private static final String[] DICTIONARY_SATURDAY = { "SATURDAY", "SAT" };
 	
+	/**
+	 * Numerical representation
+	 */
 	private static final int NUM_MONDAY = 1;
 	private static final int NUM_TUESDAY = 2;
 	private static final int NUM_WEDNESDAY = 3;

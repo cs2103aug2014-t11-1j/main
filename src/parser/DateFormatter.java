@@ -2,7 +2,6 @@ package parser;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -12,7 +11,7 @@ import java.util.Scanner;
  * 
  * * Author: smallson
  */
-
+//@author A0116211B
 
 public class DateFormatter {
 	
@@ -22,10 +21,25 @@ public class DateFormatter {
 	private static final String STRING_SPACE = " ";
 	private static final String STRING_SLASH = "/";
 	
+	/**
+	 * String constants
+	 */
+	private static final int NUM_SINGLE_DAY_OFFSET = 1;
+	
+	/**
+	 * String dictionaries
+	 */
 	private static final String[] DICTIONARY_TOMORROW = { "TOMORROW", "TMR" };
 	
-	private static final int NUM_SINGLE_DAY_OFFSET = 1;
-
+	/**
+	 * Regex constants
+	 */	
+	private static final String NUMBER_REGEX = "[^0-9]+";
+	
+	/**
+	 * Date formats
+	 */
+	private static final String SLASH_DATE_FORMAT = "dd/MM/YYYY";
 
 	public DateFormatter(){			
 	}
@@ -38,21 +52,22 @@ public class DateFormatter {
 			offset = NUM_SINGLE_DAY_OFFSET;
 			return getModifiedDate(offset);
 		}
+		
 		DayParser dp = new DayParser();
 		offset = dp.getDayIndex(date) - dp.getDayIndex(getCurrentDay());
 		if(offset < 0){
 			int temp = offset;
 			if(temp == -6){
 				offset = 1;
-			}else if(temp == -5){
+			} else if(temp == -5){
 				offset = 2;
-			}else if(temp == -4){
+			} else if(temp == -4){
 				offset = 3;
-			}else if(temp == -3){
+			} else if(temp == -3){
 				offset = 4;
-			}else if(temp == -2){
+			} else if(temp == -2){
 				offset = 5;
-			}else if(temp == -1){
+			} else if(temp == -1){
 				offset = 6;
 			}
 		}
@@ -61,7 +76,7 @@ public class DateFormatter {
 
 	public String convertSDformat(String date) {
 		String[] dateArray = date.split(STRING_SLASH);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(SLASH_DATE_FORMAT);
 		Calendar calendar = Calendar.getInstance();
 		
 		calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArray[0]));
@@ -78,7 +93,7 @@ public class DateFormatter {
 		date = removeDaySuffix(date);
 		MonthParser mp = new MonthParser();
 		String[] dateArray = date.split(STRING_SPACE);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(SLASH_DATE_FORMAT);
 		Calendar calendar = Calendar.getInstance();
 		
 		calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArray[0]));
@@ -115,7 +130,7 @@ public class DateFormatter {
 		date = removeDaySuffix(date);
 		MonthParser mp = new MonthParser();
 		String[] dateArray = date.split(STRING_SPACE);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(SLASH_DATE_FORMAT);
 		Calendar calendar = Calendar.getInstance();
 		
 		calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArray[1]));
@@ -145,15 +160,15 @@ public class DateFormatter {
 			int temp = offset;
 			if(temp == -6){
 				offset = 1;
-			}else if(temp == -5){
+			} else if(temp == -5){
 				offset = 2;
-			}else if(temp == -4){
+			} else if(temp == -4){
 				offset = 3;
-			}else if(temp == -3){
+			} else if(temp == -3){
 				offset = 4;
-			}else if(temp == -2){
+			} else if(temp == -2){
 				offset = 5;
-			}else if(temp == -1){
+			} else if(temp == -1){
 				offset = 6;
 			}
 		}
@@ -173,7 +188,7 @@ public class DateFormatter {
 	
 	private static String getModifiedDate(int offset){
 		String currDate;
-		SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/YYYY");
+		SimpleDateFormat dayFormat = new SimpleDateFormat(SLASH_DATE_FORMAT);
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DAY_OF_MONTH, offset);
@@ -196,14 +211,14 @@ public class DateFormatter {
 	public String convertDDFformat(String date) {
 		
 		MonthParser mp = new MonthParser();
-		Scanner sc = new Scanner(date).useDelimiter("[^0-9]+");		
+		Scanner sc = new Scanner(date).useDelimiter(NUMBER_REGEX);		
 		Integer firstInteger = sc.nextInt();
 		Integer secondInteger = sc.nextInt();
 		String month = date.replace(firstInteger.toString(), "");
 		month = month.replace(secondInteger.toString(), "");
 		month = month.replace("-", "");
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(SLASH_DATE_FORMAT);
 		Calendar calendar = Calendar.getInstance();
 		
 		calendar.set(Calendar.DAY_OF_MONTH, firstInteger);
@@ -215,14 +230,14 @@ public class DateFormatter {
 	public String convertDDNformat(String date) {
 		
 		MonthParser mp = new MonthParser();
-		Scanner sc = new Scanner(date).useDelimiter("[^0-9]+");		
+		Scanner sc = new Scanner(date).useDelimiter(NUMBER_REGEX);		
 		Integer firstInteger = sc.nextInt();
 		Integer secondInteger = sc.nextInt();
 		String month = date.replace(firstInteger.toString(), "");
 		month = month.replace(secondInteger.toString(), "");
 		month = month.replace("-", "");
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(SLASH_DATE_FORMAT);
 		Calendar calendar = Calendar.getInstance();
 		
 		calendar.set(Calendar.DAY_OF_MONTH, secondInteger);

@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//@author A0111370Y
 package com;
 
 import java.util.Calendar;
 
-/**
- *
- * @author Jireh
- */
+
 public class TimePeriodTest {
 
     /**

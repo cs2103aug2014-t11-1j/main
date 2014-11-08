@@ -1,3 +1,4 @@
+//@author A0111370Y
 package logic;
 
 import java.util.ArrayList;
@@ -16,8 +17,6 @@ import parser.ParserFacade;
 /**
  * This is the abstract class which all the commands inherit from.
  */
-
-//@author A0111370Y
 public abstract class CommandFactory {
 
     protected static ParserFacade pf = ParserFacade.getInstance();
@@ -68,7 +67,7 @@ public abstract class CommandFactory {
         if (!newList.isEmpty()) {
             newList.clear();
         }
-        for(ModelTask task : oldList){
+        for (ModelTask task : oldList) {
             ModelTask temp = task.copyTask();
             newList.add(temp);
         }

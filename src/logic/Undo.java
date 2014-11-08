@@ -1,3 +1,4 @@
+//@author A0111370Y
 package logic;
 
 import com.ModelTask;
@@ -8,11 +9,9 @@ import javafx.collections.ObservableList;
 /**
  * Logic for Undo command.
  */
-
-//@author A0111370Y
 public class Undo extends CommandFactory {
 
-    private boolean isDone;
+    private boolean isDone_;
 
     protected Undo() {
         execute(null);
@@ -44,7 +43,7 @@ public class Undo extends CommandFactory {
 
     @Override
     protected boolean isDone() {
-        return isDone;
+        return isDone_;
     }
 
     private void undo() {
@@ -53,7 +52,7 @@ public class Undo extends CommandFactory {
         ObservableList<ModelTask> temp = FXCollections.observableArrayList();
         copyList(popped, temp);
         list.setList(temp);
-        isDone = true;
+        isDone_ = true;
     }
 
     private ObservableList<ModelTask> getListFromUndoStack() {

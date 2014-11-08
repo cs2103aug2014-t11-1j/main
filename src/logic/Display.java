@@ -1,3 +1,4 @@
+//@author A0111370Y
 package logic;
 
 import static logic.CommandFactory.list;
@@ -9,11 +10,9 @@ import com.ModelTask;
  *
  * Searches and displays tasks of input type.
  */
-
-//@author A0111370Y
 public class Display extends CommandFactory {
 
-    private boolean isDone;
+    private boolean isDone_;
 
     public Display(String input) {
         tempList.clear();
@@ -31,7 +30,7 @@ public class Display extends CommandFactory {
 
     @Override
     protected boolean isDone() {
-        return isDone;
+        return isDone_;
     }
 
     private boolean determineDisplay(String input) {
@@ -69,7 +68,7 @@ public class Display extends CommandFactory {
         } else {
             CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_SEARCH_MESSAGE);
             CommandExecutor.setGuiFeedBack(FeedbackMessages.SWITCH_TO_TEMP);
-            isDone = true;
+            isDone_ = true;
         }
     }
 

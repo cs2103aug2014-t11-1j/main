@@ -1,3 +1,4 @@
+//@author A0111370Y
 package logic;
 
 import com.ModelTask;
@@ -7,14 +8,12 @@ import com.ModelTask;
  * 1st integer is the task to be moved, and the 2nd integer is the position to
  * move to.
  */
-
-//@author A0111370Y
 public class Move extends CommandFactory {
 
     private static final int INDEX_TASK = 0;
     private static final int INDEX_POSITION = 1;
 
-    private boolean isDone;
+    private boolean isDone_;
 
     protected Move(String input) {
         execute(input);
@@ -43,7 +42,7 @@ public class Move extends CommandFactory {
 
     @Override
     protected boolean isDone() {
-        return isDone;
+        return isDone_;
     }
 
     private void moveTask(int index, int position) {
@@ -53,7 +52,7 @@ public class Move extends CommandFactory {
         list.add(temp, position);
         setPositionOfTasks();
 
-        isDone = true;
+        isDone_ = true;
         setFeedbackSuccess(index, position);
         setGuiFeedbackNormal();
     }

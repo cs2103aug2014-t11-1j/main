@@ -1,3 +1,5 @@
+//@author A0111370Y -unused
+//no time to integrate.
 package logic;
 
 import java.util.Date;
@@ -5,11 +7,9 @@ import java.util.Date;
 import com.TentativeTask;
 import com.TimePeriod;
 
-//@author A0111370Y -unused
-//no time to integrate.
 public class BlockTentative extends CommandFactory {
 
-    private boolean isDone;
+    private boolean isDone_;
 
     protected BlockTentative(String input) {
         execute(input);
@@ -23,7 +23,7 @@ public class BlockTentative extends CommandFactory {
         TentativeTask temp = pf.getTentative(input);
         if (checkTimePeriods(temp)) {
             addTimePeriods(temp);
-            isDone = true;
+            isDone_ = true;
             CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_TENTATIVE_MESSAGE);
             CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
         } else {
@@ -33,7 +33,7 @@ public class BlockTentative extends CommandFactory {
 
     @Override
     protected boolean isDone() {
-        return isDone;
+        return isDone_;
     }
 
     private static boolean isValidTimePeriod(TimePeriod tp, TimePeriod toCompare) {

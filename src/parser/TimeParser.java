@@ -11,6 +11,7 @@ import java.util.Scanner;
  * 
  * *Author: smallson
  */
+//@author A0116211B
 
 public class TimeParser {
 	

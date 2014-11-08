@@ -10,6 +10,7 @@ import java.util.Date;
  * 
  * * Author: smallson
  */
+//@author A0116211B
 
 public class InputParser {
 
@@ -35,51 +36,51 @@ public class InputParser {
 	/**
 	 * Required information from input
 	 */
-	private String taskDescription;
-	private String startTime;
-	private String endTime;
-	private String deadLine;
-	private String endDate;
-	private String startDate;
+	private String taskDescription_;
+	private String startTime_;
+	private String endTime_;
+	private String deadLine_;
+	private String endDate_;
+	private String startDate_;
 
-	private boolean isDeadLineFound;
-	private boolean isStartTimeFound;
-	private boolean isStartDateFound;
-	private boolean isEndTimeFound;
-	private boolean isEndDateFound;
+	private boolean isDeadLineFound_;
+	private boolean isStartTimeFound_;
+	private boolean isStartDateFound_;
+	private boolean isEndTimeFound_;
+	private boolean isEndDateFound_;
 
 	public InputParser(){
-		taskDescription = null;
-		startDate = null;
-		startTime = null;
-		endDate = null;
-		endTime = null;
-		deadLine = null;
+		taskDescription_ = null;
+		startDate_ = null;
+		startTime_ = null;
+		endDate_ = null;
+		endTime_ = null;
+		deadLine_ = null;
 
-		isDeadLineFound = false;
-		isStartTimeFound = false;
-		isStartDateFound = false;
-		isEndTimeFound = false;
-		isEndDateFound = false;
+		isDeadLineFound_ = false;
+		isStartTimeFound_ = false;
+		isStartDateFound_ = false;
+		isEndTimeFound_ = false;
+		isEndDateFound_ = false;
 	}
 
 	public String getTaskDescription(){
-		return taskDescription.replaceAll("\\s+", " ");
+		return taskDescription_.replaceAll("\\s+", " ");
 	}
 	public String getStartDate(){
-		return startDate;
+		return startDate_;
 	}
 	public String getStartTime(){
-		return startTime;
+		return startTime_;
 	}
 	public String getEndDate(){
-		return endDate;
+		return endDate_;
 	}
 	public String getEndTime(){
-		return endTime;
+		return endTime_;
 	}
 	public String getDeadLine(){
-		return deadLine;
+		return deadLine_;
 	}
 
 	public void parseInput(String input){
@@ -92,217 +93,295 @@ public class InputParser {
 
 		input = pfm.getParseFreeInput(input);
 		String[] tokens = input.split(STRING_SPACE);
-		String tempInput;
 
 		for (int i = 0; i < tokens.length; i++) {
+			input = parseWord(input, dp, tp, tokens, i);
+		}
 
-			tempInput = input;
+		postParsingAdjustments();
 
-			if(!isDeadLineFound && !isEndDateFound && !isStartDateFound && previousNotKeyWord(tokens,i,input)){
-				input = dp.parseDateWithoutKeyword(tokens, i, input);
+		input = pfm.replaceParseFree(input);
+		taskDescription_ = input;						
+	}
+
+	private String parseWord(String input, DateParser dp, TimeParser tp,
+			String[] tokens, int i) {
+		
+		input = parseWithoutKeyword(input, dp, tp, tokens, i);
+		input = parseDeadline(input, dp, tp, tokens, i);
+		input = parseTimed(input, dp, tp, tokens, i);
+		
+		return input;
+	}
+
+	private String parseTimed(String input, DateParser dp, TimeParser tp,
+			String[] tokens, int i) {
+		
+		input = parseStart(input, dp, tp, tokens, i);
+		input = parseEnd(input, dp, tp, tokens, i);
+
+		return input;
+	}
+
+	private String parseEnd(String input, DateParser dp, TimeParser tp,
+			String[] tokens, int i) {
+		
+		if(dictionaryContains(DICTIONARY_KEYWORDS_ENDTIME, tokens[i])){
+			
+			input = parseEndDate(input, dp, tokens, i);
+			input = parseEndTime(input, tp, tokens, i);
+
+		}
+		return input;
+	}
+
+	private String parseEndTime(String input, TimeParser tp, String[] tokens,
+			int i) {
+		if(!isEndTimeFound_){
+			input = tp.parseTimeWithKeyword(tokens, i, input);
+			if(tp.getTime() != null){
+				endTime_ = tp.getTime();
+				isEndTimeFound_ = true;
+			}
+		}
+		return input;
+	}
+
+	private String parseEndDate(String input, DateParser dp, String[] tokens,
+			int i) {
+		if(!isEndDateFound_){
+			input = dp.parseDateWithKeyword(tokens, i, input);
+			if(dp.getDate() != null){
+				endDate_ = dp.getDate();
+				isEndDateFound_ = true;
+			}
+		}
+		return input;
+	}
+
+	private String parseStart(String input, DateParser dp, TimeParser tp,
+			String[] tokens, int i) {
+		
+		if(dictionaryContains(DICTIONARY_KEYWORDS_STARTTIME, tokens[i])){
+
+			input = parseDashDate(input, tp, tokens, i);
+			input = parseStartDate(input, dp, tokens, i);		
+			input = parseToday(input, tokens, i);
+			input = parseStartTime(input, tp, tokens, i);
+
+		}
+		return input;
+	}
+
+	private String parseStartTime(String input, TimeParser tp, String[] tokens,
+			int i) {
+		if(!isStartTimeFound_){
+			input = tp.parseTimeWithKeyword(tokens, i, input);
+			if(tp.getTime() != null){
+				startTime_ = tp.getTime();
+				isStartTimeFound_ = true;
+			}
+		}
+		return input;
+	}
+
+	private String parseToday(String input, String[] tokens, int i) {
+		if(isNotOutOfBounds(i+1,tokens.length) && !isStartDateFound_){
+			if(dictionaryContains(DICTIONARY_KEYWORDS_TODAY, tokens[i+1])){
+				startDate_ = getCurrentDate();
+				isStartDateFound_ = true;
+				input = input.replaceFirst(tokens[i] + STRING_SPACE + tokens[i+1], "").trim();
+			}
+		}
+		return input;
+	}
+
+	private String parseStartDate(String input, DateParser dp, String[] tokens,
+			int i) {
+		if(!isStartDateFound_){
+			input = dp.parseDateWithKeyword(tokens, i, input);
+			if(dp.getDate() != null){
+				startDate_ = dp.getDate();
+				dp.setDateStart(startDate_);
+				isStartDateFound_ = true;
+			}
+		}
+		return input;
+	}
+
+	private String parseDashDate(String input, TimeParser tp, String[] tokens,
+			int i) {
+		if(!isStartTimeFound_ && !isEndTimeFound_){
+			input = tp.parseDashTimeWithKeyword(tokens, i, input);
+			if(tp.getStart() != null && tp.getEnd() != null){
+				startTime_ = tp.getStart();
+				endTime_ = tp.getEnd();
+				isStartTimeFound_ = true;
+				isEndTimeFound_ = true;
+			}
+		}
+		return input;
+	}
+
+	private String parseDeadline(String input, DateParser dp, TimeParser tp,
+			String[] tokens, int i) {
+		if(dictionaryContains(DICTIONARY_KEYWORDS_DEADLINE, tokens[i])){
+			if(!isDeadLineFound_){
+				input = dp.parseDateWithKeyword(tokens, i, input);
 				if(dp.getDate() != null){
-					startDate = dp.getDate();
-					dp.setDateStart(startDate);
-					isStartDateFound = true;
+					deadLine_ = dp.getDate();
+					isDeadLineFound_ = true;
 				}
 			}
 
-			if(!isStartTimeFound && !isEndTimeFound){
-				input = tp.parseDashTimeWithoutKeyword(tokens, i, input);
-				if(tp.getStart() != null && tp.getEnd() != null){
-					startTime = tp.getStart();
-					endTime = tp.getEnd();
-					isStartTimeFound = true;
-					isEndTimeFound = true;
+			input = parseEndTime(input, tp, tokens, i);	
+
+			if(isNotOutOfBounds(i+1,tokens.length) && !isEndTimeFound_){
+				if(dictionaryContains(DICTIONARY_KEYWORDS_TODAY, tokens[i+1])){
+					endTime_ = STRING_BEFORE_MIDNIGHT;
+					isEndTimeFound_ = true;
+					input = input.replaceFirst(tokens[i] + STRING_SPACE + tokens[i+1], "").trim();
 				}
 			}
+		}
+		return input;
+	}
 
-			if((!isStartTimeFound || !isEndTimeFound) && previousNotKeyWord(tokens,i,input)){
-				input = tp.parseTimeWithoutKeyword(tokens, i, input);
-				if(tp.getTime() != null){
-					if(!isStartTimeFound){
-						startTime = tp.getTime();
-						isStartTimeFound = true;
-					} else if(!isEndTimeFound) {
-						endTime = tp.getTime();
-						isEndTimeFound = true;
-					}
-				}
-				
-				if(dictionaryContains(DICTIONARY_KEYWORDS_TODAY, tokens[i]) && !isEndTimeFound){
-					endTime = STRING_BEFORE_MIDNIGHT;
-					isEndTimeFound = true;
-					input = input.replaceFirst(tokens[i], "").trim();
-				}
+	private String parseWithoutKeyword(String input, DateParser dp,
+			TimeParser tp, String[] tokens, int i) {
+		
+		if(!isDeadLineFound_ && !isEndDateFound_ && !isStartDateFound_ && previousNotKeyWord(tokens,i,input)){
+			input = dp.parseDateWithoutKeyword(tokens, i, input);
+			if(dp.getDate() != null){
+				startDate_ = dp.getDate();
+				dp.setDateStart(startDate_);
+				isStartDateFound_ = true;
 			}
-
-			if(!isStartDateFound && !isEndDateFound){
-				if(tokens[i].contains(STRING_DASH) || (tokens[i].contains(STRING_WAVE_DASH)) || (tokens[i].contains(STRING_TO))){
-					input = dp.parseDashDateWithoutKeyword(tokens, i, input);
-					if(dp.getDateStart() != null && dp.getDateEnd() != null){
-						startDate = dp.getDateStart();
-						endDate = dp.getDateEnd();
-						isStartDateFound = true;
-						isEndDateFound = true;
-					}
-				}
-			}
-
-			if(dictionaryContains(DICTIONARY_KEYWORDS_DEADLINE, tokens[i])){
-				if(!isDeadLineFound){
-					input = dp.parseDateWithKeyword(tokens, i, input);
-					if(dp.getDate() != null){
-						deadLine = dp.getDate();
-						isDeadLineFound = true;
-					}
-				}
-
-				if(!isEndTimeFound){
-					input = tp.parseTimeWithKeyword(tokens, i, input);
-					if(tp.getTime() != null){
-						endTime = tp.getTime();
-						isEndTimeFound = true;
-					}
-				}	
-
-				if(isNotOutOfBounds(i+1,tokens.length) && !isEndTimeFound){
-					if(dictionaryContains(DICTIONARY_KEYWORDS_TODAY, tokens[i+1])){
-						endTime = STRING_BEFORE_MIDNIGHT;
-						isEndTimeFound = true;
-						input = input.replaceFirst(tokens[i] + STRING_SPACE + tokens[i+1], "").trim();
-					}
-				}
-			}
-
-			if(dictionaryContains(DICTIONARY_KEYWORDS_STARTTIME, tokens[i])){
-
-				if(!isStartTimeFound && !isEndTimeFound){
-					input = tp.parseDashTimeWithKeyword(tokens, i, input);
-					if(tp.getStart() != null && tp.getEnd() != null){
-						startTime = tp.getStart();
-						endTime = tp.getEnd();
-						isStartTimeFound = true;
-						isEndTimeFound = true;
-					}
-				}
-
-				if(!isStartDateFound){
-					input = dp.parseDateWithKeyword(tokens, i, input);
-					if(dp.getDate() != null){
-						startDate = dp.getDate();
-						dp.setDateStart(startDate);
-						isStartDateFound = true;
-					}
-				}
-				
-				if(isNotOutOfBounds(i+1,tokens.length) && !isStartDateFound){
-					if(dictionaryContains(DICTIONARY_KEYWORDS_TODAY, tokens[i+1])){
-						startDate = getCurrentDate();
-						isStartDateFound = true;
-						input = input.replaceFirst(tokens[i] + STRING_SPACE + tokens[i+1], "").trim();
-					}
-				}
-
-				if(!isStartTimeFound){
-					input = tp.parseTimeWithKeyword(tokens, i, input);
-					if(tp.getTime() != null){
-						startTime = tp.getTime();
-						isStartTimeFound = true;
-					}
-				}
-
-			}
-
-			if(dictionaryContains(DICTIONARY_KEYWORDS_ENDTIME, tokens[i])){
-				if(!isEndDateFound){
-					input = dp.parseDateWithKeyword(tokens, i, input);
-					if(dp.getDate() != null){
-						endDate = dp.getDate();
-						isEndDateFound = true;
-					}
-				}
-
-				if(!isEndTimeFound){
-					input = tp.parseTimeWithKeyword(tokens, i, input);
-					if(tp.getTime() != null){
-						endTime = tp.getTime();
-						isEndTimeFound = true;
-					}
-				}
-
-			}
-
-			//			if(isEndDateFound && isStartDateFound){
-			//				if(!validEndDate(endDate , startDate)){
-			//					endDate = null;
-			//					isEndDateFound = false;
-			//					input = tempInput;
-			//				}
-			//			}
-
 		}
 
-		if(isEndDateFound && isDeadLineFound && !isStartDateFound){
-			if(validEndDate(endDate , deadLine)){
-				startDate = deadLine;
-				deadLine = null;
-				isStartDateFound = true;
-			} 
+		if(!isStartTimeFound_ && !isEndTimeFound_){
+			input = tp.parseDashTimeWithoutKeyword(tokens, i, input);
+			if(tp.getStart() != null && tp.getEnd() != null){
+				startTime_ = tp.getStart();
+				endTime_ = tp.getEnd();
+				isStartTimeFound_ = true;
+				isEndTimeFound_ = true;
+			}
 		}
 
-		if(!isDeadLineFound && !isStartDateFound && !isEndDateFound){
+		if((!isStartTimeFound_ || !isEndTimeFound_) && previousNotKeyWord(tokens,i,input)){
+			input = tp.parseTimeWithoutKeyword(tokens, i, input);
+			if(tp.getTime() != null){
+				if(!isStartTimeFound_){
+					startTime_ = tp.getTime();
+					isStartTimeFound_ = true;
+				} else if(!isEndTimeFound_) {
+					endTime_ = tp.getTime();
+					isEndTimeFound_ = true;
+				}
+			}
+			
+			if(dictionaryContains(DICTIONARY_KEYWORDS_TODAY, tokens[i]) && !isEndTimeFound_){
+				endTime_ = STRING_BEFORE_MIDNIGHT;
+				isEndTimeFound_ = true;
+				input = input.replaceFirst(tokens[i], "").trim();
+			}
+		}
+
+		if(!isStartDateFound_ && !isEndDateFound_){
+			if(tokens[i].contains(STRING_DASH) || (tokens[i].contains(STRING_WAVE_DASH)) || (tokens[i].contains(STRING_TO))){
+				input = dp.parseDashDateWithoutKeyword(tokens, i, input);
+				if(dp.getDateStart() != null && dp.getDateEnd() != null){
+					startDate_ = dp.getDateStart();
+					endDate_ = dp.getDateEnd();
+					isStartDateFound_ = true;
+					isEndDateFound_ = true;
+				}
+			}
+		}
+		return input;
+	}
+
+	private void postParsingAdjustments() {
+		
+		convertDeadLineToStartDate();
+		convertDateAndTime();
+	}
+
+	private void convertDateAndTime() {
+		
+		assignDateIfTimeFound();	
+		adjustEndDateAccordingToStartDateAndTime();
+		assignTimeIfOnlyDeadLineFound();
+		removeDeadLineIfTimedTask();
+	}
+
+	private void removeDeadLineIfTimedTask() {
+		if(allDatesFound()){
+			deadLine_ = null;
+		}
+	}
+
+	private void assignTimeIfOnlyDeadLineFound() {
+		if(onlyDeadLineFound()){
+			endTime_ = STRING_BEFORE_MIDNIGHT;
+		}
+	}
+
+	private void adjustEndDateAccordingToStartDateAndTime() {
+		if(isStartDateFound_ && isStartTimeFound_ && isEndTimeFound_ && !isEndDateFound_){
+			if(Integer.parseInt(endTime_) < Integer.parseInt(startTime_)){
+				endDate_ = getDayModifiedDate(1,startDate_);
+				isEndDateFound_ = true;
+			}
+		}
+	}
+
+	private void assignDateIfTimeFound() {
+		if(!isDeadLineFound_ && !isStartDateFound_ && !isEndDateFound_){
 
 			String temp = null;
 
-			if(isEndTimeFound){
-				temp = endTime;
+			if(isEndTimeFound_){
+				temp = endTime_;
 			}
-			if(isStartTimeFound){
-				temp = startTime;
+			if(isStartTimeFound_){
+				temp = startTime_;
 			}
 
-			if(isStartTimeFound && isEndTimeFound){
-				if(Integer.parseInt(endTime) < Integer.parseInt(startTime)){
-					startDate = getModifiedDate(0);
-					endDate = getModifiedDate(1);
-					isStartDateFound = true;
-					isEndDateFound = true;
+			if(isStartTimeFound_ && isEndTimeFound_){
+				if(Integer.parseInt(endTime_) < Integer.parseInt(startTime_)){
+					startDate_ = getModifiedDate(0);
+					endDate_ = getModifiedDate(1);
+					isStartDateFound_ = true;
+					isEndDateFound_ = true;
 				} 
 			} 
 			if (temp != null){
 				try{
 					if(Integer.parseInt(getCurrentTime()) > Integer.parseInt(temp)){
-						deadLine = getModifiedDate(1);
-						isDeadLineFound = true;
+						deadLine_ = getModifiedDate(1);
+						isDeadLineFound_ = true;
 					}
 					else{
-						deadLine = getModifiedDate(0);
-						isDeadLineFound = true;
+						deadLine_ = getModifiedDate(0);
+						isDeadLineFound_ = true;
 					}
 				}catch(Exception e){
 					System.out.println("error");
 				}
 			}
 		}
-		
-		if(isStartDateFound && isStartTimeFound && isEndTimeFound && !isEndDateFound){
-			if(Integer.parseInt(endTime) < Integer.parseInt(startTime)){
-				endDate = getDayModifiedDate(1,startDate);
-				isEndDateFound = true;
-			}
+	}
+
+	private void convertDeadLineToStartDate() {
+		if(isEndDateFound_ && isDeadLineFound_ && !isStartDateFound_){
+			if(validEndDate(endDate_ , deadLine_)){
+				startDate_ = deadLine_;
+				deadLine_ = null;
+				isStartDateFound_ = true;
+			} 
 		}
-
-
-		if(onlyDeadLineFound()){
-			endTime = STRING_BEFORE_MIDNIGHT;
-		}
-
-		if(allDatesFound()){
-			deadLine = null;
-		}
-
-		input = pfm.replaceParseFree(input);
-		taskDescription = input;						
 	}
 
 	private String getCurrentDate() {
@@ -350,21 +429,21 @@ public class InputParser {
 	}
 
 	private boolean allDatesFound() {
-		return isDeadLineFound && isStartDateFound && isEndDateFound;
+		return isDeadLineFound_ && isStartDateFound_ && isEndDateFound_;
 	}
 
 	private boolean onlyDeadLineFound() {
-		return isDeadLineFound && !isStartDateFound && !isEndDateFound && !isStartTimeFound && !isEndTimeFound;
+		return isDeadLineFound_ && !isStartDateFound_ && !isEndDateFound_ && !isStartTimeFound_ && !isEndTimeFound_;
 	}
 
 	private boolean isNotOutOfBounds(int index, int length) {
 		return index < length && index > 0;
 	}
 
-	private boolean validEndDate(String endDate, String startDate) {
+	private boolean validEndDate(String endDate_, String startDate_) {
 
-		String[] endArray = endDate.split(STRING_SLASH);
-		String[] startArray = startDate.split(STRING_SLASH);
+		String[] endArray = endDate_.split(STRING_SLASH);
+		String[] startArray = startDate_.split(STRING_SLASH);
 
 		if(Integer.parseInt(endArray[2]) < Integer.parseInt(startArray[2])){
 			return false;

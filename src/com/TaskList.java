@@ -1,3 +1,4 @@
+//@author A0111370Y
 package com;
 
 import java.util.Iterator;
@@ -10,61 +11,60 @@ public class TaskList implements Iterable<ModelTask> {
     /**
      * Class Attributes
      */
-    private ObservableList<ModelTask> list;
+    private ObservableList<ModelTask> list_;
 
     /**
      * Constructor
      */
     public TaskList() {
-        list = FXCollections.observableArrayList();
+        list_ = FXCollections.observableArrayList();
     }
 
     /**
      * Accessors
      */
     public ObservableList<ModelTask> getList() {
-        return list;
+        return list_;
     }
 
     public int getListSize() {
-        return list.size();
+        return list_.size();
     }
 
     public ModelTask get(int index) {
-        return list.get(index);
+        return list_.get(index);
     }
 
     public boolean isEmpty() {
-        return list.isEmpty();
+        return list_.isEmpty();
     }
-    
+
     @Override
     public Iterator<ModelTask> iterator() {
-        return list.iterator();
+        return list_.iterator();
     }
 
     /**
      * Mutators
      */
     public void add(ModelTask task) {
-        list.add(task);
+        list_.add(task);
     }
 
     public void add(ModelTask task, int index) {
-        list.add(index, task);
+        list_.add(index, task);
     }
 
     public void remove(int index) {
-        list.remove(index);
+        list_.remove(index);
     }
 
     public void setList(ObservableList<ModelTask> list) {
-        this.list = list;
+        this.list_ = list;
     }
 
     public void clear() {
-        list.clear();
+        list_.clear();
     }
-
 
 }

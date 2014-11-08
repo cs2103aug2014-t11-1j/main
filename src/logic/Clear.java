@@ -1,3 +1,4 @@
+//@author A0111370Y
 package logic;
 
 import java.util.Iterator;
@@ -8,14 +9,12 @@ import com.util.MyLogger;
 
 /**
  * Logic for Clear command.
- * 
+ *
  * Clears the list depending on the input command.
  */
-
-//@author A0111370Y
 public class Clear extends CommandFactory {
 
-    private boolean isDone;
+    private boolean isDone_;
 
     //Constructor
     protected Clear(String input) {
@@ -31,7 +30,7 @@ public class Clear extends CommandFactory {
 
     @Override
     protected boolean isDone() {
-        return isDone;
+        return isDone_;
     }
 
     private void determineClear(String input) {
@@ -51,7 +50,7 @@ public class Clear extends CommandFactory {
 
     private void clearAll() {
         list.clear();
-        isDone = true;
+        isDone_ = true;
         setFeedbackSuccessClear();
     }
 
@@ -64,7 +63,7 @@ public class Clear extends CommandFactory {
             }
         }
         setPositionOfTasks();
-        isDone = true;
+        isDone_ = true;
         setFeedbackSuccessClearDone();
     }
 
@@ -77,7 +76,7 @@ public class Clear extends CommandFactory {
             }
         }
         setPositionOfTasks();
-        isDone = true;
+        isDone_ = true;
         setFeedbackSuccessClearUrgent();
     }
 
@@ -90,7 +89,7 @@ public class Clear extends CommandFactory {
             }
         }
         setPositionOfTasks();
-        isDone = true;
+        isDone_ = true;
         setFeedbackSuccessClearNormal();
     }
 

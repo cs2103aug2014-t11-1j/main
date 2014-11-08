@@ -68,9 +68,21 @@ public class CommandExecutorTest {
     public void testSetGuiFeedBack() {
         System.out.println("setGuiFeedBack");
         int feedBack = 0;
+
         CommandExecutor.setGuiFeedBack(feedBack);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(ex.getGuiFeedBack(), 0);
+
+        feedBack = 3;
+        CommandExecutor.setGuiFeedBack(feedBack);
+        assertEquals(ex.getGuiFeedBack(), 3);
+
+        feedBack = 10;
+        CommandExecutor.setGuiFeedBack(feedBack);
+        assertEquals(ex.getGuiFeedBack(), 0);
+
+        feedBack = -10;
+        CommandExecutor.setGuiFeedBack(feedBack);
+        assertEquals(ex.getGuiFeedBack(), 0);
     }
 
     /**
@@ -79,10 +91,10 @@ public class CommandExecutorTest {
     @Test
     public void testSetTaskList() {
         System.out.println("setTaskList");
-        ObservableList<ModelTask> taskList = null;
+        ObservableList<ModelTask> taskList = FXCollections.observableArrayList();
+
         CommandExecutor.setTaskList(taskList);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(ex.getAllList(), taskList);
     }
 
     /**
@@ -91,107 +103,10 @@ public class CommandExecutorTest {
     @Test
     public void testSetTempList() {
         System.out.println("setTempList");
-        ObservableList<ModelTask> searchList = null;
+        ObservableList<ModelTask> searchList = FXCollections.observableArrayList();
+
         CommandExecutor.setTempList(searchList);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getCommandWord method, of class CommandExecutor.
-     */
-    @Test
-    public void testGetCommandWord() {
-        System.out.println("getCommandWord");
-        CommandExecutor instance = null;
-        String expResult = "";
-        String result = instance.getCommandWord();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getActualCommandDescription method, of class CommandExecutor.
-     */
-    @Test
-    public void testGetActualCommandDescription() {
-        System.out.println("getActualCommandDescription");
-        CommandExecutor instance = null;
-        String expResult = "";
-        String result = instance.getActualCommandDescription();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getUserFeedBack method, of class CommandExecutor.
-     */
-    @Test
-    public void testGetUserFeedBack() {
-        System.out.println("getUserFeedBack");
-        CommandExecutor instance = null;
-        String expResult = "";
-        String result = instance.getUserFeedBack();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getGuiFeedBack method, of class CommandExecutor.
-     */
-    @Test
-    public void testGetGuiFeedBack() {
-        System.out.println("getGuiFeedBack");
-        CommandExecutor instance = null;
-        int expResult = 0;
-        int result = instance.getGuiFeedBack();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getAllList method, of class CommandExecutor.
-     */
-    @Test
-    public void testGetAllList() {
-        System.out.println("getAllList");
-        CommandExecutor instance = null;
-        ObservableList<ModelTask> expResult = null;
-        ObservableList<ModelTask> result = instance.getAllList();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getSearchedList method, of class CommandExecutor.
-     */
-    @Test
-    public void testGetSearchedList() {
-        System.out.println("getSearchedList");
-        CommandExecutor instance = null;
-        ObservableList<ModelTask> expResult = null;
-        ObservableList<ModelTask> result = instance.getSearchedList();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of executeCommand method, of class CommandExecutor.
-     */
-    @Test
-    public void testExecuteCommand() {
-        System.out.println("executeCommand");
-        String rawInput = "";
-        CommandExecutor instance = null;
-        instance.executeCommand(rawInput);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(ex.getSearchedList(), searchList);
     }
 
 }

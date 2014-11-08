@@ -39,7 +39,11 @@ public class CommandExecutor {
 	}
 
 	protected static void setGuiFeedBack(int feedBack) {
-		CommandExecutor.guiFeedBack = feedBack;
+                if(isGuiFeedbackValid(feedBack)) {
+                    CommandExecutor.guiFeedBack = feedBack;
+                } else {
+                    CommandExecutor.guiFeedBack = 0;
+                }
 	}
 
 	protected static void setTaskList(ObservableList<ModelTask> taskList) {
@@ -239,4 +243,12 @@ public class CommandExecutor {
 		}
 
 	}
+        //@author A0111370Y
+        protected static boolean isGuiFeedbackValid(int feedback){
+            if(feedback>=0 && feedback <=3){
+                return true;
+            } else {
+                return false;
+            }
+        }
 }

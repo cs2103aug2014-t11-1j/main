@@ -1,3 +1,4 @@
+//@author A0111370Y
 package logic;
 
 import com.ModelTask;
@@ -8,11 +9,9 @@ import com.ModelTask;
  * Searches for tasks containing input string and adds them to a list of search
  * results.
  */
-
-//@author A0111370Y
 public class Search extends CommandFactory {
 
-    private boolean isDone;
+    private boolean isDone_;
 
     protected Search(String input) {
         tempList.clear();
@@ -30,13 +29,13 @@ public class Search extends CommandFactory {
         } else {
             setFeedbackSuccess();
             setGuiFeedbackSwitchToTemp();
-            isDone = true;
+            isDone_ = true;
         }
     }
 
     @Override
     protected boolean isDone() {
-        return isDone;
+        return isDone_;
     }
 
     private void searchListForHits(String input) {
