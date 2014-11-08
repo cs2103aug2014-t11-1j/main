@@ -91,8 +91,8 @@ public class PhantomController {
 	private HelperListener helperListener_;
 	
 	//@author A0116211B
-	final KeyCombination keyCombShiftRight = KeyCodeCombination.valueOf("Shift+RIGHT");
-	final KeyCombination keyCombShiftLeft = KeyCodeCombination.valueOf("Shift+LEFT");
+	final KeyCombination keyCombShiftRight = KeyCodeCombination.valueOf("Ctrl+RIGHT");
+	final KeyCombination keyCombShiftLeft = KeyCodeCombination.valueOf("Ctrl+LEFT");
 
 	//@author A011601R
 	//constructor
