@@ -136,7 +136,7 @@ public class PhantomController {
 		}
 
 		if(guiFeedBack == FeedbackMessages.UPDATE_ALL_LIST){
-			setAllView(logicFacade_.getAllList());
+			setAllView();
 		}
 		if(guiFeedBack == FeedbackMessages.SWITCH_TO_TEMP){
 			switchToSearch(logicFacade_.getSearchedList());
@@ -252,7 +252,7 @@ public class PhantomController {
 			commandLine.clear();
 			
 			if (tableViewController.isSearched()) {
-				switchToAll();
+				setAllView();
 			}
 			
 			if (input.equalsIgnoreCase("showall")) {
@@ -327,12 +327,8 @@ public class PhantomController {
 		tableViewController.switchToSearch(list);
 	}
 
-	private void switchToAll() {
-		tableViewController.switchToAll();
-	}
-
-	private void setAllView(ObservableList<ModelTask> list) {
-		tableViewController.setAllView(list);
+	private void setAllView() {
+		tableViewController.setAllView(logicFacade_.getAllList());
 	}
 
 	private void changeCss(String cssFileName) {
