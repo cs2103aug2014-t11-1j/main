@@ -1,18 +1,13 @@
 package test;
-
-
-//@author A0110567L
-
-/**
- * @author Zhang Yongkai
- * this test case will test Action.java in the package logic. 
- * 
- */
-
 import static org.junit.Assert.assertEquals;
 import logic.Action;
 import logic.CommandType;
 import org.junit.Test;
+
+//@author A0110567L
+/**
+* this test case will test Action.java in the package logic. 
+*/
 
 public class TestLogicAction {
 

@@ -1,9 +1,7 @@
 package logic;
-
+//@author A0110567L
 /**
- * @author Zhang Yongkai
  * this class declares the CommandType which can be used by other classes
- * 
  */
 
 public enum CommandType {
