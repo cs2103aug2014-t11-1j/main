@@ -6,6 +6,7 @@ package parser;
  * 
  * * Author: smallson
  */
+//@author A0116211B
 
 public class DateStandardizer {
 	
@@ -14,11 +15,13 @@ public class DateStandardizer {
 	 */
 	private final String STRING_SPACE = " ";
 	
-
+	/**
+	 * Format types
+	 */
 	private static enum FormatType {
 		DD, SD, DFS, MFS, NDD, DDF, DDN, INVALID
 		};
-	
+		
 	private static final String FORMAT_DICTIONARY_DAY = "DD";
 	private static final String FORMAT_SLASH_DATE = "SD";
 	private static final String FORMAT_DAY_FIRST_STRING = "DFS";
@@ -67,12 +70,10 @@ public class DateStandardizer {
 			date = df.convertDDNformat(date);
 			break;
 		case INVALID :
-			System.out.print("Error");
 			break;
 		default :
-			throw new Error("TELL USER TO MAKE A SANDWICH FOR ME");
-		}
-		
+			assert true;
+		}	
 		
 		return date;
 	}

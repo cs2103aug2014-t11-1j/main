@@ -9,17 +9,17 @@ import com.TentativeTask;
  * 
  * * Author: smallson
  */
-
+//@author A0116211B
 
 public class ParserFacade {
 	
-	private static ParserFacade pf = new ParserFacade();
+	private static ParserFacade pf_ = new ParserFacade();
 	
 	private ParserFacade(){		
 	}
 	
 	public static ParserFacade getInstance() {
-		return pf;
+		return pf_;
 	}
 
 	public Task getTask(String input){

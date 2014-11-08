@@ -1,5 +1,13 @@
 package parser;
 
+/**
+ * This class is used to standardize
+ * the time format input by the user.
+ * 
+ * * Author: smallson
+ */
+//@author A0116211B
+
 public class TimeStandardizer {
 
 	/**

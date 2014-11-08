@@ -8,13 +8,13 @@ package parser;
  * 
  * * Author: smallson
  */
-
+//@author A0116211B
 
 public class MonthParser {
 	
-	private static final String[] DICTIONARY_MONTHS = {"janurary","feburary","march","april","may","june","july","august","september","october","november","december",
-		"jan","feb","mar","apr","jun","jul","aug","sept","sep","oct","nov","dec"};
-
+	/**
+	 * Dictionary of months
+	 */
 	private static final String[] DICTIONARY_JANURARY = { "JANURARY", "JAN" };
 	private static final String[] DICTIONARY_FEBURARY = { "FEBURARY", "FEB" };
 	private static final String[] DICTIONARY_MARCH = { "MARCH", "MAR" };
@@ -28,6 +28,9 @@ public class MonthParser {
 	private static final String[] DICTIONARY_NOVEMBER = { "NOVEMBER", "NOV" };
 	private static final String[] DICTIONARY_DECEMBER = { "DECEMBER", "DEC" };
 	
+	/**
+	 * Numerical representation
+	 */
 	private static final int NUM_JAN = 0;
 	private static final int NUM_FEB = 1;
 	private static final int NUM_MAR = 2;

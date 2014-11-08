@@ -8,7 +8,7 @@ package parser;
  * * Author: smallson
  */
 
-
+//@author A0116211B
 public class CommandRetriever {
 	
 	/**
@@ -16,6 +16,14 @@ public class CommandRetriever {
 	 */
 	private final String STRING_SPACE = " ";
 	
+	/**
+	 * Message constants
+	 */
+	private final String MESSAGE_INVALID_COMMAND = "Invalid command";
+	
+	/**
+	 * Regex strings
+	 */
 	private final String ALPHANUM_REGEX = "^[a-zA-Z0-9|!]+$";
 
 	private static CommandRetriever cr = new CommandRetriever();
@@ -29,12 +37,12 @@ public class CommandRetriever {
 
 	protected String getCommandString(String input){
 		if(input == null){
-			return "Invalid command";
+			return MESSAGE_INVALID_COMMAND;
 		}
 		input = input.trim();
 		
 		if(!input.split(STRING_SPACE)[0].matches(ALPHANUM_REGEX)){
-			return "Invalid command";
+			return MESSAGE_INVALID_COMMAND;
 		}
 		
 		return input.split(STRING_SPACE)[0];
