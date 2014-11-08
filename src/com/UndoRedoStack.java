@@ -1,12 +1,11 @@
+//@author A0111370Y
+
 package com;
 
 import java.util.Stack;
 import javafx.collections.ObservableList;
 
-/**
- *
- * @author Jireh
- */
+
 public class UndoRedoStack {
 
     private Stack<ObservableList<ModelTask>> stack;

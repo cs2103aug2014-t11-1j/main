@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Jireh and Krystal
+ * @author Krystal
  */
 public class TentativeTask {
 
