@@ -1,0 +1,3065 @@
+//@author: a0116018r
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\com\EventAndDone.java
+	 */
+
+ * 
+ *	This class wraps a String event and a boolean isDone.
+ *	For use in ModelTask.
+ */
+public class EventAndDone {
+	
+	private String event;
+	private boolean isDone;
+	
+	public EventAndDone(String event, boolean isDone){
+		this.event = event;
+		this.isDone = isDone;
+	}
+	
+	public void setEvent(String event){
+		this.event = event;
+	}
+	
+	public void setIsDone(boolean isDone){
+		this.isDone = isDone;
+	}
+	
+	public String getEvent(){
+		return event;
+	}
+	
+	public boolean getIsDone(){
+		return isDone;
+	}
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\com\EventAndDone.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\com\ModelTask.java
+	 */
+
+ * 
+ * This class is used by GUI to store information about a task.
+ * This class may be extended for other kinds of tasks.
+ */
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+public class ModelTask {
+	//variables are package-private for sub-classes to access these variables
+	
+	//date formatters for all tasks
+	final static SimpleDateFormat STANDARD_FORMATTER = new SimpleDateFormat("dd/MM/yyyy");
+	final static SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("EEE, MMM d");
+	final static SimpleDateFormat START_DATE_ONE_MONTH_FORMATTER = new SimpleDateFormat("d ");
+	final static SimpleDateFormat START_DATE_TWO_MONTH_FORMATTER = new SimpleDateFormat("d MMM");
+	final static SimpleDateFormat END_DATE_FORMATTER = new SimpleDateFormat("- d MMM");
+	final static SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("HH:mm");
+	
+	final static boolean IS_TENTATIVE = false;
+
+	StringProperty event_;
+	StringProperty dateStringProperty_;
+	StringProperty timeStringProperty_;
+	StringProperty positionStringProperty_;
+	BooleanProperty isDoneBooleanProperty_;
+	BooleanProperty isUrgentBooleanProperty_;
+
+	ObjectProperty<EventAndDone> eventAndDoneProperty_;
+
+	Date startDate_, endDate_, startTime_, endTime_, deadLine_;
+	String startDateString_, endDateString_, startTimeString_,
+	endTimeString_, deadLineString_;
+	int position_;
+	boolean isDone_, isUrgent_;
+
+	EventAndDone eventAndDone_;
+
+	// constructors
+	/**
+	 * This constructs an empty modeltask.
+	 * Various fields can be filled in later.
+	 */
+	public ModelTask() {
+		this.event_ = new SimpleStringProperty();
+		this.dateStringProperty_ = new SimpleStringProperty();
+		this.timeStringProperty_ = new SimpleStringProperty();
+		this.positionStringProperty_ = new SimpleStringProperty();
+		this.isDoneBooleanProperty_ = new SimpleBooleanProperty();
+		this.isUrgentBooleanProperty_ = new SimpleBooleanProperty();
+		this.eventAndDoneProperty_ = new SimpleObjectProperty<EventAndDone>();
+	}
+	
+	/**
+	 * This constructs a ModelTask with the various parameters in one go.
+	 * @param event
+	 * @param startDate
+	 * @param endDate
+	 * @param startTime
+	 * @param endTime
+	 * @param position
+	 * @param isDone
+	 * @param isUrgent
+	 */
+	public ModelTask(String event, Date startDate, Date endDate,
+			Date startTime, Date endTime, int position, boolean isDone, boolean isUrgent) {
+
+		this.event_ = new SimpleStringProperty(event);
+		this.dateStringProperty_ = new SimpleStringProperty();
+		this.timeStringProperty_ = new SimpleStringProperty();
+		this.positionStringProperty_ = new SimpleStringProperty();
+		this.isDoneBooleanProperty_ = new SimpleBooleanProperty();
+		this.isUrgentBooleanProperty_ = new SimpleBooleanProperty();
+		this.eventAndDoneProperty_ = new SimpleObjectProperty<EventAndDone>();
+
+		this.eventAndDone_ = new EventAndDone(event, isDone);
+
+		setEvent(event);
+		setDate(startDate, endDate);
+		setTime(startTime, endTime);
+		setStartDateString(startDate);
+		setEndDateString(endDate);
+		setStartTimeString(startTime);
+		setEndTimeString(endTime);
+		setPosition(position);
+		setDeadLineString(deadLine_);
+		setIsDone(isDone);
+		setIsUrgent(isUrgent);
+	}
+
+	//method to return a copy of a modelTask
+	/**
+	 * This returns a new ModelTask that has the
+	 * exact same attributes of the current ModelTask.
+	 * @return ModelTask
+	 */
+	public ModelTask copyTask(){
+
+		ModelTask temp = new ModelTask();
+
+		temp.setEvent(getEvent());           
+		temp.setDate(startDate_, endDate_);
+		temp.setTime(startTime_, endTime_);
+		temp.setStartDateString(startDate_);
+		temp.setEndDateString(endDate_);
+		temp.setStartTimeString(startTime_);
+		temp.setEndTimeString(endTime_);
+		temp.setPosition(position_);
+		temp.setDeadLineString(deadLine_);
+		temp.setIsDone(isDone_);
+		temp.setIsUrgent(isUrgent_);
+		
+		return temp;
+	}
+
+	// mutators
+	public void setEvent(String event) {
+		this.event_.set(event);
+		this.eventAndDone_ = new EventAndDone(event, isDone_);
+		eventAndDoneProperty_.setValue(eventAndDone_);
+	}
+
+	public void setPosition(int position) {
+		this.position_ = position;
+		positionStringProperty_.set(String.valueOf(position));
+	}
+
+	public void setIsDone(boolean isDone) {
+		this.isDone_ = isDone;
+		isDoneBooleanProperty_.set(isDone);
+		this.eventAndDone_ = new EventAndDone(eventAndDone_.getEvent(), isDone);
+		eventAndDoneProperty_.set(eventAndDone_);
+	}
+
+	public void setIsUrgent(boolean isUrgent){
+		this.isUrgent_ = isUrgent;
+		isUrgentBooleanProperty_.set(isUrgent);
+	}
+
+	public void setStartDateString(Date startDate) {
+		if (startDate != null) {
+			startDateString_ = STANDARD_FORMATTER.format(startDate);
+		} else {
+			startDateString_ = null;
+		}
+	}
+
+	private void setDeadLineString(Date deadLine) {
+		if (deadLine != null) {
+			deadLineString_ = STANDARD_FORMATTER.format(deadLine);
+		} else {
+			deadLineString_ = null;
+		}
+	}
+
+	public void setEndDateString(Date endDate) {
+		if (endDate != null) {
+			endDateString_ = STANDARD_FORMATTER.format(endDate);
+		} else {
+			endDateString_ = null;
+		}
+	}
+
+	public void setStartTimeString(Date startTime) {
+		if (startTime != null) {
+			startTimeString_ = TIME_FORMATTER.format(startTime);
+		} else {
+			startTimeString_ = null;
+		}
+	}
+
+	public void setEndTimeString(Date endTime) {
+		if (endTime != null) {
+			endTimeString_ = TIME_FORMATTER.format(endTime);
+		} else {
+			endTimeString_ = null;
+		}
+	}
+	
+	/**
+	 * This sets the start and end dates.
+	 * Either or both fields maybe null
+	 * depending on whether the task has those date attributes.
+	 * @param startDate
+	 * @param endDate
+	 */
+	public void setDate(Date startDate, Date endDate) {
+		this.startDate_ = startDate;
+		this.endDate_ = endDate;
+		SimpleDateFormat startDateFormatter;
+
+		// setting deadline
+		if (endDate != null) {
+			this.deadLine_ = endDate;
+		} else if (startDate != null) {
+			this.deadLine_ = startDate;
+		} else {
+			this.deadLine_ = null;
+		}
+
+		if (startDate != null && endDate != null) {
+			if (!isSameMonth(startDate, endDate)) {
+				startDateFormatter = START_DATE_TWO_MONTH_FORMATTER;
+			}
+			else{
+				startDateFormatter = START_DATE_ONE_MONTH_FORMATTER;
+			}
+			String startDateString = startDateFormatter.format(startDate);
+			String endDateString = END_DATE_FORMATTER.format(endDate);
+			this.dateStringProperty_.set(startDateString + endDateString);
+
+		} else if (startDate == null && endDate == null) {
+			this.dateStringProperty_.set("");
+		} else if (startDate != null) {
+			String dateString = DATE_FORMATTER.format(startDate);
+			this.dateStringProperty_.set(dateString);
+		} else if (endDate != null) {
+			String dateString = DATE_FORMATTER.format(endDate);
+			this.dateStringProperty_.set(dateString);
+		} else {
+			this.dateStringProperty_.set("");
+		}
+
+	}
+
+	private boolean isSameMonth(Date startDate, Date endDate) {
+		Calendar cal = Calendar.getInstance();
+		int month1;
+		int month2;
+
+		cal.setTime(startDate);
+		month1 = cal.get(Calendar.MONTH);
+		cal.setTime(endDate);
+		month2 = cal.get(Calendar.MONTH);
+
+		return month1 == month2;
+	}
+	
+	/**
+	 * This sets the timings. 
+	 * Either one or both may be null
+	 * if the task does not have these attributes.
+	 * @param startTime
+	 * @param endTime
+	 */
+	public void setTime(Date startTime, Date endTime) {
+		this.startTime_ = startTime;
+		this.endTime_ = endTime;
+
+		if (startTime != null && endTime != null) {
+			String startTimeString = TIME_FORMATTER.format(startTime);
+			String endTimeString = TIME_FORMATTER.format(endTime);
+			this.timeStringProperty_
+			.set(startTimeString + " - " + endTimeString);
+		} else if (startTime == null && endTime == null) {
+			this.timeStringProperty_.set("");
+		} else if (startTime != null) {
+			String timeString = TIME_FORMATTER.format(startTime);
+			this.timeStringProperty_.set(timeString);
+		} else if (endTime != null) {
+			String timeString = TIME_FORMATTER.format(endTime);
+			this.timeStringProperty_.set(timeString);
+		} else {
+			this.timeStringProperty_.set("");
+		}
+
+	}
+
+	// accessors
+	public String getStartDateString() {
+		return startDateString_;
+	}
+
+	public String getEndDateString() {
+		return endDateString_;
+	}
+
+	public String getStartTimeString() {
+		return startTimeString_;
+	}
+
+	public String getEndTimeString() {
+		return endTimeString_;
+	}
+
+	public String getDeadLineString() {
+		return deadLineString_;
+	}
+
+	public Date getStartDate() {
+		return startDate_;
+	}
+
+	public Date getEndDate() {
+		return endDate_;
+	}
+
+	public Date getStartTime() {
+		return startTime_;
+	}
+
+	public Date getEndTime() {
+		return endTime_;
+	}
+
+	public Date getDeadLine() {
+		return deadLine_;
+	}
+
+	public String getEvent() {
+		return event_.get();
+	}
+
+	public int getPosition() {
+		return position_;
+	}
+
+	public boolean isDone() {
+		return isDone_;
+	}
+
+	public boolean isUrgent(){
+		return isUrgent_;
+	}
+
+	public boolean isTentative(){
+		return IS_TENTATIVE;
+	}
+	
+	public StringProperty getDateStringProperty() {
+		return dateStringProperty_;
+	}
+
+	public StringProperty getTimeStringProperty() {
+		return timeStringProperty_;
+	}
+
+	public StringProperty getEventProperty() {
+		return event_;
+	}
+
+	public StringProperty getPositionStringProperty() {
+		return positionStringProperty_;
+	}
+
+	public BooleanProperty getisDoneBooleanProperty(){
+		return isDoneBooleanProperty_;
+	}
+
+	public BooleanProperty getIsUrgentBooleanProperty(){
+		return isUrgentBooleanProperty_;
+	}
+
+	public ObjectProperty<EventAndDone> getEventAndDoneProperty(){
+		return eventAndDoneProperty_;
+	}
+
+	
+	/**
+	 * this returns a string representation of a ModelTask for saving to text file
+	 * format is: event;startdate;enddate;starttime;endtime;isDone;isUrgent
+	 */
+	public String toString() {
+
+		String event = getEvent();
+		String startDate = getStartDateString();
+		String endDate = getEndDateString();
+		String startTime = getStartTimeString();
+		String endTime = getEndTimeString();
+		String deadLine = getDeadLineString();
+		boolean isDone = isDone();
+        boolean isUrgent = isUrgent();
+		
+		
+		String saveString =event + ";" + startDate + ";" + endDate + ";" 
+		+ startTime + ";" +endTime + ";" + deadLine +";" + isDone+ ";" + isUrgent;
+		return saveString;
+	}
+
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\com\ModelTask.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\com\ModelTentativeTask.java
+	 */
+
+ * Unused: not fully developed
+ * 
+ * This class extends ModelTask and includes tentative dates.
+ * Ths class stores tentative dates for the GUI.
+ */
+import java.util.ArrayList;
+
+import javafx.scene.control.TreeItem;
+
+public class ModelTentativeTask extends ModelTask{
+	
+    private static final String TENTATIVE = "Tentative";
+
+	final static boolean IS_TENTATIVE = true;
+
+	private ArrayList<String> dates_;
+	private ArrayList<TimePeriod> blockedTimePeriods_;
+	    
+    private TreeItem<TentativeNode> node_;
+	
+	public ModelTentativeTask(String event, int position){
+		super(event, null, null, null, null, position, false, false);
+		dateStringProperty_.set(TENTATIVE);
+		timeStringProperty_.set(TENTATIVE);
+		
+		dates_ = new ArrayList<String>();
+		blockedTimePeriods_ = new ArrayList<TimePeriod>();
+		
+		node_ = new TreeItem<TentativeNode>(new TentativeNode(event, String.valueOf(position)));
+        node_.setExpanded(true);
+	}
+	
+	@Override
+	public ModelTask copyTask(){
+		ModelTentativeTask temp = new ModelTentativeTask(getEvent(), position_);
+		temp.setBlockedTimePeriods(blockedTimePeriods_);
+		return temp;
+	}
+	
+	//mutators
+	@Override
+	public void setEvent(String event){
+		super.setEvent(event);
+		node_.getValue().setPosition(event);
+	}
+	
+	@Override 
+	public void setPosition(int position){
+		super.setPosition(position);
+		node_.getValue().setPosition(String.valueOf(position));
+	}
+	
+	public void addDate(String date){
+		dates_.add(date);
+		setChild(date);
+	}
+	
+	public void setDates(ArrayList<String> dates){
+		this.dates_ = dates;
+		setChildren();
+	}
+	
+	public void setBlockedTimePeriods(ArrayList<TimePeriod> timePeriods){
+		blockedTimePeriods_ = timePeriods;
+	}
+	
+	//accessors
+	public ArrayList<String> getDates(){
+		return dates_;
+	}
+	
+	public ArrayList<TimePeriod> getBlockedTimePeriods(){
+		return blockedTimePeriods_;
+	}
+	
+	public TreeItem<TentativeNode> getNode(){
+		return node_;
+	}
+	
+	//private methods
+	private void setChildren(){
+		for(String date : dates_){
+			setChild(date);
+		}
+	}
+	
+	private void setChild(String date){
+		TreeItem<TentativeNode> leaf = new TreeItem<TentativeNode>(new TentativeNode(date, null));
+		node_.getChildren().add(leaf);
+		node_.setExpanded(true);
+	}
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\com\ModelTentativeTask.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\com\TaskConverter.java
+	 */
+
+ * 
+ * This class will take in a Task and position
+ * and return a ModelTask
+ */
+
+public class TaskConverter {
+	
+	private static TaskConverter TASK_CONVERTER = new TaskConverter();
+	private static final SimpleDateFormat DATE_GETTER = new SimpleDateFormat("dd/MM/yyyy");
+	
+	private final static int START_DATE = 1;
+	private final static int DEADLINE_DATE = 2;
+	private final static int END_DATE = 3;
+	private final static int NO_DATE = 4;
+	
+	private final static int NO_NULL_DATE_INPUTS = 1;
+	private final static int END_DATE_INPUT_NULL = 2;
+//	private final static int BOTH_NULL = 3;
+	
+	private final static int NO_NULL_TIME_INPUTS = 0;
+	private final static int END_TIME_INPUT_NULL = 1;
+//	private final static int BOTH_TIME_INPUT_NULL = 2;
+	
+	private final static int START_TIME = 1;
+	private final static int END_TIME = 2;
+	private final static int NO_TIME = 3;
+	
+	private TaskConverter(){
+	}
+	
+	public static TaskConverter getInstance(){
+		return TASK_CONVERTER;
+	}
+	
+	public ModelTask convert(Task task, int position){
+		Date startDate = null;
+		Date endDate = null;
+		Date startTime = null;
+		Date endTime = null;
+
+		int numOfNullDateInputs = numOfDateNull(task);
+		
+		if(numOfNullDateInputs == NO_NULL_DATE_INPUTS || numOfNullDateInputs == END_DATE_INPUT_NULL){
+			int whichStartDate = findStartDate(task);
+			startDate = getDate(task, whichStartDate);
+			
+			if(numOfNullDateInputs == NO_NULL_DATE_INPUTS){
+				int whichEndDate = findEndDate(task);
+				endDate = getDate(task, whichEndDate);
+			}
+		}
+		else{
+			//numOfNull == BOTH_NULL
+			//error if numOfNull == 0
+		}
+		
+		int numOfNullTimeInputs = numOfTimeNull(task);
+
+		
+		if(numOfNullTimeInputs == NO_NULL_TIME_INPUTS || numOfNullTimeInputs == END_TIME_INPUT_NULL){
+			int whichStartTime = findStartTime(task);
+			startTime = getTime(task, startDate, whichStartTime);
+			
+			if(numOfNullTimeInputs == NO_NULL_TIME_INPUTS && numOfNullDateInputs == NO_NULL_DATE_INPUTS){
+				int whichEndTime = findEndTime(task);
+				endTime = getTime(task, endDate, whichEndTime);
+			}
+			else if(numOfNullTimeInputs == NO_NULL_TIME_INPUTS && numOfNullDateInputs == END_DATE_INPUT_NULL){
+				int whichEndTime = findEndTime(task);
+				endTime = getTime(task, startDate, whichEndTime);
+			}
+		}
+		
+		ModelTask modelTask = new ModelTask(task.getTaskDescription(), startDate, endDate, startTime, endTime, position, task.isDone(), task.isUrgent());
+		return modelTask;
+	}
+	
+	private int findEndTime(Task task) {
+		if(task.getEndTime() != null){
+			return END_TIME;
+		}
+		else if(task.getStartTime() != null){
+			return START_TIME;
+		}
+		else{
+			return NO_TIME;
+		}
+	}
+
+	private Date getTime(Task task, Date date, int whichTime) {
+		if(date == null){
+			System.out.println("getTime, startDate is null");
+		}
+		String time;
+		Calendar cal = Calendar.getInstance();
+		
+		if(whichTime == START_TIME){
+		
+			time = task.getStartTime();
+		
+		}
+		else if(whichTime == END_TIME){
+			time = task.getEndTime();
+		}
+		else{
+			//NO_TIME
+			System.out.println("getTime: whichTime is not start or end");
+			return null;
+		}
+		
+		cal.setTime(date);
+		int hour;
+		int min;
+		
+		if(time.contains(":")){
+			hour = Integer.parseInt(time.substring(0, time.indexOf(':')));
+			min = Integer.parseInt(time.substring(time.indexOf(':') + 1));
+		}else{
+			int temp;
+			temp = Integer.parseInt(time);
+			hour = temp/100;
+			min = temp%100;
+			
+		}
+		
+		cal.set(Calendar.HOUR_OF_DAY, hour);
+		cal.set(Calendar.MINUTE, min);
+		return cal.getTime();
+	}
+
+	private int numOfDateNull(Task task){
+		int num = 0;
+		if(task.getStartDate() == null){
+			num++;
+		}
+		if(task.getDeadLine() == null){
+			num++;
+		}
+		if(task.getEndDate() == null){
+			num++;
+		}
+		
+		return num;
+	}
+	
+	private int findStartDate(Task task){
+		if(task.getStartDate() != null){
+			return START_DATE;
+		}
+		else if(task.getDeadLine() != null){
+			return DEADLINE_DATE;
+		}
+		else if(task.getEndDate() != null){
+			return END_DATE;
+		}
+		else{
+			return NO_DATE;
+		}
+	}
+	
+	private int findEndDate(Task task){
+		if(task.getEndDate() != null){
+			return END_DATE;
+		}
+		else if(task.getDeadLine() != null){
+			return DEADLINE_DATE;
+		}
+		else if(task.getStartDate() != null){
+			return START_DATE;
+		}
+		else{
+			return NO_DATE;
+		}
+	}
+	
+	private Date getDate(Task task, int whichDate){
+		if(whichDate == START_DATE){
+			return DATE_GETTER.parse(task.getStartDate(), new ParsePosition(0));
+		}
+		else if(whichDate == DEADLINE_DATE){
+			return DATE_GETTER.parse(task.getDeadLine(), new ParsePosition(0));
+		}
+		else if(whichDate == END_DATE){
+			return DATE_GETTER.parse(task.getEndDate(), new ParsePosition(0));
+		}
+		else{
+			//whichDate == NO_DATE
+			return null;
+		}
+	}
+	
+	private int numOfTimeNull(Task task){
+		int num = 0;
+		
+		if(task.getStartTime() == null){
+			num++;
+		}
+		if(task.getEndTime() == null){
+			num++;
+		}
+		return num;
+	}
+	
+	private int findStartTime(Task task){
+		if(task.getStartTime() != null){
+			return START_TIME;
+		}
+		else if(task.getEndTime() != null){
+			return END_TIME;
+		}
+		else{
+			return NO_TIME;
+		}
+	}
+	
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\com\TaskConverter.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\com\TimePeriod.java
+	 */
+
+ * This class stores a time period set using String.
+ * Date string format is dd/mm/yyyy.
+ * Time string format is hhmm, 24 hour clock.
+ * 
+ * Start and end dates and times can be accessed through String
+ * or Date form. 
+ * 
+ * There must be a start date, start time and end time in every timePeriod.
+ * 
+ * Supports the toString method.
+ */
+public class TimePeriod {
+
+	private static final SimpleDateFormat dateGetter = new SimpleDateFormat("dd/MM/yyyy");
+	private static final SimpleDateFormat timeGetter = new SimpleDateFormat("hhmm");
+	private static final SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("EEE, MMM d hh:mm");
+	private static final SimpleDateFormat timeOnlyFormatter = new SimpleDateFormat("hh:mm");
+
+	private String startDateString, endDateString, startTimeString, endTimeString;
+	private Date startDate, endDate;
+
+
+	//constructors
+	public TimePeriod() {
+		startDateString = endDateString = startTimeString = endTimeString = null;
+		startDate = endDate = null;
+	}
+
+	public TimePeriod(String startDate, String endDate, String startTime, String endTime) {
+		this.startDateString = startDate;
+		this.endDateString = endDate;
+		this.startTimeString = startTime;
+		this.endTimeString = endTime;
+		
+		startDate = endDate = null;
+		
+		convertStartDate();
+		convertEndDate();
+	}
+
+	//mutators
+	public void setStartDateString(String startDate) {
+		this.startDateString = startDate;
+		convertStartDate();
+	}
+
+	public void setEndDateString(String endDate) {
+		this.endDateString = endDate;
+		convertEndDate();
+	}
+
+	public void setStartTimeString(String startTime) {
+		this.startTimeString = startTime;
+		convertStartDate();
+	}
+
+	public void setEndTimeString(String endTime) {
+		this.endTimeString = endTime;
+		convertEndDate();
+	}
+
+	//accessors
+	public String getStartDateString() {
+		return startDateString;
+	}
+
+	public String getEndDateString() {
+		return endDateString;
+	}
+
+	public String getStartTimeString() {
+		return startTimeString;
+	}
+
+	public String getEndTimeString() {
+		return endTimeString;
+	}
+
+	public Date getStartDate(){
+		return startDate;
+	}
+
+	public Date getEndDate(){
+		return endDate;
+	}
+
+	@Override
+	public String toString() {
+		String returnString;
+		
+		if(endDateString != null || !endDateString.equals("")){
+			returnString = dateTimeFormatter.format(startDate) + " - " + dateTimeFormatter.format(endDate);
+		}else{
+			returnString = dateTimeFormatter.format(startDate) + " - " + timeOnlyFormatter.format(endDate);
+		}
+		
+		return returnString;
+	}
+
+	private void convertStartDate(){
+		Calendar startDateCal = Calendar.getInstance();
+
+		if(startDateString != null || !startDateString.equals("")){
+			startDateCal.setTime(dateGetter.parse(startDateString, new ParsePosition(0)));
+		}
+
+		if(startTimeString != null || !startTimeString.equals("")){
+			Date temp = timeGetter.parse(startTimeString, new ParsePosition(0));
+			Calendar startTimeCal = Calendar.getInstance();
+			startTimeCal.setTime(temp);
+			startDateCal.set(Calendar.HOUR_OF_DAY, startTimeCal.get(Calendar.HOUR_OF_DAY));
+			startDateCal.set(Calendar.MINUTE, startTimeCal.get(Calendar.MINUTE));
+		}
+
+		startDate = startDateCal.getTime();
+	}
+
+	private void convertEndDate(){
+		Calendar endDateCal = Calendar.getInstance();
+
+		if(endDateString != null || !endDateString.equals("")){
+			endDateCal.setTime(dateGetter.parse(endDateString, new ParsePosition(0)));
+		}else if(startDateString != null || !startDateString.equals("")){
+			endDateCal.setTime(dateGetter.parse(startDateString, new ParsePosition(0)));
+		}
+
+		if(endTimeString != null || !endTimeString.equals("")){
+			Date temp = timeGetter.parse(endTimeString, new ParsePosition(0));
+			Calendar endTimeCal = Calendar.getInstance();
+			endTimeCal.setTime(temp);
+			endDateCal.set(Calendar.HOUR_OF_DAY, endTimeCal.get(Calendar.HOUR_OF_DAY));
+			endDateCal.set(Calendar.MINUTE, endTimeCal.get(Calendar.MINUTE));
+		}
+
+		endDate = endDateCal.getTime();
+	}
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\com\TimePeriod.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\DateStringComparator.java
+	 */
+
+ */
+
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.regex.Pattern;
+
+public class DateStringComparator implements Comparator<String>{
+
+	private static final SimpleDateFormat ONE_DATE_GETTER = new SimpleDateFormat("EEE, MMM d");
+	private static final SimpleDateFormat TWO_DATE_GETTER = new SimpleDateFormat("d MMM");
+	private static final Pattern ONE_MONTH_PATTERN = Pattern.compile("\\d{1,2}\\p{Blank}-\\p{Blank}\\d{1,2}\\p{Blank}\\w*");
+
+	@Override
+	public int compare(String str1, String str2) {
+		Date date1; 
+		Date date2;
+		
+		//if one or more of the inputs are null
+		if(str1.equals("") && !str2.equals("")){
+			return -1;
+		}
+		else if(!str1.equals("") && str2.equals("")){
+			return 1;
+		}
+		else if(str1.equals("") && str2.equals("")){
+			return 0;
+		}
+		
+		System.out.println("checking: " + str1);
+		if(isTwoDates(str1)){
+			if(isOneMonth(str1)){
+				str1 = cutOutOneMonthDate(str1);
+			}
+			else{
+				str1 = cutOutTwoMonthDate(str1);
+			}
+			date1 = TWO_DATE_GETTER.parse(str1, new ParsePosition(0));
+		}
+		else{
+			System.out.println("one date");
+			date1 = ONE_DATE_GETTER.parse(str1, new ParsePosition(0));
+		}
+		
+		if(isTwoDates(str2)){
+			if(isOneMonth(str2)){
+				str2 = cutOutOneMonthDate(str2);
+			}
+			else{
+				str2 = cutOutTwoMonthDate(str2);
+			}
+			date2 = TWO_DATE_GETTER.parse(str2, new ParsePosition(0));
+		}
+		else{
+			date2 = ONE_DATE_GETTER.parse(str2, new ParsePosition(0));
+		}
+		
+		//compare the parsed dates
+		if(date1.compareTo(date2) < 0){
+			return -1;
+		}
+		else if(date1.compareTo(date2) == 0){
+			return 0;
+		}
+		else{
+			return 1;
+		}
+	}
+
+	private boolean isTwoDates(String str) {
+		return str.contains("-");
+	}
+
+	//d - d MMM
+	private boolean isOneMonth(String str) {
+		return ONE_MONTH_PATTERN.matcher(str).matches();
+	}
+
+	//d - d MMM
+	private String cutOutOneMonthDate(String str) {
+		String day = str.substring(0, str.indexOf('-'));
+		str = str.substring(str.indexOf(' ') + 1);
+		str = str.substring(str.indexOf(' ') + 1);
+		String month = str.substring(str.indexOf(' ') + 1);
+		return day + month;
+	}
+	
+	//d MMM - d MMM
+	private String cutOutTwoMonthDate(String str) {
+		str = str.substring(0, str.indexOf('-') -1);
+		return str;
+	}
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\DateStringComparator.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\LogicFacadeDummy.java
+	 */
+
+ */
+import java.util.Date;
+
+import com.ModelTask;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+public class LogicFacadeDummy {
+
+	private ObservableList<ModelTask> taskList_;
+	private ObservableList<ModelTask> searchedList_;
+	
+	public LogicFacadeDummy(){
+		taskList_ = FXCollections.observableArrayList();
+		searchedList_ = FXCollections.observableArrayList();
+	}
+	
+	public ObservableList<ModelTask> getAllList(){
+		taskList_.add(new ModelTask("task", new Date(), null, new Date(), null, 1, true, true));
+		return taskList_;
+	}
+	
+	public void getFeedback(String input){
+		System.out.println("logic received input: " + input);
+	}
+
+	public String getFeedBack(String input) {
+		return "USER FEEDBACK";
+	}
+
+	public ObservableList<ModelTask> getSearchedList() {
+		searchedList_.add(new ModelTask("task", new Date(), null, new Date(), null, 1, true, true));
+		return searchedList_;
+	}
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\LogicFacadeDummy.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\ModelTaskStartDateComparator.java
+	 */
+
+ * 
+ * This is a comparator for modelTask.
+ * It compares based on startDates.
+ */
+import java.util.Comparator;
+import java.util.Date;
+
+import com.ModelTask;
+
+public class ModelTaskStartDateComparator implements
+		Comparator<ModelTask> {
+
+	@Override
+	public int compare(ModelTask task1, ModelTask task2) {
+		Date startDate1 = task1.getStartDate();
+		Date startDate2 = task2.getStartDate();
+		
+		if(startDate1 == null && startDate2 != null){
+			return -1;
+		}
+		else if(startDate2 == null && startDate1 != null){
+			return 1;
+		}
+		else if(startDate2 == null && startDate1 == null){
+			return 0;
+		}
+		else{
+			return startDate1.compareTo(startDate2);
+		}
+	}
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\ModelTaskStartDateComparator.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\NumStringComparator.java
+	 */
+
+ */
+import java.util.Comparator;
+
+public class NumStringComparator implements Comparator<String>{
+	
+	@Override
+	/* From java.util.Comparator:
+	 * Compares its two arguments for order. 
+	 * Returns a negative integer, zero, or a positive integer as the first argument 
+	 * is less than, equal to, or greater than the second.
+	 * (non-Javadoc)
+	 */
+	public int compare(String str1, String str2) {
+		int num1 = Integer.parseInt(str1);
+		int num2 = Integer.parseInt(str2);
+		
+		if(num1 < num2){
+			return -1;
+		}
+		else if (num1 == num2){
+			return 0;
+		}
+		else{
+			return 1;
+		}
+	}
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\NumStringComparator.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\testTentativeTask.java
+	 */
+
+ * This is a dummy class for testing the tentativeView.
+ */
+import java.util.ArrayList;
+
+import com.TentativeNode;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.scene.control.TreeItem;
+
+public class testTentativeTask {
+	private String event_;
+	private int position_;
+	
+	private ArrayList<String> dates_;
+	
+	private TreeItem<TentativeNode> node_;
+	
+	public testTentativeTask(String event, String date1, String date2, int position){
+		dates_ = new ArrayList<String>();
+		node_ = new TreeItem<TentativeNode>(new TentativeNode(event, String.valueOf(position)));
+		node_.setExpanded(true);
+		setEvent(event);
+		setPosition(position);
+		dates_.add(date1);
+		dates_.add(date2);
+		setChildren();
+	}
+
+	public void setPosition(int position) {
+		position_ = position;
+		node_.getValue().setPosition(String.valueOf(position));
+	}
+	
+	public void setEvent(String event){
+		event_ = event;
+		node_.getValue().setPosition(event);
+	}
+	
+	public void addDate(String date){
+		dates_.add(date);
+		setChild(date);
+	}
+	
+	public String getEvent(){
+		return event_;
+	}
+	
+	public ArrayList<String> getDates(){
+		return dates_;
+	}
+	
+	public int getPosition(){
+		return position_;
+	}
+	
+	private void setChildren(){
+		for(String date : dates_){
+			TreeItem<TentativeNode> leaf = new TreeItem<TentativeNode>(new TentativeNode(date, null));
+			node_.getChildren().add(leaf);
+			node_.setExpanded(true);
+		}
+	}
+	
+	private void setChild(String date){
+		TreeItem<TentativeNode> leaf = new TreeItem<TentativeNode>(new TentativeNode(date, null));
+		node_.getChildren().add(leaf);
+		node_.setExpanded(true);
+	}
+
+	public TreeItem<TentativeNode> getTentativeNode(){
+		return node_;
+	}
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\testTentativeTask.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\TimelineViewManager.java
+	 */
+
+ * Unused: not fully developed.
+ * 
+ * This class manages the timelineViewController
+ *  and tells it what time period to highlight
+ *  in what colour.
+ */
+import gui.controller.view.TimelineViewController;
+
+import java.util.Calendar;
+import java.util.Date;
+
+import com.ModelTask;
+
+import javafx.collections.ObservableList;
+
+public class TimelineViewManager {
+	
+	TimelineViewController controller_;
+	ObservableList<ModelTask> allList_;
+	
+	Date thisMonday_;
+	Date thisSunday_;
+	
+	Date nextMonday_;
+	Date nextSunday_;
+	
+	public TimelineViewManager(){
+		setMonday();
+		setSunday();
+	}
+
+	public void setTimelineViewController(TimelineViewController timelineViewController) {
+		controller_ = timelineViewController;
+	}
+
+	public void setAllList(ObservableList<ModelTask> allList) {
+		this.allList_ = allList;
+		updateTentative();
+	}
+	
+	public void updateTentative(){
+		//TODO:set all to green
+		
+		//set normal tasks
+		for(ModelTask task:allList_){
+			if(isThisWeek(task) && hasTimePeriod(task)){
+				controller_.addPeriod(task.getStartTime(), task.getEndTime(), TimelineViewController.COLOUR_ORANGE);
+			}
+		}
+	}
+	
+	private void setMonday() {
+		Calendar mondayCal = Calendar.getInstance();
+		mondayCal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		mondayCal.set(Calendar.HOUR_OF_DAY, 0);
+		mondayCal.set(Calendar.MINUTE, 0);
+		mondayCal.set(Calendar.SECOND, 0);
+
+		thisMonday_ = mondayCal.getTime();
+		
+		//make calendar next week
+		mondayCal.roll(Calendar.WEEK_OF_MONTH, true);
+		nextMonday_ = mondayCal.getTime();
+	}
+	
+	private void setSunday() {
+		Calendar sundayCal = Calendar.getInstance();
+		sundayCal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+		sundayCal.set(Calendar.HOUR_OF_DAY, 23);
+		sundayCal.set(Calendar.MINUTE, 59);
+		sundayCal.set(Calendar.SECOND, 59);
+
+		thisSunday_ = sundayCal.getTime();
+		
+		//make calendar next week
+		sundayCal.roll(Calendar.WEEK_OF_MONTH, true);
+		nextSunday_ = sundayCal.getTime();
+	}
+
+	private boolean isThisWeek(ModelTask task) {
+		Date day = task.getStartDate();
+		if(day == null){
+			return false;
+		}
+		return day.compareTo(thisMonday_) >=0 && day.compareTo(thisSunday_) <= 0;
+	}
+
+	private boolean hasTimePeriod(ModelTask task) {
+		return task.getTimeStringProperty().getValue().contains("-");
+	}
+	
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\TimelineViewManager.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\TodayListManager.java
+	 */
+
+ * This class manages the observable list in TodayView.
+ * It chooses up to 5 tasks for display from a 
+ * given list.
+ * 
+ * The given list should be an observableList of ModelTasks.
+ * It will return an observableList of ModelTasks for use.
+ */
+import java.util.Calendar;
+import java.util.Date;
+
+import com.ModelTask;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+public class TodayListManager {
+
+	ObservableList<ModelTask> todayList_;
+	Date yesterday_;
+	Date tomorrow_;
+	
+	/**
+	 * Constructs the todayListManager with
+	 * today initialised.
+	 */
+	public TodayListManager(){
+		setYesterday();
+		setTomorrow();
+	}
+	
+	/**
+	 * This class takes an observableList of ModelTasks.
+	 * And returns an ObservableList of ModelTasks 
+	 * of up to 5 tasks due that day.
+	 * @param ObservableList<ModelTask> allList
+	 * @return ObservableList<ModelTask> todayList
+	 */
+	public ObservableList<ModelTask> getTodayList(
+			ObservableList<ModelTask> allList){
+
+		todayList_ = FXCollections.observableArrayList();
+
+		for(ModelTask task : allList){
+			if(task.getStartDate() != null){
+				if(task.getStartDate().compareTo(yesterday_) > 0 && task.getStartDate().compareTo(tomorrow_) < 0 && !task.isDone()){
+					todayList_.add(task);
+				}
+			}
+		}
+
+		todayList_.sort(new ModelTaskStartDateComparator());
+		if(todayList_.size() > 5){
+			int num = todayList_.size() - 5;
+			for(int i = 0; i < num; i++){
+				todayList_.remove(5);
+			}
+		}
+		return todayList_;
+	}
+	
+	/**
+	 * This allows TodayListManager to reset the dates.
+	 * Afterwards, getTodayList should be called to get the updated list.
+	 */
+	public void resetDate(){
+		setYesterday();
+		setTomorrow();
+	}
+	
+	private void setYesterday() {
+		Calendar yesterdayCal = Calendar.getInstance();
+		yesterdayCal.set(Calendar.DAY_OF_YEAR, yesterdayCal.get(Calendar.DAY_OF_YEAR) - 1);
+		yesterdayCal.set(Calendar.HOUR_OF_DAY, 23);
+		yesterdayCal.set(Calendar.MINUTE, 59);
+		yesterdayCal.set(Calendar.SECOND, 59);
+
+		yesterday_ = yesterdayCal.getTime();
+	}
+	
+	private void setTomorrow() {
+		Calendar tomorrowCal = Calendar.getInstance();
+		tomorrowCal.set(Calendar.HOUR_OF_DAY, 23);
+		tomorrowCal.set(Calendar.MINUTE, 59);
+		tomorrowCal.set(Calendar.SECOND, 59);
+
+		tomorrow_ = tomorrowCal.getTime();
+	}
+
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\TodayListManager.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\TutorialLoader.java
+	 */
+
+ * 
+ * Unused: not fully developed.
+ * This class is used to load the tutorialView into the AnchorPane given.
+ * Note: should only be called by PhantomController.
+ * Note: the current themeUrl should be inserted as well
+ */
+
+import java.io.IOException;
+
+import gui.MainApp;
+import gui.controller.view.TutorialViewController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.AnchorPane;
+
+
+public class TutorialLoader {
+	AnchorPane tutorialView_;
+	AnchorPane overallView_;
+	
+	public TutorialLoader(AnchorPane overallView, String themeUrl){
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/TutorialView.fxml"));
+			tutorialView_ = (AnchorPane) loader.load();
+			
+			overallView_ = overallView;
+			overallView.getChildren().add(tutorialView_);
+			
+			tutorialView_.getStylesheets().clear();
+			tutorialView_.getStylesheets().add(themeUrl);
+			
+			TutorialViewController controller = loader.getController();
+			controller.setTutorialView(tutorialView_);
+			controller.setOverallView(overallView);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void close() {
+		overallView_.getChildren().remove(tutorialView_);
+	}
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\TutorialLoader.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\PhantomController.java
+	 */
+
+ * 
+ * This class is the controller for OverallView.
+ * This class also contains the Parents of the other views
+ * and their controllers. 
+ * This class will interpret user events and send and receive input
+ * from logic.
+ */
+
+import gui.TrayApplication;
+import gui.controller.AnimationHandler;
+import gui.controller.CommandLineUtility;
+import gui.controller.EditListener;
+import gui.controller.HelperListener;
+import gui.controller.PhantomClock;
+import gui.controller.PreferenceManager;
+import gui.controller.TodayListManager;
+
+import java.io.IOException;
+import java.util.logging.Level;
+
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import logic.FeedbackMessages;
+import logic.LogicFacade;
+
+import com.ModelTask;
+import com.util.MyLogger;
+
+public class PhantomController {
+	private static final String DELETE_PROMPT = "delete ";
+
+	private static final String EMPTY_STRING = "";
+
+	private static boolean hasOccured = false;
+
+	private Stage primaryStage_;
+	private AnchorPane overallView_;
+
+	@FXML
+	private Label tfOutput;
+	@FXML
+	private TextField commandLine;
+
+	@FXML
+	private Parent tableView;
+	@FXML
+	private TableController tableViewController;
+	@FXML
+	private AnchorPane tableAnchor;
+
+	@FXML
+	private Parent todayView;
+	@FXML
+	private TodayViewController todayViewController;
+	@FXML
+	private AnchorPane todayAnchor;
+
+	@FXML
+	private Parent helperView;
+	@FXML
+	private HelperViewController helperViewController;
+	@FXML
+	private AnchorPane helperAnchor;
+
+	@FXML
+	private Label timeLabel;
+
+	private LogicFacade logicFacade_;
+	// for testing purposes
+	// private LogicFacadeDummy logicFacade;
+
+	private AnimationHandler ah_;
+	private CommandLineUtility clu_;
+	private TodayListManager tlm_;
+	private PreferenceManager pm_;
+	private TrayApplication ta_;
+	
+	private HelperListener helperListener_;
+	
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\PhantomController.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\PhantomController.java
+	 */
+
+	//constructor
+	public PhantomController() {
+		logicFacade_ = LogicFacade.getInstance();
+
+		// for testing purposes
+		// logicFacade_ = new LogicFacadeDummy();
+	}
+	
+	//public methods
+	public void setPrimaryStage(Stage stage) {
+		primaryStage_ = stage;
+	}
+
+	public void setOverallView(AnchorPane overallView) {
+		overallView_ = overallView;
+	}
+	
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\PhantomController.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\PhantomController.java
+	 */
+
+	/**
+	 * Refactored this snippet of code
+	 * from handleKeyPressed method for
+	 * external use. - smallson
+	 */
+	public void executeCommand(String input) {
+		int guiFeedBack = FeedbackMessages.NORMAL_STATE;
+		String userFeedBack = EMPTY_STRING;
+		
+		try {
+			guiFeedBack = logicFacade_.executeCommand(input);
+			userFeedBack = logicFacade_.getUserFeedBack();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		if(guiFeedBack == FeedbackMessages.UPDATE_ALL_LIST){
+			setAllView();
+		}
+		if(guiFeedBack == FeedbackMessages.SWITCH_TO_TEMP){
+			switchToSearch(logicFacade_.getSearchedList());
+			ah_.showTableView();
+		}
+		if(guiFeedBack == FeedbackMessages.SWITCH_TO_TEMP_DELETE){
+			switchToSearch(logicFacade_.getSearchedList());
+			ah_.showTableView();
+			commandLine.setText(DELETE_PROMPT);
+			commandLine.end();
+		}
+		updateTodayView();
+		tfOutput.setText(userFeedBack);
+		ah_.fadeLabel(tfOutput);
+		tfOutput.setText(EMPTY_STRING);
+	}
+	
+	public static boolean isHasOccured() {
+		return hasOccured;
+	}
+
+	public static void setHasOccured(boolean hasOccured) {
+		PhantomController.hasOccured = hasOccured;
+	}
+	
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\PhantomController.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\PhantomController.java
+	 */
+
+	//Initialisation
+	@FXML
+	private void initialize() {
+		System.out.println("phantom initilising");
+		initAll();
+	}
+
+	private void initAll() {
+		initTableView();
+		initTodayList();
+		initClock();
+		initAnimation();
+		initCommandLineUtility();
+		initHelper();
+		ta_ = TrayApplication.getInstance();	
+	}
+
+	private void initTableView() {
+		tableViewController.setAllView(logicFacade_.getAllList());
+	}
+
+	private void initTodayList() {
+		tlm_ = new TodayListManager();
+		updateTodayView();
+	}
+
+	private void initClock() {
+		PhantomClock pc = PhantomClock.getInstance();
+		pc.setClock(timeLabel);
+	}
+
+	private void initAnimation() {
+		ah_ = AnimationHandler.getInstance();
+		ah_.initialize(tableAnchor, todayAnchor, helperAnchor);
+	}
+
+	private void initCommandLineUtility() {
+		clu_ = CommandLineUtility.getInstance();
+		clu_.initialize(commandLine);
+	}
+	
+	private void initHelper() {
+		helperListener_ = new HelperListener(helperViewController);
+		commandLine.textProperty().addListener(helperListener_);
+	}
+
+	//private FXML event handling
+	@FXML
+	private void handleExit() {
+		System.exit(0);
+	}
+
+	@FXML
+	private void handleMinimise() {
+		primaryStage_.close();
+		ta_.showProgramIsMinimizedMsg();
+	}
+
+	@FXML
+	private void handleKeyPressed(KeyEvent e) {
+		
+		EditListener editListener = new EditListener(commandLine);
+		commandLine.textProperty().addListener(editListener);
+
+		String input;
+		if (keyCombShiftRight.match(e)) {
+			animateRight();
+		}
+
+		if (keyCombShiftLeft.match(e)) {
+			animateLeft();
+		}
+
+		if (e.getCode() == KeyCode.ENTER) {
+			setHasOccured(false);
+
+			input = commandLine.getText();
+			commandLine.clear();
+			
+			if (tableViewController.isSearched()) {
+				setAllView();
+			}
+			
+			if (input.equalsIgnoreCase("showall")) {
+				ah_.showTableView();
+			} else if (input.equalsIgnoreCase("showtoday")) {
+				ah_.showTodayView();
+			} else if (input.equalsIgnoreCase("blue theme")) {
+				changeCss("BlueTheme");
+			} else if (input.equalsIgnoreCase("dark theme")) {
+				changeCss("DarkTheme");
+			} else if (input.equalsIgnoreCase("red theme")) {
+				changeCss("RedTheme");
+			} else if (input.equalsIgnoreCase("green theme")) {
+				changeCss("GreenTheme");
+			} else if (input.equalsIgnoreCase("royal theme")) {
+				changeCss("RoyalTheme");
+			} else if (input.equalsIgnoreCase("cog theme")) {
+				changeCss("CogTheme");
+			} else if (input.equalsIgnoreCase("christmas theme")) {
+				changeCss("ChristmasTheme");
+			} else if (input.equalsIgnoreCase("wolf theme")) {
+				changeCss("WolfTheme");
+			} else if (input.equalsIgnoreCase("dragon theme")) {
+				changeCss("DragonTheme");
+			} else if (input.equalsIgnoreCase("halloween theme")) {
+				changeCss("HalloweenTheme");
+			} else if (input.equalsIgnoreCase("ghost theme")) {
+				changeCss("GhostTheme");
+			} else if (input.equalsIgnoreCase("chinese theme")) {
+				changeCss("ChineseTheme");
+			} else if (input.equalsIgnoreCase("singapore theme")) {
+				changeCss("SingaporeTheme");
+			} else if (input.equalsIgnoreCase("snake theme")) {
+				changeCss("SnakeTheme");
+			} else if (input.equalsIgnoreCase("ghosts theme")) {
+				changeCss("GhostsTheme");
+			} else{
+				executeCommand(input);
+
+				updateTodayView();
+				clu_.forwardToPrevious();
+				clu_.pushInput(input);
+				ah_.removeHelper();
+			}
+
+		} else if (e.getCode() == KeyCode.UP) {
+			clu_.displayPreviousInput();
+		} else if (e.getCode() == KeyCode.DOWN) {
+			clu_.displayForwardInput();
+		} else if(e.getCode() == KeyCode.PAGE_DOWN){
+			if (ah_.getIsFocusTable() 
+					&& commandLine.getText().equals(EMPTY_STRING)) {
+				tableViewController.scrollToNext();
+			}
+	
+		}else if(e.getCode() == KeyCode.PAGE_UP){
+			if (ah_.getIsFocusTable() 
+					&& commandLine.getText().equals(EMPTY_STRING)) {
+				tableViewController.scrollToBack();
+			}
+		}
+	}
+
+	//private methods
+	private void updateTodayView() {
+		ObservableList<ModelTask> allList = logicFacade_.getAllList();
+		ObservableList<ModelTask> todayList = tlm_.getTodayList(allList);
+		todayViewController.setTodayView(todayList);
+	}
+
+	private void switchToSearch(ObservableList<ModelTask> list) {
+		tableViewController.switchToSearch(list);
+	}
+
+	private void setAllView() {
+		tableViewController.setAllView(logicFacade_.getAllList());
+	}
+
+	private void changeCss(String cssFileName) {
+		pm_.setCss(cssFileName);
+		
+		try {
+			pm_.saveCSSPref(cssFileName);
+		} catch (IOException e) {
+			e.printStackTrace();
+			MyLogger.log(Level.WARNING, "preference not saved");
+		}
+	}
+	
+// not fully developed features
+//	@FXML
+//	private Parent timelineView;
+//	@FXML
+//	private TimelineViewController timelineViewController;
+//	@FXML
+//	private AnchorPane timelineAnchor;
+//
+//	@FXML
+//	private Parent tentativeView;
+//	@FXML
+//	private TentativeViewController tentativeViewController;
+//	@FXML
+//	private AnchorPane tentativeAnchor;
+	
+//	private TimelineViewManager tvm;
+	
+
+//	private void initTimeline() {
+//		tvm = new TimelineViewManager();
+//		tvm.setTimelineViewController(timelineViewController);
+//		updateTimelineView();
+//	}
+	
+//	private void updateTimelineView() {
+//	tvm.setAllList(logicFacade.getAllList());
+//}
+	
+//	private void showPopup() {
+//	try {
+//
+//		FXMLLoader loader = new FXMLLoader();
+//		loader.setLocation(MainApp.class.getResource("controller/view/PopupView.fxml"));
+//		AnchorPane page = (AnchorPane) loader.load();
+//		
+//		String themeUrl = pm.getThemeUrl();
+//		page.getStylesheets().clear();
+//		page.getStylesheets().add(themeUrl);
+//
+//		Stage popupStage = new Stage();
+//		popupStage.setTitle("Popup");
+//		popupStage.initModality(Modality.WINDOW_MODAL);
+//		popupStage.initStyle(StageStyle.TRANSPARENT);
+//		popupStage.initOwner(primaryStage);
+//
+//		Scene scene = new Scene(page);
+//		popupStage.setScene(scene);
+//
+//		PopupController controller = loader.getController();
+//		controller.setPopupStage(popupStage);
+//
+//		popupStage.showAndWait();
+//	} catch (IOException e) {
+//		e.printStackTrace();
+//	}
+//}
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\PhantomController.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\PopupController.java
+	 */
+
+ * Unused: not fully developed.
+ * This class is the controller for 
+ * the popup view.
+ */
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+
+public class PopupController {
+	@FXML
+	private Label text;
+	
+	private Stage popupStage_;
+	private double xOffset_;
+	private double yOffset_;
+	
+	@FXML
+    private void initialize() {
+		System.out.println("initilising popup");
+    }
+
+	public void setPopupStage(Stage popupStage) {
+		this.popupStage_ = popupStage;
+		popupStage.getScene().setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				xOffset_ = event.getSceneX();
+				yOffset_ = event.getSceneY();
+			}
+		});
+		popupStage.getScene().setOnMouseDragged(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				popupStage.setX(event.getScreenX() - xOffset_);
+				popupStage.setY(event.getScreenY() - yOffset_);
+			}
+		});
+	} 
+	
+	@FXML
+	private void handleExit(){
+		popupStage_.close();
+	}
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\PopupController.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\TableController.java
+	 */
+
+ * 
+ * This is the controller for TableView
+ * Handling of table selection and scrolling 
+ * is done here. 
+ */
+import gui.ResourceLoader;
+
+import java.util.logging.Level;
+
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.util.Callback;
+
+import com.EventAndDone;
+import com.ModelTask;
+import com.util.MyLogger;
+
+public class TableController{
+	private static final String EMPTY_STRING = "";
+	@FXML
+	private TableView<ModelTask> taskTable;
+	@FXML
+	private TableColumn<ModelTask, EventAndDone> taskColumn;
+	@FXML
+	private TableColumn<ModelTask, String> dateColumn;
+	@FXML
+	private TableColumn<ModelTask, String> numColumn;
+	@FXML
+	private TableColumn<ModelTask, String> timeColumn;
+	@FXML
+	private TableColumn<ModelTask, Boolean> urgentColumn;
+
+	private boolean isSearched_;
+
+	private ObservableList<ModelTask> taskList_;
+
+	private ObservableList<ModelTask> searchedList_;
+
+	private int viewIndex_;
+
+	private static int INITIAL_VIEW_INDEX = 0;
+	private static int NEXT_NUMBER_OF_ROWS = 8;
+
+	public TableController(){
+	}
+
+	@FXML
+	private void initialize() {
+		numColumn.setCellValueFactory(cellData -> cellData.getValue().getPositionStringProperty());
+		taskColumn.setCellValueFactory(cellData -> cellData.getValue().getEventAndDoneProperty());
+		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDateStringProperty());
+		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTimeStringProperty());
+		urgentColumn.setCellValueFactory(cellData -> cellData.getValue().getIsUrgentBooleanProperty());
+		
+		//special cell factories for these columns
+		taskColumn.setCellFactory(new Callback<TableColumn<ModelTask, EventAndDone>, TableCell<ModelTask, EventAndDone>>(){
+			@Override
+			public TableCell<ModelTask, EventAndDone> call(TableColumn<ModelTask, EventAndDone> param){
+				return new TableCell<ModelTask, EventAndDone>(){      
+					Text text;
+					{
+						text = new Text(EMPTY_STRING);
+						setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+						setGraphic(text);
+						text.setFill(Color.WHITE);
+					}
+					@Override
+					public void updateItem(EventAndDone eventAndDone, boolean empty) {
+						super.updateItem(eventAndDone, empty);
+
+						if (!empty && eventAndDone!=null && eventAndDone.getIsDone()) {
+							text.setText(eventAndDone.getEvent());
+							text.setStrikethrough(true);
+						}
+						else if(!empty && eventAndDone!=null){
+							text.setText(eventAndDone.getEvent());
+							text.setStrikethrough(false);                          
+						}
+						else{
+							text.setText(EMPTY_STRING);
+						}
+					}
+				};
+			}
+		});
+
+		urgentColumn.setCellFactory(new Callback<TableColumn<ModelTask, Boolean>, TableCell<ModelTask, Boolean>>(){
+			@Override
+			public TableCell<ModelTask, Boolean> call(TableColumn<ModelTask, Boolean> param){
+				return new TableCell<ModelTask, Boolean>(){
+					ImageView imageview;
+					{
+						imageview = new ImageView(); 
+						imageview.setPreserveRatio(true);
+						imageview.setFitWidth(17);
+						
+						setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+						setGraphic(imageview);
+					}
+
+					@Override
+					public void updateItem(Boolean isUrgent, boolean empty) {
+						super.updateItem(isUrgent, empty);
+						if (!empty && isUrgent!=null && isUrgent.booleanValue()) {
+							Image image = new Image(ResourceLoader.load("star.png"));
+							imageview.setImage(image);
+							setAlignment(Pos.CENTER);
+						}
+						else {
+							imageview.setImage(null);
+						}
+					}
+				};
+			}
+		});
+		
+		
+		taskTable.setPlaceholder(new Label(EMPTY_STRING));
+
+		isSearched_ = false;
+
+		viewIndex_ = INITIAL_VIEW_INDEX;
+
+	}
+	
+	protected boolean isSearched(){
+		return isSearched_;
+	}
+	
+	//methods for external classes to change list view in table
+	protected void setAllView(ObservableList<ModelTask> list){
+		taskList_ = list;
+		taskTable.setItems(taskList_);
+		viewIndex_ = INITIAL_VIEW_INDEX;
+		isSearched_ = false;
+		
+		//select last used task
+		taskList_.addListener(new ListChangeListener<ModelTask>() {
+			@Override
+			public void onChanged(
+					javafx.collections.ListChangeListener.Change<? extends ModelTask> c) {
+				while (c.next()){
+					if(c.wasAdded()){
+						if(c.getAddedSize() == 1){
+							scrollToAndSelectTask(c.getAddedSubList().get(0));
+						}
+					}else if(c.wasRemoved()){
+						removeSelection();
+					}
+				}
+			}
+		});
+		
+	}
+
+	protected void switchToSearch(ObservableList<ModelTask> list) {
+		searchedList_ = list;
+		taskTable.setItems(searchedList_);
+		viewIndex_ = INITIAL_VIEW_INDEX;
+		isSearched_ = true;
+	}
+
+	protected void switchToAll() {
+		taskTable.setItems(taskList_);
+		viewIndex_ = INITIAL_VIEW_INDEX;
+		isSearched_ = false;
+	}
+	
+	//methods for scrolling
+	protected void scrollToNext() {
+		viewIndex_ += NEXT_NUMBER_OF_ROWS;
+		if(viewIndex_ > taskList_.size()){
+			viewIndex_ -= NEXT_NUMBER_OF_ROWS;
+		}
+		taskTable.scrollTo(viewIndex_);		
+	}
+
+	protected void scrollToTop(){
+		viewIndex_ = INITIAL_VIEW_INDEX;
+		taskTable.scrollTo(viewIndex_);
+	}
+
+	protected void scrollToBack(){
+		viewIndex_ -= NEXT_NUMBER_OF_ROWS;
+		if(viewIndex_ < INITIAL_VIEW_INDEX){
+			viewIndex_ = INITIAL_VIEW_INDEX;
+		}
+		taskTable.scrollTo(viewIndex_);
+	}
+	
+	protected void scrollToAndSelectTask(ModelTask task){
+		int index = taskList_.indexOf(task);
+		scrollToAndSelect(index);
+	}
+	
+	protected void scrollToAndSelect(int index) {
+		viewIndex_ = index;
+		taskTable.scrollTo(index);
+		try{
+			taskTable.getSelectionModel().clearAndSelect(index);
+		}catch(Exception e){
+			System.out.println("error with clear and select");
+			MyLogger.log(Level.WARNING, "error with clear and select");
+		}
+	}
+
+	private void removeSelection() {
+		taskTable.getSelectionModel().clearSelection();
+	}
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\TableController.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\TentativeViewController.java
+	 */
+
+ * Unused: not fully developed.
+ * 
+ * This class is the controller for tentativeView.
+ * It sets the tentative tasks and dates in the view.
+ */
+import gui.controller.testTentativeTask;
+import com.TentativeNode;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableView;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+public class TentativeViewController {
+	@FXML
+	TreeTableView<TentativeNode> treeTableView;
+	
+	@FXML
+	TreeTableColumn<TentativeNode,  String> numColumn;
+	@FXML
+	TreeTableColumn<TentativeNode, String> tentativeColumn;
+
+	TreeItem<TentativeNode> root_;
+	
+	//for isolated testing purposes
+	ObservableList<testTentativeTask> tentativeList_;
+	@FXML
+	private void initialize() {
+		tentativeList_ = FXCollections.observableArrayList();
+		tentativeList_.add(new testTentativeTask("test", "date1", "date2", 1));
+		tentativeList_.add(new testTentativeTask("test2", "date1", "date2", 2));
+		
+		root_ = new TreeItem<>(new TentativeNode(null,null));
+		root_.setExpanded(true);
+		
+		for(testTentativeTask task : tentativeList_){
+			root_.getChildren().add(task.getTentativeNode());
+		}
+		
+		treeTableView.setShowRoot(false);
+	    treeTableView.setRoot(root_);
+	    treeTableView.setTreeColumn(tentativeColumn);
+	    
+		numColumn.setCellValueFactory(
+				(TreeTableColumn.CellDataFeatures<TentativeNode, String> param) -> 
+				new ReadOnlyStringWrapper(param.getValue().getValue().getPositionStringProperty().get())
+				);
+		tentativeColumn.setCellValueFactory(
+				(TreeTableColumn.CellDataFeatures<TentativeNode, String> param) -> 
+				new ReadOnlyStringWrapper(param.getValue().getValue().getTaskCol().get())
+				);
+		
+		treeTableView.setPlaceholder(new Label(""));
+	}
+
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\TentativeViewController.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\TimelineViewController.java
+	 */
+
+ * Unused: not fully developed
+ * 
+ * This class is the controller for the timelineView
+ *	Normal timeslots are green.
+ * Other timeslots can be set to red or orange.
+ * 
+ * The timings will be rounded to the nearest half-hour
+ * 
+ * colours can be accessed publicly.
+ */
+import java.util.Calendar;
+import java.util.Date;
+
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+
+public class TimelineViewController {
+	@FXML
+	private GridPane monday;
+	@FXML
+	private GridPane tuesday;
+	@FXML
+	private GridPane wednesday;
+	@FXML
+	private GridPane thursday;
+	@FXML
+	private GridPane friday;
+	@FXML
+	private GridPane saturday;
+	@FXML
+	private GridPane sunday;
+
+	//public static variables for setting colour
+	public final static int COLOUR_GREEN = 1;
+	public final static int COLOUR_RED = 2;
+	public final static int COLOUR_ORANGE = 3;
+
+	private final static int LAST_COL = 23;
+	private final static int FIRST_COL = 0;
+
+	private final static int MAX_HOUR = 24;
+
+	private final static int MAX_HOUR_PERIOD = 12;
+
+	private final static int AT_HOUR = 0;
+	private final static int QUARTER_HOUR = 15;
+	private final static int HALF_HOUR = 30;
+	private final static int THREE_FOURTHS_HOUR = 45;
+	private final static int FULL_HOUR = 60;
+
+	public TimelineViewController(){
+
+	}
+	
+	/**
+	 * Adds a period over the timeperiod between the two given dates.
+	 * The colour should be the static colour given in timeline view controller.
+	 * By default, a wrong input will set the colour to transparent.
+	 * @param startTime
+	 * @param endTime
+	 * @param colour
+	 */
+	public void addPeriod(Date startTime, Date endTime, int colour){
+
+		int startDay = getDay(startTime);
+		int endDay = getDay(endTime);
+
+		GridPane dayToAdd = getGridPane(startDay);
+
+		int startCol = getStartCol(startTime);
+		int period = findPeriod(startTime);
+
+		int numCol;
+
+		if(startDay == endDay){
+			numCol = getTotalColOneDay(startCol, endTime, period);
+			setPeriod(dayToAdd, period, startCol, numCol, colour);
+		}else{
+			//TODO:getEndTime of first day
+			numCol = getTotalColOneDay(startCol, endTime, period);
+			setPeriod(dayToAdd, period, startCol, numCol, colour);
+			
+			//TODO:setMiddleDays
+			
+			dayToAdd = getGridPane(endDay);
+			numCol = getTotalColOneDay(FIRST_COL, endTime, period);
+			setPeriod(dayToAdd, period, startCol, numCol, colour);
+		}
+	}
+
+	@FXML
+	private void initialize() {
+		initilizeEveryDay();
+	}
+
+	private void initilizeEveryDay() {
+		for(int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++){
+			GridPane day = getGridPane(i);
+			initilizeDayWithGreen(day);
+		}
+	}
+
+	private void initilizeDayWithGreen(GridPane day) {
+		for(int col = FIRST_COL; col <= LAST_COL; col++){
+			for(int row = Calendar.AM; row <= Calendar.PM; row++){
+				Pane p = new Pane();
+				setColour(p, COLOUR_GREEN);
+				day.add(p, col, row);
+			}
+		}
+	}
+
+	private int getStartCol(Date startTime) {
+		int startHour = getHour(startTime);
+		int startMin = getRoundedMin(startTime);
+		int startCol;
+
+		if(startHour > MAX_HOUR_PERIOD){
+			startHour -= MAX_HOUR_PERIOD;
+		}
+
+		startCol = (startHour - 1) * 2;
+
+		if(startMin == HALF_HOUR){
+			startCol++;
+		}
+		else if(startMin == FULL_HOUR){
+			startCol += 2;
+		}
+
+		return startCol;
+	}
+
+	private int findPeriod(Date time) {
+		int hour = getHour(time);
+
+		if(hour <= 12){
+			return Calendar.AM;
+		}else{
+			return Calendar.PM;
+		}
+	}
+
+	private int getTotalColOneDay(int startCol, Date endTime, int startPeriod) {
+		int endHour = getHour(endTime);
+		int endMin = getRoundedMin(endTime);
+		int endPeriod = findPeriod(endTime);
+
+		if(endHour > MAX_HOUR_PERIOD){
+			endHour -= MAX_HOUR_PERIOD;
+		}
+
+		int numCol = (endHour - 1) * 2 - startCol;
+
+		if(endPeriod == Calendar.PM && startPeriod == Calendar.AM){
+			numCol += MAX_HOUR;
+		}
+
+		if(endMin == HALF_HOUR){
+			numCol ++;
+		}
+		else if(endMin == FULL_HOUR){
+			numCol += 2;
+		}
+
+		return numCol;
+	}
+
+	private int getDay(Date startTime) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startTime);
+		return cal.get(Calendar.DAY_OF_WEEK);
+	}
+
+	private int getHour(Date time) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(time);
+		return cal.get(Calendar.HOUR_OF_DAY);
+	}
+
+	private int getRoundedMin(Date time) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(time);
+		int min = cal.get(Calendar.MINUTE);
+
+		if(min <= QUARTER_HOUR){
+			return AT_HOUR;
+		}
+		else if(min <= THREE_FOURTHS_HOUR){
+			return HALF_HOUR;
+		}
+		else{
+			return FULL_HOUR;
+		}
+	}
+	private GridPane getGridPane(int day) {
+		switch(day){
+		case Calendar.MONDAY:
+			return monday;
+		case Calendar.TUESDAY:
+			return tuesday;
+		case Calendar.WEDNESDAY:
+			return wednesday;
+		case Calendar.THURSDAY:
+			return thursday;
+		case Calendar.FRIDAY:
+			return friday;
+		case Calendar.SATURDAY:
+			return saturday;
+		case Calendar.SUNDAY:
+			return sunday;
+		default:
+			return null;
+		}
+	}
+
+
+	private void setPeriod(GridPane dayToAdd, int period, int startCol,
+			int numCol, int colour) {
+
+		for(int col = startCol; col < startCol + numCol; col++){
+			Pane p;
+			if(col <= LAST_COL){
+				p = getPaneFromGridPane(dayToAdd, col, period);
+			}
+			else{
+				p = getPaneFromGridPane(dayToAdd, col - MAX_HOUR, period + 1);
+			}
+			setColour(p, colour);
+		}
+	}
+
+	private Pane getPaneFromGridPane(GridPane gridPane, int col, int row) {
+		for (Node node : gridPane.getChildren()) {
+			if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+				return (Pane) node;
+			}
+		}
+		return null;
+	}
+
+	private void setColour(Pane p, int colour) {
+		switch(colour){
+		case COLOUR_GREEN:
+			p.setStyle("-fx-background-color: green");
+			break;
+		case COLOUR_RED:
+			p.setStyle("-fx-background-color: red");
+			break;
+		case COLOUR_ORANGE:
+			p.setStyle("-fx-background-color: orange");
+			break;
+		default:
+			p.setStyle("-fx-background-color: transparent");
+		}
+	}
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\TimelineViewController.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\TodayViewController.java
+	 */
+
+ * 
+ * This class is the controller for todayview.
+ */
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+
+import com.ModelTask;
+
+public class TodayViewController {
+	private static final String EMPTY_STRING = "";
+	@FXML
+	private TableView<ModelTask> todayTable;
+	@FXML
+	private TableColumn<ModelTask, String> taskColumn;
+	@FXML
+	private TableColumn<ModelTask, String> timeColumn;
+
+	private ObservableList<ModelTask> todayList_;
+	
+	public TodayViewController(){
+	}
+	
+	@FXML
+	private void initialize(){
+		taskColumn.setCellValueFactory(cellData -> cellData.getValue().getEventProperty());
+		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getTimeStringProperty());
+
+		todayTable.setPlaceholder(new Label(EMPTY_STRING));
+	}
+	
+	protected void setTodayView(ObservableList<ModelTask> list){
+		todayList_ = list;
+		todayTable.setItems(todayList_);
+	}
+	
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\TodayViewController.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\TutorialViewController.java
+	 */
+
+ * 
+ * Unused: not fully developed
+ * 
+ * This class manipulates the components in tutorialView.
+ * User input is set to this commandLine on start-up.
+ */
+
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+
+public class TutorialViewController {
+	private AnchorPane tutorialView_;
+	private AnchorPane overallView_;
+
+	private boolean isWaitForInput_;
+	private int currentStage_;
+
+	private final static int STAGE_ADD_1 = 1;
+	private final static int STAGE_ADD_2 = 2;
+
+	@FXML
+	private Label label1;
+	@FXML
+	private Label label2;
+	@FXML
+	private Label label3;
+	@FXML
+	private Label label4;
+
+	@FXML
+	private TextField commandLine;
+
+	@FXML
+	private void handleKeyPressed(KeyEvent e){
+		String input;
+		if(e.getCode() == KeyCode.ENTER){
+			input = commandLine.getText();
+			commandLine.clear();
+
+			if(input.equalsIgnoreCase("quit")){
+				quitTutorial();
+			}
+			else if(isWaitForInput_){
+				if(isCorrectInput(input)){
+					isWaitForInput_ = false;
+					currentStage_++;
+					runNextStage(input);
+				}
+				else{
+					runRepeatInstructions();
+				}
+			}
+			else{
+				//do nothing as tutorial is being shown
+			}
+		}
+	}
+
+	@FXML
+	private void initialize() {	
+		//on startup, set user input into this commandLine
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				commandLine.requestFocus();
+			}
+		});
+		isWaitForInput_ = false;
+		currentStage_ = STAGE_ADD_1;
+		runAdd1();
+	}
+
+	public void setTutorialView(AnchorPane tutorialView) {
+		this.tutorialView_ = tutorialView;
+	}
+
+	public void setOverallView(AnchorPane overallView){
+		this.overallView_ = overallView;
+	}
+
+
+	private boolean isCorrectInput(String input) {
+		switch(currentStage_){
+		case STAGE_ADD_1:
+			return input.equalsIgnoreCase("add world domination");
+		default:
+		}
+		return false;
+	}
+
+	private void runNextStage(String input) {
+		System.out.println("run next stage: " + currentStage_);
+		switch(currentStage_){
+		case STAGE_ADD_1:
+			runAdd1();
+			break;
+		case STAGE_ADD_2:
+			runAdd2();
+			break;
+		default:
+			quitTutorial();
+		}		
+	}
+
+	private void runAdd1(){
+		label1.setText("Hello, you seem a bit lost.");
+		label2.setText("Don't panic, I'm here to help.");
+		label3.setText("I'm here to help a busy soul like you manage your piorities");
+		label4.setText("Try typing: add world domination");
+		isWaitForInput_ = true;
+	}
+
+	private void runAdd2(){
+		label1.setText("");
+		label2.setText("");
+		label3.setText("");
+		label4.setText("");
+		tutorialView_.getChildren().get(0).setOpacity(0.0);
+	}
+
+	private void runRepeatInstructions() {
+		System.out.println("repeating instructions");
+	}
+	
+
+	private void quitTutorial() {
+		overallView_.getChildren().remove(tutorialView_);
+	}
+	
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\view\TutorialViewController.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\MainApp.java
+	 */
+
+ * The MainApp loads and initialises the application
+ * including the main overallView and PhantomController
+ * on startup.
+ *  
+ */
+import gui.controller.view.PhantomController;
+
+import java.io.IOException;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+public class MainApp extends Application {
+
+	private Stage primaryStage_;
+	private AnchorPane overallView_;
+	private TrayApplication ta_;
+	private ShortcutManager sm_;
+
+	private double xOffset_ = 0;
+	private double yOffset_ = 0;
+
+	@Override
+	public void start(Stage primaryStage) {
+		this.primaryStage_ = primaryStage;
+		this.primaryStage_.setTitle("Phantom");
+		this.primaryStage_.centerOnScreen();
+		this.primaryStage_.initStyle(StageStyle.TRANSPARENT);
+		
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\MainApp.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\MainApp.java
+	 */
+
+		showPhantomOverallView();
+	}
+	
+	public void showPhantomOverallView() {
+		try {
+			// Load overallView.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class
+					.getResource("controller/view/OverallView.fxml"));
+			overallView_ = (AnchorPane) loader.load();
+
+			Scene scene = new Scene(overallView_);
+			primaryStage_.setScene(scene);
+			primaryStage_.setResizable(false);
+			primaryStage_.show();
+
+			PhantomController controller = loader.getController();
+			controller.setPrimaryStage(primaryStage_);
+			controller.setOverallView(overallView_);
+			controller.initPrefManager();
+			
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\MainApp.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\MainApp.java
+	 */
+
+			 * This allows Phantom to be draggable.
+			 */
+			overallView_.setOnMousePressed(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					xOffset_ = event.getSceneX();
+					yOffset_ = event.getSceneY();
+				}
+			});
+			overallView_.setOnMouseDragged(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					primaryStage_.setX(event.getScreenX() - xOffset_);
+					primaryStage_.setY(event.getScreenY() - yOffset_);
+				}
+			});
+
+			overallView_.addEventHandler(KeyEvent.KEY_PRESSED,
+					new EventHandler<KeyEvent>() {
+
+						@Override
+						public void handle(KeyEvent t) {
+							if (t.getCode() == KeyCode.ESCAPE) {
+								primaryStage_.close();
+							}
+						}
+					});
+			
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\MainApp.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\MainApp.java
+	 */
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) {
+		launch(args);
+	}
+
+}
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\MainApp.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\test\TestTaskConverter.java
+	 */
+
+ * 
+ * This is the unit testing for TaskConverter class
+ * This will test the various formats for tasks that might come from the Parser
+ */
+import static org.junit.Assert.*;
+
+import java.util.Calendar;
+import java.util.Date;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.ModelTask;
+import com.Task;
+import com.TaskConverter;
+
+public class TestTaskConverter {
+
+	//common variables used in testing
+	private TaskConverter taskConverter_;
+	private Task testTask_;
+	private ModelTask task_;
+
+	private Date date_;
+	private Calendar cal_ = Calendar.getInstance();
+
+	//inputs in standard formats for parser
+	private String startDate_ = "24/09/2014";
+	private String endDate_ = "25/09/2014";
+	private String startTime_ = "1200";
+	private String endTime_ = "1300";
+
+	//Calendars for checking the dates
+	private Calendar dateStart_;
+	private Calendar dateEnd_;
+
+	@Before
+	public void setUp() {
+		taskConverter_ = TaskConverter.getInstance();
+
+		dateStart_ = Calendar.getInstance();
+		dateStart_.set(Calendar.YEAR, 2014);
+		dateStart_.set(Calendar.MONTH, Calendar.SEPTEMBER);
+		dateStart_.set(Calendar.DAY_OF_MONTH, 24);
+		dateStart_.set(Calendar.HOUR_OF_DAY, 12);
+
+		dateEnd_ = Calendar.getInstance();
+		dateEnd_.set(Calendar.YEAR, 2014);
+		dateEnd_.set(Calendar.MONTH, Calendar.SEPTEMBER);
+		dateEnd_.set(Calendar.DAY_OF_MONTH, 25);
+		dateEnd_.set(Calendar.HOUR_OF_DAY, 13);
+	}
+
+	@Test
+	public void testConvertBasic() {
+		//task with only the task description  
+		testTask_ = new Task("test basic", null, null, null, null, null);
+		task_ = taskConverter_.convert(testTask_, 1);
+		assertEquals("task description should be the same",  "test basic", task_.getEvent());
+		assertEquals("task position should be the given", 1, task_.getPosition());
+	}
+
+	@Test 
+	public void testConvertDate(){
+		//task with one date at startDate
+		testTask_ = new Task("test startDate", startDate_, null, null, null, null);
+		task_ = taskConverter_.convert(testTask_, 1);
+
+		assertNotEquals("startDate should be set", null, task_.getStartDate());
+		assertEquals("no endDate should be set", null, task_.getEndDate());
+		assertEquals("no startTime should be set", null, task_.getStartTime());
+		assertEquals("no endTime should be set", null, task_.getEndTime());
+
+		checkStartDate();
+	}
+
+
+	@Test
+	public void testConvertTime(){
+		//task with startDate at endDate
+		//task with time period
+		testTask_ = new Task("test time", null, startTime_, startDate_, null, null);
+		task_ = taskConverter_.convert(testTask_, 1);
+
+		assertNotEquals("startDate should be set", null, task_.getStartDate());
+		assertEquals("no endDate should be set",  null, task_.getEndDate());
+		assertNotEquals("startTime should be set", null, task_.getStartTime());
+		assertEquals("no endTime should be set", null, task_.getEndTime());
+
+		checkStartDate();
+		checkStartTime();
+	}
+
+	@Test
+	public void testConvertTimePeriod(){
+		//task with startDate at deadline
+		//task with time period
+		testTask_ = new Task("test timePeriod", null, startTime_, null, endTime_, startDate_);
+		task_ = taskConverter_.convert(testTask_, 1);
+
+		assertNotEquals("startDate should be set", null, task_.getStartDate());
+		assertEquals("no endDate should be set",  null, task_.getEndDate());
+		assertNotEquals("startTime should be set", null, task_.getStartTime());
+		assertNotEquals("endTime should be set", null, task_.getEndTime());
+
+		checkStartDate();
+		checkStartTime();
+		checkEndTime();
+	}
+
+	@Test
+	public void testConvertTwoDates(){
+		//task with endDate at endDate
+		//task with time period
+		testTask_ = new Task("test twoDates", startDate_, startTime_, endDate_, endTime_, null);
+		task_ = taskConverter_.convert(testTask_, 1);
+
+		assertNotEquals("startDate should be set", null, task_.getStartDate());
+		assertNotEquals("endDate should be set",  null, task_.getEndDate());
+		assertNotEquals("startTime should be set", null, task_.getStartTime());
+		assertNotEquals("endTime should be set", null, task_.getEndTime());
+
+		checkStartDate();
+		checkEndDate();
+		checkStartTime();
+		checkEndTime();
+	}
+	
+	private void checkStartDate() {
+		date_ = task_.getStartDate();
+		cal_.setTime(date_);
+
+		assertEquals("startDate should be correct", 
+				dateStart_.get(Calendar.DATE), cal_.get(Calendar.DATE));
+		assertEquals("startDate should be correct", 
+				dateStart_.get(Calendar.MONTH), cal_.get(Calendar.MONTH));
+		assertEquals("startDate should be correct", 
+				dateStart_.get(Calendar.YEAR), cal_.get(Calendar.YEAR));
+	}
+	
+	private void checkEndDate() {
+		date_ = task_.getEndDate();
+		cal_.setTime(date_);
+		
+		assertEquals("endDate should be correct", 
+				dateEnd_.get(Calendar.DATE), cal_.get(Calendar.DATE));
+		assertEquals("endDate should be correct", 
+				dateEnd_.get(Calendar.MONTH), cal_.get(Calendar.MONTH));
+		assertEquals("endDate should be correct", 
+				dateEnd_.get(Calendar.YEAR), cal_.get(Calendar.YEAR));
+	}
+	
+	private void checkStartTime() {
+		date_ = task_.getStartTime();
+		cal_.setTime(date_);
+
+		assertEquals("startTime should be correct", 
+				dateStart_.get(Calendar.HOUR_OF_DAY), cal_.get(Calendar.HOUR_OF_DAY));
+	}
+	
+	private void checkEndTime() {
+		date_ = task_.getEndTime();
+		cal_.setTime(date_);
+
+		assertEquals("endTime should be correct", 
+				dateEnd_.get(Calendar.HOUR_OF_DAY), cal_.get(Calendar.HOUR_OF_DAY));
+	}
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\test\TestTaskConverter.java
+
+
+
+
+

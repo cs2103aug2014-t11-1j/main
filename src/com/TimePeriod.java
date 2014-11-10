@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * @author A0116018E
+ * @author A0116018R
  * This class stores a time period set using String.
  * Date string format is dd/mm/yyyy.
  * Time string format is hhmm, 24 hour clock.

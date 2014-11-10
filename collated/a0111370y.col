@@ -1,0 +1,1971 @@
+//@author: a0111370y
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\com\TaskList.java
+	 */
+
+package com;
+
+import java.util.Iterator;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+public class TaskList implements Iterable<ModelTask> {
+
+    /**
+     * Class Attributes
+     */
+    private ObservableList<ModelTask> list_;
+
+    /**
+     * Constructor
+     */
+    public TaskList() {
+        list_ = FXCollections.observableArrayList();
+    }
+
+    /**
+     * Accessors
+     */
+    public ObservableList<ModelTask> getList() {
+        return list_;
+    }
+
+    public int getListSize() {
+        return list_.size();
+    }
+
+    public ModelTask get(int index) {
+        return list_.get(index);
+    }
+
+    public boolean isEmpty() {
+        return list_.isEmpty();
+    }
+
+    @Override
+    public Iterator<ModelTask> iterator() {
+        return list_.iterator();
+    }
+
+    /**
+     * Mutators
+     */
+    public void add(ModelTask task) {
+        list_.add(task);
+    }
+
+    public void add(ModelTask task, int index) {
+        list_.add(index, task);
+    }
+
+    public void remove(int index) {
+        list_.remove(index);
+    }
+
+    public void setList(ObservableList<ModelTask> list) {
+        this.list_ = list;
+    }
+
+    public void clear() {
+        list_.clear();
+    }
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\com\TaskList.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\com\TimePeriodTest.java
+	 */
+
+package com;
+
+import java.util.Calendar;
+
+
+public class TimePeriodTest {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        Calendar cal = Calendar.getInstance();
+        TimePeriod test = new TimePeriod();
+
+        cal.set(2013, 1, 15);
+
+        //test.setStartDate(cal.getTime());
+
+        System.out.println(test);
+    }
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\com\TimePeriodTest.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\com\UndoRedoStack.java
+	 */
+
+package com;
+
+import java.util.Stack;
+import javafx.collections.ObservableList;
+
+public class UndoRedoStack {
+
+    private Stack<ObservableList<ModelTask>> stack_;
+
+    public UndoRedoStack() {
+        stack_ = new Stack<ObservableList<ModelTask>>();
+    }
+
+    /**
+     * Accessors
+     */
+    public Stack<ObservableList<ModelTask>> getStack() {
+        return stack_;
+    }
+
+    public int getSize() {
+        return stack_.size();
+    }
+
+    /**
+     * Mutators
+     */
+    public void setStack(Stack<ObservableList<ModelTask>> stack) {
+        this.stack_ = stack;
+    }
+
+    public void push(ObservableList<ModelTask> list) {
+        stack_.push(list);
+    }
+
+    public ObservableList<ModelTask> pop() {
+        return stack_.pop();
+    }
+
+    public ObservableList<ModelTask> peek() {
+        return stack_.peek();
+    }
+
+    public void clear() {
+        stack_.clear();
+    }
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\com\UndoRedoStack.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Add.java
+	 */
+
+package logic;
+
+import java.util.logging.Level;
+
+import com.ModelTask;
+import com.util.MyLogger;
+
+/**
+ * Logic for Add command.
+ * Adds tasks to the list of tasks in CommandFactory.
+ */
+public class Add extends CommandFactory {
+
+    private boolean isDone_;
+    private boolean isUrgent_;
+
+    /**
+     * Constructor
+     */
+    protected Add(String input, boolean isUrgent) {
+        isAddingUrgent(isUrgent);
+        execute(input);
+        updateUndoAndRedoStacks();
+        updateTaskList();
+    }
+
+    @Override
+    protected void execute(String input) {
+        try {
+            ModelTask temp = addTask(input);
+            setFeedbackSuccess(temp);
+        } catch (IllegalArgumentException ex) {
+            setFeedbackError();
+            logError();
+            return;
+        }
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone_;
+    }
+
+    private static String formatString(String input) {
+        if (input == null || input.isEmpty()) {
+            throw new IllegalArgumentException("Invalid!");
+        } else {
+            return input.trim();
+        }
+    }
+
+    private void isAddingUrgent(boolean isUrgent) {
+        this.isUrgent_ = isUrgent;
+    }
+
+    private ModelTask addTask(String input) {
+        input = formatString(input);
+        ModelTask temp = getTaskFromParser(input);
+        temp.setIsUrgent(isUrgent_);
+        list.add(temp);
+        isDone_ = true;
+        return temp;
+    }
+
+    private ModelTask getTaskFromParser(String input) {
+        return tc.convert(pf.getTask("add " + input), list.getListSize() + 1);
+    }
+
+    private void setFeedbackSuccess(ModelTask temp) {
+        CommandExecutor.setUserFeedBack(String.format("\"%s\"%s", temp.getEvent(), FeedbackMessages.SUCCESS_ADDING_MESSAGE));
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_ADDING_MESSAGE);
+    }
+
+    private void logError() {
+        MyLogger.log(Level.WARNING, FeedbackMessages.ERROR_ADDING_MESSAGE);
+    }
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Add.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Clear.java
+	 */
+
+package logic;
+
+import java.util.Iterator;
+import java.util.logging.Level;
+
+import com.ModelTask;
+import com.util.MyLogger;
+
+/**
+ * Logic for Clear command.
+ *
+ * Clears the list depending on the input command.
+ */
+public class Clear extends CommandFactory {
+
+    private boolean isDone_;
+
+    //Constructor
+    protected Clear(String input) {
+        execute(input);
+        updateUndoAndRedoStacks();
+        updateTaskList();
+    }
+
+    @Override
+    protected void execute(String input) {
+        determineClear(input);
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone_;
+    }
+
+    private void determineClear(String input) {
+        if (input.equalsIgnoreCase("")) {
+            clearAll();
+        } else if (input.equalsIgnoreCase("DONE")) {
+            clearDone();
+        } else if (input.equalsIgnoreCase("URGENT")) {
+            clearUrgent();
+        } else if (input.equalsIgnoreCase("NORMAL")) {
+            clearNormal();
+        } else {
+            setFeedbackError();
+        }
+        setGuiFeedback();
+    }
+
+    private void clearAll() {
+        list.clear();
+        isDone_ = true;
+        setFeedbackSuccessClear();
+    }
+
+    private void clearDone() {
+        Iterator<ModelTask> iterator = obtainListIterator();
+
+        while (iterator.hasNext()) {
+            if (iterator.next().isDone()) {
+                iterator.remove();
+            }
+        }
+        setPositionOfTasks();
+        isDone_ = true;
+        setFeedbackSuccessClearDone();
+    }
+
+    private void clearUrgent() {
+        Iterator<ModelTask> iterator = obtainListIterator();
+
+        while (iterator.hasNext()) {
+            if (iterator.next().isUrgent()) {
+                iterator.remove();
+            }
+        }
+        setPositionOfTasks();
+        isDone_ = true;
+        setFeedbackSuccessClearUrgent();
+    }
+
+    private void clearNormal() {
+        Iterator<ModelTask> iterator = obtainListIterator();
+
+        while (iterator.hasNext()) {
+            if (!iterator.next().isUrgent()) {
+                iterator.remove();
+            }
+        }
+        setPositionOfTasks();
+        isDone_ = true;
+        setFeedbackSuccessClearNormal();
+    }
+
+    private void setGuiFeedback() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_CLEAR_MESSAGE);
+        MyLogger.log(Level.INFO, FeedbackMessages.ERROR_CLEAR_MESSAGE);
+    }
+
+    private void setFeedbackSuccessClear() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_CLEAR_MESSAGE);
+    }
+
+    /**
+     * Sets Position of tasks in proper order after clearing.
+     */
+    private void setPositionOfTasks() {
+        for (int i = 0; i < list.getListSize(); i++) {
+            list.get(i).setPosition(i + 1);
+        }
+    }
+
+    private Iterator<ModelTask> obtainListIterator() {
+        Iterator<ModelTask> iterator = list.iterator();
+        return iterator;
+    }
+
+    private void setFeedbackSuccessClearDone() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_CLEARDONE_MESSAGE);
+    }
+
+    private void setFeedbackSuccessClearUrgent() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_CLEARURGENT_MESSAGE);
+    }
+
+    private void setFeedbackSuccessClearNormal() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_CLEARNORMAL_MESSAGE);
+    }
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Clear.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\CommandExecutor.java
+	 */
+
+        protected static boolean isGuiFeedbackValid(int feedback){
+            if(feedback>=0 && feedback <=3){
+                return true;
+            } else {
+                return false;
+            }
+        }
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\CommandExecutor.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\CommandFactory.java
+	 */
+
+package logic;
+
+import java.util.ArrayList;
+
+import com.ModelTask;
+import com.TaskConverter;
+import com.TaskList;
+import com.TentativeTask;
+import com.TimePeriod;
+import com.UndoRedoStack;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import parser.ParserFacade;
+
+/**
+ * This is the abstract class which all the commands inherit from.
+ */
+public abstract class CommandFactory {
+
+    protected static ParserFacade pf = ParserFacade.getInstance();
+    protected static TaskConverter tc = TaskConverter.getInstance();
+    protected static TaskList list = new TaskList();
+    protected static TaskList tempList = new TaskList();
+    protected static UndoRedoStack undoStack = new UndoRedoStack();
+    protected static UndoRedoStack redoStack = new UndoRedoStack();
+    protected static ArrayList<TentativeTask> tentativeTasks = new ArrayList<TentativeTask>();
+    protected static ArrayList<TimePeriod> globalBlockedTimePeriods = new ArrayList<TimePeriod>();
+    protected static ObservableList<String> tentativeTasksObservableList = FXCollections.observableArrayList();
+
+    /**
+     * Abstract methods
+     */
+    protected abstract void execute(String input);
+
+    protected abstract boolean isDone();
+
+    /**
+     * Methods
+     */
+    protected static boolean isValidLineNumber(int num) {
+        return num < list.getListSize() && num >= 0;
+    }
+
+    protected static void printContentsOfList(ObservableList<ModelTask> list) {
+        ModelTask temp;
+        for (int i = 0; i < list.size(); i++) {
+            temp = list.get(i);
+            printMessage(temp.getEvent());
+        }
+    }
+
+    protected static void printMessage(String message) {
+        System.out.println(message);
+    }
+
+    protected static void updateUndoAndRedoStacks() {
+        ObservableList<ModelTask> temp = FXCollections.observableArrayList();
+        copyList(list.getList(), temp);
+        undoStack.push(temp);
+        redoStack.clear();
+    }
+
+    protected static void copyList(ObservableList<ModelTask> oldList, ObservableList<ModelTask> newList) {
+
+        if (!newList.isEmpty()) {
+            newList.clear();
+        }
+        for (ModelTask task : oldList) {
+            ModelTask temp = task.copyTask();
+            newList.add(temp);
+        }
+    }
+
+    protected static void updateTaskList() {
+        CommandExecutor.setTaskList(list.getList());
+    }
+
+    protected static void updateTempList() {
+        CommandExecutor.setTempList(tempList.getList());
+    }
+
+    protected static void updateGlobalBlockedTimePeriods() {
+        globalBlockedTimePeriods = TentativeTask.getGlobalBlockedTimePeriods();
+    }
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\CommandFactory.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Delete.java
+	 */
+
+package logic;
+
+import java.util.logging.Level;
+import java.util.regex.Pattern;
+
+import com.ModelTask;
+import com.util.MyLogger;
+
+/**
+ * Logic for Delete command.
+ *
+ * Deletes task at input index, or searches for task with input string, deletes
+ * task if only 1 is found, otherwise displays all tasks that are found.
+ */
+public class Delete extends CommandFactory {
+
+    private boolean isDone_;
+    private final static Pattern numberPattern = Pattern.compile("\\d++");
+    private final static int INITIAL_INPUT = -1;
+
+    /**
+     * Constructor
+     */
+    protected Delete(String input) {
+        execute(input);
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone_;
+    }
+
+    @Override
+    protected void execute(String input) {
+        try {
+            int index = INITIAL_INPUT;
+
+            if (isNumberInput(input)) {
+                index = getIndex(input);
+            } else {
+                tempList.clear();
+                getDeleteList(input);
+
+                if (isOnePossibility()) {
+                    index = getTaskIndex();
+                }
+            }
+
+            if (index != INITIAL_INPUT) {
+                list.remove(index);
+                updatePositionsInTaskList(index);
+
+                updateUndoAndRedoStacks();
+                updateTaskList();
+                isDone_ = true;
+
+                CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_DELETE_MESSAGE);
+                MyLogger.log(Level.INFO, FeedbackMessages.SUCCESS_DELETE_MESSAGE);
+                CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            } else {
+
+                if (noPossibleTask()) {
+                    CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_DELETE_MESSAGE);
+                    MyLogger.log(Level.INFO, FeedbackMessages.ERROR_DELETE_MESSAGE);
+                    CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+                }
+
+                updateTempList();
+                CommandExecutor.setUserFeedBack(FeedbackMessages.WAIT_DELETE_MESSAGE);
+                MyLogger.log(Level.INFO, FeedbackMessages.WAIT_DELETE_MESSAGE);
+                CommandExecutor.setGuiFeedBack(FeedbackMessages.SWITCH_TO_TEMP_DELETE);
+            }
+
+        } catch (Exception ex) {
+            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_DELETE_MESSAGE);
+            MyLogger.log(Level.INFO, FeedbackMessages.ERROR_DELETE_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+            printMessage(ex.getMessage());
+            return;
+        }
+    }
+
+    private boolean noPossibleTask() {
+        return tempList.getListSize() == 0;
+    }
+
+    private void updatePositionsInTaskList(int index) {
+        for (int i = index; i < list.getListSize(); i++) {
+            list.get(i).setPosition(i + 1);
+        }
+    }
+
+    private void getDeleteList(String input) {
+        for (ModelTask task : list) {
+            if (task.getEvent().contains(input)) {
+                System.out.println(task.getEvent());
+                tempList.add(task);
+            }
+        }
+    }
+
+    private boolean isNumberInput(String input) {
+        return input != null && numberPattern.matcher(input).matches();
+    }
+
+    private boolean isOnePossibility() {
+        return tempList.getListSize() == 1;
+    }
+
+    private int getTaskIndex() {
+        return tempList.get(0).getPosition() - 1;
+    }
+
+    private static int getIndex(String input) {
+        int index;
+        if (input == null || input.isEmpty()) {
+            throw new IllegalArgumentException("Invalid index!");
+        } else {
+            index = Integer.parseInt(input.trim().split("\\s+")[0]) - 1;
+        }
+        if (!isValidLineNumber(index)) {
+            throw new IllegalArgumentException("Invalid index!");
+        } else {
+            return index;
+        }
+    }
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Delete.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Display.java
+	 */
+
+package logic;
+
+import static logic.CommandFactory.list;
+
+import com.ModelTask;
+
+/**
+ * Logic for Display command.
+ *
+ * Searches and displays tasks of input type.
+ */
+public class Display extends CommandFactory {
+
+    private boolean isDone_;
+
+    public Display(String input) {
+        tempList.clear();
+        execute(input);
+        updateTempList();
+    }
+
+    @Override
+    protected void execute(String input) {
+        if (!determineDisplay(input)) {
+            return;
+        }
+        setFeedback();
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone_;
+    }
+
+    private boolean determineDisplay(String input) {
+        if (input.equalsIgnoreCase("DONE")) {
+            displayDone();
+        } else if (input.equalsIgnoreCase("URGENT")) {
+            displayUrgent();
+        } else {
+            setFeedbackError();
+            return false;
+        }
+        return true;
+    }
+
+    private void displayUrgent() {
+        for (ModelTask task : list) {
+            if (task.isUrgent()) {
+                tempList.add(task);
+            }
+        }
+    }
+
+    private void displayDone() {
+        for (ModelTask task : list) {
+            if (task.isDone()) {
+                tempList.add(task);
+            }
+        }
+    }
+
+    private void setFeedback() {
+        if (tempList.isEmpty()) {
+            CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_SEARCH_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+        } else {
+            CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_SEARCH_MESSAGE);
+            CommandExecutor.setGuiFeedBack(FeedbackMessages.SWITCH_TO_TEMP);
+            isDone_ = true;
+        }
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_DISPLAY_MESSAGE);
+    }
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Display.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Edit.java
+	 */
+
+package logic;
+
+import static logic.CommandFactory.tc;
+
+import java.util.logging.Level;
+
+import com.ModelTask;
+import com.Task;
+import com.util.MyLogger;
+
+/**
+ * Logic for Edit command.
+ *
+ * Edits task at input index.
+ */
+public class Edit extends CommandFactory {
+
+    private boolean isDone_;
+
+    //Constructor
+    protected Edit(String input) {
+        execute(input);
+        updateUndoAndRedoStacks();
+        updateTaskList();
+    }
+
+    @Override
+    protected void execute(String input) {
+        String[] splitStrings;
+        int index;
+        try {
+            editTask(input);
+            setFeedbackSuccess();
+            setGuiFeedbackNormal();
+        } catch (Exception ex) {
+            setFeedbackError();
+            logError();
+            setGuiFeedbackNormal();
+            return;
+        }
+
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone_;
+    }
+
+    private static String[] formatString(String input) {
+        if (input == null || input.isEmpty()) {
+            setFeedbackInvalidIndex();
+            logInvalidIndex();
+            throw new IllegalArgumentException("Invalid index!");
+        } else {
+            return input.trim().split("\\s+", 2);
+        }
+    }
+
+    private static int getIndex(String[] splitStrings) {
+        int index = Integer.parseInt(splitStrings[0]) - 1;
+
+        if (!isValidLineNumber(index)) {
+            setFeedbackInvalidIndex();
+            logInvalidIndex();
+            throw new IllegalArgumentException("Invalid index!");
+        } else {
+            return index;
+        }
+    }
+
+    private static void logInvalidIndex() {
+        MyLogger.log(Level.WARNING, "Invalid index!");
+    }
+
+    private static void setFeedbackInvalidIndex() {
+        CommandExecutor.setUserFeedBack("Invalid index!");
+    }
+
+    private static Task getNewTaskFromParser(String[] splitStrings) {
+        return pf.getTask(splitStrings[1]);
+    }
+
+    private void logError() {
+        MyLogger.log(Level.WARNING, FeedbackMessages.ERROR_EDIT_MESSAGE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_EDIT_MESSAGE);
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_EDIT_MESSAGE);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void editTask(String input) {
+        String[] splitStrings;
+        int index;
+        splitStrings = formatString(input);
+        index = getIndex(splitStrings);
+        Task newTask = getNewTaskFromParser(splitStrings);
+        ModelTask temp = convertTaskToModelTask(input, index);
+        list.remove(index);
+        list.add(temp, index);
+        isDone_ = true;
+    }
+
+    private ModelTask convertTaskToModelTask(String input, int index) {
+        ModelTask temp = tc.convert(pf.getTask(input), index + 1);
+        return temp;
+    }
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Edit.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\MarkDone.java
+	 */
+
+package logic;
+
+import com.ModelTask;
+import com.util.MyLogger;
+import java.util.logging.Level;
+
+/**
+ * Logic for MarkDone command.
+ *
+ * Marks the task at input index as done.
+ */
+public class MarkDone extends CommandFactory {
+
+    private static final int INVALID_INDEX = -1;
+
+    private boolean isDone_;
+
+    protected MarkDone(String input) {
+        execute(input);
+        updateUndoAndRedoStacks();
+        updateTaskList();
+    }
+
+    @Override
+    protected void execute(String input) {
+        int index;
+        index = getIndex(input);
+
+        if (isValidIndex(index)) {
+            markTaskAsDone(index);
+        } else {
+            setFeedbackError();
+            logError();
+            setGuiFeedbackNormal();
+        }
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone_;
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_MARKDONE_MESSAGE);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void logError() {
+        MyLogger.log(Level.INFO, FeedbackMessages.ERROR_MARKDONE_MESSAGE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKDONE_MESSAGE);
+    }
+
+    private void markTaskAsDone(int index) {
+        ModelTask task = null;
+        int i = 0;
+
+        for (; i < list.getListSize(); i++) {
+            ModelTask temp = list.get(i);
+            if (temp.getPosition() == index) {
+                task = temp;
+                break;
+            }
+        }
+
+        task.setIsDone(true);
+        list.remove(i);
+        list.add(task, i);
+        isDone_ = true;
+        setFeedbackSuccess();
+        setGuiFeedbackNormal();
+    }
+
+    private int getIndex(String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException ex) {
+            return INVALID_INDEX;
+        }
+    }
+
+    private boolean isValidIndex(int index) {
+        return index <= list.getListSize() && index > 0;
+    }
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\MarkDone.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\MarkNotUrgent.java
+	 */
+
+package logic;
+
+import static logic.CommandFactory.updateUndoAndRedoStacks;
+
+import com.ModelTask;
+import com.util.MyLogger;
+import java.util.logging.Level;
+
+/**
+ * Logic for MarkNotUrgent command.
+ *
+ * Marks the task at input index as not urgent.
+ */
+public class MarkNotUrgent extends CommandFactory {
+
+    private static final int INVALID_INDEX = -1;
+
+    private boolean isDone_;
+
+    protected MarkNotUrgent(String input) {
+        execute(input);
+        updateUndoAndRedoStacks();
+        updateTaskList();
+    }
+
+    @Override
+    protected void execute(String input) {
+        int index;
+        index = getIndex(input);
+
+        if (isValidIndex(index)) {
+            markTaskAsUrgent(index);
+        } else {
+            setFeedbackError();
+            logError();
+            setGuiFeedbackNormal();
+        }
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone_;
+    }
+
+    private void markTaskAsUrgent(int index) {
+        ModelTask task = null;
+        int i = 0;
+
+        for (; i < list.getListSize(); i++) {
+            ModelTask temp = list.get(i);
+            if (temp.getPosition() == index) {
+                task = temp;
+                break;
+            }
+        }
+
+        task.setIsUrgent(false);
+        list.remove(i);
+        list.add(task, i);
+        isDone_ = true;
+        setFeedbackSuccess();
+        setGuiFeedbackNormal();
+    }
+
+    private int getIndex(String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException ex) {
+            return INVALID_INDEX;
+        }
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_MARKNOTURGENT_MESSAGE);
+    }
+
+    private void logError() {
+        MyLogger.log(Level.INFO, FeedbackMessages.ERROR_MARKNOTURGENT_MESSAGE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKNOTURGENT_MESSAGE);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private boolean isValidIndex(int index) {
+        return index <= list.getListSize() && index > 0;
+    }
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\MarkNotUrgent.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\MarkUndone.java
+	 */
+
+package logic;
+
+
+import com.ModelTask;
+import com.util.MyLogger;
+import java.util.logging.Level;
+
+/**
+ * Logic for MarkUndone command.
+ *
+ * Marks the task at input index as not done.
+ */
+public class MarkUndone extends CommandFactory {
+
+    private static final int INVALID_INDEX = -1;
+
+    private boolean isDone_;
+
+    protected MarkUndone(String input) {
+        execute(input);
+        updateUndoAndRedoStacks();
+        updateTaskList();
+    }
+
+    @Override
+    protected void execute(String input) {
+        int index;
+        index = getIndex(input);
+
+        if (isValidIndex(index)) {
+            markTaskAsUndone(index);
+        } else {
+            setFeedbackError();
+            logError();
+            setGuiFeedbackNormal();
+        }
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone_;
+    }
+
+    private int getIndex(String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException ex) {
+            return INVALID_INDEX;
+        }
+    }
+
+    private void markTaskAsUndone(int index) {
+        ModelTask task = null;
+        int i = 0;
+
+        for (; i < list.getListSize(); i++) {
+            ModelTask temp = list.get(i);
+            if (temp.getPosition() == index) {
+                task = temp;
+                break;
+            }
+        }
+
+        task.setIsDone(false);
+        list.remove(i);
+        list.add(task, i);
+        isDone_ = true;
+        setFeedbackSuccess();
+        setGuiFeedbackNormal();
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_MARKUNDONE_MESSAGE);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void logError() {
+        MyLogger.log(Level.INFO, FeedbackMessages.ERROR_MARKUNDONE_MESSAGE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKUNDONE_MESSAGE);
+    }
+
+    private boolean isValidIndex(int index) {
+        return index <= list.getListSize() && index > 0;
+    }
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\MarkUndone.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\MarkUrgent.java
+	 */
+
+package logic;
+
+import static logic.CommandFactory.updateUndoAndRedoStacks;
+
+import com.ModelTask;
+import com.util.MyLogger;
+import java.util.logging.Level;
+
+/**
+ * Logic for MarkUrgent command.
+ *
+ * Marks the task at input index as urgent.
+ */
+public class MarkUrgent extends CommandFactory {
+
+    private static final int INVALID_INDEX = -1;
+
+    private boolean isDone_;
+
+    protected MarkUrgent(String input) {
+        execute(input);
+        updateUndoAndRedoStacks();
+        updateTaskList();
+    }
+
+    @Override
+    protected void execute(String input) {
+        int index;
+        index = getIndex(input);
+
+        if (isValidIndex(index)) {
+            markTaskAsUrgent(index);
+        } else {
+            setFeedbackError();
+            logError();
+            setGuiFeedbackNormal();
+        }
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone_;
+    }
+
+    private int getIndex(String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException ex) {
+            return INVALID_INDEX;
+        }
+
+    }
+
+    private void markTaskAsUrgent(int index) {
+        ModelTask task = null;
+        int i = 0;
+
+        for (; i < list.getListSize(); i++) {
+            ModelTask temp = list.get(i);
+            if (temp.getPosition() == index) {
+                task = temp;
+                break;
+            }
+        }
+
+        task.setIsUrgent(true);
+        list.remove(i);
+        list.add(task, i);
+        isDone_ = true;
+        setFeedbackSuccess();
+        setGuiFeedbackNormal();
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_MARKURGENT_MESSAGE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_MARKURGENT_MESSAGE);
+    }
+
+    private void logError() {
+        MyLogger.log(Level.INFO, FeedbackMessages.ERROR_MARKURGENT_MESSAGE);
+    }
+
+    private boolean isValidIndex(int index) {
+        return index <= list.getListSize() && index > 0;
+    }
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\MarkUrgent.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\ModelTaskAlphaComparator.java
+	 */
+
+package logic;
+
+import java.util.Comparator;
+
+import com.ModelTask;
+
+/**
+ * Comparator to allow comparing tasks alphabetically by their event names.
+ */
+public class ModelTaskAlphaComparator implements Comparator<ModelTask> {
+
+    @Override
+    public int compare(ModelTask task1, ModelTask task2) {
+        String name1 = task1.getEvent();
+        String name2 = task2.getEvent();
+
+        return name1.compareToIgnoreCase(name2);
+    }
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\ModelTaskAlphaComparator.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\ModelTaskNumComparator.java
+	 */
+
+package logic;
+
+import java.util.Comparator;
+
+import com.ModelTask;
+
+/**
+ * Comparator to allow comparing tasks numerically by their positions.
+ */
+public class ModelTaskNumComparator implements Comparator<ModelTask> {
+
+    @Override
+    public int compare(ModelTask task1, ModelTask task2) {
+        int position1 = task1.getPosition();
+        int position2 = task2.getPosition();
+
+        if (position1 == position2) {
+            return 0;
+        } else {
+            return position1 > position2 ? 1 : -1;
+        }
+    }
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\ModelTaskNumComparator.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Move.java
+	 */
+
+package logic;
+
+import com.ModelTask;
+
+/**
+ * Takes in String input containing 2 integers in the format "%d %d", where the
+ * 1st integer is the task to be moved, and the 2nd integer is the position to
+ * move to.
+ */
+public class Move extends CommandFactory {
+
+    private static final int INDEX_TASK = 0;
+    private static final int INDEX_POSITION = 1;
+
+    private boolean isDone_;
+
+    protected Move(String input) {
+        execute(input);
+        updateUndoAndRedoStacks();
+        updateTaskList();
+    }
+
+    @Override
+    protected void execute(String input) {
+        try {
+            String[] splitStrings = formatString(input);
+            int index = getIndex(splitStrings, INDEX_TASK);
+            int position = getIndex(splitStrings, INDEX_POSITION);
+
+            if (isValidLineNumber(index) && isValidLineNumber(position) && index != position) {
+                moveTask(index, position);
+            } else {
+                setFeedbackInvalidIndex();
+                setGuiFeedbackNormal();
+            }
+        } catch (IllegalArgumentException ex) {
+            setFeedbackInvalidIndex();
+            setGuiFeedbackNormal();
+        }
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone_;
+    }
+
+    private void moveTask(int index, int position) {
+        ModelTask temp = list.get(index);
+
+        list.remove(index);
+        list.add(temp, position);
+        setPositionOfTasks();
+
+        isDone_ = true;
+        setFeedbackSuccess(index, position);
+        setGuiFeedbackNormal();
+    }
+
+    private void setFeedbackSuccess(int index, int position) {
+        CommandExecutor.setUserFeedBack(String.format("Task %d has been moved to no. %d.", index + 1, position + 1));
+    }
+
+    private void setFeedbackInvalidIndex() {
+        CommandExecutor.setUserFeedBack("Please enter 2 valid numbers");
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void setPositionOfTasks() {
+        for (int i = 0; i < list.getListSize(); i++) {
+            list.get(i).setPosition(i + 1);
+        }
+    }
+
+    private static String[] formatString(String input) {
+        if (input == null || input.isEmpty()) {
+            throw new IllegalArgumentException("Invalid index!");
+        } else {
+            return input.trim().split("\\s+", 3);
+        }
+    }
+
+    private static int getIndex(String[] splitStrings, int argument) {
+        int index = Integer.parseInt(splitStrings[argument]) - 1;
+
+        if (!isValidLineNumber(index)) {
+            throw new IllegalArgumentException("Invalid index!");
+        } else {
+            return index;
+        }
+    }
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Move.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Redo.java
+	 */
+
+package logic;
+
+import com.ModelTask;
+import com.util.MyLogger;
+import java.util.logging.Level;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+/**
+ * Logic for Redo Command.
+ */
+public class Redo extends CommandFactory {
+
+    private boolean isDone_;
+
+    protected Redo() {
+        execute(null);
+        updateTaskList();
+    }
+
+    @Override
+    protected void execute(String input) {
+        if (redoStack.getStack().isEmpty()) {
+            setFeedbackError();
+            logError();
+            setGuiFeedbackNormal();
+        } else {
+            redo();
+            setFeedbackSuccess();
+            setGuiFeedbackUpdateAllList();
+        }
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone_;
+    }
+
+    private void redo() {
+        setListInRedoStackAsCurrentList();
+        copyCurrentListIntoUndoStack();
+        isDone_ = true;
+    }
+
+    private void setListInRedoStackAsCurrentList() {
+        list.setList(redoStack.pop());
+    }
+
+    private void copyCurrentListIntoUndoStack() {
+        ObservableList<ModelTask> temp = FXCollections.observableArrayList();
+        copyList(list.getList(), temp);
+        undoStack.push(temp);
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_REDONE_MESSAGE);
+    }
+
+    private void setGuiFeedbackUpdateAllList() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.UPDATE_ALL_LIST);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_REDONE_MESSAGE);
+    }
+
+    private void logError() {
+        MyLogger.log(Level.INFO, FeedbackMessages.ERROR_REDONE_MESSAGE);
+    }
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Redo.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Search.java
+	 */
+
+package logic;
+
+import com.ModelTask;
+
+/**
+ * Logic for Search command.
+ *
+ * Searches for tasks containing input string and adds them to a list of search
+ * results.
+ */
+public class Search extends CommandFactory {
+
+    private boolean isDone_;
+
+    protected Search(String input) {
+        tempList.clear();
+        execute(input);
+        updateTempList();
+    }
+
+    @Override
+    protected void execute(String input) {
+        searchListForHits(input);
+
+        if (tempList.isEmpty()) {
+            setFeedbackError();
+            setGuiFeedbackNormal();
+        } else {
+            setFeedbackSuccess();
+            setGuiFeedbackSwitchToTemp();
+            isDone_ = true;
+        }
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone_;
+    }
+
+    private void searchListForHits(String input) {
+        for (ModelTask task : list) {
+            if (task.getEvent().contains(input)) {
+                addFoundTasksToTempList(task);
+            }
+        }
+    }
+
+    private void addFoundTasksToTempList(ModelTask task) {
+        tempList.add(task);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_SEARCH_MESSAGE);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_SEARCH_MESSAGE);
+    }
+
+    private void setGuiFeedbackSwitchToTemp() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.SWITCH_TO_TEMP);
+    }
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Search.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Sort.java
+	 */
+
+package logic;
+
+import com.util.MyLogger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.logging.Level;
+
+/**
+ * Logic for Sort command.
+ *
+ * Sorts tasks according to the type input.
+ */
+public class Sort extends CommandFactory {
+
+    private boolean isDone_;
+
+    enum SortCommands {
+
+        ALPHA, DATE, NUM
+    }
+
+    protected Sort(String input) {
+        execute(input);
+        updateUndoAndRedoStacks();
+        updateTaskList();
+    }
+
+    @Override
+    protected void execute(String input) {
+        SortCommands cmd;
+        try {
+            cmd = getSortCommands(input);
+            performSort(cmd);
+            isDone_ = true;
+            setFeedbackSuccess();
+            setGuiFeedbackNormal();
+        } catch (IllegalArgumentException ex) {
+            setFeedbackError();
+            logError();
+            setGuiFeedbackNormal();
+            return;
+        }
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone_;
+    }
+
+    private SortCommands getSortCommands(String input) {
+        ArrayList<String> tempStrings = getSortCommandString(input);
+
+        if (tempStrings.contains("alpha")) {
+            return SortCommands.ALPHA;
+        } else if (tempStrings.contains("date")) {
+            return SortCommands.DATE;
+        } else if (tempStrings.contains("num") || input.equals("")) {
+            return SortCommands.NUM;
+        } else {
+            throw new IllegalArgumentException("Invalid sort command!");
+        }
+    }
+
+    private void performSort(SortCommands cmd) {
+        switch (cmd) {
+            case ALPHA:
+                sortTasksAlphabetically();
+                break;
+            case DATE:
+                sortTasksByDate();
+                break;
+            case NUM:
+                sortTasksByPositionNumber();
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid");
+        }
+    }
+
+    private void sortTasksByPositionNumber() {
+        Collections.sort(CommandFactory.list.getList(), new ModelTaskNumComparator());
+    }
+
+    private void sortTasksByDate() {
+        Collections.sort(CommandFactory.list.getList(), new ModelTaskDateComparator());
+    }
+
+    private void sortTasksAlphabetically() {
+        Collections.sort(CommandFactory.list.getList(), new ModelTaskAlphaComparator());
+    }
+
+    private ArrayList<String> getSortCommandString(String input) {
+        ArrayList<String> tempStrings = new ArrayList<String>();
+        for (String tempString : input.split(" ")) {
+            tempStrings.add(tempString.toLowerCase());
+        }
+        return tempStrings;
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_SORTED_MESSAGE);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_SORTED_MESSAGE);
+    }
+
+    private void logError() {
+        MyLogger.log(Level.INFO, FeedbackMessages.ERROR_SORTED_MESSAGE);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Sort.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Undo.java
+	 */
+
+package logic;
+
+import com.ModelTask;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+/**
+ * Logic for Undo command.
+ */
+public class Undo extends CommandFactory {
+
+    private boolean isDone_;
+
+    protected Undo() {
+        execute(null);
+        updateTaskList();
+    }
+
+    @Override
+    protected void execute(String input) {
+        if (!undoStack.getStack().isEmpty()) {
+            ObservableList<ModelTask> popped = getListFromUndoStack();
+
+            if (!undoStack.getStack().isEmpty()) {
+                addCurrentListToRedoStack(popped);
+                undo();
+                setFeedbackSuccess();
+                setGuiFeedbackUpdateAllList();
+            } else {
+                ObservableList<ModelTask> temp = FXCollections.observableArrayList();
+                copyList(popped, temp);
+                undoStack.push(temp);
+
+                setFeedbackError();
+                setGuiFeedbackNormal();
+            }
+        } else {
+            setFeedbackEmptyStack();
+        }
+    }
+
+    @Override
+    protected boolean isDone() {
+        return isDone_;
+    }
+
+    private void undo() {
+        ObservableList<ModelTask> popped;
+        popped = undoStack.peek();
+        ObservableList<ModelTask> temp = FXCollections.observableArrayList();
+        copyList(popped, temp);
+        list.setList(temp);
+        isDone_ = true;
+    }
+
+    private ObservableList<ModelTask> getListFromUndoStack() {
+        ObservableList<ModelTask> popped = undoStack.pop();
+        return popped;
+    }
+
+    private void addCurrentListToRedoStack(ObservableList<ModelTask> popped) {
+        redoStack.push(popped);
+    }
+
+    private void setFeedbackError() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.ERROR_UNDONE_MESSAGE);
+    }
+
+    private void setFeedbackSuccess() {
+        CommandExecutor.setUserFeedBack(FeedbackMessages.SUCCESS_UNDONE_MESSAGE);
+    }
+
+    private void setGuiFeedbackUpdateAllList() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.UPDATE_ALL_LIST);
+    }
+
+    private void setGuiFeedbackNormal() {
+        CommandExecutor.setGuiFeedBack(FeedbackMessages.NORMAL_STATE);
+    }
+
+    private void setFeedbackEmptyStack() {
+        CommandExecutor.setUserFeedBack("Error, empty stack");
+    }
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Undo.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\test\logic\CommandExecutorTest.java
+	 */
+
+/**
+ * JUnit test for CommandExecutor.
+ */
+package logic;
+
+import java.io.IOException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import org.junit.After;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import org.junit.Before;
+import org.junit.Test;
+import com.ModelTask;
+import storage.Storage;
+
+public class CommandExecutorTest {
+
+    Storage tempStorage;
+    CommandExecutor ex;
+    ObservableList<ModelTask> tempObservableList;
+
+    public CommandExecutorTest() {
+    }
+
+    @Before
+    public void setUp() {
+
+        try {
+            tempObservableList = FXCollections.observableArrayList();
+            tempStorage = new Storage("test.txt");
+            ex = new CommandExecutor(tempObservableList, tempStorage);
+        } catch (IOException ex) {
+            fail("Storage IOexception");
+        }
+
+    }
+
+    @After
+    public void tearDown() {
+    }
+
+    /**
+     * Test of setUserFeedBack method, of class CommandExecutor.
+     */
+    @Test
+    public void testSetUserFeedBack() {
+        System.out.println("setUserFeedBack");
+
+        String feedBack = "";
+        CommandExecutor.setUserFeedBack(feedBack);
+        assertEquals(ex.getUserFeedBack(), "");
+
+        feedBack = "setting test feedback";
+        CommandExecutor.setUserFeedBack(feedBack);
+        assertEquals(ex.getUserFeedBack(), "setting test feedback");
+
+        feedBack = "-123";
+        CommandExecutor.setUserFeedBack(feedBack);
+        assertEquals(ex.getUserFeedBack(), "-123");
+    }
+
+    /**
+     * Test of setGuiFeedBack method, of class CommandExecutor.
+     */
+    @Test
+    public void testSetGuiFeedBack() {
+        System.out.println("setGuiFeedBack");
+        int feedBack = 0;
+
+        CommandExecutor.setGuiFeedBack(feedBack);
+        assertEquals(ex.getGuiFeedBack(), 0);
+
+        feedBack = 3;
+        CommandExecutor.setGuiFeedBack(feedBack);
+        assertEquals(ex.getGuiFeedBack(), 3);
+
+        feedBack = 10;
+        CommandExecutor.setGuiFeedBack(feedBack);
+        assertEquals(ex.getGuiFeedBack(), 0);
+
+        feedBack = -10;
+        CommandExecutor.setGuiFeedBack(feedBack);
+        assertEquals(ex.getGuiFeedBack(), 0);
+    }
+
+    /**
+     * Test of setTaskList method, of class CommandExecutor.
+     */
+    @Test
+    public void testSetTaskList() {
+        System.out.println("setTaskList");
+        ObservableList<ModelTask> taskList = FXCollections.observableArrayList();
+
+        CommandExecutor.setTaskList(taskList);
+        assertEquals(ex.getAllList(), taskList);
+    }
+
+    /**
+     * Test of setTempList method, of class CommandExecutor.
+     */
+    @Test
+    public void testSetTempList() {
+        System.out.println("setTempList");
+        ObservableList<ModelTask> searchList = FXCollections.observableArrayList();
+
+        CommandExecutor.setTempList(searchList);
+        assertEquals(ex.getSearchedList(), searchList);
+    }
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\test\logic\CommandExecutorTest.java
+
+
+
+
+

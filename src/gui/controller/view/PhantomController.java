@@ -94,7 +94,7 @@ public class PhantomController {
 	final KeyCombination keyCombShiftRight = KeyCodeCombination.valueOf("Ctrl+RIGHT");
 	final KeyCombination keyCombShiftLeft = KeyCodeCombination.valueOf("Ctrl+LEFT");
 
-	//@author A011601R
+	//@author A0116018R
 	//constructor
 	public PhantomController() {
 		logicFacade_ = LogicFacade.getInstance();

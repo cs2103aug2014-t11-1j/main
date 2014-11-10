@@ -8,7 +8,7 @@ import com.ModelTask;
  * This class compares 2 date object. if one of the date is null, the one that
  * is not null is bigger.
  *
- * @author: Zhang Yongkai
+ * @author: A0110567L
  */
 public class ModelTaskDateComparator implements Comparator<ModelTask> {
 

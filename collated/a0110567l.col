@@ -1,0 +1,1584 @@
+//@author: a0110567l
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\com\util\MyLogger.java
+	 */
+
+/**
+ * this class is meant for logging. It is a static class so every class will log using this logger
+ * eg: MyLogger.log(Level level, String msg);
+ */
+
+public class MyLogger {
+	public static Logger logger;
+	private static Handler fileHandler;
+	private static Formatter plainText;
+
+	private MyLogger() throws IOException {
+		logger = Logger.getLogger(MyLogger.class.getName());
+		fileHandler = new FileHandler("phantomLog.txt", true);
+		plainText = new SimpleFormatter();
+		fileHandler.setFormatter(plainText);
+		logger.addHandler(fileHandler);
+		logger.setUseParentHandlers(false);
+		logger.setLevel(Level.ALL);
+	}
+
+	private static Logger getLogger() {
+		if (logger == null) {
+			try {
+				new MyLogger();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return logger;
+	}
+
+	public static void log(Level level, String msg) {
+		getLogger().log(level, msg);
+	}
+
+	public static void closeLogger() {
+		fileHandler.close();
+	}
+}
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\com\util\MyLogger.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\EditListener.java
+	 */
+
+/**
+ * this is the editlistener for a text field in javafx listener will listen to
+ * change in the input text field and display the the corresponding description
+ * of the task when the task number is entered for example: if you type
+ * "edit 2", it will display the 2nd task in the text field itself if you type
+ * "edit?" it will display what to input if you type "add?" it will display what
+ * to input
+ *
+ * note: the edit listener only work once per "enter".
+ */
+
+public class EditListener implements ChangeListener<String> {
+
+	private TextField commandLine_;
+	private LogicFacade logicFacade_;
+	private ObservableList<ModelTask> list_;
+
+	public EditListener(TextField commandLine) {
+		logicFacade_ = LogicFacade.getInstance();
+		list_ = logicFacade_.getAllList();
+		commandLine_ = commandLine;
+	}
+
+	@Override
+	public void changed(ObservableValue<? extends String> observable,
+			String oldValue, String newValue) {
+
+		if (newValue.trim().equalsIgnoreCase("add?")) {
+			commandLine_
+					.setText("add taskdecription startdate enddate starttime endtime");
+		}
+
+		if (newValue.trim().equalsIgnoreCase("edit?")) {
+			commandLine_
+					.setText("edit tasknumber taskdecription startdate enddate starttime endtime");
+		}
+
+		if (containsTwoSpace(newValue) && !PhantomController.isHasOccured()) {
+			String[] subStrings = newValue.trim().split("\\s+");
+			commandLine_.setText(newValue
+					+ getTaskDescription(Integer.parseInt(subStrings[1])));
+		}
+
+		list_ = logicFacade_.getAllList();
+	}
+
+	private boolean containsTwoSpace(String input) {
+		if ((input != null) && ((input.replaceAll("\\s+", "")) != "")) {
+
+			if (input.length() > 0
+					&& input.substring(input.length() - 1).equals(" ")) {
+
+				String[] subStrings = input.trim().split("\\s+");
+				if (subStrings.length >= 2) {
+					if (subStrings[0].equalsIgnoreCase("edit")
+							&& isInteger(subStrings[1])) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean isInteger(String s) {
+		try {
+			Integer.parseInt(s);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
+
+	private String getTaskDescription(int position) {
+		PhantomController.setHasOccured(true);
+		ModelTask currTask = new ModelTask();
+		Boolean positionIsFound = false;
+		String feedBack = "";
+		for (int i = 0; i < list_.size(); i++) {
+			if (list_.get(i).getPosition() == position) {
+				currTask = list_.get(i);
+				positionIsFound = true;
+			}
+		}
+
+		if (positionIsFound) {
+			String event = currTask.getEvent();
+			String startDate = currTask.getStartDateString();
+			String endDate = currTask.getEndDateString();
+			String startTime = currTask.getStartTimeString();
+			String endTime = currTask.getEndTimeString();
+			String dateString = "", timeString = "";
+
+			if (startDate == null) {
+				startDate = "";
+			}
+			if (endDate == null) {
+				endDate = "";
+			}
+			if (startTime == null) {
+				startTime = "";
+			}
+			if (endTime == null) {
+				endTime = "";
+			}
+
+			if (!startDate.equals("") && !endDate.equals("")) {
+				dateString = "from " + startDate + " to " + endDate;
+			} else if (startDate.equals("") && endDate.equals("")) {
+				dateString = startDate + endDate;
+			} else {
+				dateString = "by " + startDate + endDate;
+			}
+
+			if (!startTime.equals("") && !endTime.equals("")) {
+				timeString = "from " + startTime + " to " + endTime;
+			} else if (startTime.equals("") && endTime.equals("")) {
+				timeString = startTime + endTime;
+			} else {
+				timeString = "by " + startTime + endTime;
+			}
+			feedBack = event + " " + dateString + " " + timeString;
+			return feedBack;
+		}
+
+		return feedBack;
+	}
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\EditListener.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\Reminder.java
+	 */
+
+/**
+ * this class is used to display popup reminder for events which have a start
+ * date. it should show a display pop up at the bottom right of the screen 5 min
+ * before the event start.
+ */
+
+public class Reminder {
+	private final String REMINDER_MESSAGE = "Reminder: Task is due in 5 minutes!";
+	private final String REMINDER_ERROR = "Error!!!";
+	private static Reminder reminder = new Reminder();
+	private LogicFacade logicFacade_ = LogicFacade.getInstance();
+	private String oldTime_ = "";
+	private String newTime_ = "";
+	private ObservableList<ModelTask> taskList_ = FXCollections.observableArrayList();
+	private SimpleDateFormat dateFormatter_ = new SimpleDateFormat("dd/MM/yyyy");
+	private SimpleDateFormat timeFormatter_ = new SimpleDateFormat("HHmm");
+
+	private Reminder() {
+	}
+
+	public static Reminder getInstance() {
+		return reminder;
+	}
+
+	public void startReminder() {
+		newTime_ = getNewTime();
+		taskList_ = logicFacade_.getAllList();
+		Date eventDate = new Date(), eventTime = new Date();
+		int indexOfTask;
+		for (indexOfTask = 0; indexOfTask < taskList_.size(); indexOfTask++) {
+			if (taskList_.get(indexOfTask).getStartDate() != null) {
+				eventDate = taskList_.get(indexOfTask).getStartDate();
+			}
+			if (taskList_.get(indexOfTask).getStartTime() != null) {
+				eventTime = taskList_.get(indexOfTask).getStartTime();
+			}
+
+			try {
+				// get current system time
+				Calendar todayDate = Calendar.getInstance();
+				Date currentDateTime = todayDate.getTime();
+
+				/**
+				 * check if the date is the same if date is same check time
+				 * inteval is within allowed reminder range. currently it's set
+				 * to 5 min before the task is activated
+				 */
+
+				if (dateFormatter_.format(eventDate).equals(
+						dateFormatter_.format(currentDateTime))) {
+					todayDate.add(Calendar.MINUTE, 5);
+					Date timeToStartReminder = todayDate.getTime();
+					if (timeFormatter_.format(eventTime).equals(
+							timeFormatter_.format(timeToStartReminder))) {
+						// ensure reminder only activate one time each minte
+						if (!oldTime_.equals(newTime_)) {
+							String eventDescription = taskList_.get(indexOfTask)
+									.getEvent();
+							Notifications.create().title(REMINDER_MESSAGE)
+									.text(eventDescription)
+									.hideAfter(Duration.seconds(8))
+									.showWarning();
+							play();
+							oldTime_ = newTime_;
+						}
+					}
+				}
+
+			} catch (Exception ex) {
+				System.out.println(REMINDER_ERROR);
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	private String getNewTime() {
+		Calendar c = Calendar.getInstance();
+		return timeFormatter_.format(c.getTime());
+	}
+
+	// play a reminder sound when reminder is activated
+	private void play() {
+		final URL resource = getClass().getResource("reminder.mp3");
+		final Media media = new Media(resource.toString());
+		final MediaPlayer mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.play();
+	}
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\controller\Reminder.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\MainApp.java
+	 */
+
+			//loading the reminder service. reminder will be activated 5 min before the task starttime
+			TimeService timeService = TimeService.getInstance();
+			timeService.startReminderService();
+		
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\MainApp.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\gui\TimeService.java
+	 */
+
+/**
+ * this time service class contains Reminder service that checks for reminder every 5 sec,
+ */
+
+public final class TimeService {
+	private static TimeService timeService = new TimeService();
+	SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+	SimpleDateFormat timeFormatter = new SimpleDateFormat("HHmm");
+	
+	//constructors
+	private TimeService() {
+	}
+
+	public static TimeService getInstance() {
+		return timeService;
+	}
+
+	//for starting reminder pop ups
+	public void startReminderService() {
+		Timeline reminderService = new Timeline(new KeyFrame(
+				Duration.seconds(5), new EventHandler<ActionEvent>() {
+					Reminder popUpReminder = Reminder.getInstance();
+
+					@Override
+					public void handle(ActionEvent event) {
+						popUpReminder.startReminder();
+					}
+				}));
+		reminderService.setCycleCount(Timeline.INDEFINITE);
+		reminderService.play();
+	}
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\gui\TimeService.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Action.java
+	 */
+
+/**
+ * This Action class stores the information of the commandType. i.e : whether
+ * this action is ADD, DELETE, CLEAR, DISPLAY, UNDO, REDO, EDIT, SORT, MOVE,
+ * SEARCH, MARK_DONE, HELP, INVALID, EXIT
+ * 
+ */
+
+public class Action {
+
+	private static final String[] DICTIONARY_ADD = { "ADD", "A" };
+	private static final String[] DICTIONARY_ADD_URGENT = { "ADD!", "A!" };
+	private static final String[] DICTIONARY_DELETE = { "DELETE", "DEL", "D" };
+	private static final String[] DICTIONARY_CLEAR = { "CLEAR", "CLS", "CLR" };
+	private static final String[] DICTIONARY_EDIT = { "EDIT", "E" };
+	private static final String[] DICTIONARY_MOVE = { "MOVE", "MV", "M" };
+	private static final String[] DICTIONARY_SORT = { "SORT", "SRT" };
+	private static final String[] DICTIONARY_SEARCH = { "SEARCH", "?" };
+	private static final String[] DICTIONARY_MARK_DONE = { "DONE", "DID" };
+	private static final String[] DICTIONARY_MARK_UNDONE = { "UNDONE",
+			"NOTDONE", "UNDID", "NOTDID" };
+	private static final String[] DICTIONARY_MARK_URGENT = { "URGENT", "UR",
+			"URG", "URGE" };
+	private static final String[] DICTIONARY_MARK_NOT_URGENT = { "NOTURGENT",
+			"NURGENT", "NUR", "NURG", "NURGE" };
+	private static final String[] DICTIONARY_DISPLAY = { "DISPLAY", "SHOW" };
+
+	private String commandWord;
+	private CommandType commandType;
+
+	// constructor
+	public Action() {
+	}
+
+	public Action(String commandWord) {
+		this.commandWord = commandWord;
+		this.setCommandType(commandWord);
+	}
+
+	// accessors
+	public CommandType getCommandType() {
+		return commandType;
+	}
+
+	// mutators
+	protected void setCommandType(String commandWord) {
+		this.commandType = determineCommandType(commandWord);
+	}
+
+	private CommandType determineCommandType(String command) {
+		if (dictionaryContains(DICTIONARY_ADD, command)) {
+			return CommandType.ADD;
+		} else if (dictionaryContains(DICTIONARY_ADD_URGENT, command)) {
+			return CommandType.ADDURGENT;
+		} else if (dictionaryContains(DICTIONARY_DELETE, command)) {
+			return CommandType.DELETE;
+		} else if (dictionaryContains(DICTIONARY_CLEAR, command)) {
+			return CommandType.CLEAR;
+		} else if (dictionaryContains(DICTIONARY_DISPLAY, command)) {
+			return CommandType.DISPLAY;
+		} else if (commandWord.equalsIgnoreCase("UNDO")) {
+			return CommandType.UNDO;
+		} else if (commandWord.equalsIgnoreCase("REDO")) {
+			return CommandType.REDO;
+		} else if (dictionaryContains(DICTIONARY_EDIT, command)) {
+			return CommandType.EDIT;
+		} else if (dictionaryContains(DICTIONARY_MOVE, command)) {
+			return CommandType.MOVE;
+		} else if (dictionaryContains(DICTIONARY_SORT, command)) {
+			return CommandType.SORT;
+		} else if (dictionaryContains(DICTIONARY_SEARCH, command)) {
+			return CommandType.SEARCH;
+		} else if (dictionaryContains(DICTIONARY_MARK_DONE, command)) {
+			return CommandType.MARK_DONE;
+		} else if (dictionaryContains(DICTIONARY_MARK_UNDONE, command)) {
+			return CommandType.MARK_UNDONE;
+		} else if (dictionaryContains(DICTIONARY_MARK_URGENT, command)) {
+			return CommandType.MARK_URGENT;
+		} else if (dictionaryContains(DICTIONARY_MARK_NOT_URGENT, command)) {
+			return CommandType.MARK_NOT_URGENT;
+		} else if (commandWord.equalsIgnoreCase("TENTATIVE")) {
+			return CommandType.TENTATIVE;
+		} else if (commandWord.equalsIgnoreCase("HELP")) {
+			return CommandType.HELP;
+		} else if (commandWord.equalsIgnoreCase("EXIT")) {
+			return CommandType.EXIT;
+		} else {
+			return CommandType.INVALID;
+		}
+	}
+
+	private boolean dictionaryContains(String[] dictionary, String keyword) {
+		boolean isFound = false;
+		for (int i = 0; i < dictionary.length; i++) {
+			if (dictionary[i].equalsIgnoreCase(keyword)) {
+				isFound = true;
+				break;
+			}
+		}
+		return isFound;
+	}
+}
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\Action.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\CommandExecutor.java
+	 */
+
+/**
+ * CommandExecutor will pass pass the command action and actual task description
+ * to Command class for actual processing.
+ */
+
+public class CommandExecutor {
+	private String commandWord_;
+	private String actualCommandDescription_;
+	private static CommandFactory cmdf;
+	private static ParserFacade pf;
+	private static String userFeedBack;
+	private static int guiFeedBack;
+	private static ObservableList<ModelTask> taskList;
+	private static ObservableList<ModelTask> searchedList;
+	private static Storage storage;
+
+	// constructor
+	public CommandExecutor(ObservableList<ModelTask> list, Storage storage) {
+		taskList = list;
+		CommandFactory.list.setList(taskList);
+		CommandFactory.updateUndoAndRedoStacks();
+		pf = ParserFacade.getInstance();
+		CommandExecutor.storage = storage;
+	}
+
+	// mutator
+	protected static void setUserFeedBack(String feedBack) {
+		CommandExecutor.userFeedBack = feedBack;
+	}
+
+	protected static void setGuiFeedBack(int feedBack) {
+                if(isGuiFeedbackValid(feedBack)) {
+                    CommandExecutor.guiFeedBack = feedBack;
+                } else {
+                    CommandExecutor.guiFeedBack = 0;
+                }
+	}
+
+	protected static void setTaskList(ObservableList<ModelTask> taskList) {
+		CommandExecutor.taskList = taskList;
+		try {
+			storage.save(taskList);
+		} catch (IOException e) {
+			MyLogger.log(Level.WARNING, FeedbackMessages.ERROR_SAVING_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+
+	protected static void setTempList(ObservableList<ModelTask> searchList) {
+		CommandExecutor.searchedList = searchList;
+		try {
+			storage.save(taskList);
+		} catch (IOException e) {
+			MyLogger.log(Level.WARNING, FeedbackMessages.ERROR_SAVING_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+
+	// accessors
+	public String getCommandWord() {
+		return commandWord_;
+	}
+
+	public String getActualCommandDescription() {
+		return actualCommandDescription_;
+	}
+
+	public String getUserFeedBack() {
+		return userFeedBack;
+	}
+
+	public int getGuiFeedBack() {
+		return guiFeedBack;
+	}
+
+	public ObservableList<ModelTask> getAllList() {
+		return taskList;
+	}
+
+	public ObservableList<ModelTask> getSearchedList() {
+		return searchedList;
+	}
+
+	public void executeCommand(String rawInput) {
+		String commandWord = pf.getCommandString(rawInput);
+		String actualCommandDescription = pf.getStringWithoutCommand(rawInput);
+		Action action = new Action(commandWord);
+		CommandType commandType = action.getCommandType();
+		System.out.println(commandWord + " " + actualCommandDescription);
+		try {
+			switch (commandType) {
+
+			case ADD:
+				@SuppressWarnings("unused")
+				boolean isAdded = false;
+				cmdf = new Add(actualCommandDescription, false);
+				isAdded = cmdf.isDone();
+
+				break;
+
+			case ADDURGENT:
+				@SuppressWarnings("unused")
+				boolean isAddedUrgent = false;
+				cmdf = new Add(actualCommandDescription, true);
+				isAddedUrgent = cmdf.isDone();
+
+				break;
+
+			case DELETE:
+				@SuppressWarnings("unused")
+				boolean isDeleted = false;
+				cmdf = new Delete(actualCommandDescription);
+				isDeleted = cmdf.isDone();
+
+				break;
+
+			case CLEAR:
+				@SuppressWarnings("unused")
+				boolean isCleared = false;
+				cmdf = new Clear(actualCommandDescription);
+				isCleared = cmdf.isDone();
+
+				break;
+
+			case DISPLAY:
+				@SuppressWarnings("unused")
+				boolean isDisplayed = false;
+				cmdf = new Display(actualCommandDescription);
+				isDisplayed = cmdf.isDone();
+
+				break;
+
+			case UNDO:
+				@SuppressWarnings("unused")
+				boolean isUndone = false;
+				cmdf = new Undo();
+				isUndone = cmdf.isDone();
+
+				break;
+
+			case REDO:
+				@SuppressWarnings("unused")
+				boolean isRedone = false;
+
+				cmdf = new Redo();
+				isRedone = cmdf.isDone();
+
+				break;
+
+			case EDIT:
+				@SuppressWarnings("unused")
+				boolean isEdited = false;
+				cmdf = new Edit(actualCommandDescription);
+				isEdited = cmdf.isDone();
+
+				break;
+
+			case MOVE:
+				@SuppressWarnings("unused")
+				boolean isMoved = false;
+				cmdf = new Move(actualCommandDescription);
+				isMoved = cmdf.isDone();
+
+				break;
+
+			case SORT:
+				@SuppressWarnings("unused")
+				boolean isSorted = false;
+				cmdf = new Sort(actualCommandDescription);
+				isSorted = cmdf.isDone();
+
+				break;
+
+			case SEARCH:
+
+				cmdf = new Search(actualCommandDescription);
+
+				break;
+
+			case MARK_DONE:
+				cmdf = new MarkDone(actualCommandDescription);
+				@SuppressWarnings("unused")
+				boolean isMarkedDone = cmdf.isDone();
+
+				break;
+			case MARK_UNDONE:
+				cmdf = new MarkUndone(actualCommandDescription);
+				@SuppressWarnings("unused")
+				boolean isUnmarkedDone = cmdf.isDone();
+
+				break;
+
+			case MARK_URGENT:
+				cmdf = new MarkUrgent(actualCommandDescription);
+				@SuppressWarnings("unused")
+				boolean isMarkedUrgent = cmdf.isDone();
+
+				break;
+			case MARK_NOT_URGENT:
+				cmdf = new MarkNotUrgent(actualCommandDescription);
+				@SuppressWarnings("unused")
+				boolean isUnmarkedUrgent = cmdf.isDone();
+
+				break;
+
+			case TENTATIVE:
+				cmdf = new BlockTentative(actualCommandDescription);
+				@SuppressWarnings("unused")
+				boolean isTentativeBlocked = cmdf.isDone();
+
+				break;
+
+			case HELP:
+				//unimplemented
+				break;
+
+			case INVALID:
+				setUserFeedBack(FeedbackMessages.ERROR_INVALID_MESSAGE);
+				break;
+
+			case EXIT:
+				MyLogger.closeLogger();
+				System.exit(0);
+
+			default:
+				// throw an error if the command is not recognized
+				throw new Error(FeedbackMessages.ERROR_COMMAND_TYPE);
+			}
+		} catch (NumberFormatException e) {
+			setUserFeedBack(FeedbackMessages.ERROR_ARGUMENT_MESSAGE);
+			MyLogger.log(Level.WARNING, FeedbackMessages.ERROR_ARGUMENT_MESSAGE);
+			System.out.println(userFeedBack);
+		}
+
+	}
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\CommandExecutor.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\CommandType.java
+	 */
+
+/**
+ * this class declares the CommandType which can be used by other classes
+ */
+
+public enum CommandType {
+		ADD, ADDURGENT, DELETE, CLEAR, DISPLAY, UNDO, REDO, EDIT, SORT, 
+                MOVE, SEARCH, MARK_DONE, MARK_UNDONE, 
+                MARK_URGENT, MARK_NOT_URGENT, TENTATIVE, HELP, INVALID, EXIT
+	};
+
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\CommandType.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\FeedbackMessages.java
+	 */
+
+public class FeedbackMessages {
+
+	public static final int NORMAL_STATE = 0;
+	public static final int UPDATE_ALL_LIST = 1;
+	public static final int SWITCH_TO_TEMP = 2;
+	public static final int SWITCH_TO_TEMP_DELETE = 3;
+
+	public static final String ERROR_ADDING_MESSAGE = "Error with adding";
+	public static final String SUCCESS_ADDING_MESSAGE = " added";
+	public static final String ERROR_DELETE_MESSAGE = "Delete unsuccessful";
+	public static final String SUCCESS_DELETE_MESSAGE = "Delete successful";
+	public static final String WAIT_DELETE_MESSAGE = "Please choose which task to delete";
+	public static final String SUCCESS_CLEAR_MESSAGE = "List cleared";
+	public static final String ERROR_CLEAR_MESSAGE = "Error with clearing";
+	public static final String ERROR_UNDONE_MESSAGE = "Action cannot be undone. "
+			+ "At original state";
+	public static final String SUCCESS_UNDONE_MESSAGE = "Action undone";
+	public static final String ERROR_REDONE_MESSAGE = "No action to redo";
+	public static final String SUCCESS_REDONE_MESSAGE = "Action redone";
+	public static final String ERROR_EDIT_MESSAGE = "Cannot edit task";
+	public static final String SUCCESS_EDIT_MESSAGE = "Task edited";
+	public static final String ERROR_MOVE_MESSAGE = "Cannot move task";
+	public static final String SUCCESS_MOVE_MESSAGE = "Task moved";
+	public static final String ERROR_SORTED_MESSAGE = "Cannot sort tasks";
+	public static final String SUCCESS_SORTED_MESSAGE = "Tasks sorted";
+	public static final String ERROR_MARKDONE_MESSAGE = "Cannot mark done";
+	public static final String SUCCESS_MARKDONE_MESSAGE = "Task done";
+	public static final String ERROR_MARKUNDONE_MESSAGE = "Cannot mark undone";
+	public static final String SUCCESS_MARKUNDONE_MESSAGE = "Task undone";
+	public static final String ERROR_INVALID_MESSAGE = "INVALID COMMAND!";
+	public static final String ERROR_ARGUMENT_MESSAGE = "INVALID ARGUMENT!";
+	public static final String ERROR_COMMAND_TYPE = "Unrecognized command type";
+	public static final String SUCCESS_SEARCH_MESSAGE = "Search successful";
+	public static final String ERROR_SEARCH_MESSAGE = "Search unsuccessful";
+	public static final String SUCCESS_CLEARDONE_MESSAGE = "Done tasks cleared";
+	public static final String ERROR_CLEARDONE_MESSAGE = "Cannot clear done tasks";
+	public static final String SUCCESS_MARKURGENT_MESSAGE = "Task marked as urgent";
+	public static final String ERROR_MARKURGENT_MESSAGE = "Task cannot be marked as urgent";
+	public static final String SUCCESS_MARKNOTURGENT_MESSAGE = "Task marked as not urgent";
+	public static final String ERROR_MARKNOTURGENT_MESSAGE = "Task cannot be marked as not urgent";
+	public static final String SUCCESS_CLEARURGENT_MESSAGE = "Urgent tasks cleared";
+	public static final String ERROR_CLEARURGENT_MESSAGE = "Cannot clear urgent tasks";
+	public static final String ERROR_DISPLAY_MESSAGE = "No such display type";
+	public static final String SUCCESS_TENTATIVE_MESSAGE = "Tentative task blocked";
+	public static final String ERROR_TENTATIVE_MESSAGE = "Cannot block tentative task";
+	public static final String SUCCESS_CLEARNORMAL_MESSAGE = "Normal tasks cleared";
+	public static final String ERROR_SAVING_MESSAGE = "cannot save to text file";
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\FeedbackMessages.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\LogicFacade.java
+	 */
+
+/**
+ * This logicFacade class will interact with the GUI. It receives raw input from UI and return
+ * feedback to the GUI in the form of:
+ * 1) a string to tell the GUI whether an action is done or not done; 
+ * 2) an int value to tell GUI which view to switch to
+ */
+public class LogicFacade {
+
+	private static LogicFacade logicFacade = new LogicFacade();
+	private CommandExecutor executor_;
+	private ObservableList<ModelTask> taskList_;
+	private ObservableList<ModelTask> searchedList_;
+	private Storage storage_;
+
+	// constructor
+	private LogicFacade() {
+		try {
+			storage_ = new Storage("phantomStorage.txt");
+			taskList_ = getOriginalListFromFile();
+			executor_ = new CommandExecutor(taskList_, storage_);
+			searchedList_ = FXCollections.observableArrayList();
+		} catch (Exception e) {
+			MyLogger.log(Level.SEVERE, "cannot initialize logicFacade class");
+			System.out.println("cannot initialize logicFacade class");
+		}
+	}
+
+	// accessor
+	public static LogicFacade getInstance() {
+		return logicFacade;
+	}
+
+	public ObservableList<ModelTask> getOriginalListFromFile() {
+		return storage_.getListFromFile();
+	}
+
+	public String getUserFeedBack() throws Exception {
+		String feedBack = executor_.getUserFeedBack();
+		return feedBack;
+	}
+
+	public int executeCommand(String inputFromGui) throws Exception {
+		executor_.executeCommand(inputFromGui);
+		int feedBack = executor_.getGuiFeedBack();
+		return feedBack;
+	}
+
+	public ObservableList<ModelTask> getAllList() {
+		taskList_ = executor_.getAllList();
+		return taskList_;
+	}
+
+	public ObservableList<ModelTask> getSearchedList() {
+		searchedList_ = executor_.getSearchedList();
+		return searchedList_;
+	}
+
+	public Storage getStorage() {
+		return storage_;
+	}
+
+	public ArrayList<TentativeTask> getTentativeTasks() {
+		return CommandFactory.tentativeTasks;
+	}
+
+	public ArrayList<TimePeriod> getGlobalBlockedTimePeriods() {
+		return CommandFactory.globalBlockedTimePeriods;
+	}
+
+	public ObservableList<String> getTentativeTasksObservableList() {
+		return CommandFactory.tentativeTasksObservableList;
+	}
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\LogicFacade.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\logic\ModelTaskDateComparator.java
+	 */
+
+ */
+public class ModelTaskDateComparator implements Comparator<ModelTask> {
+
+	private static final int SMALLER = -100;
+	private static final int BIGGER = 100;
+
+	@Override
+	public int compare(ModelTask task1, ModelTask task2) {
+		Date date1, date2;
+
+		if (task1.getDeadLine() != null && task2.getDeadLine() != null) {
+			date1 = task1.getDeadLine();
+			date2 = task2.getDeadLine();
+			return date1.compareTo(date2);
+		} else if (task1.getDeadLine() != null) {
+			return SMALLER;
+		} else if (task2.getDeadLine() != null) {
+			return BIGGER;
+		}
+		return 0;
+	}
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\logic\ModelTaskDateComparator.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\storage\Storage.java
+	 */
+
+/**
+ * this storage will load from phantomStorage.txt file or write to text file
+ */
+public class Storage {
+	private ObservableList<ModelTask> list_;
+	private File inputFile_;
+
+	// constructor
+	public Storage(String inputFileName) throws IOException {
+
+		MyLogger.log(Level.INFO, "initializing storage");
+		initialize(inputFileName);
+
+	}
+
+	private void initialize(String inputFileName) throws IOException {
+
+		inputFile_ = new File(inputFileName);
+		inputFile_.createNewFile();
+		initializeObservableList();
+
+	}
+
+	// writes existing contents of file to observableList if any
+	private void initializeObservableList() throws FileNotFoundException {
+
+		list_ = FXCollections.observableArrayList();
+		Scanner sc = new Scanner(inputFile_);
+		copyContentsOfTextFile(sc);
+		sc.close();
+	}
+
+	private void copyContentsOfTextFile(Scanner sc) {
+		TaskConverter taskConverter = TaskConverter.getInstance();
+		int index = 1;
+		while (sc.hasNext()) {
+			String str = sc.nextLine();
+			Task newTask = new Task(str, true);
+			list_.add(taskConverter.convert(newTask, index));
+			index++;
+		}
+	}
+
+	public ObservableList<ModelTask> getListFromFile() {
+		return list_;
+	}
+
+	// writes contents of observableList to text file
+	public void save(ObservableList<ModelTask> list) throws IOException {
+
+		FileWriter fileWriter = new FileWriter(inputFile_, false);
+		BufferedWriter buffer = new BufferedWriter(fileWriter);
+		PrintWriter printWriter = new PrintWriter(buffer);
+		for (int i = 0; i < list.size(); i++) {
+			printWriter.println(list.get(i).toString());
+		}
+
+		printWriter.close();
+		buffer.close();
+		fileWriter.close();
+	}
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\storage\Storage.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\test\TestLogicAction.java
+	 */
+
+/**
+* this test case will test Action.java in the package logic. 
+*/
+
+public class TestLogicAction {
+
+	
+	private Action action_;
+	private CommandType commandType_;
+
+	@Test
+	public void test() {
+
+		// testing add
+		action_ = new Action("add");
+		setCommandType(CommandType.ADD);
+		execute(commandType_, action_.getCommandType());
+
+		// testing display
+		action_ = new Action("display");
+		setCommandType(CommandType.DISPLAY);
+		execute(commandType_, action_.getCommandType());
+
+		// testing delete
+		action_ = new Action("delete");
+		setCommandType(CommandType.DELETE);
+		execute(commandType_, action_.getCommandType());
+
+		// testing clear
+		action_ = new Action("clear");
+		setCommandType(CommandType.CLEAR);
+		execute(commandType_, action_.getCommandType());
+
+		// testing undo
+		action_ = new Action("undo");
+		setCommandType(CommandType.UNDO);
+		execute(commandType_, action_.getCommandType());
+
+		// testing redo
+		action_ = new Action("redo");
+		setCommandType(CommandType.REDO);
+		execute(commandType_, action_.getCommandType());
+
+		// testing edit
+		action_ = new Action("edit");
+		setCommandType(CommandType.EDIT);
+		execute(commandType_, action_.getCommandType());
+
+		// testing sort
+		action_ = new Action("sort");
+		setCommandType(CommandType.SORT);
+		execute(commandType_, action_.getCommandType());
+
+		// testing move
+		action_ = new Action("move");
+		setCommandType(CommandType.MOVE);
+		execute(commandType_, action_.getCommandType());
+
+		// testing search
+		action_ = new Action("search");
+		setCommandType(CommandType.SEARCH);
+		execute(commandType_, action_.getCommandType());
+
+		// testing mark_done
+		action_ = new Action("did");
+		setCommandType(CommandType.MARK_DONE);
+		execute(commandType_, action_.getCommandType());
+
+		// testing help
+		action_ = new Action("help");
+		setCommandType(CommandType.HELP);
+		execute(commandType_, action_.getCommandType());
+
+		// testing invalid
+		action_ = new Action("invalid");
+		setCommandType(CommandType.INVALID);
+		execute(commandType_, action_.getCommandType());
+
+		// testing exit
+		action_ = new Action("exit");
+		setCommandType(CommandType.EXIT);
+		execute(commandType_, action_.getCommandType());
+
+	}
+
+	public void execute(CommandType expected, CommandType actual) {
+		assertEquals(expected, actual);
+	}
+
+	private void setCommandType(CommandType type) {
+		commandType_ = type;
+	}
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\test\TestLogicAction.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\test\TestLogicFacade.java
+	 */
+
+/**
+ * this Junit test will test the LogicFacade class. note: the list is cleared
+ * before and after the whole test
+ */
+public class TestLogicFacade {
+
+	private static final String TASKSTRINGFORMAT = "event: " + "%1$s" + "\n"
+			+ "start date: " + "%2$s" + "\n" + "end date: " + "%3$s" + "\n"
+			+ "start time: " + "%4$s" + "\n" + "end time: " + "%5$s" + "\n"
+			+ "is done: " + "%6$s" + "\n" + "is urgent: " + "%7$s" + "\n";
+
+	private LogicFacade logic_;
+
+	@Before
+	public void initialize() throws Exception {
+		logic_ = LogicFacade.getInstance();
+		// clear the list in the logic_ before testing
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testBasic() throws Exception {
+
+		// boundary case: user types nothing, then program should display error
+		testLogicFeedBack("INVALID COMMAND!", "");
+		testListSize(0);
+	}
+
+	@Test
+	public void testClear() throws Exception {
+		// clear list when the task has 2 tasks
+		logic_.executeCommand("add task1");
+		logic_.executeCommand("add task2");
+		testLogicFeedBack("List cleared", "clear");
+		testListSize(0);
+		// boundary case: clear task when list is empty
+		testLogicFeedBack("List cleared", "clear");
+		testListSize(0);
+
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testAddFloatingTask() throws Exception {
+
+		// adding tasks without dates and times
+		testLogicFeedBack("\"go to school\" added", "add go to school");
+		testListSize(1);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to school", "null",
+				"null", "null", "null", "false", "false"), 1);
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testAddTimedTaskOneDate() throws Exception {
+		// adding tasks with 1 date
+		// boundary case: using keyword "by"
+		testLogicFeedBack("\"do homework\" added",
+				"add do homework by 11/11/2014");
+		testListSize(1);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "do homework",
+				"11/11/2014", "null", "23:59", "null", "false", "false"), 1);
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testAddTimedTaskTwoDate() throws Exception {
+		// adding task with 2 dates
+		// using keyword "from" and "to"
+		testLogicFeedBack("\"go to zoo\" added",
+				"add go to zoo from 11/11/2014 to 12/12/2014");
+		testListSize(1);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to zoo",
+				"11/11/2014", "12/12/2014", "null", "null", "false", "false"),
+				1);
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testAddTimedTaskWithTime() throws Exception {
+		// adding task with a time
+		// boundary : adding a date using keyword "on" and "at"
+		testLogicFeedBack("\"watch ipman with girlfriend\" added",
+				"add watch ipman with girlfriend on 11/11/2014 at 8am");
+		testListSize(1);
+		testLogicOutput(String.format(TASKSTRINGFORMAT,
+				"watch ipman with girlfriend", "11/11/2014", "null", "08:00",
+				"null", "false", "false"), 1);
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testAddTimedWithTwoDateTwoTime() throws Exception {
+		// adding task with 2 dates and 2 time using keyword "from" and "to"
+		testLogicFeedBack("\"practice kungfu fighting\" added",
+				"add practice kungfu fighting from 12/11/2014 to 13/11/2014"
+						+ " from 8am to 9am");
+		testListSize(1);
+		testLogicOutput(String.format(TASKSTRINGFORMAT,
+				"practice kungfu fighting", "12/11/2014", "13/11/2014", "08:00",
+				"09:00", "false", "false"), 1);
+
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testAddMultiple() throws Exception {
+		// adding task with 2 dates and 2 time using keyword "from" and "to"
+		testLogicFeedBack("\"a\" added", "add a");
+		testLogicFeedBack("\"b\" added", "add b");
+		testLogicFeedBack("\"c\" added", "add c");
+		testLogicFeedBack("\"d\" added", "add d");
+		testLogicFeedBack("\"e\" added", "add e");
+		testLogicFeedBack("\"f\" added", "add f");
+		testLogicFeedBack("\"g\" added", "add g");
+		testLogicFeedBack("\"h\" added", "add h");
+		testLogicFeedBack("\"i\" added", "add i");
+		testLogicFeedBack("\"j\" added", "add j");
+		testLogicFeedBack("\"k\" added", "add k");
+		testListSize(11);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "a", "null", "null",
+				"null", "null", "false", "false"), 1);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "b", "null", "null",
+				"null", "null", "false", "false"), 2);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "c", "null", "null",
+				"null", "null", "false", "false"), 3);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "d", "null", "null",
+				"null", "null", "false", "false"), 4);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "e", "null", "null",
+				"null", "null", "false", "false"), 5);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "f", "null", "null",
+				"null", "null", "false", "false"), 6);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "g", "null", "null",
+				"null", "null", "false", "false"), 7);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "h", "null", "null",
+				"null", "null", "false", "false"), 8);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "i", "null", "null",
+				"null", "null", "false", "false"), 9);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "j", "null", "null",
+				"null", "null", "false", "false"), 10);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "k", "null", "null",
+				"null", "null", "false", "false"), 11);
+
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testSortAlphabetically() throws Exception {
+		// bondary case: tasks start with capital or small letter and numbers
+		logic_.executeCommand("add zelDa");
+		logic_.executeCommand("add apple");
+		logic_.executeCommand("add G-Dragon");
+		logic_.executeCommand("add Apple");
+		logic_.executeCommand("add bear");
+		logic_.executeCommand("add Boss");
+		logic_.executeCommand("add xxx");
+		logic_.executeCommand("add 12233");
+		logic_.executeCommand("add 230");
+		testListSize(9);
+		logic_.executeCommand("sort alpha");
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "12233", "null",
+				"null", "null", "null", "false", "false"), 8);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "230", "null", "null",
+				"null", "null", "false", "false"), 9);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "Apple", "null",
+				"null", "null", "null", "false", "false"), 4);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "apple", "null",
+				"null", "null", "null", "false", "false"), 2);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "Boss", "null", "null",
+				"null", "null", "false", "false"), 6);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "bear", "null", "null",
+				"null", "null", "false", "false"), 5);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "G-Dragon", "null",
+				"null", "null", "null", "false", "false"), 3);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "xxx", "null", "null",
+				"null", "null", "false", "false"), 7);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "zelDa", "null",
+				"null", "null", "null", "false", "false"), 1);
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testAddUrgentTask() throws Exception {
+
+		testLogicFeedBack("\"task1\" added", "add! task1");
+		testListSize(1);
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testDelete() throws Exception {
+		// testing delete when list contains 1 task
+		logic_.executeCommand("add go to school");
+		testLogicFeedBack("Delete successful", "delete 1");
+		testListSize(0);
+
+		// boundary case: testing delete when list contains no task/empty
+		testLogicFeedBack("Delete unsuccessful", "delete 1");
+		testListSize(0);
+
+		// boundary case: testing delete an item that is not found in the list
+		// sample case eg: delete task 3 when the list only has 2 tasks
+		logic_.executeCommand("add task1");
+		logic_.executeCommand("add task2");
+		testLogicFeedBack("Delete unsuccessful", "delete 3");
+		testListSize(2);
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testUndoRedo() throws Exception {
+		// undo and redo for adding one task
+		logic_.executeCommand("add go to school");
+		testLogicFeedBack("Action undone", "undo");
+		testListSize(0);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "", "null", "null",
+				"null", "null", "false", "false"), 0);
+		testLogicFeedBack("Action redone", "redo");
+		testListSize(1);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to school", "null",
+				"null", "null", "null", "false", "false"), 1);
+
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testMarkDone() throws Exception {
+		// mark the first task as done
+		logic_.executeCommand("add go to school");
+		testLogicFeedBack("Task done", "did 1");
+		testListSize(1);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to school", "null",
+				"null", "null", "null", "true", "false"), 1);
+
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testUnMarkDone() throws Exception {
+		// unmark the first task as done
+		logic_.executeCommand("add go to school");
+		testLogicFeedBack("Task done", "did 1");
+		testListSize(1);
+		testLogicFeedBack("Task undone", "undid 1");
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "go to school", "null",
+				"null", "null", "null", "false", "false"), 1);
+
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testSimpleSearch() throws Exception {
+		// search when nothing is found
+		logic_.executeCommand("add apple");
+		logic_.executeCommand("add pear");
+		logic_.executeCommand("add pineapple");
+		testLogicFeedBack("Search unsuccessful", "search 1");
+
+		// search is found
+		logic_.executeCommand("add apple");
+		testSearchOutput(String.format(TASKSTRINGFORMAT, "apple", "null",
+				"null", "null", "null", "false", "false"), 1);
+		testSearchOutput(String.format(TASKSTRINGFORMAT, "pineapple", "null",
+				"null", "null", "null", "false", "false"), 3);
+
+		logic_.executeCommand("clear");
+	}
+
+	@Test
+	public void testEdit() throws Exception {
+		logic_.executeCommand("add go to school");
+		// edit tasks without dates and times
+		testLogicFeedBack("Task edited", "edit 1 do not go to school");
+		testListSize(1);
+		testLogicOutput(String.format(TASKSTRINGFORMAT, "do not go to school",
+				"null", "null", "null", "null", "false", "false"), 1);
+
+		// edit tasks with one date
+		// boundary case: edit the date from dd/mm/yyyy format to dd MMM YYYY
+		// format
+		logic_.executeCommand("add Ironman is destroying the city on 17/12/2015");
+		testLogicFeedBack("Task edited",
+				"edit 2 Ironman is destroying the city on 18 dec 2015");
+		testListSize(2);
+		testLogicOutput(String.format(TASKSTRINGFORMAT,
+				"Ironman is destroying the city", "18/12/2015", "null", "null",
+				"null", "false", "false"), 2);
+
+		// boundary case: edit task by expanding time or dates
+		testLogicFeedBack("Task edited",
+				"edit 2 Ironman is destroying the city from 22/05/2015 to 29/06/2015");
+		testListSize(2);
+		testLogicOutput(String.format(TASKSTRINGFORMAT,
+				"Ironman is destroying the city", "22/05/2015", "29/06/2015",
+				"null", "null", "false", "false"), 2);
+
+		// boundary case: edit task by removing time and dates
+		testLogicFeedBack("Task edited",
+				"edit 2 Ironman is destroying the city");
+		testListSize(2);
+		testLogicOutput(String.format(TASKSTRINGFORMAT,
+				"Ironman is destroying the city", "null", "null", "null",
+				"null", "false", "false"), 2);
+		logic_.executeCommand("clear");
+
+	}
+
+	/**
+	 * insert other function here for testing
+	 */
+
+	// checking whether the feedback message is correct
+	public void testLogicFeedBack(String expected, String userInput)
+			throws Exception {
+		logic_.executeCommand(userInput);
+		assertEquals(expected, logic_.getUserFeedBack());
+	}
+
+	// checking whether the size of the list is correct after performing various
+	// operations
+	public void testListSize(int expectedSize) {
+		ObservableList<ModelTask> result = logic_.getAllList();
+		assertEquals(expectedSize, result.size());
+	}
+
+	// checking whether the task is correct after every operation
+	private void testLogicOutput(String expected, int taskNumber) {
+		if (taskNumber > 0) {
+			ObservableList<ModelTask> allList = logic_.getAllList();
+			for (int i = 0; i < allList.size(); i++) {
+				ModelTask currTask = allList.get(i);
+				if (taskNumberIsCorrect(taskNumber, currTask.getPosition())) {
+					assertEquals(expected, TaskStringRepresentation(currTask));
+				}
+			}
+		}
+	}
+
+	// checking whether the task is correct after every operation
+	private void testSearchOutput(String expected, int taskNumber) {
+		if (taskNumber > 0) {
+			ObservableList<ModelTask> allList = logic_.getSearchedList();
+			for (int i = 0; i < allList.size(); i++) {
+				ModelTask currTask = allList.get(i);
+				if (taskNumberIsCorrect(taskNumber, currTask.getPosition())) {
+					assertEquals(expected, TaskStringRepresentation(currTask));
+				}
+			}
+		}
+	}
+
+	private boolean taskNumberIsCorrect(int taskIndex, int listIndex) {
+		return (taskIndex == listIndex);
+	}
+
+	// return a string representation of the Task
+	private String TaskStringRepresentation(ModelTask task) {
+		return String.format(TASKSTRINGFORMAT, task.getEvent(),
+				task.getStartDateString(), task.getEndDateString(),
+				task.getStartTimeString(), task.getEndTimeString(),
+				task.isDone(), task.isUrgent());
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		logic_.executeCommand("clear");
+	}
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\test\TestLogicFacade.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\test\TestModelTaskToString.java
+	 */
+
+/**
+ * this test case will test ModelTaskToSaveStringConverter.java in the package
+ * storage. note: the conversion string 7 parameters arranged in the following
+ * format: event;start date;end date;start time;end
+ * time;deadline;isdone;isurgent;
+ * 
+ */
+public class TestModelTaskToString {
+
+	private TaskConverter taskConverter_;
+	private ParserFacade pf_ = ParserFacade.getInstance();
+
+	@Before
+	public void setUp() {
+		taskConverter_ = TaskConverter.getInstance();
+	}
+
+	@Test
+	public void test() {
+		// testing converting to a string from a modelTask object
+		ModelTask newTask = taskConverter_.convert(pf_.getTask("add "
+				+ "this is crazy"), 1);
+		testTaskOutputString("testing task conversion",
+				"this is crazy;null;null;null;null;null;false;false",
+				newTask.toString());
+
+		// testing task with one date
+		// using formate dd/mm/yyyy
+		ModelTask newTask2 = taskConverter_.convert(pf_.getTask("add "
+				+ "go to school on 13/12/2014"), 1);
+		testTaskOutputString(
+				"testing task conversion",
+				"go to school;13/12/2014;null;null;null;13/12/2014;false;false",
+				newTask2.toString());
+	}
+
+	private void testTaskOutputString(String description, String expected,
+			String actual) {
+		assertEquals(description, expected, actual);
+	}
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\test\TestModelTaskToString.java
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Jireh\Documents\CS2103T_main\src\test\TestStorage.java
+	 */
+
+/**
+ * this test case will test Storage.java in the package storage. tests will be
+ * conducted to test whether storage can load from the text file and to see if
+ * it can save correctly to the text file
+ */
+public class TestStorage {
+
+	private Storage storage_;
+	private CommandExecutor executor_;
+	private ObservableList<ModelTask> taskList_;
+	private String display_ = "";
+	
+	@Before
+	public void setUp() {
+		try {
+			storage_ = new Storage("test.txt");
+		} catch (IOException e) {
+			System.out.println("this is not possible haha");
+		}
+
+		taskList_ = storage_.getListFromFile();
+		executor_ = new CommandExecutor(taskList_, storage_);
+	}
+
+	@Test
+	public void testStorageInitialization() {
+		// display initial storage
+		for (int i = 0; i < taskList_.size(); i++) {
+			display_ = taskList_.get(i).toString();
+		}
+		testOutput("testing original file content when loading", "", display_);
+	}
+	
+	@Test
+	public void testStorage() {
+		// testing adding and display what has been added to text file
+		executor_.executeCommand("add tasknumber1");
+		executor_.executeCommand("add tasknumber2 on 12/12/2014");
+		taskList_ = executor_.getAllList();
+		for (int i = 0; i < taskList_.size(); i++) {
+			display_ += taskList_.get(i).toString() + "\n";
+		}
+		testOutput("testing adding a task and displaying it",
+				"tasknumber1;null;null;null;null;null;false;false\n"
+				+ "tasknumber2;12/12/2014;null;null;null;12/12/2014;false;false\n", display_);
+
+	}
+
+	@After
+	public void tearDown() {
+		executor_.executeCommand("clear");
+	}
+
+	private void testOutput(String description, String expected, String actual) {
+		assertEquals(description, expected, actual);
+	}
+
+}
+
+	// End of segment: C:\Users\Jireh\Documents\CS2103T_main\src\test\TestStorage.java
+
+
+
+
+
