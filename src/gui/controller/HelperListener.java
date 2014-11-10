@@ -13,12 +13,12 @@ import javafx.beans.value.ObservableValue;
 
 public class HelperListener implements ChangeListener<String> {
 
-	private HelperViewController helperViewController;
-	private AnimationHandler ah;
+	private HelperViewController helperViewController_;
+	private AnimationHandler ah_;
 
 	public HelperListener(HelperViewController helperViewController) {
-		this.helperViewController = helperViewController;
-		ah = AnimationHandler.getInstance();
+		this.helperViewController_ = helperViewController;
+		ah_ = AnimationHandler.getInstance();
 	}
 
 	@Override
@@ -35,31 +35,31 @@ public class HelperListener implements ChangeListener<String> {
 
 		if (firstWord.equalsIgnoreCase("add")
 				|| firstWord.equalsIgnoreCase("add!")) {
-			helperViewController.setAddHelperView(newValue);
-			ah.displayHelper();
+			helperViewController_.setAddHelperView(newValue);
+			ah_.displayHelper();
 		} else if (newValue.length() < 2 && newValue.length() > 0) {
-			helperViewController.setAddHelperView("");
-			ah.revertView();
+			helperViewController_.setAddHelperView("");
+			ah_.revertView();
 		}
 
 		if(firstWord.equalsIgnoreCase("CLEAR")){
 			setClearHelper(newValue);
 		} else if (newValue.length() < 3 && newValue.length() > 0) {
-			ah.revertView();
+			ah_.revertView();
 		}
 	}
 
 	private void setClearHelper(String newValue) {		
 
 		if (newValue.equalsIgnoreCase("CLEAR DONE")) {
-			helperViewController.setClearDoneHelperView();
-			ah.displayHelper();
+			helperViewController_.setClearDoneHelperView();
+			ah_.displayHelper();
 		} else if (newValue.equalsIgnoreCase("CLEAR URGENT")) {
-			helperViewController.setClearUrgentHelperView();
-			ah.displayHelper();
+			helperViewController_.setClearUrgentHelperView();
+			ah_.displayHelper();
 		} else {
-			helperViewController.setClearAllHelperView();
-			ah.displayHelper();
+			helperViewController_.setClearAllHelperView();
+			ah_.displayHelper();
 		} 
 	}
 }

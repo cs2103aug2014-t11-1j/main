@@ -1,7 +1,7 @@
 package gui;
 
 import java.io.InputStream;
-
+//@author A0116211B
 /**
  * This class is used to load
  * external resources for use

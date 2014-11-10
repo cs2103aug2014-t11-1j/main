@@ -23,9 +23,9 @@ import java.util.regex.Pattern;
 
 public class DateStringComparator implements Comparator<String>{
 
-	static private SimpleDateFormat ONE_DATE_GETTER = new SimpleDateFormat("EEE, MMM d");
-	static private SimpleDateFormat TWO_DATE_GETTER = new SimpleDateFormat("d MMM");
-	static private Pattern ONE_MONTH_PATTERN = Pattern.compile("\\d{1,2}\\p{Blank}-\\p{Blank}\\d{1,2}\\p{Blank}\\w*");
+	private static final SimpleDateFormat ONE_DATE_GETTER = new SimpleDateFormat("EEE, MMM d");
+	private static final SimpleDateFormat TWO_DATE_GETTER = new SimpleDateFormat("d MMM");
+	private static final Pattern ONE_MONTH_PATTERN = Pattern.compile("\\d{1,2}\\p{Blank}-\\p{Blank}\\d{1,2}\\p{Blank}\\w*");
 
 	@Override
 	public int compare(String str1, String str2) {

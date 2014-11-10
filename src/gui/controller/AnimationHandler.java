@@ -1,15 +1,9 @@
 package gui.controller;
 
 import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
@@ -34,28 +28,28 @@ public class AnimationHandler {
 	@FXML
 	private AnchorPane timelineAnchor;
 
-	private boolean isFocusTable;
-	private boolean isFocusToday;
-	private boolean isFocusHelper;
-	private boolean isFocusTentative;
-	private boolean isFocusTimeline;
+	private boolean isFocusTable_;
+	private boolean isFocusToday_;
+	private boolean isFocusHelper_;
+	private boolean isFocusTentative_;
+	private boolean isFocusTimeline_;
 
 	private boolean isPlaying;
 
-	TranslateTransition slideInTable;
-	TranslateTransition slideOutTable;
+	TranslateTransition slideInTable_;
+	TranslateTransition slideOutTable_;
 
-	TranslateTransition slideInToday;
-	TranslateTransition slideOutToday;
+	TranslateTransition slideInToday_;
+	TranslateTransition slideOutToday_;
 
-	TranslateTransition slideInHelper;
-	TranslateTransition slideOutHelper;	
+	TranslateTransition slideInHelper_;
+	TranslateTransition slideOutHelper_;	
 
-	TranslateTransition slideInTimeline;
-	TranslateTransition slideOutTimeline;
+	TranslateTransition slideInTimeline_;
+	TranslateTransition slideOutTimeline_;
 	
-	TranslateTransition slideInTentative;
-	TranslateTransition slideOutTentative;
+	TranslateTransition slideInTentative_;
+	TranslateTransition slideOutTentative_;
 
 	private static final int NUMBER_OF_VIEWS = 2;
 	private static final int TODAY_INDEX = 0;
@@ -64,13 +58,13 @@ public class AnimationHandler {
 	private static final int TENTATIVE_INDEX = 3;
 	private static Integer viewIndex;
 
-	private static AnimationHandler ah = new AnimationHandler();
+	private static AnimationHandler ah_ = new AnimationHandler();
 
 	private AnimationHandler(){
 	}
 
 	public static AnimationHandler getInstance(){
-		return ah;
+		return ah_;
 	}
 
 	public void initialize(AnchorPane tableAnchor, AnchorPane todayAnchor, AnchorPane helperAnchor){
@@ -90,36 +84,36 @@ public class AnimationHandler {
 		slideOutHelperInit.setToX(700);
 		slideOutHelperInit.play();
 
-		isFocusTable = false;
-		isFocusHelper = false;
-		isFocusTentative = false;
-		isFocusTimeline = false;
-		isFocusToday = true;
+		isFocusTable_ = false;
+		isFocusHelper_ = false;
+		isFocusTentative_ = false;
+		isFocusTimeline_ = false;
+		isFocusToday_ = true;
 
-		slideInTable = new TranslateTransition(Duration.seconds(0.2), tableAnchor);
-		slideInTable.setToX(0);
-		slideOutTable = new TranslateTransition(Duration.seconds(0.2), tableAnchor);
-		slideOutTable.setToX(700);
+		slideInTable_ = new TranslateTransition(Duration.seconds(0.2), tableAnchor);
+		slideInTable_.setToX(0);
+		slideOutTable_ = new TranslateTransition(Duration.seconds(0.2), tableAnchor);
+		slideOutTable_.setToX(700);
 
-		slideInToday = new TranslateTransition(Duration.seconds(0.2), todayAnchor);
-		slideInToday.setToX(0);
-		slideOutToday = new TranslateTransition(Duration.seconds(0.2), todayAnchor);
-		slideOutToday.setToX(700);
+		slideInToday_ = new TranslateTransition(Duration.seconds(0.2), todayAnchor);
+		slideInToday_.setToX(0);
+		slideOutToday_ = new TranslateTransition(Duration.seconds(0.2), todayAnchor);
+		slideOutToday_.setToX(700);
 		
-		slideInTentative = new TranslateTransition(Duration.seconds(0.2), tentativeAnchor);
-		slideInTentative.setToX(0);
-		slideOutTentative = new TranslateTransition(Duration.seconds(0.2), tentativeAnchor);
-		slideOutTentative.setToX(700);
+		slideInTentative_ = new TranslateTransition(Duration.seconds(0.2), tentativeAnchor);
+		slideInTentative_.setToX(0);
+		slideOutTentative_ = new TranslateTransition(Duration.seconds(0.2), tentativeAnchor);
+		slideOutTentative_.setToX(700);
 
-		slideInTimeline = new TranslateTransition(Duration.seconds(0.2), timelineAnchor);
-		slideInTimeline.setToX(0);
-		slideOutTimeline = new TranslateTransition(Duration.seconds(0.2), timelineAnchor);
-		slideOutTimeline.setToX(700);
+		slideInTimeline_ = new TranslateTransition(Duration.seconds(0.2), timelineAnchor);
+		slideInTimeline_.setToX(0);
+		slideOutTimeline_ = new TranslateTransition(Duration.seconds(0.2), timelineAnchor);
+		slideOutTimeline_.setToX(700);
 
-		slideInHelper = new TranslateTransition(Duration.seconds(0.2), helperAnchor);
-		slideInHelper.setToX(0);
-		slideOutHelper = new TranslateTransition(Duration.seconds(0.2), helperAnchor);
-		slideOutHelper.setToX(700);
+		slideInHelper_ = new TranslateTransition(Duration.seconds(0.2), helperAnchor);
+		slideInHelper_.setToX(0);
+		slideOutHelper_ = new TranslateTransition(Duration.seconds(0.2), helperAnchor);
+		slideOutHelper_.setToX(700);
 
 
 		
@@ -131,202 +125,202 @@ public class AnimationHandler {
 	}
 
 	public boolean getIsFocusTable(){
-		return isFocusTable;
+		return isFocusTable_;
 	}
 
 	public boolean getIsFocusToday(){
-		return isFocusToday;
+		return isFocusToday_;
 	}
 
 	public void showTimeline(){
-		if(isFocusTable){
-			slideOutTable.play();
+		if(isFocusTable_){
+			slideOutTable_.play();
 		}
 		else{
-			slideOutToday.play();
+			slideOutToday_.play();
 		}
 	}
 
 	public void showTableView(){
-		if(isFocusToday){
+		if(isFocusToday_){
 			isPlaying = true;
 
-			slideInTable.play();
-			slideOutToday.play();
-			slideOutTimeline.play();
+			slideInTable_.play();
+			slideOutToday_.play();
+			slideOutTimeline_.play();
 
-			isFocusToday = false;
-			isFocusTable = true;
+			isFocusToday_ = false;
+			isFocusTable_ = true;
 		}
 
-		if(isFocusTimeline){
+		if(isFocusTimeline_){
 			isPlaying = true;
 
-			slideInTable.play();
-			slideOutTimeline.play();
-			slideOutToday.play();
+			slideInTable_.play();
+			slideOutTimeline_.play();
+			slideOutToday_.play();
 
-			isFocusTimeline = false;
-			isFocusTable = true;
+			isFocusTimeline_ = false;
+			isFocusTable_ = true;
 		}
 		
-		if(isFocusTentative){
-			slideInTable.play();
-			slideOutTentative.play();
+		if(isFocusTentative_){
+			slideInTable_.play();
+			slideOutTentative_.play();
 			
-			isFocusTentative = false;
-			isFocusTable = true;
+			isFocusTentative_ = false;
+			isFocusTable_ = true;
 		}
 
 		viewIndex = TABLE_INDEX;
 	}
 
 	public void showTodayView(){
-		if(isFocusTable){
+		if(isFocusTable_){
 			isPlaying = true;
 
-			slideOutTable.play();
-			slideInToday.play();
-			slideOutTimeline.play();
+			slideOutTable_.play();
+			slideInToday_.play();
+			slideOutTimeline_.play();
 
-			isFocusTable = false;
-			isFocusToday = true;
+			isFocusTable_ = false;
+			isFocusToday_ = true;
 		}
 
-		if(isFocusTimeline){
+		if(isFocusTimeline_){
 			isPlaying = true;
 
-			slideInToday.play();
-			slideOutTimeline.play();
-			slideOutTable.play();
+			slideInToday_.play();
+			slideOutTimeline_.play();
+			slideOutTable_.play();
 
-			isFocusTimeline = false;
-			isFocusToday = true;
+			isFocusTimeline_ = false;
+			isFocusToday_ = true;
 		}
 		
-		if(isFocusTentative){
-			slideInToday.play();
-			slideOutTentative.play();
+		if(isFocusTentative_){
+			slideInToday_.play();
+			slideOutTentative_.play();
 			
-			isFocusTentative = false;
-			isFocusToday = true;
+			isFocusTentative_ = false;
+			isFocusToday_ = true;
 		}
 
 		viewIndex = TODAY_INDEX;
 	}
 	
 	public void showTentativeView(){
-		if(isFocusToday){
-			slideOutToday.play();
-			slideInTentative.play();
+		if(isFocusToday_){
+			slideOutToday_.play();
+			slideInTentative_.play();
 			
-			isFocusToday = false;
-			isFocusTentative = true;
+			isFocusToday_ = false;
+			isFocusTentative_ = true;
 		}
 		
-		if(isFocusTable){
-			slideOutTable.play();
-			slideInTentative.play();
+		if(isFocusTable_){
+			slideOutTable_.play();
+			slideInTentative_.play();
 			
-			isFocusTable = false;
-			isFocusTentative = true;
+			isFocusTable_ = false;
+			isFocusTentative_ = true;
 		}
 		
-		if(isFocusTimeline){
-			slideOutTimeline.play();
-			slideInTentative.play();
+		if(isFocusTimeline_){
+			slideOutTimeline_.play();
+			slideInTentative_.play();
 			
-			isFocusTable = false;
-			isFocusTentative = true;
+			isFocusTable_ = false;
+			isFocusTentative_ = true;
 		}
 		
 		viewIndex = TENTATIVE_INDEX;
 	}
 
 	public void showTimelineView() {
-		if(isFocusToday){
+		if(isFocusToday_){
 			isPlaying = true;
 
-			slideInTimeline.play();
-			slideOutToday.play();
-			slideOutTable.play();
+			slideInTimeline_.play();
+			slideOutToday_.play();
+			slideOutTable_.play();
 
-			isFocusToday = false;
-			isFocusTimeline = true;
+			isFocusToday_ = false;
+			isFocusTimeline_ = true;
 		}
-		if(isFocusTable){
+		if(isFocusTable_){
 			isPlaying = true;
 
-			slideInTimeline.play();
-			slideOutTable.play();
-			slideOutToday.play();
+			slideInTimeline_.play();
+			slideOutTable_.play();
+			slideOutToday_.play();
 
-			isFocusTable = false;
-			isFocusTimeline = true;
+			isFocusTable_ = false;
+			isFocusTimeline_ = true;
 		}
-		if(isFocusTentative){
-			slideInTimeline.play();
-			slideOutTentative.play();
+		if(isFocusTentative_){
+			slideInTimeline_.play();
+			slideOutTentative_.play();
 			
-			isFocusTentative = false;
-			isFocusTimeline = true;
+			isFocusTentative_ = false;
+			isFocusTimeline_ = true;
 		}
 
 		viewIndex = TIMELINE_INDEX;
 	}
 
 	public void displayHelper(){
-		if(isFocusToday){
-			slideOutToday.play();
-			slideInHelper.play();
+		if(isFocusToday_){
+			slideOutToday_.play();
+			slideInHelper_.play();
 
-			isFocusToday = false;
-			isFocusHelper = true;
+			isFocusToday_ = false;
+			isFocusHelper_ = true;
 		}
 
-		if(isFocusTable){
-			slideOutTable.play();
-			slideInHelper.play();
+		if(isFocusTable_){
+			slideOutTable_.play();
+			slideInHelper_.play();
 
-			isFocusTable = false;
-			isFocusHelper = true;
+			isFocusTable_ = false;
+			isFocusHelper_ = true;
 		}
 		
-		if(isFocusTentative){
-			slideOutTentative.play();
-			slideInHelper.play();
+		if(isFocusTentative_){
+			slideOutTentative_.play();
+			slideInHelper_.play();
 
-			isFocusTentative = false;
-			isFocusHelper = true;
+			isFocusTentative_ = false;
+			isFocusHelper_ = true;
 		}
 
-		if(isFocusTimeline){
-			slideOutTimeline.play();
-			slideInHelper.play();
+		if(isFocusTimeline_){
+			slideOutTimeline_.play();
+			slideInHelper_.play();
 
-			isFocusTimeline = false;
-			isFocusHelper = true;
+			isFocusTimeline_ = false;
+			isFocusHelper_ = true;
 		}
 	}
 
 	public void removeHelper(){
-		if(isFocusHelper){
-			slideOutHelper.play();
-			slideInTable.play();
+		if(isFocusHelper_){
+			slideOutHelper_.play();
+			slideInTable_.play();
 
-			isFocusTable = true;
-			isFocusHelper = false;
+			isFocusTable_ = true;
+			isFocusHelper_ = false;
 			viewIndex = TABLE_INDEX;
 		}
 	}
 
 	public void revertView(){
-		if(isFocusHelper){
-			slideOutHelper.play();
-			slideInToday.play();
+		if(isFocusHelper_){
+			slideOutHelper_.play();
+			slideInToday_.play();
 
-			isFocusToday = true;
-			isFocusHelper = false;
+			isFocusToday_ = true;
+			isFocusHelper_ = false;
 			viewIndex = TODAY_INDEX;
 		}		
 

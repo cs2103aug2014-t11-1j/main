@@ -1,12 +1,10 @@
 package gui;
 
-import gui.controller.view.PhantomController;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
-import com.melloware.jintellitype.JIntellitype;
 import com.melloware.jintellitype.HotkeyListener;
+import com.melloware.jintellitype.JIntellitype;
 
 /**
  * This class is used to manage
@@ -14,13 +12,13 @@ import com.melloware.jintellitype.HotkeyListener;
  * using JIntellitype library.
  * * Author: smallson
  */
-
+//@author A0116211B
 public class ShortcutManager {
 
 	private static ShortcutManager sm = new ShortcutManager();
 	private static JIntellitype ji;
 	private static TrayApplication ta;
-	private static PhantomController pc;
+//	private static PhantomController pc;
 
 	private ShortcutManager(){
 	}

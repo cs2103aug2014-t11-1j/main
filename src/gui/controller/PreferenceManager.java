@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 
-import com.util.MyLogger;
-
 import javafx.scene.layout.AnchorPane;
+
+import com.util.MyLogger;
 
 /**
  * This class is used to handle
@@ -20,21 +20,21 @@ import javafx.scene.layout.AnchorPane;
  * 
  * * Author: smallson
  */
-
+//@author A0116211B
 public class PreferenceManager {
-
+	private static final String PREF_FILE_NAME = "Settings.txt";
+	private static final String defaultCSS_ = "DarkTheme";
+	private static final String[] DICTIONARY_THEMES = {"BlueTheme", "ChineseTheme","ChristmasTheme" ,"CogTheme", "DarkTheme",
+		"DragonTheme", "GhostsTheme","GhostTheme" ,"GreenTheme", "HalloweenTheme",
+		"RedTheme", "RoyalTheme","SingaporeTheme" ,"SnakeTheme", "WolfTheme"};
 
 	private static PreferenceManager pm = new PreferenceManager();
-	private File prefFile;
-	private String prefFileName = "Settings.txt";
-	private String defaultCSS = "DarkTheme";
-	private String themeUrl;
+	
+	private File prefFile_;
 
-	private String[] DICTIONARY_THEMES = {"BlueTheme", "ChineseTheme","ChristmasTheme" ,"CogTheme", "DarkTheme",
-			"DragonTheme", "GhostsTheme","GhostTheme" ,"GreenTheme", "HalloweenTheme",
-			"RedTheme", "RoyalTheme","SingaporeTheme" ,"SnakeTheme", "WolfTheme"};
+	private String themeUrl_;
 
-	private AnchorPane overallView;
+	private AnchorPane overallView_;
 
 	private PreferenceManager(){
 	}
@@ -44,13 +44,13 @@ public class PreferenceManager {
 	}
 
 	public void initViews(AnchorPane overallView){
-		this.overallView = overallView;
-		initialize(prefFileName);
+		this.overallView_ = overallView;
+		initialize(PREF_FILE_NAME);
 	}
 	
 	public void saveCSSPref(String cssFileName) throws IOException{	
 
-		FileWriter fileWriter = new FileWriter(prefFile, false);
+		FileWriter fileWriter = new FileWriter(prefFile_, false);
 		BufferedWriter buffer = new BufferedWriter(fileWriter);
 		PrintWriter printWriter = new PrintWriter(buffer);
 
@@ -66,14 +66,14 @@ public class PreferenceManager {
 	
 	public void setCss(String cssFileName){
 		if(!dictionaryContains(DICTIONARY_THEMES,cssFileName)){
-			cssFileName = defaultCSS;
+			cssFileName = defaultCSS_;
 		}
 		
 		try{
-			themeUrl = "main/Resources/css/" + cssFileName +".css";
+			themeUrl_ = "main/Resources/css/" + cssFileName +".css";
 
-			overallView.getStylesheets().clear();
-			overallView.getStylesheets().add(themeUrl);
+			overallView_.getStylesheets().clear();
+			overallView_.getStylesheets().add(themeUrl_);
 			
 		}catch(Exception e){
 			System.out.println("error setting theme");
@@ -82,14 +82,14 @@ public class PreferenceManager {
 	}
 	
 	public String getThemeUrl(){
-		return themeUrl;
+		return themeUrl_;
 	}
 	
 	private void initialize(String prefFileName2) {
-		prefFile = new File(prefFileName);
+		prefFile_ = new File(PREF_FILE_NAME);
 		try {
-			if(!prefFile.exists()){
-				prefFile.createNewFile();
+			if(!prefFile_.exists()){
+				prefFile_.createNewFile();
 			} else {
 				setCssFromFile();
 			}
@@ -101,11 +101,11 @@ public class PreferenceManager {
 
 	private void setCssFromFile() throws IOException {
 
-		String cssFileName = defaultCSS;
+		String cssFileName = defaultCSS_;
 
 		BufferedReader br;
 		try {
-			br = new BufferedReader(new FileReader(prefFileName));
+			br = new BufferedReader(new FileReader(PREF_FILE_NAME));
 			cssFileName = br.readLine();
 			br.close();
 		} catch (FileNotFoundException e) {
@@ -113,14 +113,14 @@ public class PreferenceManager {
 		}
 
 		if(!dictionaryContains(DICTIONARY_THEMES,cssFileName)){
-			cssFileName = defaultCSS;
+			cssFileName = defaultCSS_;
 		}
 
 		try{
-			themeUrl = "main/Resources/css/" + cssFileName +".css";
+			themeUrl_ = "main/Resources/css/" + cssFileName +".css";
 
-			overallView.getStylesheets().clear();
-			overallView.getStylesheets().add(themeUrl);
+			overallView_.getStylesheets().clear();
+			overallView_.getStylesheets().add(themeUrl_);
 		}catch(Exception e){
 			System.out.println("theme uninitilised");
 			MyLogger.log(Level.WARNING,"theme uninitilised");

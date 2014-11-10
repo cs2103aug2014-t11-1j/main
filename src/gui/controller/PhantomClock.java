@@ -16,7 +16,7 @@ import javafx.util.Duration;
  * 
  * * Author: smallson
  */
-
+//@author A0116211B
 public class PhantomClock {
 	
 

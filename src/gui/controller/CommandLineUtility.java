@@ -3,8 +3,6 @@ package gui.controller;
 import java.util.Stack;
 
 import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 
 /**
@@ -14,64 +12,63 @@ import javafx.scene.control.TextField;
  * 
  * * Author: smallson
  */
-
+//@author A0116211B
 public class CommandLineUtility {
 	
-	private Stack<String> previousInput;
-	private Stack<String> forwardInput;
+	private Stack<String> previousInput_;
+	private Stack<String> forwardInput_;
 	
-	@FXML
-	private TextField commandLine;
+	private TextField commandLine_;
 	
-	private static CommandLineUtility clu = new CommandLineUtility();
+	private static CommandLineUtility clu_ = new CommandLineUtility();
 
 	private CommandLineUtility(){
 	}
 
 	public static CommandLineUtility getInstance(){
-		return clu;
+		return clu_;
 	}
 	
 	public void forwardToPrevious(){
-		while(!forwardInput.isEmpty()){
-			previousInput.push(forwardInput.pop());
+		while(!forwardInput_.isEmpty()){
+			previousInput_.push(forwardInput_.pop());
 		}
 	}
 
 	public void initialize(TextField commandLine) {
-		this.commandLine = commandLine;
-		previousInput = new Stack<String>();
-		forwardInput = new Stack<String>();
+		this.commandLine_ = commandLine;
+		previousInput_ = new Stack<String>();
+		forwardInput_ = new Stack<String>();
 	}
 	
 	public void displayPreviousInput(){
-		if(!previousInput.isEmpty()){
-			forwardInput.push(previousInput.peek());
-			commandLine.setText(previousInput.pop());
+		if(!previousInput_.isEmpty()){
+			forwardInput_.push(previousInput_.peek());
+			commandLine_.setText(previousInput_.pop());
 			Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    commandLine.selectAll();
+                    commandLine_.selectAll();
                 }
 			});
 		}
 	}
 	
 	public void displayForwardInput(){
-		if(!forwardInput.isEmpty()){
-			previousInput.push(forwardInput.peek());
-			commandLine.setText(forwardInput.pop());
+		if(!forwardInput_.isEmpty()){
+			previousInput_.push(forwardInput_.peek());
+			commandLine_.setText(forwardInput_.pop());
 			Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    commandLine.selectAll();
+                    commandLine_.selectAll();
                 }
 			});
 		}
 	}
 	
 	public void pushInput(String input){
-		previousInput.push(input);
+		previousInput_.push(input);
 	}
 
 }

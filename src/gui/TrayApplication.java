@@ -15,7 +15,7 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
+//@author A0116211B
 /**
  * This class is used to initialize
  * the tray application and to give
@@ -26,22 +26,22 @@ import javafx.stage.WindowEvent;
 
 public class TrayApplication {
 	
-	private static TrayApplication ta = new TrayApplication();
-	private boolean firstTime = true;
-    private TrayIcon trayIcon;
-    private java.awt.Image image = null;
+	private static TrayApplication ta_ = new TrayApplication();
+	private boolean firstTime_ = true;
+    private TrayIcon trayIcon_;
+    private java.awt.Image image_ = null;
 	
 	private TrayApplication(){
 	}
 	
 	public static TrayApplication getInstance(){
-		return ta;
+		return ta_;
 	}
 	
 	public void createTrayIcon(final Stage stage) throws IOException {
         if (SystemTray.isSupported()) {
             SystemTray tray = SystemTray.getSystemTray();
-            image = ImageIO.read(ResourceLoader.load("ghost.png"));
+            image_ = ImageIO.read(ResourceLoader.load("ghost.png"));
           
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
@@ -79,12 +79,12 @@ public class TrayApplication {
             closeItem.addActionListener(closeListener);
             popup.add(closeItem);
             // construct a TrayIcon
-            trayIcon = new TrayIcon(image, "Phantom", popup);
+            trayIcon_ = new TrayIcon(image_, "Phantom", popup);
             // set the TrayIcon properties
-            trayIcon.addActionListener(showListener);
+            trayIcon_.addActionListener(showListener);
             // add the tray image
             try {
-                tray.add(trayIcon);
+                tray.add(trayIcon_);
             } catch (AWTException e) {
                 System.err.println(e);
             }
@@ -92,11 +92,11 @@ public class TrayApplication {
     }
 
     public void showProgramIsMinimizedMsg() {
-        if (firstTime) {
-            trayIcon.displayMessage("Phantom",
+        if (firstTime_) {
+            trayIcon_.displayMessage("Phantom",
                     " is running in the background",
                     TrayIcon.MessageType.INFO);
-            firstTime = false;
+            firstTime_ = false;
         }
     }
 
