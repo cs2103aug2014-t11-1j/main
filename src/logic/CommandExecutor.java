@@ -1,4 +1,5 @@
 package logic;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import com.ModelTask;
@@ -39,11 +40,11 @@ public class CommandExecutor {
 	}
 
 	protected static void setGuiFeedBack(int feedBack) {
-                if(isGuiFeedbackValid(feedBack)) {
-                    CommandExecutor.guiFeedBack = feedBack;
-                } else {
-                    CommandExecutor.guiFeedBack = 0;
-                }
+		if (isGuiFeedbackValid(feedBack)) {
+			CommandExecutor.guiFeedBack = feedBack;
+		} else {
+			CommandExecutor.guiFeedBack = 0;
+		}
 	}
 
 	protected static void setTaskList(ObservableList<ModelTask> taskList) {
@@ -221,7 +222,7 @@ public class CommandExecutor {
 				break;
 
 			case HELP:
-				//unimplemented
+				// unimplemented
 				break;
 
 			case INVALID:
@@ -243,12 +244,13 @@ public class CommandExecutor {
 		}
 
 	}
-        //@author A0111370Y
-        protected static boolean isGuiFeedbackValid(int feedback){
-            if(feedback>=0 && feedback <=3){
-                return true;
-            } else {
-                return false;
-            }
-        }
+
+	// @author A0111370Y
+	protected static boolean isGuiFeedbackValid(int feedback) {
+		if (feedback >= 0 && feedback <= 3) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
