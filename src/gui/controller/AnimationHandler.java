@@ -20,6 +20,7 @@ import javafx.util.Duration;
  * * Author: smallson
  */
 
+//@author A0116211B
 public class AnimationHandler {
 
 	@FXML
@@ -56,7 +57,7 @@ public class AnimationHandler {
 	TranslateTransition slideInTentative;
 	TranslateTransition slideOutTentative;
 
-	private static final int NUMBER_OF_VIEWS = 3;
+	private static final int NUMBER_OF_VIEWS = 2;
 	private static final int TODAY_INDEX = 0;
 	private static final int TABLE_INDEX = 1;
 	private static final int TIMELINE_INDEX = 2;
