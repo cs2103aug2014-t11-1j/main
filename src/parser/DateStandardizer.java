@@ -1,5 +1,9 @@
 package parser;
 
+import java.util.logging.Level;
+
+import com.util.MyLogger;
+
 /**
  * This class is used to standardize
  * the date format input by the user.
@@ -72,6 +76,7 @@ public class DateStandardizer {
 		case INVALID :
 			break;
 		default :
+			MyLogger.log(Level.SEVERE, "Fatal error has occured in DateStandardizer!");
 			assert true;
 		}	
 		

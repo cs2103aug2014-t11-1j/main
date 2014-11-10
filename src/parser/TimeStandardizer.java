@@ -1,5 +1,9 @@
 package parser;
 
+import java.util.logging.Level;
+
+import com.util.MyLogger;
+
 /**
  * This class is used to standardize
  * the time format input by the user.
@@ -60,6 +64,7 @@ public class TimeStandardizer {
 			System.out.print("Error");
 			break;
 		default :
+			MyLogger.log(Level.SEVERE, "Fatal error has occured in TimeStandardizer!");
 			assert true;
 		}
 
