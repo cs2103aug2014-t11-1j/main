@@ -20,59 +20,59 @@ import com.TaskConverter;
 public class TestTaskConverter {
 
 	//common variables used in testing
-	private TaskConverter taskConverter;
-	private Task testTask;
-	private ModelTask task;
+	private TaskConverter taskConverter_;
+	private Task testTask_;
+	private ModelTask task_;
 
-	private Date date;
-	private Calendar cal = Calendar.getInstance();
+	private Date date_;
+	private Calendar cal_ = Calendar.getInstance();
 
 	//inputs in standard formats for parser
-	private String startDate = "24/09/2014";
-	private String endDate = "25/09/2014";
-	private String startTime = "1200";
-	private String endTime = "1300";
+	private String startDate_ = "24/09/2014";
+	private String endDate_ = "25/09/2014";
+	private String startTime_ = "1200";
+	private String endTime_ = "1300";
 
 	//Calendars for checking the dates
-	private Calendar dateStart;
-	private Calendar dateEnd;
+	private Calendar dateStart_;
+	private Calendar dateEnd_;
 
 	@Before
 	public void setUp() {
-		taskConverter = TaskConverter.getInstance();
+		taskConverter_ = TaskConverter.getInstance();
 
-		dateStart = Calendar.getInstance();
-		dateStart.set(Calendar.YEAR, 2014);
-		dateStart.set(Calendar.MONTH, Calendar.SEPTEMBER);
-		dateStart.set(Calendar.DAY_OF_MONTH, 24);
-		dateStart.set(Calendar.HOUR_OF_DAY, 12);
+		dateStart_ = Calendar.getInstance();
+		dateStart_.set(Calendar.YEAR, 2014);
+		dateStart_.set(Calendar.MONTH, Calendar.SEPTEMBER);
+		dateStart_.set(Calendar.DAY_OF_MONTH, 24);
+		dateStart_.set(Calendar.HOUR_OF_DAY, 12);
 
-		dateEnd = Calendar.getInstance();
-		dateEnd.set(Calendar.YEAR, 2014);
-		dateEnd.set(Calendar.MONTH, Calendar.SEPTEMBER);
-		dateEnd.set(Calendar.DAY_OF_MONTH, 25);
-		dateEnd.set(Calendar.HOUR_OF_DAY, 13);
+		dateEnd_ = Calendar.getInstance();
+		dateEnd_.set(Calendar.YEAR, 2014);
+		dateEnd_.set(Calendar.MONTH, Calendar.SEPTEMBER);
+		dateEnd_.set(Calendar.DAY_OF_MONTH, 25);
+		dateEnd_.set(Calendar.HOUR_OF_DAY, 13);
 	}
 
 	@Test
 	public void testConvertBasic() {
 		//task with only the task description  
-		testTask = new Task("test basic", null, null, null, null, null);
-		task = taskConverter.convert(testTask, 1);
-		assertEquals("task description should be the same",  "test basic", task.getEvent());
-		assertEquals("task position should be the given", 1, task.getPosition());
+		testTask_ = new Task("test basic", null, null, null, null, null);
+		task_ = taskConverter_.convert(testTask_, 1);
+		assertEquals("task description should be the same",  "test basic", task_.getEvent());
+		assertEquals("task position should be the given", 1, task_.getPosition());
 	}
 
 	@Test 
 	public void testConvertDate(){
 		//task with one date at startDate
-		testTask = new Task("test startDate", startDate, null, null, null, null);
-		task = taskConverter.convert(testTask, 1);
+		testTask_ = new Task("test startDate", startDate_, null, null, null, null);
+		task_ = taskConverter_.convert(testTask_, 1);
 
-		assertNotEquals("startDate should be set", null, task.getStartDate());
-		assertEquals("no endDate should be set", null, task.getEndDate());
-		assertEquals("no startTime should be set", null, task.getStartTime());
-		assertEquals("no endTime should be set", null, task.getEndTime());
+		assertNotEquals("startDate should be set", null, task_.getStartDate());
+		assertEquals("no endDate should be set", null, task_.getEndDate());
+		assertEquals("no startTime should be set", null, task_.getStartTime());
+		assertEquals("no endTime should be set", null, task_.getEndTime());
 
 		checkStartDate();
 	}
@@ -82,13 +82,13 @@ public class TestTaskConverter {
 	public void testConvertTime(){
 		//task with startDate at endDate
 		//task with time period
-		testTask = new Task("test time", null, startTime, startDate, null, null);
-		task = taskConverter.convert(testTask, 1);
+		testTask_ = new Task("test time", null, startTime_, startDate_, null, null);
+		task_ = taskConverter_.convert(testTask_, 1);
 
-		assertNotEquals("startDate should be set", null, task.getStartDate());
-		assertEquals("no endDate should be set",  null, task.getEndDate());
-		assertNotEquals("startTime should be set", null, task.getStartTime());
-		assertEquals("no endTime should be set", null, task.getEndTime());
+		assertNotEquals("startDate should be set", null, task_.getStartDate());
+		assertEquals("no endDate should be set",  null, task_.getEndDate());
+		assertNotEquals("startTime should be set", null, task_.getStartTime());
+		assertEquals("no endTime should be set", null, task_.getEndTime());
 
 		checkStartDate();
 		checkStartTime();
@@ -98,13 +98,13 @@ public class TestTaskConverter {
 	public void testConvertTimePeriod(){
 		//task with startDate at deadline
 		//task with time period
-		testTask = new Task("test timePeriod", null, startTime, null, endTime, startDate);
-		task = taskConverter.convert(testTask, 1);
+		testTask_ = new Task("test timePeriod", null, startTime_, null, endTime_, startDate_);
+		task_ = taskConverter_.convert(testTask_, 1);
 
-		assertNotEquals("startDate should be set", null, task.getStartDate());
-		assertEquals("no endDate should be set",  null, task.getEndDate());
-		assertNotEquals("startTime should be set", null, task.getStartTime());
-		assertNotEquals("endTime should be set", null, task.getEndTime());
+		assertNotEquals("startDate should be set", null, task_.getStartDate());
+		assertEquals("no endDate should be set",  null, task_.getEndDate());
+		assertNotEquals("startTime should be set", null, task_.getStartTime());
+		assertNotEquals("endTime should be set", null, task_.getEndTime());
 
 		checkStartDate();
 		checkStartTime();
@@ -115,13 +115,13 @@ public class TestTaskConverter {
 	public void testConvertTwoDates(){
 		//task with endDate at endDate
 		//task with time period
-		testTask = new Task("test twoDates", startDate, startTime, endDate, endTime, null);
-		task = taskConverter.convert(testTask, 1);
+		testTask_ = new Task("test twoDates", startDate_, startTime_, endDate_, endTime_, null);
+		task_ = taskConverter_.convert(testTask_, 1);
 
-		assertNotEquals("startDate should be set", null, task.getStartDate());
-		assertNotEquals("endDate should be set",  null, task.getEndDate());
-		assertNotEquals("startTime should be set", null, task.getStartTime());
-		assertNotEquals("endTime should be set", null, task.getEndTime());
+		assertNotEquals("startDate should be set", null, task_.getStartDate());
+		assertNotEquals("endDate should be set",  null, task_.getEndDate());
+		assertNotEquals("startTime should be set", null, task_.getStartTime());
+		assertNotEquals("endTime should be set", null, task_.getEndTime());
 
 		checkStartDate();
 		checkEndDate();
@@ -130,42 +130,42 @@ public class TestTaskConverter {
 	}
 	
 	private void checkStartDate() {
-		date = task.getStartDate();
-		cal.setTime(date);
+		date_ = task_.getStartDate();
+		cal_.setTime(date_);
 
 		assertEquals("startDate should be correct", 
-				dateStart.get(Calendar.DATE), cal.get(Calendar.DATE));
+				dateStart_.get(Calendar.DATE), cal_.get(Calendar.DATE));
 		assertEquals("startDate should be correct", 
-				dateStart.get(Calendar.MONTH), cal.get(Calendar.MONTH));
+				dateStart_.get(Calendar.MONTH), cal_.get(Calendar.MONTH));
 		assertEquals("startDate should be correct", 
-				dateStart.get(Calendar.YEAR), cal.get(Calendar.YEAR));
+				dateStart_.get(Calendar.YEAR), cal_.get(Calendar.YEAR));
 	}
 	
 	private void checkEndDate() {
-		date = task.getEndDate();
-		cal.setTime(date);
+		date_ = task_.getEndDate();
+		cal_.setTime(date_);
 		
 		assertEquals("endDate should be correct", 
-				dateEnd.get(Calendar.DATE), cal.get(Calendar.DATE));
+				dateEnd_.get(Calendar.DATE), cal_.get(Calendar.DATE));
 		assertEquals("endDate should be correct", 
-				dateEnd.get(Calendar.MONTH), cal.get(Calendar.MONTH));
+				dateEnd_.get(Calendar.MONTH), cal_.get(Calendar.MONTH));
 		assertEquals("endDate should be correct", 
-				dateEnd.get(Calendar.YEAR), cal.get(Calendar.YEAR));
+				dateEnd_.get(Calendar.YEAR), cal_.get(Calendar.YEAR));
 	}
 	
 	private void checkStartTime() {
-		date = task.getStartTime();
-		cal.setTime(date);
+		date_ = task_.getStartTime();
+		cal_.setTime(date_);
 
 		assertEquals("startTime should be correct", 
-				dateStart.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.HOUR_OF_DAY));
+				dateStart_.get(Calendar.HOUR_OF_DAY), cal_.get(Calendar.HOUR_OF_DAY));
 	}
 	
 	private void checkEndTime() {
-		date = task.getEndTime();
-		cal.setTime(date);
+		date_ = task_.getEndTime();
+		cal_.setTime(date_);
 
 		assertEquals("endTime should be correct", 
-				dateEnd.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.HOUR_OF_DAY));
+				dateEnd_.get(Calendar.HOUR_OF_DAY), cal_.get(Calendar.HOUR_OF_DAY));
 	}
 }
